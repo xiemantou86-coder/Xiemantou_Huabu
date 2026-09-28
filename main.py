@@ -17072,6 +17072,14 @@ async def trashed_canvases():
 async def create_canvas(payload: CanvasCreateRequest):
     return {"canvas": new_canvas(payload.title, payload.icon, payload.kind, payload.project, payload.board_x, payload.board_y)}
 
+@app.post("/api/tutorial/demo")
+async def open_tutorial_demo():
+    from tutorial import ensure_tutorial_canvas
+    canvas = ensure_tutorial_canvas(
+        CANVAS_DIR, os.path.join(STATIC_DIR, "tutorial", "demo-canvas.json"), save_canvas
+    )
+    return {"canvas": canvas_record(canvas)}
+
 @app.get("/api/canvases/{canvas_id}/meta")
 async def get_canvas_meta(canvas_id: str):
     canvas = load_canvas(canvas_id)

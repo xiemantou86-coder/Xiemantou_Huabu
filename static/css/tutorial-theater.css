@@ -1,0 +1,91 @@
+/* Scoped to the tutorial; the native modal also isolates keyboard focus from iframes. */
+.tutorial-theater {
+    position: fixed; inset: 0; margin: auto; padding: 0; border: 0;
+    width: min(1500px, 94vw, calc((100dvh - 116px) * 16 / 9));
+    max-width: none; max-height: calc(100dvh - 24px); overflow: auto;
+    background: #111824; color: #f4f7fb; border-radius: 20px;
+    font: 14px/1.65 Inter, "Microsoft YaHei", sans-serif;
+    box-shadow: 0 32px 100px #0008, 0 0 0 1px #ffffff24;
+    opacity: 1; transition: opacity .28s ease, transform .28s ease;
+}
+.tutorial-theater::backdrop { background: #101622b8; backdrop-filter: blur(9px); }
+.tutorial-theater.is-closing { opacity: 0; transform: translateY(10px) scale(.99); }
+.tutorial-theater * { box-sizing: border-box; }
+.tutorial-theater button { font: inherit; cursor: pointer; border: 0; }
+.tutorial-theater button:focus-visible { outline: 3px solid #38bdf8; outline-offset: 3px; }
+.tutorial-theater button:disabled { opacity: .4; cursor: default; }
+.tutorial-bar { min-height: 50px; display: flex; align-items: center; gap: 12px; padding: 10px 20px; }
+.tutorial-brand { font-weight: 700; letter-spacing: .04em; }
+.tutorial-brand::before { content: ''; display: inline-block; width: 8px; height: 8px; margin-right: 9px; border-radius: 50%; background: #67e8f9; box-shadow: 0 0 15px #22d3ee80; }
+.tutorial-demo-label { color: #a1aebe; font-size: 12px; }
+.tutorial-bar .tutorial-skip { margin-left: auto; }
+.tutorial-quiet, .tutorial-skip { background: transparent; color: #c1cede; border-radius: 8px; padding: 5px 10px; }
+.tutorial-quiet:hover, .tutorial-skip:hover { background: #ffffff12; color: white; }
+.tutorial-scene { position: relative; aspect-ratio: 16 / 9; width: 100%; overflow: hidden; background: #e8edf2; }
+.tutorial-visual { position: relative; aspect-ratio: 16 / 9; }
+.tutorial-theater [hidden] { display: none !important; }
+.tutorial-slide { display: block; width: 100%; height: 100%; object-fit: contain; user-select: none; }
+.tutorial-card {
+    position: absolute; right: 2.5%; bottom: 7%; width: min(350px, 31%);
+    padding: clamp(16px, 1.7vw, 26px); border: 1px solid #ffffff30; border-radius: 18px;
+    background: #101b2de8; backdrop-filter: blur(18px); box-shadow: 0 14px 45px #0a182844;
+}
+.tutorial-theater[data-card="left"] .tutorial-card { right: auto; left: 8.5%; width: min(350px, 26%); }
+
+.tutorial-chapter { margin: 0 0 10px; color: #7dd3fc; font-size: 11px; font-weight: 600; letter-spacing: .08em; }
+.tutorial-title { margin: 0 0 12px; color: #fff; font-size: clamp(18px, 1.55vw, 24px); font-weight: 650; line-height: 1.4; }
+.tutorial-description { margin: 0; color: #e3eaf4; line-height: 1.85; }
+.tutorial-note { margin: 12px 0 0; color: #acbdd2; font-size: 12px; line-height: 1.75; }
+.tutorial-note:empty { display: none; }
+.tutorial-next { width: 100%; margin-top: 20px; border-radius: 10px; padding: 10px 14px; background: #7dd3fc; color: #09243b; font-weight: 700 !important; transition: background .15s; }
+.tutorial-next:hover { background: #a5e5ff; }
+.tutorial-theater[data-step="11"] .tutorial-next { background: #86efac; color: #123925; }
+.tutorial-error { margin: 12px 0 0; color: #fecaca; font-size: 12px; }
+.tutorial-error:empty { display: none; }
+.tutorial-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 52px; padding: 10px 20px; }
+.tutorial-navigation { display: flex; align-items: center; gap: 8px; }
+.tutorial-count { color: #9caec3; font-size: 12px; min-width: 45px; text-align: center; font-variant-numeric: tabular-nums; }
+.tutorial-dots { display: flex; gap: 6px; align-items: center; }
+.tutorial-dot { padding: 0; width: 17px; height: 5px; border-radius: 5px; background: #354257; }
+.tutorial-dot.is-done { background: #5383a1; }
+.tutorial-dot[aria-current="step"] { background: #7dd3fc; width: 26px; }
+.tutorial-progress { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: #ffffff08; }
+.tutorial-progress span { display: block; height: 100%; background: #7dd3fc; transition: width .25s ease; }
+.tutorial-cursor { position: absolute; left: 50%; top: 50%; width: 26px; height: 30px; z-index: 3; pointer-events: none; transition: left .6s cubic-bezier(.22,1,.36,1), top .6s cubic-bezier(.22,1,.36,1); filter: drop-shadow(0 3px 4px #0005); }
+.tutorial-cursor > svg { width: 26px; height: 30px; overflow: visible; }
+.tutorial-cursor.is-clicking > svg { animation: tutorial-click .38s ease; }
+.tutorial-ring { position: absolute; left: 2px; top: 2px; width: 36px; height: 36px; border: 2px solid #38bdf8; border-radius: 50%; background: #38bdf833; opacity: 0; transform: translate(-50%,-50%); }
+.tutorial-cursor.is-clicking .tutorial-ring { animation: tutorial-ripple .8s ease-out; }
+.tutorial-cursor.is-gold .tutorial-ring { border-color: #fbbf24; background: #fbbf2433; }
+.tutorial-cursor.is-pulsing .tutorial-ring { animation: tutorial-ripple 1.3s ease-out 2; }
+.tutorial-gesture { position: absolute; left: 20px; top: 20px; white-space: nowrap; color: #fff; background: #0f172ae6; padding: 3px 8px; border-radius: 6px; font-size: 11px; }
+.tutorial-gesture:empty { display: none; }
+.tutorial-wire { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
+.tutorial-wire path { fill: none; stroke: #0ea5e9; stroke-width: 4; filter: drop-shadow(0 0 5px #38bdf8); }
+.tutorial-result { position: absolute; left: 67.4%; top: 37.3%; width: 10.5%; height: 18.5%; border-radius: 14px; border: 3px solid #34d399; pointer-events: none; animation: tutorial-result 1.8s ease-in-out infinite; }
+@keyframes tutorial-click { 45% { transform: scale(.82); } }
+@keyframes tutorial-ripple { from { opacity: 1; transform: translate(-50%,-50%) scale(.25); } to { opacity: 0; transform: translate(-50%,-50%) scale(2); } }
+@keyframes tutorial-result { 50% { box-shadow: 0 0 0 8px #34d39920, 0 0 32px #34d39970; } }
+@media (max-width: 1100px), (max-height: 650px) {
+    .tutorial-theater { width: min(94vw, 980px); }
+    .tutorial-scene { overflow: visible; }
+    .tutorial-card, .tutorial-theater[data-card="left"] .tutorial-card { position: relative; width: 100%; inset: auto; border: 0; border-radius: 0; box-shadow: none; padding: 18px 22px; background: #111c2d; }
+    
+    .tutorial-scene { aspect-ratio: auto; }
+    .tutorial-slide { aspect-ratio: 16 / 9; height: auto; }
+    .tutorial-visual { position: relative; aspect-ratio: 16 / 9; }
+    .tutorial-chapter { margin-bottom: 5px; }
+    .tutorial-title { margin-bottom: 6px; }
+    .tutorial-next { margin-top: 12px; }
+    .tutorial-note { margin-top: 6px; }
+}
+@media (max-width: 560px) {
+    .tutorial-theater { width: 96vw; border-radius: 14px; }
+    .tutorial-bar, .tutorial-footer { padding: 9px 12px; gap: 5px; }
+    .tutorial-demo-label, .tutorial-dots { display: none; }
+    .tutorial-card, .tutorial-theater[data-card="left"] .tutorial-card { padding: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .tutorial-theater, .tutorial-cursor, .tutorial-progress span { transition: none; }
+    .tutorial-theater *, .tutorial-result { animation: none !important; }
+}

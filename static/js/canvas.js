@@ -2193,6 +2193,26 @@ async function openCanvas(id){
         resumeCanvasImageTasks();
         startCanvasRemotePolling();
         setStatus('Ready');
+        if(new URLSearchParams(location.search).get('tutorial') === 'kitten-v1'){
+            try {
+                const rect = board.getBoundingClientRect();
+                // 小猫新手演示画布：prompt(x:100,y:120,w:~320), generator(x:510,y:120,w:~400), output(x:1030,y:120,w:~360)
+                // 3个节点总宽度约 1290，中心坐标 cx = 670, cy = 240
+                const cx = 670;
+                const cy = 240;
+                viewport.scale = Math.max(0.75, Math.min(1.05, (rect.width - 120) / 1380));
+                viewport.x = rect.width / 2 - cx * viewport.scale;
+                viewport.y = rect.height / 2 - cy * viewport.scale;
+                applyViewport();
+                renderLinks();
+                renderSelectionHub();
+            } catch(_) {
+                fitAllNodesViewport();
+            }
+            requestAnimationFrame(() => {
+                parent.postMessage({type:'tutorial-canvas-ready', id:canvas.id}, location.origin);
+            });
+        }
     } catch(e) {
         setStatus(tr('canvas.openFailed'));
         console.error(e);

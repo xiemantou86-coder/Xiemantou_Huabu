@@ -1,0 +1,42 @@
+{
+  "title": "小猫新手演示",
+  "icon": "sparkles",
+  "kind": "classic",
+  "project": "default",
+  "owner": "",
+  "color": "teal",
+  "pinned": false,
+  "nodes": [
+    {
+      "id": "tutorial_prompt",
+      "type": "prompt",
+      "x": 100, "y": 120, "w": 320, "h": 255,
+      "text": "生成一只可爱的小猫"
+    },
+    {
+      "id": "tutorial_generator",
+      "type": "generator",
+      "x": 510, "y": 120,
+      "apiProvider": "", "model": "",
+      "ratio": "square", "resolution": "1k",
+      "customRatio": "", "customSize": "",
+      "transparentBackground": false,
+      "inputs": ["tutorial_prompt"],
+      "generatedOutputs": ["/static/tutorial/kitten-example.jpg"]
+    },
+    {
+      "id": "tutorial_output",
+      "type": "output",
+      "x": 1030, "y": 120,
+      "images": [{"url": "/static/tutorial/kitten-example.jpg", "viewed": true}],
+      "w": 420, "h": 280
+    }
+  ],
+  "connections": [
+    {"id": "tutorial_link_prompt", "from": "tutorial_prompt", "to": "tutorial_generator"},
+    {"id": "tutorial_link_output", "from": "tutorial_generator", "to": "tutorial_output"}
+  ],
+  "viewport": {"x": 60, "y": 60, "scale": 0.8},
+  "settings": {},
+  "logs": []
+}

@@ -8,7 +8,7 @@
   "pinned": false,
   "project": "default",
   "created_at": 1789034316892,
-  "updated_at": 1790500526623,
+  "updated_at": 1790590930269,
   "nodes": [
     {
       "id": "containerGroup_cdc65987d9fd3_1789034526143",
@@ -2045,6 +2045,125 @@
       "baseFontSize": 20,
       "labelScale": 4,
       "_labelManualSize": true
+    },
+    {
+      "id": "image_26b5b139e79358_1790582114219",
+      "type": "image",
+      "x": 2378.9536905037103,
+      "y": 2080.721718876129,
+      "url": "/assets/input/ai_ref_71eb7ae0ecd8.jpg",
+      "name": "商店首页.jpg",
+      "mediaKind": "image",
+      "_naturalSizeLoading": false,
+      "natural_w": 1791,
+      "natural_h": 1434,
+      "w": 252,
+      "h": 319
+    },
+    {
+      "id": "prompt_c1cfad015a54e_1790582115903",
+      "type": "prompt",
+      "x": 2377.3552077214954,
+      "y": 2432.8364027965895,
+      "text": "高清化@图片1 \n\n在画面合适的位置添加slogan：\n永不言棄 凡軀也可斬魔\n\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "w": 348,
+      "h": 375
+    },
+    {
+      "id": "mgen_c602d446ea5548_1790582135090",
+      "type": "masterGenerator",
+      "x": 2773.6299157095827,
+      "y": 2087.958973828617,
+      "apiProvider": "apimart",
+      "model": "gpt-image-2",
+      "ratio": "square",
+      "resolution": "1k",
+      "customRatio": "",
+      "customSize": "",
+      "customRatioWidth": "",
+      "customRatioHeight": "",
+      "customWidth": "",
+      "customHeight": "",
+      "transparentBackground": false,
+      "inputs": [
+        "prompt_c1cfad015a54e_1790582115903",
+        "image_26b5b139e79358_1790582114219"
+      ],
+      "masterEnabled": false,
+      "_apiResolutionUserSet": true
+    },
+    {
+      "id": "out_9edc0181ea747_1790582146099",
+      "type": "output",
+      "x": 3189.8858454556494,
+      "y": 2085.960583006019,
+      "images": []
+    },
+    {
+      "id": "cg_7f2fe8e648963_1790582154938",
+      "type": "containerGroup",
+      "x": 2355.3552077214954,
+      "y": 2034.4974537162525,
+      "w": 1316.530637734154,
+      "h": 799.3389490803366,
+      "title": "容器分组",
+      "color": "#3b82f6",
+      "members": [
+        "image_26b5b139e79358_1790582114219",
+        "prompt_c1cfad015a54e_1790582115903",
+        "mgen_c602d446ea5548_1790582135090",
+        "out_9edc0181ea747_1790582146099",
+        "label_6ac2d6132bc928_1790582157764"
+      ]
+    },
+    {
+      "id": "label_6ac2d6132bc928_1790582157764",
+      "type": "label",
+      "x": 3208.2160392137275,
+      "y": 2442.0900617344,
+      "w": 225,
+      "h": 132,
+      "text": "基础节点",
+      "fontSize": 42,
+      "baseFontSize": 20,
+      "labelScale": 2.1,
+      "_labelManualSize": true
+    },
+    {
+      "id": "gen_3b62f0a4a62078_1790586642641",
+      "type": "generator",
+      "x": 1189.8002910959256,
+      "y": 2136.760930822275,
+      "apiProvider": "apimart",
+      "model": "gpt-image-2.5-ext",
+      "ratio": "square",
+      "resolution": "1k",
+      "customRatio": "",
+      "customSize": "",
+      "customRatioWidth": "",
+      "customRatioHeight": "",
+      "customWidth": "",
+      "customHeight": "",
+      "transparentBackground": false,
+      "inputs": [
+        "prompt_0e75e9ae865f08_1790586646738"
+      ],
+      "_apiResolutionUserSet": true
+    },
+    {
+      "id": "prompt_0e75e9ae865f08_1790586646738",
+      "type": "prompt",
+      "x": 806.348769890801,
+      "y": 2136.327085075842,
+      "text": ""
+    },
+    {
+      "id": "out_65440683bc7018_1790586661552",
+      "type": "output",
+      "x": 1649.8002910959256,
+      "y": 2136.760930822275,
+      "images": [],
+      "_pending": []
     }
   ],
   "connections": [
@@ -2337,6 +2456,46 @@
       "toPort": "in"
     },
     {
+      "id": "c_16a9c7f2e3114_1790582136692",
+      "kind": "dataFlow",
+      "from": "prompt_c1cfad015a54e_1790582115903",
+      "to": "mgen_c602d446ea5548_1790582135090",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_eb00cf431e19f8_1790582138347",
+      "kind": "dataFlow",
+      "from": "image_26b5b139e79358_1790582114219",
+      "to": "mgen_c602d446ea5548_1790582135090",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_eedef858c4047_1790582146177",
+      "kind": "dataFlow",
+      "from": "mgen_c602d446ea5548_1790582135090",
+      "to": "out_9edc0181ea747_1790582146099",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_ec26043a6a5db8_1790586646824",
+      "kind": "dataFlow",
+      "from": "prompt_0e75e9ae865f08_1790586646738",
+      "to": "gen_3b62f0a4a62078_1790586642641",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_4407a9083a898_1790586661552",
+      "from": "gen_3b62f0a4a62078_1790586642641",
+      "to": "out_65440683bc7018_1790586661552",
+      "kind": "dataFlow",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
       "id": "c_24124c7069d208_1789034526143",
       "kind": "labelBinding",
       "from": "label_021c534e3efe08_1789034526143",
@@ -2431,6 +2590,14 @@
       "to": "output_70eec14d71b2e8_1790151407225",
       "fromPort": "in",
       "toPort": "out"
+    },
+    {
+      "id": "c_5fee7ec88b46b_1790582157840",
+      "kind": "labelBinding",
+      "from": "label_6ac2d6132bc928_1790582157764",
+      "to": "out_9edc0181ea747_1790582146099",
+      "fromPort": "in",
+      "toPort": "out"
     }
   ],
   "viewport": {
@@ -2441,6 +2608,20 @@
   "board_x": 413.0,
   "board_y": 315.0,
   "logs": [
+    {
+      "id": "log_f6e7289ea58db_1790586662075",
+      "createdAt": 1790586662075,
+      "status": "failed",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-ext",
+      "request": {},
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [],
+      "refs": [],
+      "runMs": 205,
+      "error": "未配置 APIMART 的 API Key，请在 API 平台管理中填写。"
+    },
     {
       "id": "log_38888a53e6ffb_1789528738564",
       "createdAt": 1789528738564,
