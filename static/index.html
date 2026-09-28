@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 
 <head>
@@ -764,6 +764,22 @@
         }
         .project-version-badge:hover { color:var(--text); border-color:var(--accent, #6366f1); }
         .project-version-badge.checking { opacity:.6; animation:badge-pulse 1s ease-in-out infinite; }
+        .project-version-badge.version-update-available {
+            border-color: #22c55e !important;
+            color: #16a34a !important;
+            box-shadow: 0 0 0 2px rgba(34, 197, 94, .18);
+            animation: version-update-pulse 1.8s ease-in-out infinite;
+        }
+        html.theme-dark .project-version-badge.version-update-available,
+        body.theme-dark .project-version-badge.version-update-available {
+            border-color: #86efac !important;
+            color: #86efac !important;
+            box-shadow: 0 0 0 2px rgba(134, 239, 172, .25);
+        }
+        @keyframes version-update-pulse {
+            0%, 100% { box-shadow: 0 0 0 1px rgba(34, 197, 94, .18); }
+            50% { box-shadow: 0 0 0 4px rgba(34, 197, 94, .35); }
+        }
         @keyframes badge-pulse { 0%,100%{opacity:.5;} 50%{opacity:1;} }
 
         .sidebar:hover .project-version-badge {
@@ -2238,6 +2254,7 @@
             if(!btn || !text || !btn.classList.contains('show')) return;
             const remoteVersion = document.getElementById('github-entry-btn')?.dataset.remoteVersion || '';
             const isEn = window.StudioI18n?.lang?.() === 'en';
+            document.getElementById('project-version-badge')?.classList.remove('version-update-available');
             text.removeAttribute('data-i18n');
             if(remoteVersion) {
                 const prefix = isEn ? 'Update to' : '更新到';
@@ -2265,6 +2282,7 @@
             if(!gitBtn?.classList.contains('update-available')) return;
             const remoteVersion = gitBtn.dataset.remoteVersion || '';
             const isEn = window.StudioI18n?.lang?.() === 'en';
+            document.getElementById('project-version-badge')?.classList.remove('version-update-available');
             gitBtn.title = isEn
                 ? `Current ${versionLabel(gitBtn.dataset.localVersion || appInfo.version)} · latest ${versionLabel(remoteVersion)}`
                 : `当前 ${versionLabel(gitBtn.dataset.localVersion || appInfo.version)} · 最新 ${versionLabel(remoteVersion)}`;
@@ -2279,6 +2297,7 @@
             const gitBtn = document.getElementById('github-entry-btn');
             if(!gitBtn) return;
             gitBtn.classList.add('update-available');
+            document.getElementById('project-version-badge')?.classList.add('version-update-available');
             gitBtn.dataset.localVersion = localVersion || '';
             gitBtn.dataset.remoteVersion = remoteVersion || '';
             document.getElementById('update-now-btn')?.classList.add('show');
@@ -2298,6 +2317,7 @@
             const list = document.getElementById('project-update-notes-list');
             const empty = document.getElementById('project-update-notes-empty');
             const isEn = window.StudioI18n?.lang?.() === 'en';
+            document.getElementById('project-version-badge')?.classList.remove('version-update-available');
             const notes = projectUpdateNotes || {};
             const items = Array.isArray(notes.items) ? notes.items.filter(Boolean) : [];
             if(titleEl) titleEl.textContent = isEn ? 'What changed' : '本次更新内容';
@@ -2608,6 +2628,7 @@
         async function runUpdateConnectivityTest() {
             if(connectivityTesting) return; // 防止重复点击导致状态错乱
             const isEn = window.StudioI18n?.lang?.() === 'en';
+            document.getElementById('project-version-badge')?.classList.remove('version-update-available');
             const btn = document.getElementById('connectivity-test-btn');
             const text = document.getElementById('connectivity-test-text');
             connectivityTesting = true;
@@ -2696,6 +2717,7 @@
 
         async function confirmProjectUpdate() {
             const isEn = window.StudioI18n?.lang?.() === 'en';
+            document.getElementById('project-version-badge')?.classList.remove('version-update-available');
             const btn = document.getElementById('update-now-btn');
             const text = document.getElementById('update-now-text');
             const confirmBtn = document.getElementById('project-update-confirm-btn');
@@ -2742,6 +2764,7 @@
                             : `已更新 ${data.count || 0} 个文件。请重启后端，然后刷新页面。`)) + fallbackNote
                 );
                 document.getElementById('github-entry-btn')?.classList.remove('update-available');
+                document.getElementById('project-version-badge')?.classList.remove('version-update-available');
                 btn?.classList.remove('show');
                 setProjectVersionBadge(data.version || document.getElementById('github-entry-btn')?.dataset.remoteVersion || appInfo.version);
                 if(restarting) waitForBackendAndReload();
@@ -2774,6 +2797,7 @@
         }
         async function rollbackProjectUpdate() {
             const isEn = window.StudioI18n?.lang?.() === 'en';
+            document.getElementById('project-version-badge')?.classList.remove('version-update-available');
             try {
                 const list = await fetch('/api/update-backups').then(r => r.json());
                 const backups = list.backups || [];
@@ -2819,6 +2843,7 @@
 
         async function checkForUpdates(manual = false) {
             const isEn = window.StudioI18n?.lang?.() === 'en';
+            document.getElementById('project-version-badge')?.classList.remove('version-update-available');
             const badge = document.getElementById('project-version-badge');
             if(manual && badge) badge.classList.add('checking');
             try {
