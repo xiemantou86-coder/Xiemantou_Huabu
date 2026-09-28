@@ -5,7 +5,7 @@ def greet():
 
 with gr.Blocks(title="无限画布 - Infinite Canvas") as demo:
     gr.Markdown("# 🎨 无限画布 (Infinite-Canvas)")
-    gr.Markdown("### 这是一个集成了文生图、细节增强、节点式工作流与广告KV排版的 AI 设计工作台。")
+    gr.Markdown("### 这是基于大雄画布，更新修改的一个集成了文生图、细节增强、节点式工作流与广告KV排版的新画布节点。")
     gr.Markdown("- **开发者**：谢馒头")
     gr.Markdown("- **GitHub 源码**：[xiemantou86-coder/Xiemantou_Huabu](https://github.com/xiemantou86-coder/Xiemantou_Huabu)")
     gr.Markdown("- **更新源状态**：🟢 阿里魔搭国内镜像更新源正常运行中")
