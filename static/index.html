@@ -2254,7 +2254,6 @@
             if(!btn || !text || !btn.classList.contains('show')) return;
             const remoteVersion = document.getElementById('github-entry-btn')?.dataset.remoteVersion || '';
             const isEn = window.StudioI18n?.lang?.() === 'en';
-            document.getElementById('project-version-badge')?.classList.remove('version-update-available');
             text.removeAttribute('data-i18n');
             if(remoteVersion) {
                 const prefix = isEn ? 'Update to' : '更新到';
@@ -2282,7 +2281,6 @@
             if(!gitBtn?.classList.contains('update-available')) return;
             const remoteVersion = gitBtn.dataset.remoteVersion || '';
             const isEn = window.StudioI18n?.lang?.() === 'en';
-            document.getElementById('project-version-badge')?.classList.remove('version-update-available');
             gitBtn.title = isEn
                 ? `Current ${versionLabel(gitBtn.dataset.localVersion || appInfo.version)} · latest ${versionLabel(remoteVersion)}`
                 : `当前 ${versionLabel(gitBtn.dataset.localVersion || appInfo.version)} · 最新 ${versionLabel(remoteVersion)}`;
@@ -2317,7 +2315,6 @@
             const list = document.getElementById('project-update-notes-list');
             const empty = document.getElementById('project-update-notes-empty');
             const isEn = window.StudioI18n?.lang?.() === 'en';
-            document.getElementById('project-version-badge')?.classList.remove('version-update-available');
             const notes = projectUpdateNotes || {};
             const items = Array.isArray(notes.items) ? notes.items.filter(Boolean) : [];
             if(titleEl) titleEl.textContent = isEn ? 'What changed' : '本次更新内容';
@@ -2628,7 +2625,6 @@
         async function runUpdateConnectivityTest() {
             if(connectivityTesting) return; // 防止重复点击导致状态错乱
             const isEn = window.StudioI18n?.lang?.() === 'en';
-            document.getElementById('project-version-badge')?.classList.remove('version-update-available');
             const btn = document.getElementById('connectivity-test-btn');
             const text = document.getElementById('connectivity-test-text');
             connectivityTesting = true;
