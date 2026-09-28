@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/static/images/logo.png" type="image/png">
+    <title>垃圾桶</title>
+    <script>
+        // 与其它内嵌页面保持一致：进入时先把主题（白天/黑夜）套到 <html> 上，
+        // 避免页面闪一下白底再变黑。parent 之后还会再同步一次，这里只是兜底。
+        (function(){
+            try {
+                var theme = localStorage.getItem('studio_theme') || localStorage.getItem('canvas_theme') || 'light';
+                if(theme === 'dark') {
+                    document.documentElement.classList.add('studio-theme-dark');
+                    document.documentElement.classList.add('theme-dark');
+                }
+            } catch(e) {}
+        })();
+    </script>
+    <script src="/static/vendor/js/lucide.js?v=2026.08.04.1787819840"></script>
+    <script src="/static/js/theme.js?v=2026.08.04.1787819836"></script>
+    <link rel="stylesheet" href="/static/css/theme.css?v=2026.08.04.1787819824">
+    <!-- 复用素材库页的通用组件样式（按钮 / 标签页 / 文件网格），避免重复定义一套 -->
+    <link rel="stylesheet" href="/static/css/asset-manager.css?v=2026.08.04.1789264267">
+    <link rel="stylesheet" href="/static/css/recycle-hub.css?v=2026.08.04.1790504126">
+</head>
+<body>
+    <div class="asset-page">
+        <header class="asset-page-head">
+            <div>
+                <div class="asset-title">垃圾桶</div>
+                <div class="asset-sub">画布和素材的回收站，统一在这里恢复或彻底删除。</div>
+            </div>
+            <div class="asset-head-actions">
+                <div id="hubStatus" class="asset-status">准备就绪</div>
+                <button id="hubRefreshBtn" class="asset-btn" type="button"><i data-lucide="refresh-cw"></i><span>刷新</span></button>
+            </div>
+        </header>
+
+        <div class="asset-tabs">
+            <button id="hubTabCanvases" class="active" type="button" data-tab="canvases"><i data-lucide="layout-grid"></i><span>画布回收站</span></button>
+            <button id="hubTabAssetTrash" type="button" data-tab="asset-trash"><i data-lucide="recycle"></i><span>素材回收站</span></button>
+            <button id="hubTabFiles" type="button" data-tab="files"><i data-lucide="folder-open"></i><span>素材文件</span></button>
+        </div>
+
+        <main id="hubRoot" class="hub-root"></main>
+    </div>
+
+    <script src="/static/js/recycle-hub.js?v=2026.08.04.1790505749"></script>
+</body>
+</html>

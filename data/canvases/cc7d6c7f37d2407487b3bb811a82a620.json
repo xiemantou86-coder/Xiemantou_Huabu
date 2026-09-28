@@ -1,0 +1,3548 @@
+{
+  "id": "cc7d6c7f37d2407487b3bb811a82a620",
+  "title": "演示",
+  "icon": "🧩",
+  "kind": "classic",
+  "owner": "",
+  "color": "",
+  "pinned": false,
+  "project": "default",
+  "created_at": 1789034316892,
+  "updated_at": 1790500526623,
+  "nodes": [
+    {
+      "id": "containerGroup_cdc65987d9fd3_1789034526143",
+      "type": "containerGroup",
+      "x": 4920.148359023604,
+      "y": 2330.3730987133295,
+      "w": 3987,
+      "h": 1683,
+      "title": "容器分组",
+      "color": "#3b82f6",
+      "members": [
+        "image_fdb67df3779ab_1789034526143",
+        "image_598c0cb560cc98_1789034526143",
+        "image_671157ad3a057_1789034526143",
+        "group_5eb62db1830b1_1789034526143",
+        "image_dd079186a5dcc_1789034526143",
+        "image_6110ac47f64cb8_1789034526143",
+        "output_37547e1d121128_1789034526143",
+        "output_4240b6c56b399_1789034526143",
+        "output_f863152329d02_1789034526143",
+        "image_53e5276c6ab16_1789034526143",
+        "image_f31f66e7053da_1789034526143",
+        "group_e5037feeecb26_1789034526143",
+        "output_7862c2242836b_1789034526143",
+        "image_8e3571ef30424_1789034526143",
+        "image_27e6fdbe468f38_1789034526143",
+        "prompt_9219bfed4963a_1789034526143",
+        "prompt_8b60063960d3d_1789034526143",
+        "masterGenerator_f0e134cf699058_1789034526143",
+        "masterGenerator_480df06d2eb5e_1789034526143",
+        "masterGenerator_bf743f822a89d_1789034526143",
+        "masterGenerator_c0beeac1822538_1789034526143",
+        "prompt_c237e38bf0133_1789034526143",
+        "gameKvPrompt_2138440b47d_1789034526143",
+        "prompt_18f84d33375318_1789034526143",
+        "label_021c534e3efe08_1789034526143",
+        "label_4ad0378a3ef968_1789034526143",
+        "label_139482fbeab548_1789034526143",
+        "label_0ba3d2280a065_1789034526143",
+        "image_ba7d39ae64281_1789034526143",
+        "label_a81af86dc7374_1789034526143",
+        "label_13325749f529e8_1789034526143",
+        "gameKvPopupPrompt_564e61ecfa777_1789034526143",
+        "image_6c5d350f4fe6c_1789034526143",
+        "image_5294ceea286758_1789034526143",
+        "label_3defad1248c0e_1789034526143",
+        "label_76478d980a62b8_1789034526143",
+        "label_bf24a290897ae8_1789034526143",
+        "label_fccfe1c2f0c7d8_1789034526143"
+      ]
+    },
+    {
+      "id": "containerGroup_d108ad4286d85_1789034526143",
+      "type": "containerGroup",
+      "x": 4929.32022140017,
+      "y": 4044.1194128774528,
+      "w": 3103,
+      "h": 945,
+      "title": "容器分组",
+      "color": "#3b82f6",
+      "members": [
+        "image_c755273f6087_1789034526143",
+        "image_d2e0ec08b84298_1789034526143",
+        "image_ab5d95075ee0d8_1789034526143",
+        "image_dce8df0f56a89_1789034526143",
+        "image_b53cc93f6fe85_1789034526143",
+        "prompt_5121cbe22ab928_1789034526143",
+        "image_fcad547abb8fc8_1789034526143",
+        "group_0556d50aa7fec_1789034526143",
+        "output_c314aafb5455_1789034526143",
+        "image_431194ba2e3668_1789034526143",
+        "label_b21a053e8f8d68_1789034526143",
+        "masterGenerator_e6712bcd262ef_1789034526143",
+        "irregularPopupKvPrompt_ac28eae4bf2f2_1789034526143",
+        "label_f58700fbfad69_1789034526143",
+        "image_be4d2ca55d0e_1789523617652"
+      ]
+    },
+    {
+      "id": "image_c755273f6087_1789034526143",
+      "type": "image",
+      "x": 4971.0211126285885,
+      "y": 4201.631566644644,
+      "url": "",
+      "name": "上传节点",
+      "mediaKind": "image",
+      "_naturalSizeLoading": false,
+      "natural_w": 1024,
+      "natural_h": 572
+    },
+    {
+      "id": "image_d2e0ec08b84298_1789034526143",
+      "type": "image",
+      "x": 4969.268951742801,
+      "y": 4551.307452290951,
+      "url": "/assets/input/workflow_import_20260910-180205_e2de3f/5185b75c_7ab16a7a_619d6d72_ai_ref_0c45a638baa8.png",
+      "name": "异形弹窗，原分辨率.png",
+      "mediaKind": "image",
+      "_naturalSizeLoading": false,
+      "natural_w": 262,
+      "natural_h": 148
+    },
+    {
+      "id": "image_ab5d95075ee0d8_1789034526143",
+      "type": "image",
+      "x": 5259.772390423717,
+      "y": 4548.361775491384,
+      "url": "",
+      "name": "上传节点",
+      "mediaKind": "image",
+      "_naturalSizeLoading": false,
+      "natural_w": 650,
+      "natural_h": 390
+    },
+    {
+      "id": "image_dce8df0f56a89_1789034526143",
+      "type": "image",
+      "x": 5544.149249947634,
+      "y": 4200.8530939378925,
+      "url": "",
+      "name": "上传节点",
+      "mediaKind": "image",
+      "_naturalSizeLoading": false,
+      "natural_w": 1280,
+      "natural_h": 720
+    },
+    {
+      "id": "image_b53cc93f6fe85_1789034526143",
+      "type": "image",
+      "x": 5556.718239273002,
+      "y": 4547.21206386457,
+      "url": "",
+      "name": "空白图片"
+    },
+    {
+      "id": "prompt_5121cbe22ab928_1789034526143",
+      "type": "prompt",
+      "x": 6099.290303416783,
+      "y": 4165.060496560393,
+      "text": "异形弹窗广告补充提示词：\n\n一、生成目标\n制作一张繁体中文的高质量异形弹窗广告，要求符合拦截大弹窗的视觉形式。\n异形弹窗主体具有醒目的广告利益点，整体达到高品质游戏宣传KV水准。\n\n二、画面背景\n透明背景，输出PNG格式。\n保留真实透明通道，方便后期抠图与修改。\n所有主体必须完整呈现，不得裁切。\n\n三、参考图说明\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片4作为画面限制参考，绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围\n\n四、广告文案\n- 主标题：\n  熱血魔法點燃戰場\n\n- 副标题：\n  集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。\n  副标题为小字，在主标题下方。\n\n- 使用图片3中的游戏Logo，保持Logo清晰完整。\n\n- 在画面合适位置加入图片5的下载按钮，按钮内文字：立即下載。\n\n五、构图设计\n- 以主体角色参考图中的一个人物为主角，放大置于C位，重新排布其他人物的动作与位置，形成欢乐温馨、主体明确的镜头。\n- 极简风格构图，以主角在前的夸张广角动作为主，其他角色群像在主角后方的建议构图。\n- 角色身体、标志性道具可以突破异形弹窗主体容器的边框，形成明确的“破框”设计。\n- 顶部破框：角色头部、手臂或武器可突破主体容器上边框。\n- 构建清晰的Z轴景深，区分前景破框元素、中景角色主体和背景氛围。\n\n六、视觉风格\n- 高质量日系动漫游戏KV，细腻线条，顶级二次元立绘，强光影，电影感，醒目的广告利益点。\n\n七、边界约束\n- 绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围。\n- 角色、武器、标题和道具只允许突破异形弹窗主体容器边框，绝对不能突破最终画布边界。\n- **画面禁止超出最终画布与黑色绘画区域范围。**\n- **画面禁止超出最终画布与黑色绘画区域范围。**\n- 全部画面必须保持在视觉中心内，不得超出画幅，不得裁切。\n\n八、负向提示词\n模糊，低清，噪点，颗粒感\n脏污，灰蒙，雾感，低对比\n过曝，过暗，色彩失真\n多余物体，杂乱背景\n畸形，变形，手部错误\n主体被裁切，内容超出最终画布边界，在禁止作画区域出现内容",
+      "w": 486,
+      "h": 720
+    },
+    {
+      "id": "image_fcad547abb8fc8_1789034526143",
+      "type": "image",
+      "x": 5839.299515573708,
+      "y": 4546.6948690629415,
+      "url": "",
+      "name": "空白图片"
+    },
+    {
+      "id": "group_0556d50aa7fec_1789034526143",
+      "type": "group",
+      "x": 4938.962554936634,
+      "y": 4109.205148538396,
+      "w": 1657,
+      "h": 801,
+      "items": [
+        "image_c755273f6087_1789034526143",
+        "image_d2e0ec08b84298_1789034526143",
+        "image_ab5d95075ee0d8_1789034526143",
+        "image_dce8df0f56a89_1789034526143",
+        "image_b53cc93f6fe85_1789034526143",
+        "image_fcad547abb8fc8_1789034526143",
+        "image_431194ba2e3668_1789034526143",
+        "prompt_5121cbe22ab928_1789034526143",
+        "image_be4d2ca55d0e_1789523617652"
+      ]
+    },
+    {
+      "id": "output_c314aafb5455_1789034526143",
+      "type": "output",
+      "x": 7519.945618741198,
+      "y": 4096.68296362059,
+      "images": [
+        {
+          "url": "/assets/output/online_8607fe3851.png",
+          "viewed": true,
+          "runMs": 34004,
+          "run": {
+            "nodeType": "masterGenerator",
+            "node": {
+              "id": "masterGenerator_e6712bcd262ef_1789034526143",
+              "type": "masterGenerator",
+              "x": 7083.517271618715,
+              "y": 4094.629702711713,
+              "apiProvider": "apimart",
+              "model": "gpt-image-2.5-flare",
+              "ratio": "wide",
+              "resolution": "2k",
+              "customRatio": "",
+              "customSize": "",
+              "customRatioWidth": "",
+              "customRatioHeight": "",
+              "customWidth": "",
+              "customHeight": "",
+              "masterEnabled": false,
+              "_apiResolutionUserSet": true,
+              "generatedOutputs": [
+                "/assets/input/workflow_import_20260910-180205_e2de3f/20d8ccac_c6d3ee7d_b0afc541_online_1f8cdd0d86.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/9fe9beee_c75f0b1d_3c3aa850_online_749aa12108.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/288565bf_24df0705_e600b31a_online_4ffcd3a81d.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/506ad2f4_a690da46_41723409_online_69a601ec13.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/ea1d3efa_24e890bd_ac5edae9_online_4ca1ff3e62.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/da984ccf_c46002c7_0ed7ab2c_online_366e576710.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/98187bc9_59382dd5_ef495c17_online_86f5b897d3.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/bc30749c_333bbede_ade4ba03_online_f8e48b849b.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/4bd4008b_60439fb4_6bdb680c_online_d1624825d9.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/0929b24c_ae5d1047_a9b5d1ef_online_3c20d50531.png"
+              ],
+              "masterControlled": true,
+              "w": 414,
+              "h": 502,
+              "quality": "medium",
+              "transparentBackground": true,
+              "transparentCheckWarning": ""
+            },
+            "prompt": "异形弹窗广告补充提示词：\n\n一、生成目标\n制作一张繁体中文的高质量异形弹窗广告，要求符合拦截大弹窗的视觉形式。\n异形弹窗主体具有醒目的广告利益点，整体达到高品质游戏宣传KV水准。\n\n二、画面背景\n透明背景，输出PNG格式。\n保留真实透明通道，方便后期抠图与修改。\n所有主体必须完整呈现，不得裁切。\n\n三、参考图说明\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片4作为画面限制参考，绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围\n\n四、广告文案\n- 主标题：\n  強者之戰現在開始\n\n- 副标题：\n  集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。\n  副标题为小字，在主标题下方。\n\n- 使用图片3中的游戏Logo，保持Logo清晰完整。\n\n- 在画面合适位置加入图片5的下载按钮，按钮内文字：立即下載。\n\n五、构图设计\n- 以主体角色参考图中的一个人物为主角，放大置于C位，重新排布其他人物的动作与位置，形成欢乐温馨、主体明确的镜头。\n- 以主角在前的夸张广角动作为主，其他角色群像在主角后方的建议构图。\n- 角色身体、标志性道具可以突破异形弹窗主体容器的边框，形成明确的“破框”设计。\n- 顶部破框：角色头部、手臂或武器可突破主体容器上边框。\n- 构建清晰的Z轴景深，区分前景破框元素、中景角色主体和背景氛围。\n\n六、视觉风格\n- 高质量日系动漫游戏KV，细腻线条，顶级二次元立绘，强光影，电影感，醒目的广告利益点。\n\n七、边界约束\n- 绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围。\n- 角色、武器、标题和道具只允许突破异形弹窗主体容器边框，绝对不能突破最终画布边界。\n- **画面禁止超出最终画布与黑色绘画区域范围。**\n- **画面禁止超出最终画布与黑色绘画区域范围。**\n- 全部画面必须保持在视觉中心内，不得超出画幅，不得裁切。\n\n八、负向提示词\n模糊，低清，噪点，颗粒感\n脏污，灰蒙，雾感，低对比\n过曝，过暗，色彩失真\n多余物体，杂乱背景\n畸形，变形，手部错误\n主体被裁切，内容超出最终画布边界，在禁止作画区域出现内容",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_b24be406877f.jpg",
+                "name": "启动页横.jpg"
+              },
+              {
+                "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+                "name": "image.png"
+              },
+              {
+                "url": "/assets/input/ai_ref_9ac46b66bd96.png",
+                "name": "黑色五叶草logo-白.png"
+              },
+              {
+                "url": "/assets/input/workflow_import_20260910-180205_e2de3f/5185b75c_7ab16a7a_619d6d72_ai_ref_0c45a638baa8.png",
+                "name": "异形弹窗，原分辨率.png"
+              },
+              {
+                "url": "/assets/input/workflow_import_20260910-180205_e2de3f/902d2135_faf1ae3a_d08f5808_751b1bd7_ai_ref_460126d55727.png",
+                "name": "image.png"
+              }
+            ],
+            "request": {
+              "task_id": "task_01M2KYR5BZZD5J7F21F8DHTJCW",
+              "request_id": "",
+              "provider_id": "apimart",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        },
+        {
+          "url": "/assets/output/online_dae1c33574.png",
+          "viewed": true,
+          "runMs": 48339,
+          "run": {
+            "nodeType": "masterGenerator",
+            "node": {
+              "id": "masterGenerator_e6712bcd262ef_1789034526143",
+              "type": "masterGenerator",
+              "x": 7083.517271618715,
+              "y": 4094.629702711713,
+              "apiProvider": "apimart",
+              "model": "gpt-image-2.5-sunburst",
+              "ratio": "wide",
+              "resolution": "2k",
+              "customRatio": "",
+              "customSize": "",
+              "customRatioWidth": "",
+              "customRatioHeight": "",
+              "customWidth": "",
+              "customHeight": "",
+              "masterEnabled": false,
+              "_apiResolutionUserSet": true,
+              "generatedOutputs": [
+                "/assets/input/workflow_import_20260910-180205_e2de3f/20d8ccac_c6d3ee7d_b0afc541_online_1f8cdd0d86.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/9fe9beee_c75f0b1d_3c3aa850_online_749aa12108.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/288565bf_24df0705_e600b31a_online_4ffcd3a81d.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/506ad2f4_a690da46_41723409_online_69a601ec13.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/ea1d3efa_24e890bd_ac5edae9_online_4ca1ff3e62.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/da984ccf_c46002c7_0ed7ab2c_online_366e576710.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/98187bc9_59382dd5_ef495c17_online_86f5b897d3.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/bc30749c_333bbede_ade4ba03_online_f8e48b849b.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/4bd4008b_60439fb4_6bdb680c_online_d1624825d9.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/0929b24c_ae5d1047_a9b5d1ef_online_3c20d50531.png",
+                "/assets/output/online_8607fe3851.png"
+              ],
+              "masterControlled": true,
+              "w": 414,
+              "h": 502,
+              "quality": "medium",
+              "transparentBackground": true,
+              "transparentCheckWarning": ""
+            },
+            "prompt": "异形弹窗广告补充提示词：\n\n一、生成目标\n制作一张繁体中文的高质量异形弹窗广告，要求符合拦截大弹窗的视觉形式。\n异形弹窗主体具有醒目的广告利益点，整体达到高品质游戏宣传KV水准。\n\n二、画面背景\n透明背景，输出PNG格式。\n保留真实透明通道，方便后期抠图与修改。\n所有主体必须完整呈现，不得裁切。\n\n三、参考图说明\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片4作为画面限制参考，绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围\n\n四、广告文案\n- 主标题：\n  進軍王國挑戰巔峰\n\n- 副标题：\n  集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。\n  副标题为小字，在主标题下方。\n\n- 使用图片3中的游戏Logo，保持Logo清晰完整。\n\n- 在画面合适位置加入图片5的下载按钮，按钮内文字：立即下載。\n\n五、构图设计\n- 以主体角色参考图中的一个人物为主角，放大置于C位，重新排布其他人物的动作与位置，形成欢乐温馨、主体明确的镜头。\n- 以主角在前的夸张广角动作为主，其他角色群像在主角后方的建议构图。\n- 角色身体、标志性道具可以突破异形弹窗主体容器的边框，形成明确的“破框”设计。\n- 顶部破框：角色头部、手臂或武器可突破主体容器上边框。\n- 构建清晰的Z轴景深，区分前景破框元素、中景角色主体和背景氛围。\n\n六、视觉风格\n- 高质量日系动漫游戏KV，细腻线条，顶级二次元立绘，强光影，电影感，醒目的广告利益点。\n\n七、边界约束\n- 绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围。\n- 角色、武器、标题和道具只允许突破异形弹窗主体容器边框，绝对不能突破最终画布边界。\n- **画面禁止超出最终画布与黑色绘画区域范围。**\n- **画面禁止超出最终画布与黑色绘画区域范围。**\n- 全部画面必须保持在视觉中心内，不得超出画幅，不得裁切。\n\n八、负向提示词\n模糊，低清，噪点，颗粒感\n脏污，灰蒙，雾感，低对比\n过曝，过暗，色彩失真\n多余物体，杂乱背景\n畸形，变形，手部错误\n主体被裁切，内容超出最终画布边界，在禁止作画区域出现内容",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_d6f016e69184.jpg",
+                "name": "大弹窗.jpg"
+              },
+              {
+                "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+                "name": "image.png"
+              },
+              {
+                "url": "/assets/input/ai_ref_9ac46b66bd96.png",
+                "name": "黑色五叶草logo-白.png"
+              },
+              {
+                "url": "/assets/input/workflow_import_20260910-180205_e2de3f/5185b75c_7ab16a7a_619d6d72_ai_ref_0c45a638baa8.png",
+                "name": "异形弹窗，原分辨率.png"
+              },
+              {
+                "url": "/assets/input/workflow_import_20260910-180205_e2de3f/902d2135_faf1ae3a_d08f5808_751b1bd7_ai_ref_460126d55727.png",
+                "name": "image.png"
+              }
+            ],
+            "request": {
+              "task_id": "task_01M2KZ8SCYY7KWY1KGBSEKGJX2",
+              "request_id": "",
+              "provider_id": "apimart",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        }
+      ],
+      "_pending": [],
+      "imageComparisons": {
+        "/assets/output/online_8607fe3851.png": {
+          "url": "/assets/input/ai_ref_b24be406877f.jpg",
+          "name": "启动页横.jpg"
+        },
+        "/assets/output/online_dae1c33574.png": {
+          "url": "/assets/input/ai_ref_d6f016e69184.jpg",
+          "name": "大弹窗.jpg"
+        }
+      },
+      "w": 459,
+      "h": 764
+    },
+    {
+      "id": "image_431194ba2e3668_1789034526143",
+      "type": "image",
+      "x": 5263.323712523339,
+      "y": 4200.548258063579,
+      "url": "",
+      "name": "上传节点",
+      "mediaKind": "image",
+      "_naturalSizeLoading": false,
+      "natural_w": 539,
+      "natural_h": 439
+    },
+    {
+      "id": "image_fdb67df3779ab_1789034526143",
+      "type": "image",
+      "x": 5250.9044847809755,
+      "y": 2825.9005961188827,
+      "url": "",
+      "name": "上传节点",
+      "mediaKind": "image",
+      "_naturalSizeLoading": false,
+      "natural_w": 1919,
+      "natural_h": 1076
+    },
+    {
+      "id": "image_598c0cb560cc98_1789034526143",
+      "type": "image",
+      "x": 5550.757905679595,
+      "y": 2477.824846776959,
+      "url": "/assets/input/ai_ref_9ac46b66bd96.png",
+      "name": "黑色五叶草logo-白.png",
+      "mediaKind": "image",
+      "_naturalSizeLoading": false,
+      "natural_w": 1791,
+      "natural_h": 1434
+    },
+    {
+      "id": "image_671157ad3a057_1789034526143",
+      "type": "image",
+      "x": 5538.043028214777,
+      "y": 2832.625666196102,
+      "url": "",
+      "name": "空白图片"
+    },
+    {
+      "id": "group_5eb62db1830b1_1789034526143",
+      "type": "group",
+      "x": 4947.234254972691,
+      "y": 2392.22892379648,
+      "w": 1192,
+      "h": 793,
+      "items": [
+        "image_fdb67df3779ab_1789034526143",
+        "image_598c0cb560cc98_1789034526143",
+        "image_671157ad3a057_1789034526143",
+        "image_dd079186a5dcc_1789034526143",
+        "image_6110ac47f64cb8_1789034526143",
+        "image_53e5276c6ab16_1789034526143",
+        "image_f31f66e7053da_1789034526143",
+        "image_8e3571ef30424_1789034526143"
+      ]
+    },
+    {
+      "id": "image_dd079186a5dcc_1789034526143",
+      "type": "image",
+      "x": 5852.213728027339,
+      "y": 2467.1197139974993,
+      "url": "",
+      "name": "上传节点",
+      "mediaKind": "image",
+      "_naturalSizeLoading": false,
+      "natural_w": 2400,
+      "natural_h": 1792
+    },
+    {
+      "id": "image_6110ac47f64cb8_1789034526143",
+      "type": "image",
+      "x": 5831.986144418208,
+      "y": 2833.972258254936,
+      "url": "",
+      "name": "空白图片"
+    },
+    {
+      "id": "output_37547e1d121128_1789034526143",
+      "type": "output",
+      "x": 7273.971941072832,
+      "y": 2398.1357388007364,
+      "images": [
+        {
+          "url": "/assets/output/online_3a570f7dc4.png",
+          "viewed": true,
+          "runMs": 77183,
+          "run": {
+            "nodeType": "masterGenerator",
+            "node": {
+              "id": "masterGenerator_f0e134cf699058_1789034526143",
+              "type": "masterGenerator",
+              "x": 6895.308629023807,
+              "y": 2400.5032188353634,
+              "apiProvider": "apimart",
+              "model": "gpt-image-2",
+              "ratio": "wide",
+              "resolution": "2k",
+              "customRatio": "",
+              "customSize": "",
+              "customRatioWidth": "",
+              "customRatioHeight": "",
+              "customWidth": "",
+              "customHeight": "",
+              "masterEnabled": true,
+              "w": 363,
+              "h": 611,
+              "_apiResolutionUserSet": true,
+              "quality": "medium",
+              "generatedOutputs": [
+                "/assets/input/workflow_import_20260910-180205_e2de3f/9f61f086_online_dc19afa860.png",
+                "/assets/output/online_48e8a9c763.png",
+                "/assets/output/online_8914036633.png",
+                "/assets/output/online_67a5b133c9.png",
+                "/assets/output/online_2d34f75e9a.png"
+              ],
+              "transparentBackground": false
+            },
+            "prompt": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n- 图片3作为黑色五叶草logo-白.png参考。\n\n画面设计：\n- 视觉风格：日系高品質動漫遊戲KV，主推角色插画，黑色五葉草風格，官方授權RPG海報風，細膩線條，頂級二次元立繪，電影感，遊戲宣傳主視覺。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「夥伴齊心衝破難關」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：通透水晶质感标题字，冷色内发光、细致高光边缘与轻微空间投影，清晰可读。\n- 排版位置：随机：- 在画面合适位置。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_b0bb6b5055dc.jpeg",
+                "name": "五葉魔導書：魔法騎士-1672 X 941-2026-09-16-ee3b366b6e609b4e21599533c2f31fdc.jpeg"
+              },
+              {
+                "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+                "name": "image.png"
+              },
+              {
+                "url": "/assets/input/ai_ref_9ac46b66bd96.png",
+                "name": "黑色五叶草logo-白.png"
+              }
+            ],
+            "request": {
+              "task_id": "task_01M2M0PDF9BZZQQMMCS0C79M88",
+              "request_id": "",
+              "provider_id": "apimart",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        }
+      ],
+      "_pending": [],
+      "imageComparisons": {
+        "/assets/output/online_ba34c36fac.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/a6989fe1_b0173d68_b1aca94a_590afb81_ai_ref_12b6ff18810e.jpg",
+          "name": "游戏中心顶部.jpg"
+        },
+        "/assets/output/online_315a946fbc.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/a6989fe1_b0173d68_b1aca94a_590afb81_ai_ref_12b6ff18810e.jpg",
+          "name": "游戏中心顶部.jpg"
+        },
+        "/assets/output/online_3559860d4e.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        },
+        "/assets/output/online_2d10010a65.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        },
+        "/assets/output/online_b7cd2b81e0.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        },
+        "/assets/output/online_f71d6d06f2.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        },
+        "/assets/output/online_d7990099dc.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ae1dcabc_894b911f_b2bc32e1_ai_ref_f057fe90384e.jpg",
+          "name": "1.jpg"
+        },
+        "/assets/output/online_19588c8e0d.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ae1dcabc_894b911f_b2bc32e1_ai_ref_f057fe90384e.jpg",
+          "name": "1.jpg"
+        },
+        "/assets/output/online_a6c2017b50.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ae1dcabc_894b911f_b2bc32e1_ai_ref_f057fe90384e.jpg",
+          "name": "1.jpg"
+        },
+        "/assets/output/online_9c2756cc33.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ae1dcabc_894b911f_b2bc32e1_ai_ref_f057fe90384e.jpg",
+          "name": "1.jpg"
+        },
+        "/assets/output/online_d76ae340e9.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ce55a044_ba1e81cd_67a2b731_ai_ref_404614667f10.jpg",
+          "name": "images.jpg"
+        },
+        "/assets/output/online_fdea024a5d.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ce55a044_ba1e81cd_67a2b731_ai_ref_404614667f10.jpg",
+          "name": "images.jpg"
+        },
+        "/assets/output/online_aa3c475d7f.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ce55a044_ba1e81cd_67a2b731_ai_ref_404614667f10.jpg",
+          "name": "images.jpg"
+        },
+        "/assets/output/online_dc19afa860.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ce55a044_ba1e81cd_67a2b731_ai_ref_404614667f10.jpg",
+          "name": "images.jpg"
+        },
+        "/assets/output/online_3a570f7dc4.png": {
+          "url": "/assets/input/ai_ref_b0bb6b5055dc.jpeg",
+          "name": "五葉魔導書：魔法騎士-1672 X 941-2026-09-16-ee3b366b6e609b4e21599533c2f31fdc.jpeg"
+        }
+      },
+      "w": 589,
+      "h": 816
+    },
+    {
+      "id": "output_4240b6c56b399_1789034526143",
+      "type": "output",
+      "x": 8253.994271698426,
+      "y": 2407.3180337466233,
+      "images": [
+        {
+          "url": "/assets/output/online_14e1a0c56d.png",
+          "viewed": true,
+          "runMs": 163135,
+          "run": {
+            "nodeType": "masterGenerator",
+            "node": {
+              "id": "masterGenerator_480df06d2eb5e_1789034526143",
+              "type": "masterGenerator",
+              "x": 7871.893863727118,
+              "y": 2373.792595388462,
+              "apiProvider": "apimart",
+              "model": "gpt-image-2",
+              "ratio": "story",
+              "resolution": "2k",
+              "customRatio": "",
+              "customSize": "",
+              "customRatioWidth": "",
+              "customRatioHeight": "",
+              "customWidth": "",
+              "customHeight": "",
+              "masterEnabled": false,
+              "_apiResolutionUserSet": true,
+              "quality": "medium",
+              "generatedOutputs": [
+                "/assets/input/workflow_import_20260910-180205_e2de3f/8124b46d_589a8826_87400911_online_303c8a19b2.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/4400e19b_ce349b8c_9fa68cad_online_4223acf839.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/148cda34_e29982ac_c75aa9bb_online_6a554a9e6d.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/1637e0e9_adde0480_20f26e19_online_d8ee53e2f2.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/c4c87b77_523d0334_92eab97b_online_72d6f8d1a4.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/79aebe6e_f07a8d39_e1c4a513_online_447abf1730.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/8f881b37_78e39d06_7c2bc812_online_c1ef66d580.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/8f67087e_cbce4794_d2430d6e_online_28a72afe1e.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/0df9b117_f42b5137_c636b5a0_online_5f545be11c.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/401c0069_9648896f_81dcb7c0_online_ee5b59d1fd.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/7cbdd2b6_e2a3d8ec_510b9209_online_74ebce424c.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/04cb1700_0c09c26e_online_f0973ccbaf.png",
+                "/assets/output/online_813b97e6cc.png",
+                "/assets/output/online_5b5668031b.png",
+                "/assets/output/online_df4912186e.png",
+                "/assets/output/online_5aefdee912.png",
+                "/assets/output/online_76ca171b30.png"
+              ],
+              "masterControlled": true
+            },
+            "prompt": "竖版广告，以广告为主，广告可适当放大\n\n请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n- 图片3作为黑色五叶草logo-白.png参考。\n\n画面设计：\n- 视觉风格：日系高品質動漫遊戲KV，主推角色插画，黑色五葉草風格，官方授權RPG海報風，細膩線條，頂級二次元立繪，電影感，遊戲宣傳主視覺。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「夥伴齊心衝破難關」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：通透水晶质感标题字，冷色内发光、细致高光边缘与轻微空间投影，清晰可读。\n- 排版位置：随机：- 在画面合适位置。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_b0bb6b5055dc.jpeg",
+                "name": "五葉魔導書：魔法騎士-1672 X 941-2026-09-16-ee3b366b6e609b4e21599533c2f31fdc.jpeg"
+              },
+              {
+                "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+                "name": "image.png"
+              },
+              {
+                "url": "/assets/input/ai_ref_9ac46b66bd96.png",
+                "name": "黑色五叶草logo-白.png"
+              }
+            ],
+            "request": {
+              "task_id": "task_01M2M0PDEZWAF9SPGJN9Q0MD10",
+              "request_id": "",
+              "provider_id": "apimart",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        }
+      ],
+      "_pending": [],
+      "w": 616,
+      "h": 712,
+      "imageComparisons": {
+        "/assets/output/online_4b6a08bf8e.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/e2c22769_ae1a86fe_3a356466_c9178049_ai_ref_b6a350dbd96b.jpg",
+          "name": "启动页1920X1080.jpg"
+        },
+        "/assets/output/online_750cb1d8e4.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/a6989fe1_b0173d68_b1aca94a_590afb81_ai_ref_12b6ff18810e.jpg",
+          "name": "游戏中心顶部.jpg"
+        },
+        "/assets/output/online_88c4c6a592.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/a6989fe1_b0173d68_b1aca94a_590afb81_ai_ref_12b6ff18810e.jpg",
+          "name": "游戏中心顶部.jpg"
+        },
+        "/assets/output/online_10c0da8f52.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        },
+        "/assets/output/online_0e0ddc661a.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        },
+        "/assets/output/online_9a27537e41.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        },
+        "/assets/output/online_efa471463b.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        },
+        "/assets/output/online_28a72afe1e.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ae1dcabc_894b911f_b2bc32e1_ai_ref_f057fe90384e.jpg",
+          "name": "1.jpg"
+        },
+        "/assets/output/online_5f545be11c.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ae1dcabc_894b911f_b2bc32e1_ai_ref_f057fe90384e.jpg",
+          "name": "1.jpg"
+        },
+        "/assets/output/online_ee5b59d1fd.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ae1dcabc_894b911f_b2bc32e1_ai_ref_f057fe90384e.jpg",
+          "name": "1.jpg"
+        },
+        "/assets/output/online_74ebce424c.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ce55a044_ba1e81cd_67a2b731_ai_ref_404614667f10.jpg",
+          "name": "images.jpg"
+        },
+        "/assets/output/online_14e1a0c56d.png": {
+          "url": "/assets/input/ai_ref_b0bb6b5055dc.jpeg",
+          "name": "五葉魔導書：魔法騎士-1672 X 941-2026-09-16-ee3b366b6e609b4e21599533c2f31fdc.jpeg"
+        }
+      }
+    },
+    {
+      "id": "output_f863152329d02_1789034526143",
+      "type": "output",
+      "x": 8251.256873784478,
+      "y": 3295.7545871224916,
+      "images": [
+        {
+          "url": "/assets/output/online_85657f87e7.png",
+          "viewed": false,
+          "runMs": 75070,
+          "run": {
+            "nodeType": "masterGenerator",
+            "node": {
+              "id": "masterGenerator_bf743f822a89d_1789034526143",
+              "type": "masterGenerator",
+              "x": 7860.921449206029,
+              "y": 3243.243201999923,
+              "apiProvider": "apimart",
+              "model": "gpt-image-2",
+              "ratio": "portrait43",
+              "resolution": "2k",
+              "customRatio": "",
+              "customSize": "",
+              "customRatioWidth": "",
+              "customRatioHeight": "",
+              "customWidth": "",
+              "customHeight": "",
+              "masterEnabled": false,
+              "_apiResolutionUserSet": true,
+              "generatedOutputs": [
+                "/assets/output/online_ee10aec54f.png"
+              ],
+              "masterControlled": false,
+              "quality": "medium",
+              "detachMasterUpstream": true
+            },
+            "prompt": "去掉原图的广告，和文字,\n竖版广告，以广告为主，广告可适当放大,\n\n请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n- 图片3作为黑色五叶草logo-白.png参考。\n\n画面设计：\n- 视觉风格：日系高品質動漫遊戲KV，主推角色插画，黑色五葉草風格，官方授權RPG海報風，細膩線條，頂級二次元立繪，電影感，遊戲宣傳主視覺。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「熱血魔法點燃戰場」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：高冲击力战斗标题字，红金火焰能量、粗壮描边和清晰立体层次，保持文字准确可读。\n- 排版位置：随机：- 在画面合适位置。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_2762e22025a4.webp",
+                "name": "01.webp"
+              },
+              {
+                "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+                "name": "image.png"
+              },
+              {
+                "url": "/assets/input/ai_ref_9ac46b66bd96.png",
+                "name": "黑色五叶草logo-白.png"
+              }
+            ],
+            "request": {
+              "task_id": "task_01M2M18Z3H0HYJE64GVX9M1M7P",
+              "request_id": "",
+              "provider_id": "apimart",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        }
+      ],
+      "_pending": [],
+      "imageComparisons": {
+        "/assets/output/online_14cdc5b812.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/e2c22769_ae1a86fe_3a356466_c9178049_ai_ref_b6a350dbd96b.jpg",
+          "name": "启动页1920X1080.jpg"
+        },
+        "/assets/output/online_be61548707.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/c835c871_f8e31f52_f7808540_714b5a24_ai_ref_79b9d9c93ede.jpeg",
+          "name": "幻想三國：武姬集結-1200 X 628-2026-09-01-ba8972049f921e2336a8ed455c7e9638.jpeg"
+        },
+        "/assets/output/online_633e3c263a.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ccd644f5_4bb39f19_52e3a482_40d0149b_ai_ref_3c980c25656e.jpeg",
+          "name": "幻想三國：武姬集結-1200 X 628-2026-09-01-ba8972049f921e2336a8ed455c7e9638.jpeg"
+        },
+        "/assets/output/online_846cf99cca.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ac7cd668_52a79ace_5e8b936d_d468e3f9_ai_ref_33b61acea939.jpeg",
+          "name": "幻想三國：武姬集結-1280 X 720-2026-09-01-146c2959e0a860ff921a71e8fae78b48.jpeg"
+        },
+        "/assets/output/online_ef68019ac3.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        },
+        "/assets/output/online_1db2238b58.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        },
+        "/assets/output/online_4b59434e9f.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/5cdf9735_7cbc5150_efb1f44d_f23901a6_ai_ref_8ca9c6314b4c.jpg",
+          "name": "商店精品游戏.jpg"
+        },
+        "/assets/output/online_f8e48b849b.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ae1dcabc_894b911f_b2bc32e1_ai_ref_f057fe90384e.jpg",
+          "name": "1.jpg"
+        },
+        "/assets/output/online_d1624825d9.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ae1dcabc_894b911f_b2bc32e1_ai_ref_f057fe90384e.jpg",
+          "name": "1.jpg"
+        },
+        "/assets/output/online_3c20d50531.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ae1dcabc_894b911f_b2bc32e1_ai_ref_f057fe90384e.jpg",
+          "name": "1.jpg"
+        },
+        "/assets/output/online_4e75266f6c.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ce55a044_ba1e81cd_67a2b731_ai_ref_404614667f10.jpg",
+          "name": "images.jpg"
+        },
+        "/assets/output/online_85657f87e7.png": {
+          "url": "/assets/input/ai_ref_2762e22025a4.webp",
+          "name": "01.webp"
+        }
+      },
+      "w": 627,
+      "h": 609
+    },
+    {
+      "id": "image_53e5276c6ab16_1789034526143",
+      "type": "image",
+      "x": 4986.5379260728705,
+      "y": 2480.3114102035147,
+      "url": "/assets/input/ai_ref_fa89eb02935d.jpeg",
+      "name": "五葉魔導書：魔法騎士-1672 X 941-2026-09-16-ee3b366b6e609b4e21599533c2f31fdc.jpeg",
+      "mediaKind": "image",
+      "_naturalSizeLoading": false,
+      "natural_w": 1791,
+      "natural_h": 1434
+    },
+    {
+      "id": "image_f31f66e7053da_1789034526143",
+      "type": "image",
+      "x": 5260.91559084151,
+      "y": 2480.4877821155114,
+      "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+      "name": "image.png",
+      "mediaKind": "image",
+      "_naturalSizeLoading": false,
+      "natural_w": 1791,
+      "natural_h": 1434
+    },
+    {
+      "id": "group_e5037feeecb26_1789034526143",
+      "type": "group",
+      "x": 4964.655275916459,
+      "y": 3221.442066815231,
+      "w": 718,
+      "h": 765,
+      "items": [
+        "image_27e6fdbe468f38_1789034526143",
+        "image_ba7d39ae64281_1789034526143",
+        "image_6c5d350f4fe6c_1789034526143",
+        "image_5294ceea286758_1789034526143"
+      ]
+    },
+    {
+      "id": "output_7862c2242836b_1789034526143",
+      "type": "output",
+      "x": 7288.884127535312,
+      "y": 3281.4478297006403,
+      "images": [
+        {
+          "url": "/assets/output/online_eb3338b3c1.png",
+          "viewed": true,
+          "runMs": 95586,
+          "run": {
+            "nodeType": "masterGenerator",
+            "node": {
+              "id": "masterGenerator_c0beeac1822538_1789034526143",
+              "type": "masterGenerator",
+              "x": 6154.304608463181,
+              "y": 3208.0883894182216,
+              "apiProvider": "apimart",
+              "model": "gpt-image-2",
+              "ratio": "wide",
+              "resolution": "2k",
+              "customRatio": "",
+              "customSize": "",
+              "customRatioWidth": "",
+              "customRatioHeight": "",
+              "customWidth": "",
+              "customHeight": "",
+              "masterEnabled": false,
+              "generatedOutputs": [
+                "/assets/input/workflow_import_20260910-180205_e2de3f/fe4930f7_c12bf9ea_1adce1c5_online_31050074f1.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/8dbd8423_c1546438_bf8b3048_online_85bfafe31b.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/b4319e9a_dd8c04cb_c79d8333_online_241f3f29a7.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/2def9f6c_3c17dc78_82cc7e4e_online_2c1acfae22.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/ce234040_b9f80a4e_af07aeb3_online_a37ce149d0.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/ed0b0b16_75623d27_52635ca2_online_d5c158e003.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/07d9b198_05920cdd_1a8d7012_online_8526d3a626.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/75c46a95_06ca567e_86bc112f_online_37c84ffb32.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/75c2d4a9_1e5a7183_446aeb6a_online_6222507963.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/c4aa8c99_ffc8b4d9_4c5e7ee8_online_2c4e748ffe.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/76209166_b5be1890_7c69dbb0_online_9a479c1a45.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/74da67c6_5c4bf827_3fdc6b58_online_094b500eb6.png",
+                "/assets/input/workflow_import_20260910-180205_e2de3f/a0f8a219_c7a80cea_online_d3821bca53.png",
+                "/assets/output/online_6fd1ee87f9.png",
+                "/assets/output/online_5bc8df0ce6.png"
+              ],
+              "_apiResolutionUserSet": true,
+              "masterControlled": true,
+              "w": 483,
+              "h": 477
+            },
+            "prompt": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n- 图片3作为黑色五叶草logo-白.png参考。\n\n画面设计：\n- 视觉风格：日系高品質動漫遊戲KV，主推角色插画，黑色五葉草風格，官方授權RPG海報風，細膩線條，頂級二次元立繪，電影感，遊戲宣傳主視覺。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「永不言棄 凡軀也可斬魔」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：符合画面风格：.。\n- 排版位置：主标题位于画面下部中央，副标题紧随主标题下方，保持明确的视觉层级。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字\n\n修改构图，制作一张繁体中文的游戏banner，左广告右主图的格式：\n1、去掉原图所有的广告和游戏logo。\n参考图说明：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片3作为黑色五叶草logo-白.png参考。\n2、为全图增加广告文案：\n\n- 主标题：\n  永不言棄 凡軀也可斬魔\n\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n\n- 副标题：\n  集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。\n  副标题为小字，在主标题下方\n\n- 三分法则（Rule of Thirds）：画面采用了经典的“左文右图”布局。\n  组内居中对齐：左侧的所有文字模块（主标题、副标题、按钮）在自身所在的隐形文本框内，均采用了居中对齐。\n\n- 位于文字区域最下方，按钮包裹文字：立即下載",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_f0987d3f5b06.jpg",
+                "name": "商店首页.jpg"
+              },
+              {
+                "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+                "name": "image.png"
+              },
+              {
+                "url": "/assets/input/ai_ref_9ac46b66bd96.png",
+                "name": "黑色五叶草logo-白.png"
+              },
+              {
+                "url": "/assets/input/workflow_import_20260910-180205_e2de3f/902d2135_faf1ae3a_d08f5808_751b1bd7_ai_ref_460126d55727.png",
+                "name": "image.png"
+              }
+            ],
+            "request": {
+              "task_id": "task_01M2KZYB1W9621R7Q41ZVH9JW2",
+              "request_id": "",
+              "provider_id": "apimart",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        }
+      ],
+      "_pending": [],
+      "w": 547,
+      "h": 640,
+      "imageComparisons": {
+        "/assets/output/online_f9ec1da437.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/f127d628_e1e2455b_7badeb7b_13ab202a_ai_ref_d7be2c40cf28.jpeg",
+          "name": "幻想三國：武姬集結-1200 X 628-2026-09-01-a5b9f4d0b9355c2c544150915527cae0.jpeg"
+        },
+        "/assets/output/online_7da228565d.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ddf2e85a_cdbc4e07_ed211cac_ea4bd413_ai_ref_2af4c3d4bf61.jpg",
+          "name": "商店精品游戏banner1600X900.jpg"
+        },
+        "/assets/output/online_f5fa96a417.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/06b1e41d_a9383d40_ae59a1a3_0b1e6b83_ai_ref_94ce3536c61c.jpg",
+          "name": "images.jpg"
+        },
+        "/assets/output/online_fbefab638a.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/06b1e41d_a9383d40_ae59a1a3_0b1e6b83_ai_ref_94ce3536c61c.jpg",
+          "name": "images.jpg"
+        },
+        "/assets/output/online_6222507963.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ae1dcabc_894b911f_b2bc32e1_ai_ref_f057fe90384e.jpg",
+          "name": "1.jpg"
+        },
+        "/assets/output/online_2c4e748ffe.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ae1dcabc_894b911f_b2bc32e1_ai_ref_f057fe90384e.jpg",
+          "name": "1.jpg"
+        },
+        "/assets/output/online_9a479c1a45.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ae1dcabc_894b911f_b2bc32e1_ai_ref_f057fe90384e.jpg",
+          "name": "1.jpg"
+        },
+        "/assets/output/online_094b500eb6.png": {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ce55a044_ba1e81cd_67a2b731_ai_ref_404614667f10.jpg",
+          "name": "images.jpg"
+        },
+        "/assets/output/online_eb3338b3c1.png": {
+          "url": "/assets/input/ai_ref_f0987d3f5b06.jpg",
+          "name": "商店首页.jpg"
+        }
+      }
+    },
+    {
+      "id": "image_8e3571ef30424_1789034526143",
+      "type": "image",
+      "x": 4985.954921403266,
+      "y": 2827.603015255626,
+      "url": "",
+      "name": "上传节点",
+      "mediaKind": "image",
+      "_naturalSizeLoading": false,
+      "natural_w": 300,
+      "natural_h": 420
+    },
+    {
+      "id": "image_27e6fdbe468f38_1789034526143",
+      "type": "image",
+      "x": 5031.734575585401,
+      "y": 3271.411206653041,
+      "url": "/assets/input/workflow_import_20260910-180205_e2de3f/902d2135_faf1ae3a_d08f5808_751b1bd7_ai_ref_460126d55727.png",
+      "name": "image.png",
+      "mediaKind": "image",
+      "_naturalSizeLoading": false,
+      "natural_w": 718,
+      "natural_h": 206
+    },
+    {
+      "id": "prompt_9219bfed4963a_1789034526143",
+      "type": "prompt",
+      "x": 7875.68881040704,
+      "y": 2939.3624234464824,
+      "text": "竖版广告，以广告为主，广告可适当放大",
+      "w": 362,
+      "h": 172
+    },
+    {
+      "id": "prompt_8b60063960d3d_1789034526143",
+      "type": "prompt",
+      "x": 7862.27969486626,
+      "y": 3779.290238974478,
+      "text": "去掉原图的广告，和文字,\n竖版广告，以广告为主，广告可适当放大,",
+      "w": 373,
+      "h": 186
+    },
+    {
+      "id": "masterGenerator_f0e134cf699058_1789034526143",
+      "type": "masterGenerator",
+      "x": 6895.308629023807,
+      "y": 2400.5032188353634,
+      "apiProvider": "apimart",
+      "model": "gpt-image-2",
+      "ratio": "wide",
+      "resolution": "1k",
+      "customRatio": "",
+      "customSize": "",
+      "customRatioWidth": "",
+      "customRatioHeight": "",
+      "customWidth": "",
+      "customHeight": "",
+      "inputs": [
+        "group_5eb62db1830b1_1789034526143:image_53e5276c6ab16_1789034526143",
+        "group_5eb62db1830b1_1789034526143:image_f31f66e7053da_1789034526143",
+        "prompt_18f84d33375318_1789034526143",
+        "group_5eb62db1830b1_1789034526143:image_598c0cb560cc98_1789034526143"
+      ],
+      "masterEnabled": true,
+      "w": 363,
+      "h": 611,
+      "_apiResolutionUserSet": true,
+      "quality": "medium",
+      "generatedOutputs": [
+        "/assets/input/workflow_import_20260910-180205_e2de3f/9f61f086_online_dc19afa860.png",
+        "/assets/output/online_48e8a9c763.png",
+        "/assets/output/online_8914036633.png",
+        "/assets/output/online_67a5b133c9.png",
+        "/assets/output/online_2d34f75e9a.png",
+        "/assets/output/online_3a570f7dc4.png"
+      ],
+      "transparentBackground": false
+    },
+    {
+      "id": "masterGenerator_480df06d2eb5e_1789034526143",
+      "type": "masterGenerator",
+      "x": 7871.893863727118,
+      "y": 2373.792595388462,
+      "apiProvider": "apimart",
+      "model": "gpt-image-2",
+      "ratio": "story",
+      "resolution": "1k",
+      "customRatio": "",
+      "customSize": "",
+      "customRatioWidth": "",
+      "customRatioHeight": "",
+      "customWidth": "",
+      "customHeight": "",
+      "inputs": [
+        "prompt_9219bfed4963a_1789034526143",
+        "prompt_18f84d33375318_1789034526143",
+        "group_5eb62db1830b1_1789034526143:image_53e5276c6ab16_1789034526143",
+        "group_5eb62db1830b1_1789034526143:image_f31f66e7053da_1789034526143",
+        "group_5eb62db1830b1_1789034526143:image_598c0cb560cc98_1789034526143"
+      ],
+      "masterEnabled": false,
+      "_apiResolutionUserSet": true,
+      "quality": "medium",
+      "generatedOutputs": [
+        "/assets/input/workflow_import_20260910-180205_e2de3f/8124b46d_589a8826_87400911_online_303c8a19b2.png",
+        "/assets/input/workflow_import_20260910-180205_e2de3f/4400e19b_ce349b8c_9fa68cad_online_4223acf839.png",
+        "/assets/input/workflow_import_20260910-180205_e2de3f/148cda34_e29982ac_c75aa9bb_online_6a554a9e6d.png",
+        "/assets/input/workflow_import_20260910-180205_e2de3f/1637e0e9_adde0480_20f26e19_online_d8ee53e2f2.png",
+        "/assets/input/workflow_import_20260910-180205_e2de3f/c4c87b77_523d0334_92eab97b_online_72d6f8d1a4.png",
+        "/assets/input/workflow_import_20260910-180205_e2de3f/79aebe6e_f07a8d39_e1c4a513_online_447abf1730.png",
+        "/assets/input/workflow_import_20260910-180205_e2de3f/8f881b37_78e39d06_7c2bc812_online_c1ef66d580.png",
+        "/assets/input/workflow_import_20260910-180205_e2de3f/8f67087e_cbce4794_d2430d6e_online_28a72afe1e.png",
+        "/assets/input/workflow_import_20260910-180205_e2de3f/0df9b117_f42b5137_c636b5a0_online_5f545be11c.png",
+        "/assets/input/workflow_import_20260910-180205_e2de3f/401c0069_9648896f_81dcb7c0_online_ee5b59d1fd.png",
+        "/assets/input/workflow_import_20260910-180205_e2de3f/7cbdd2b6_e2a3d8ec_510b9209_online_74ebce424c.png",
+        "/assets/input/workflow_import_20260910-180205_e2de3f/04cb1700_0c09c26e_online_f0973ccbaf.png",
+        "/assets/output/online_813b97e6cc.png",
+        "/assets/output/online_5b5668031b.png",
+        "/assets/output/online_df4912186e.png",
+        "/assets/output/online_5aefdee912.png",
+        "/assets/output/online_76ca171b30.png",
+        "/assets/output/online_14e1a0c56d.png"
+      ],
+      "masterControlled": true
+    },
+    {
+      "id": "masterGenerator_bf743f822a89d_1789034526143",
+      "type": "masterGenerator",
+      "x": 7860.921449206029,
+      "y": 3243.243201999923,
+      "apiProvider": "apimart",
+      "model": "gpt-image-2",
+      "ratio": "portrait43",
+      "resolution": "1k",
+      "customRatio": "",
+      "customSize": "",
+      "customRatioWidth": "",
+      "customRatioHeight": "",
+      "customWidth": "",
+      "customHeight": "",
+      "inputs": [
+        "prompt_8b60063960d3d_1789034526143",
+        "prompt_18f84d33375318_1789034526143",
+        "group_5eb62db1830b1_1789034526143:image_53e5276c6ab16_1789034526143",
+        "group_5eb62db1830b1_1789034526143:image_f31f66e7053da_1789034526143",
+        "group_5eb62db1830b1_1789034526143:image_598c0cb560cc98_1789034526143"
+      ],
+      "masterEnabled": false,
+      "_apiResolutionUserSet": true,
+      "generatedOutputs": [
+        "/assets/output/online_85657f87e7.png"
+      ],
+      "masterControlled": false,
+      "quality": "medium",
+      "detachMasterUpstream": false
+    },
+    {
+      "id": "masterGenerator_c0beeac1822538_1789034526143",
+      "type": "masterGenerator",
+      "x": 6154.304608463181,
+      "y": 3208.0883894182216,
+      "apiProvider": "apimart",
+      "model": "gpt-image-2",
+      "ratio": "wide",
+      "resolution": "1k",
+      "customRatio": "",
+      "customSize": "",
+      "customRatioWidth": "",
+      "customRatioHeight": "",
+      "customWidth": "",
+      "customHeight": "",
+      "inputs": [
+        "group_5eb62db1830b1_1789034526143:image_53e5276c6ab16_1789034526143",
+        "group_5eb62db1830b1_1789034526143:image_f31f66e7053da_1789034526143",
+        "group_5eb62db1830b1_1789034526143:image_598c0cb560cc98_1789034526143",
+        "group_e5037feeecb26_1789034526143:image_27e6fdbe468f38_1789034526143",
+        "prompt_c237e38bf0133_1789034526143"
+      ],
+      "masterEnabled": false,
+      "generatedOutputs": [
+        "/assets/input/workflow_import_20260910-180205_e2de3f/fe4930f7_c12bf9ea_1adce1c5_online_31050074f1.png",
+        "/assets/input/workflow_import_20260910-180205_e2de3f/8dbd8423_c1546438_bf8b3048_online_85bfafe31b.png",
+        "/assets/input/workflow_import_20260910-180205_e2de3f/b4319e9a_dd8c04cb_c79d8333_online_241f3f29a7.png",
+        "/assets/input/workflow_import_20260910-180205_e2de3f/2def9f6c_3c17dc78_82cc7e4e_online_2c1acfae22.png",
+        "/assets/input/workflow_import_20260910-180205_e2de3f/ce234040_b9f80a4e_af07aeb3_online_a37ce149d0.png",
+        "/assets/input/workflow_import_20260910-180205_e2de3f/ed0b0b16_75623d27_52635ca2_online_d5c158e003.png",
+        "/assets/input/workflow_import_20260910-180205_e2de3f/07d9b198_05920cdd_1a8d7012_online_8526d3a626.png",
+        "/assets/input/workflow_import_20260910-180205_e2de3f/75c46a95_06ca567e_86bc112f_online_37c84ffb32.png",
+        "/assets/input/workflow_import_20260910-180205_e2de3f/75c2d4a9_1e5a7183_446aeb6a_online_6222507963.png",
+        "/assets/input/workflow_import_20260910-180205_e2de3f/c4aa8c99_ffc8b4d9_4c5e7ee8_online_2c4e748ffe.png",
+        "/assets/input/workflow_import_20260910-180205_e2de3f/76209166_b5be1890_7c69dbb0_online_9a479c1a45.png",
+        "/assets/input/workflow_import_20260910-180205_e2de3f/74da67c6_5c4bf827_3fdc6b58_online_094b500eb6.png",
+        "/assets/input/workflow_import_20260910-180205_e2de3f/a0f8a219_c7a80cea_online_d3821bca53.png",
+        "/assets/output/online_6fd1ee87f9.png",
+        "/assets/output/online_5bc8df0ce6.png",
+        "/assets/output/online_eb3338b3c1.png"
+      ],
+      "_apiResolutionUserSet": true,
+      "masterControlled": false,
+      "w": 483,
+      "h": 477,
+      "detachMasterUpstream": false
+    },
+    {
+      "id": "prompt_c237e38bf0133_1789034526143",
+      "type": "prompt",
+      "x": 6150.202223194583,
+      "y": 3700.4871946144444,
+      "text": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n- 图片3作为黑色五叶草logo-白.png参考。\n\n画面设计：\n- 视觉风格：日系高品質動漫遊戲KV，主推角色插画，黑色五葉草風格，官方授權RPG海報風，細膩線條，頂級二次元立繪，電影感，遊戲宣傳主視覺。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「熱血魔法點燃戰場」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：通透水晶质感标题字，冷色内发光、细致高光边缘与轻微空间投影，清晰可读。\n- 排版位置：随机：- 在画面合适位置。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 成图不要添加游戏Logo、品牌标识、水印或角标。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字\n\n修改构图，制作一张繁体中文的游戏banner，左广告右主图的格式：\n1、去掉原图所有的广告和游戏logo。\n参考图说明：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片3作为黑色五叶草logo-白.png参考。\n2、为全图增加广告文案：\n\n- 位于文字区最上方是游戏logo\n\n- 主标题：\n  熱血魔法點燃戰場\n\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n\n- 副标题：\n  集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。\n  副标题为小字，在主标题下方\n\n- 三分法则（Rule of Thirds）：画面采用了经典的“左文右图”布局。\n  组内居中对齐：左侧的所有文字模块（主标题、副标题、按钮）在自身所在的隐形文本框内，均采用了居中对齐。\n\n- 位于文字区域最下方，按钮包裹文字：立即下載",
+      "w": 516,
+      "h": 284
+    },
+    {
+      "type": "gameKvPrompt",
+      "promptKind": "game-kv",
+      "kvVersion": 1,
+      "visualStyle": "anime-fantasy",
+      "composition": "hero-center",
+      "mainTitle": "熱血魔法點燃戰場",
+      "subtitleEnabled": true,
+      "subtitle": "集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。",
+      "titleEffect": "crystal-glow",
+      "copyPlacement": "custom-copyPlacement-mu0yq5li-vy710",
+      "useFontReference": true,
+      "noLogo": false,
+      "qualityEnabled": true,
+      "negativeEnabled": true,
+      "extraPrompt": "",
+      "negativePrompt": "模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "text": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n- 图片3作为黑色五叶草logo-白.png参考。\n\n画面设计：\n- 视觉风格：日系高品質動漫遊戲KV，主推角色插画，黑色五葉草風格，官方授權RPG海報風，細膩線條，頂級二次元立繪，電影感，遊戲宣傳主視覺。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「熱血魔法點燃戰場」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：通透水晶质感标题字，冷色内发光、细致高光边缘与轻微空间投影，清晰可读。\n- 排版位置：随机：- 在画面合适位置。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 成图不要添加游戏Logo、品牌标识、水印或角标。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "id": "gameKvPrompt_2138440b47d_1789034526143",
+      "x": 6145.958099022332,
+      "y": 2391.931814210601,
+      "references": [
+        {
+          "id": "reference-1",
+          "value": "reference-1",
+          "label": "主角色",
+          "prompt": "图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。",
+          "enabled": true
+        },
+        {
+          "id": "reference-2",
+          "value": "reference-2",
+          "label": "字体设计与排版风格",
+          "prompt": "图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。",
+          "enabled": true
+        }
+      ],
+      "copyEnabled": true,
+      "inheritedReferenceOverrides": {},
+      "referenceBindings": {
+        "kvref:v2::image_53e5276c6ab16_1789034526143::node": {
+          "label": "主角色",
+          "prompt": "图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。",
+          "enabled": true
+        },
+        "kvref:v2::image_f31f66e7053da_1789034526143::node": {
+          "label": "字体设计与排版风格",
+          "prompt": "图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。",
+          "enabled": true
+        },
+        "kvref:v2::image_598c0cb560cc98_1789034526143::node": {
+          "label": "黑色五叶草logo-白.png",
+          "prompt": "",
+          "enabled": true
+        }
+      },
+      "adLanguage": "zh-hant",
+      "showLogo": false
+    },
+    {
+      "id": "prompt_18f84d33375318_1789034526143",
+      "type": "prompt",
+      "x": 6565.007676321143,
+      "y": 2401.821655983472,
+      "text": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n- 图片3作为黑色五叶草logo-白.png参考。\n\n画面设计：\n- 视觉风格：日系高品質動漫遊戲KV，主推角色插画，黑色五葉草風格，官方授權RPG海報風，細膩線條，頂級二次元立繪，電影感，遊戲宣傳主視覺。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「熱血魔法點燃戰場」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：通透水晶质感标题字，冷色内发光、细致高光边缘与轻微空间投影，清晰可读。\n- 排版位置：随机：- 在画面合适位置。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 成图不要添加游戏Logo、品牌标识、水印或角标。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "w": 340,
+      "h": 758
+    },
+    {
+      "id": "label_021c534e3efe08_1789034526143",
+      "type": "label",
+      "x": 8265.88226848687,
+      "y": 3025.770207727927,
+      "w": 156,
+      "h": 91,
+      "text": "9：6竖版",
+      "fontSize": 29,
+      "baseFontSize": 20,
+      "labelScale": 1.45,
+      "_labelManualSize": true
+    },
+    {
+      "id": "label_4ad0378a3ef968_1789034526143",
+      "type": "label",
+      "x": 7297.745257458429,
+      "y": 3859.450897140489,
+      "w": 242,
+      "h": 62,
+      "text": "16：9大弹窗",
+      "fontSize": 30,
+      "baseFontSize": 20,
+      "labelScale": 1.5,
+      "_labelManualSize": true
+    },
+    {
+      "id": "label_139482fbeab548_1789034526143",
+      "type": "label",
+      "x": 8260.058262261193,
+      "y": 3846.3209275720424,
+      "w": 209,
+      "h": 101,
+      "text": "5：7小弹窗",
+      "fontSize": 35,
+      "baseFontSize": 20,
+      "labelScale": 1.75,
+      "_labelManualSize": true
+    },
+    {
+      "id": "label_0ba3d2280a065_1789034526143",
+      "type": "label",
+      "x": 7278.05190862587,
+      "y": 3132.434789864376,
+      "w": 237,
+      "h": 75,
+      "text": "16：9横板",
+      "fontSize": 32,
+      "baseFontSize": 20,
+      "labelScale": 1.6,
+      "_labelManualSize": true
+    },
+    {
+      "id": "label_b21a053e8f8d68_1789034526143",
+      "type": "label",
+      "x": 4936.051286893745,
+      "y": 4055.694934294352,
+      "w": 184,
+      "h": 108,
+      "text": "异形大弹窗",
+      "fontSize": 34,
+      "baseFontSize": 20,
+      "labelScale": 1.7,
+      "_labelManualSize": true
+    },
+    {
+      "id": "image_ba7d39ae64281_1789034526143",
+      "type": "image",
+      "x": 5021.275337417883,
+      "y": 3621.7276486239425,
+      "url": "",
+      "name": "上传节点",
+      "mediaKind": "image",
+      "_naturalSizeLoading": false,
+      "natural_w": 718,
+      "natural_h": 206
+    },
+    {
+      "id": "label_a81af86dc7374_1789034526143",
+      "type": "label",
+      "x": 4956.6002574995855,
+      "y": 2385.374842744342,
+      "w": 190,
+      "h": 85,
+      "text": "参考图",
+      "fontSize": 31,
+      "baseFontSize": 20,
+      "labelScale": 1.55,
+      "_labelManualSize": true
+    },
+    {
+      "id": "masterGenerator_e6712bcd262ef_1789034526143",
+      "type": "masterGenerator",
+      "x": 7096.010191794735,
+      "y": 4096.64300247108,
+      "apiProvider": "apimart",
+      "model": "gpt-image-2.5-flare",
+      "ratio": "wide",
+      "resolution": "2k",
+      "customRatio": "",
+      "customSize": "",
+      "customRatioWidth": "",
+      "customRatioHeight": "",
+      "customWidth": "",
+      "customHeight": "",
+      "inputs": [
+        "group_5eb62db1830b1_1789034526143:image_53e5276c6ab16_1789034526143",
+        "group_5eb62db1830b1_1789034526143:image_f31f66e7053da_1789034526143",
+        "group_5eb62db1830b1_1789034526143:image_598c0cb560cc98_1789034526143",
+        "group_0556d50aa7fec_1789034526143:image_d2e0ec08b84298_1789034526143",
+        "group_0556d50aa7fec_1789034526143:image_be4d2ca55d0e_1789523617652",
+        "group_0556d50aa7fec_1789034526143:prompts"
+      ],
+      "masterEnabled": false,
+      "_apiResolutionUserSet": true,
+      "generatedOutputs": [
+        "/assets/output/online_dae1c33574.png"
+      ],
+      "masterControlled": false,
+      "w": 417,
+      "h": 550,
+      "quality": "medium",
+      "transparentBackground": true,
+      "transparentCheckWarning": "",
+      "detachMasterUpstream": true
+    },
+    {
+      "id": "label_13325749f529e8_1789034526143",
+      "type": "label",
+      "x": 4999.726231629657,
+      "y": 3200.5499912852856,
+      "w": 220,
+      "h": 78,
+      "text": "下载按钮",
+      "fontSize": 32,
+      "baseFontSize": 20,
+      "labelScale": 1.6,
+      "_labelManualSize": true
+    },
+    {
+      "id": "gameKvPopupPrompt_564e61ecfa777_1789034526143",
+      "type": "gameKvPopupPrompt",
+      "x": 5703.114794684824,
+      "y": 3217.717729599281,
+      "w": 430,
+      "h": 760,
+      "title": "大弹窗 KV 提示词",
+      "popupPromptVersion": 5,
+      "adLanguageOptions": [
+        {
+          "value": "zh-hant",
+          "label": "繁体中文",
+          "prompt": "繁体中文",
+          "buttonText": "立即下載"
+        },
+        {
+          "value": "ko",
+          "label": "韩文",
+          "prompt": "韩文",
+          "buttonText": "지금 다운로드"
+        },
+        {
+          "value": "th",
+          "label": "泰文",
+          "prompt": "泰文",
+          "buttonText": "ดาวน์โหลดเลย"
+        },
+        {
+          "value": "ru",
+          "label": "俄文",
+          "prompt": "俄文",
+          "buttonText": "Скачать"
+        },
+        {
+          "value": "vi",
+          "label": "越南语",
+          "prompt": "越南语",
+          "buttonText": "Tải ngay"
+        },
+        {
+          "value": "id",
+          "label": "印尼语",
+          "prompt": "印尼语",
+          "buttonText": "Download"
+        },
+        {
+          "value": "en",
+          "label": "英文",
+          "prompt": "英文",
+          "buttonText": "Download"
+        }
+      ],
+      "adLanguage": "zh-hant",
+      "references": [
+        {
+          "id": "reference-2",
+          "value": "reference-2",
+          "imageNumber": 2,
+          "label": "字体设计参考",
+          "prompt": "字体参考图片2，参考字体设计与排版质感，不复制其中的人物、背景、Logo或其他内容",
+          "enabled": true
+        },
+        {
+          "id": "reference-3",
+          "value": "reference-3",
+          "imageNumber": 3,
+          "label": "下载按钮参考",
+          "prompt": "图片3作为下载按钮样式参考，仅参考按钮的形状、边框和视觉质感",
+          "enabled": true
+        }
+      ],
+      "copyEnabled": true,
+      "copyPlacement": "left",
+      "mainTitle": "強者之戰現在開始",
+      "subtitleEnabled": true,
+      "subtitle": "集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。",
+      "downloadButtonEnabled": true,
+      "downloadButtonCustom": true,
+      "downloadButtonReference": "",
+      "popupPromptManual": false,
+      "promptText": "修改构图，制作一张繁体中文的游戏banner，左广告右主图的格式：\n1、去掉原图所有的广告和游戏logo。\n参考图说明：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片3作为黑色五叶草logo-白.png参考。\n2、为全图增加广告文案：\n\n- 位于文字区最上方是游戏logo\n\n- 主标题：\n  熱血魔法點燃戰場\n\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n\n- 副标题：\n  集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。\n  副标题为小字，在主标题下方\n\n- 三分法则（Rule of Thirds）：画面采用了经典的“左文右图”布局。\n  组内居中对齐：左侧的所有文字模块（主标题、副标题、按钮）在自身所在的隐形文本框内，均采用了居中对齐。\n\n- 位于文字区域最下方，按钮包裹文字：立即下載",
+      "text": "修改构图，制作一张繁体中文的游戏banner，左广告右主图的格式：\n1、去掉原图所有的广告和游戏logo。\n参考图说明：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片3作为黑色五叶草logo-白.png参考。\n2、为全图增加广告文案：\n\n- 位于文字区最上方是游戏logo\n\n- 主标题：\n  熱血魔法點燃戰場\n\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n\n- 副标题：\n  集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。\n  副标题为小字，在主标题下方\n\n- 三分法则（Rule of Thirds）：画面采用了经典的“左文右图”布局。\n  组内居中对齐：左侧的所有文字模块（主标题、副标题、按钮）在自身所在的隐形文本框内，均采用了居中对齐。\n\n- 位于文字区域最下方，按钮包裹文字：立即下載",
+      "inheritedReferenceOverrides": {},
+      "inheritedAdLanguage": "zh-hant",
+      "inheritedAdLanguageLabel": "繁体中文",
+      "referenceBindings": {
+        "kvref:v2::image_27e6fdbe468f38_1789034526143::node": {
+          "label": "字体设计参考",
+          "prompt": "字体参考图片2，参考字体设计与排版质感，不复制其中的人物、背景、Logo或其他内容",
+          "enabled": true
+        },
+        "kvref:v2::image_53e5276c6ab16_1789034526143::node": {
+          "label": "下载按钮参考",
+          "prompt": "图片3作为下载按钮样式参考，仅参考按钮的形状、边框和视觉质感",
+          "enabled": true
+        },
+        "kvref:v2::image_f31f66e7053da_1789034526143::node": {
+          "label": "image.png",
+          "prompt": "",
+          "enabled": true
+        },
+        "kvref:v2::image_ef864f974df4c8_1789354174923::node": {
+          "label": "image.png",
+          "prompt": "",
+          "enabled": true
+        },
+        "kvref:v2::image_598c0cb560cc98_1789034526143::node": {
+          "label": "黑色五叶草logo-白.png",
+          "prompt": "",
+          "enabled": true
+        }
+      },
+      "blockUpstreamPrompt": false,
+      "copyOverride": false,
+      "logoReference": ""
+    },
+    {
+      "id": "irregularPopupKvPrompt_ac28eae4bf2f2_1789034526143",
+      "type": "irregularPopupKvPrompt",
+      "x": 6610.378994782795,
+      "y": 4087.8352123637364,
+      "w": 473,
+      "h": 879,
+      "title": "异形弹窗 KV 提示词",
+      "irregularPromptVersion": 1,
+      "adLanguageOptions": [
+        {
+          "value": "zh-hant",
+          "label": "繁体中文",
+          "prompt": "繁体中文",
+          "buttonText": "立即下載"
+        },
+        {
+          "value": "ko",
+          "label": "韩文",
+          "prompt": "韩文",
+          "buttonText": "지금 다운로드"
+        },
+        {
+          "value": "th",
+          "label": "泰文",
+          "prompt": "泰文",
+          "buttonText": "ดาวน์โหลดเลย"
+        },
+        {
+          "value": "ru",
+          "label": "俄文",
+          "prompt": "俄文",
+          "buttonText": "Скачать"
+        },
+        {
+          "value": "vi",
+          "label": "越南语",
+          "prompt": "越南语",
+          "buttonText": "Tải ngay"
+        },
+        {
+          "value": "id",
+          "label": "印尼语",
+          "prompt": "印尼语",
+          "buttonText": "Download"
+        },
+        {
+          "value": "en",
+          "label": "英文",
+          "prompt": "英文",
+          "buttonText": "Download"
+        }
+      ],
+      "adLanguage": "ko",
+      "references": [
+        {
+          "id": "irregular-reference-character",
+          "value": "irregular-reference-character",
+          "imageNumber": 1,
+          "label": "主体角色",
+          "prompt": "图片1作为主体角色参考，保持角色身份、脸部、发型、服装和核心特征一致",
+          "enabled": true
+        },
+        {
+          "id": "irregular-reference-button",
+          "value": "irregular-reference-button",
+          "imageNumber": 2,
+          "label": "下载按钮",
+          "prompt": "图片2作为下载按钮设计参考，仅参考按钮的形状、边框和视觉质感",
+          "enabled": true
+        },
+        {
+          "id": "irregular-reference-boundary",
+          "value": "irregular-reference-boundary",
+          "imageNumber": 3,
+          "label": "画面限制",
+          "prompt": "图片3作为画面限制参考，绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围",
+          "enabled": true
+        },
+        {
+          "id": "irregular-reference-layout",
+          "value": "irregular-reference-layout",
+          "imageNumber": 4,
+          "label": "构图参考",
+          "prompt": "图片4作为异形弹窗构图参考，参考主体容器、倾斜方向、空间层次和破框方式",
+          "enabled": true
+        }
+      ],
+      "goalPrompt": "异形弹窗主体具有醒目的广告利益点，整体达到高品质游戏宣传KV水准。",
+      "characterPrompt": "以主体角色参考图中的一个人物为主角，放大置于C位，重新排布其他人物的动作与位置，形成欢乐温馨、主体明确的镜头。",
+      "compositionPreset": "custom-irregularComposition-mty5r4nn-75pye",
+      "visualStylePreset": "anime",
+      "customCompositionPrompt": "",
+      "customStylePrompt": "",
+      "extraVisualPrompt": "",
+      "backgroundColor": "透明背景，输出png格式",
+      "copyEnabled": true,
+      "mainTitle": "強者之戰現在開始",
+      "subtitleEnabled": true,
+      "subtitle": "集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。",
+      "logoEnabled": true,
+      "logoReference": "kvref:v2::image_598c0cb560cc98_1789034526143::node",
+      "downloadButtonEnabled": true,
+      "downloadButtonReference": "kvref:v2::image_be4d2ca55d0e_1789523617652::node",
+      "cutoutEnabled": true,
+      "noCrop": true,
+      "restrictedArea": true,
+      "canvasBoundary": true,
+      "breakoutCharacter": true,
+      "breakoutWeapon": false,
+      "topBreakout": true,
+      "zDepth": true,
+      "breakoutProps": true,
+      "breakoutTitle": false,
+      "bottomBreakout": false,
+      "negativeEnabled": true,
+      "negativePrompt": "模糊，低清，噪点，颗粒感\n脏污，灰蒙，雾感，低对比\n过曝，过暗，色彩失真\n多余物体，杂乱背景\n畸形，变形，手部错误\n主体被裁切，内容超出最终画布边界，在禁止作画区域出现内容",
+      "irregularPromptManual": false,
+      "promptText": "异形弹窗广告补充提示词：\n\n一、生成目标\n制作一张繁体中文的高质量异形弹窗广告，要求符合拦截大弹窗的视觉形式。\n异形弹窗主体具有醒目的广告利益点，整体达到高品质游戏宣传KV水准。\n\n二、画面背景\n透明背景，输出PNG格式。\n保留真实透明通道，方便后期抠图与修改。\n所有主体必须完整呈现，不得裁切。\n\n三、参考图说明\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片4作为画面限制参考，绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围\n\n四、广告文案\n- 主标题：\n  熱血魔法點燃戰場\n\n- 副标题：\n  集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。\n  副标题为小字，在主标题下方。\n\n- 使用图片3中的游戏Logo，保持Logo清晰完整。\n\n- 在画面合适位置加入图片5的下载按钮，按钮内文字：立即下載。\n\n五、构图设计\n- 以主体角色参考图中的一个人物为主角，放大置于C位，重新排布其他人物的动作与位置，形成欢乐温馨、主体明确的镜头。\n- 极简风格构图，以主角在前的夸张广角动作为主，其他角色群像在主角后方的建议构图。\n- 角色身体、标志性道具可以突破异形弹窗主体容器的边框，形成明确的“破框”设计。\n- 顶部破框：角色头部、手臂或武器可突破主体容器上边框。\n- 构建清晰的Z轴景深，区分前景破框元素、中景角色主体和背景氛围。\n\n六、视觉风格\n- 高质量日系动漫游戏KV，细腻线条，顶级二次元立绘，强光影，电影感，醒目的广告利益点。\n\n七、边界约束\n- 绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围。\n- 角色、武器、标题和道具只允许突破异形弹窗主体容器边框，绝对不能突破最终画布边界。\n- **画面禁止超出最终画布与黑色绘画区域范围。**\n- **画面禁止超出最终画布与黑色绘画区域范围。**\n- 全部画面必须保持在视觉中心内，不得超出画幅，不得裁切。\n\n八、负向提示词\n模糊，低清，噪点，颗粒感\n脏污，灰蒙，雾感，低对比\n过曝，过暗，色彩失真\n多余物体，杂乱背景\n畸形，变形，手部错误\n主体被裁切，内容超出最终画布边界，在禁止作画区域出现内容",
+      "text": "异形弹窗广告补充提示词：\n\n一、生成目标\n制作一张繁体中文的高质量异形弹窗广告，要求符合拦截大弹窗的视觉形式。\n异形弹窗主体具有醒目的广告利益点，整体达到高品质游戏宣传KV水准。\n\n二、画面背景\n透明背景，输出PNG格式。\n保留真实透明通道，方便后期抠图与修改。\n所有主体必须完整呈现，不得裁切。\n\n三、参考图说明\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片4作为画面限制参考，绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围\n\n四、广告文案\n- 主标题：\n  熱血魔法點燃戰場\n\n- 副标题：\n  集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。\n  副标题为小字，在主标题下方。\n\n- 使用图片3中的游戏Logo，保持Logo清晰完整。\n\n- 在画面合适位置加入图片5的下载按钮，按钮内文字：立即下載。\n\n五、构图设计\n- 以主体角色参考图中的一个人物为主角，放大置于C位，重新排布其他人物的动作与位置，形成欢乐温馨、主体明确的镜头。\n- 极简风格构图，以主角在前的夸张广角动作为主，其他角色群像在主角后方的建议构图。\n- 角色身体、标志性道具可以突破异形弹窗主体容器的边框，形成明确的“破框”设计。\n- 顶部破框：角色头部、手臂或武器可突破主体容器上边框。\n- 构建清晰的Z轴景深，区分前景破框元素、中景角色主体和背景氛围。\n\n六、视觉风格\n- 高质量日系动漫游戏KV，细腻线条，顶级二次元立绘，强光影，电影感，醒目的广告利益点。\n\n七、边界约束\n- 绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围。\n- 角色、武器、标题和道具只允许突破异形弹窗主体容器边框，绝对不能突破最终画布边界。\n- **画面禁止超出最终画布与黑色绘画区域范围。**\n- **画面禁止超出最终画布与黑色绘画区域范围。**\n- 全部画面必须保持在视觉中心内，不得超出画幅，不得裁切。\n\n八、负向提示词\n模糊，低清，噪点，颗粒感\n脏污，灰蒙，雾感，低对比\n过曝，过暗，色彩失真\n多余物体，杂乱背景\n畸形，变形，手部错误\n主体被裁切，内容超出最终画布边界，在禁止作画区域出现内容",
+      "inheritedReferenceOverrides": {},
+      "inheritedAdLanguage": "zh-hant",
+      "inheritedAdLanguageLabel": "繁体中文",
+      "referenceBindings": {
+        "kvref:v2::image_53e5276c6ab16_1789034526143::node": {
+          "label": "主体角色",
+          "prompt": "图片1作为主体角色参考，保持角色身份、脸部、发型、服装和核心特征一致",
+          "enabled": true
+        },
+        "kvref:v2::image_f31f66e7053da_1789034526143::node": {
+          "label": "下载按钮",
+          "prompt": "图片2作为下载按钮设计参考，仅参考按钮的形状、边框和视觉质感",
+          "enabled": true
+        },
+        "kvref:v2::image_d2e0ec08b84298_1789034526143::node": {
+          "label": "画面限制",
+          "prompt": "图片3作为画面限制参考，绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围",
+          "enabled": true
+        },
+        "kvref:v2::image_ab5d95075ee0d8_1789034526143::node": {
+          "label": "构图参考",
+          "prompt": "图片4作为异形弹窗构图参考，参考主体容器、倾斜方向、空间层次和破框方式",
+          "enabled": true
+        },
+        "kvref:v2::image_c29e1500c7d7e_1789034526143::node": {
+          "label": "下载按钮(无投影).png",
+          "prompt": "",
+          "enabled": true
+        },
+        "kvref:v2::image_598c0cb560cc98_1789034526143::node": {
+          "label": "黑色五叶草logo-白.png",
+          "prompt": "",
+          "enabled": true
+        },
+        "kvref:v2::image_be4d2ca55d0e_1789523617652::node": {
+          "label": "下载按钮",
+          "prompt": "图片5作为下载按钮参考。",
+          "enabled": true
+        }
+      },
+      "blockUpstreamPrompt": true,
+      "copyOverride": false
+    },
+    {
+      "id": "image_6c5d350f4fe6c_1789034526143",
+      "type": "image",
+      "x": 5324.730597042204,
+      "y": 3272.408815898566,
+      "url": "",
+      "name": "上传节点",
+      "mediaKind": "image",
+      "_naturalSizeLoading": false,
+      "natural_w": 718,
+      "natural_h": 206
+    },
+    {
+      "id": "image_5294ceea286758_1789034526143",
+      "type": "image",
+      "x": 5323.126424152623,
+      "y": 3628.7619869078267,
+      "url": "",
+      "name": "上传节点",
+      "mediaKind": "image",
+      "_naturalSizeLoading": false,
+      "natural_w": 718,
+      "natural_h": 206
+    },
+    {
+      "id": "label_3defad1248c0e_1789034526143",
+      "type": "label",
+      "x": 6706.252458499457,
+      "y": 3403.179657919395,
+      "w": 537,
+      "h": 226,
+      "text": "广告出图\n工作流",
+      "fontSize": 83,
+      "baseFontSize": 20,
+      "labelScale": 4,
+      "_labelManualSize": true
+    },
+    {
+      "id": "label_76478d980a62b8_1789034526143",
+      "type": "label",
+      "x": 6909.4367178936745,
+      "y": 3011.863921260172,
+      "w": 330,
+      "h": 87,
+      "text": "点击一键出图",
+      "fontSize": 41,
+      "baseFontSize": 20,
+      "labelScale": 2.05,
+      "_labelManualSize": true
+    },
+    {
+      "id": "label_bf24a290897ae8_1789034526143",
+      "type": "label",
+      "x": 6146.7961137844095,
+      "y": 2373.5075566614187,
+      "w": 198,
+      "h": 60,
+      "text": "主要提示词",
+      "fontSize": 26,
+      "baseFontSize": 20,
+      "labelScale": 1.3,
+      "_labelManualSize": true
+    },
+    {
+      "id": "label_fccfe1c2f0c7d8_1789034526143",
+      "type": "label",
+      "x": 5711.232672089888,
+      "y": 3218.9571262562204,
+      "w": 142,
+      "h": 43,
+      "text": "大弹窗设置",
+      "fontSize": 20,
+      "baseFontSize": 20,
+      "labelScale": 1
+    },
+    {
+      "id": "label_f58700fbfad69_1789034526143",
+      "type": "label",
+      "x": 6617.904274775543,
+      "y": 4089.1869663028488,
+      "w": 162,
+      "h": 43,
+      "text": "异形弹窗设置",
+      "fontSize": 20,
+      "baseFontSize": 20,
+      "labelScale": 1
+    },
+    {
+      "id": "gen_11b2ca1e4dc108_1789354135016",
+      "type": "generator",
+      "x": 5715.1655207297945,
+      "y": 1561.2613017384133,
+      "apiProvider": "apimart",
+      "model": "gpt-image-2",
+      "ratio": "wide",
+      "resolution": "2k",
+      "customRatio": "",
+      "customSize": "",
+      "customRatioWidth": "",
+      "customRatioHeight": "",
+      "customWidth": "",
+      "customHeight": "",
+      "transparentBackground": false,
+      "inputs": [
+        "grp_b1a7b758c640e8_1789354184712:image_586e6c89b0a538_1789354162216",
+        "grp_b1a7b758c640e8_1789354184712:prompts"
+      ],
+      "_apiResolutionUserSet": true,
+      "w": 438,
+      "h": 639,
+      "generatedOutputs": [
+        "/assets/output/online_8b02e1f6b6.png"
+      ]
+    },
+    {
+      "id": "prompt_3d61a7b3c96cd8_1789354139628",
+      "type": "prompt",
+      "x": 5319.933328560702,
+      "y": 1608.6229837520875,
+      "text": "高清化图片\n\n在画面合适的位置添加slogan：\n永不言棄 凡軀也可斬魔\n\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "w": 335,
+      "h": 626
+    },
+    {
+      "id": "cg_42aadde29c86b8_1789354154294",
+      "type": "containerGroup",
+      "x": 4916.527420728004,
+      "y": 1514.8755884674954,
+      "w": 1602,
+      "h": 780,
+      "title": "容器分组",
+      "color": "#3b82f6",
+      "members": [
+        "gen_11b2ca1e4dc108_1789354135016",
+        "prompt_3d61a7b3c96cd8_1789354139628",
+        "image_586e6c89b0a538_1789354162216",
+        "grp_b1a7b758c640e8_1789354184712",
+        "out_72f033227b3848_1789354204501"
+      ]
+    },
+    {
+      "id": "image_586e6c89b0a538_1789354162216",
+      "type": "image",
+      "x": 4986.070447272542,
+      "y": 1614.0392898243852,
+      "url": "/assets/input/ai_ref_71eb7ae0ecd8.jpg",
+      "name": "商店首页.jpg",
+      "mediaKind": "image",
+      "_naturalSizeLoading": false,
+      "natural_w": 1791,
+      "natural_h": 1434,
+      "w": 252,
+      "h": 319
+    },
+    {
+      "id": "grp_b1a7b758c640e8_1789354184712",
+      "type": "group",
+      "x": 4956.943271658836,
+      "y": 1550.6229837520875,
+      "w": 732,
+      "h": 702,
+      "items": [
+        "image_586e6c89b0a538_1789354162216",
+        "prompt_3d61a7b3c96cd8_1789354139628"
+      ]
+    },
+    {
+      "id": "out_72f033227b3848_1789354204501",
+      "type": "output",
+      "x": 6170.802973786983,
+      "y": 1571.5010812478652,
+      "images": [
+        {
+          "url": "/assets/output/online_8b02e1f6b6.png",
+          "viewed": true,
+          "runMs": 238139,
+          "run": {
+            "nodeType": "generator",
+            "node": {
+              "id": "gen_11b2ca1e4dc108_1789354135016",
+              "type": "generator",
+              "x": 5715.1655207297945,
+              "y": 1561.2613017384133,
+              "apiProvider": "apimart",
+              "model": "gpt-image-2",
+              "ratio": "wide",
+              "resolution": "2k",
+              "customRatio": "",
+              "customSize": "",
+              "customRatioWidth": "",
+              "customRatioHeight": "",
+              "customWidth": "",
+              "customHeight": "",
+              "transparentBackground": false,
+              "_apiResolutionUserSet": true,
+              "w": 438,
+              "h": 639,
+              "generatedOutputs": [
+                "/assets/output/online_2c611b06ab.png"
+              ]
+            },
+            "prompt": "高清化图片\n\n在画面合适的位置添加slogan：\n永不言棄 凡軀也可斬魔\n\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_71eb7ae0ecd8.jpg",
+                "name": "商店首页.jpg"
+              }
+            ],
+            "request": {
+              "task_id": "task_01M2M3BTR62CRV16196M107XMT",
+              "request_id": "",
+              "provider_id": "apimart",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        }
+      ],
+      "w": 255,
+      "h": 709,
+      "_pending": [],
+      "imageComparisons": {
+        "/assets/output/online_8b02e1f6b6.png": {
+          "url": "/assets/input/ai_ref_71eb7ae0ecd8.jpg",
+          "name": "商店首页.jpg"
+        }
+      }
+    },
+    {
+      "id": "image_be4d2ca55d0e_1789523617652",
+      "type": "image",
+      "x": 5831.19835721347,
+      "y": 4189.842414222439,
+      "url": "/assets/input/workflow_import_20260910-180205_e2de3f/902d2135_faf1ae3a_d08f5808_751b1bd7_ai_ref_460126d55727.png",
+      "name": "image.png",
+      "mediaKind": "image",
+      "_naturalSizeLoading": false,
+      "natural_w": 718,
+      "natural_h": 206
+    },
+    {
+      "id": "containerGroup_0b78bf2ebb1a1_1790151407224",
+      "type": "containerGroup",
+      "x": 6612.42161000208,
+      "y": 1514.9209590382081,
+      "w": 1990.0089930228519,
+      "h": 744.5788167247993,
+      "title": "容器分组",
+      "color": "#3b82f6",
+      "members": [
+        "image_9c053aaa11fc5_1790151407224",
+        "video_0127b3e31f836_1790151407224",
+        "prompt_18499f028df52_1790151407225",
+        "image_08718575e78e7_1790151407225",
+        "output_70eec14d71b2e8_1790151407225",
+        "image_33a9d575cc263_1790151407225",
+        "label_79f237103549f8_1790151407225"
+      ]
+    },
+    {
+      "id": "image_9c053aaa11fc5_1790151407224",
+      "type": "image",
+      "x": 7223.309224046448,
+      "y": 1567.3896142148963,
+      "url": "/assets/input/workflow_import_20260923-161647_115981/50cba418_ai_ref_b95c87be5be0.png",
+      "name": "Snipaste_2025-10-26_21-10-29.png",
+      "mediaKind": "image",
+      "_naturalSizeLoading": false,
+      "natural_w": 1699,
+      "natural_h": 951
+    },
+    {
+      "id": "video_0127b3e31f836_1790151407224",
+      "type": "video",
+      "x": 7500.430603024932,
+      "y": 1573.4446883249927,
+      "apiProvider": "custom-api-2",
+      "model": "sd2-480p-ap-mini",
+      "duration": 10,
+      "aspectRatio": "16:9",
+      "resolution": "",
+      "enhancePrompt": false,
+      "enableUpsample": false,
+      "watermark": false,
+      "cameraFixed": false,
+      "generateAudio": true,
+      "useFrameRoles": false,
+      "multimodal": false,
+      "tempShLinks": [
+        {
+          "source": "/assets/input/workflow_import_20260923-161647_115981/50cba418_ai_ref_b95c87be5be0.png",
+          "url": "https://temp.sh/gnoke/ai_ref_b95c87be5be0.png",
+          "expires": "3 days",
+          "kind": "image"
+        }
+      ],
+      "inputs": [
+        "image_9c053aaa11fc5_1790151407224",
+        "prompt_18499f028df52_1790151407225",
+        "image_08718575e78e7_1790151407225"
+      ],
+      "tempShUploading": false,
+      "w": 541,
+      "h": 548,
+      "generatedOutputs": [
+        {
+          "url": "/assets/input/workflow_import_20260923-161647_115981/db406939_video_06f928bbe4.mp4",
+          "kind": "video"
+        }
+      ]
+    },
+    {
+      "id": "prompt_18499f028df52_1790151407225",
+      "type": "prompt",
+      "x": 7089.662240229643,
+      "y": 1915.4997757630074,
+      "text": "@图片1 中的卡通小男孩在沙威玛餐厅柜台后制作沙威玛卷饼，手机游戏广告风格。他一边熟练地切下烤肉、夹入蔬菜配料、卷成卷饼，一边抬头看向镜头用@音频1 粤语说话，嘴型与粤语对白自然同步。画面色彩鲜艳明亮，Q版卡通渲染，镜头固定，食物冒着热气，桌面摆满新鲜食材，节奏轻快有游戏感。",
+      "w": 391,
+      "h": 318
+    },
+    {
+      "id": "image_08718575e78e7_1790151407225",
+      "type": "image",
+      "x": 6945.10754241593,
+      "y": 1565.3506825982665,
+      "url": "/assets/input/workflow_import_20260923-161647_115981/e7f8a058_audio_ref_yue1.mp3",
+      "name": "粤语1.mp3",
+      "mediaKind": "audio"
+    },
+    {
+      "id": "output_70eec14d71b2e8_1790151407225",
+      "type": "output",
+      "x": 8120.430603024932,
+      "y": 1573.4446883249927,
+      "images": [
+        {
+          "url": "/assets/input/workflow_import_20260923-161647_115981/db406939_video_06f928bbe4.mp4",
+          "viewed": true,
+          "runMs": 0,
+          "run": null,
+          "kind": "video"
+        }
+      ]
+    },
+    {
+      "id": "image_33a9d575cc263_1790151407225",
+      "type": "image",
+      "x": 6634.42161000208,
+      "y": 1564.9209590382081,
+      "url": "/assets/input/workflow_import_20260923-161647_115981/b36541ba_ai_ref_0d937d7ffea8.mp3",
+      "name": "粤语2.mp3",
+      "mediaKind": "audio"
+    },
+    {
+      "id": "label_79f237103549f8_1790151407225",
+      "type": "label",
+      "x": 8138.482415384664,
+      "y": 1875.4391470457547,
+      "w": 422,
+      "h": 307,
+      "text": "视频节点\n测试",
+      "fontSize": 87,
+      "baseFontSize": 20,
+      "labelScale": 4,
+      "_labelManualSize": true
+    }
+  ],
+  "connections": [
+    {
+      "id": "c_18308c90b476e_1789034526143",
+      "from": "masterGenerator_f0e134cf699058_1789034526143",
+      "to": "output_37547e1d121128_1789034526143",
+      "kind": "dataFlow",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_a4aab0624614d8_1789034526143",
+      "from": "group_5eb62db1830b1_1789034526143",
+      "to": "masterGenerator_f0e134cf699058_1789034526143",
+      "kind": "dataFlow",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_c4646b5893e2d_1789034526143",
+      "from": "masterGenerator_480df06d2eb5e_1789034526143",
+      "to": "output_4240b6c56b399_1789034526143",
+      "kind": "dataFlow",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_eed89b2fe0e208_1789034526143",
+      "from": "group_5eb62db1830b1_1789034526143",
+      "to": "masterGenerator_480df06d2eb5e_1789034526143",
+      "kind": "dataFlow",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_9fba3705b88c3_1789034526143",
+      "from": "prompt_9219bfed4963a_1789034526143",
+      "to": "masterGenerator_480df06d2eb5e_1789034526143",
+      "kind": "dataFlow",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_3682cd82327428_1789034526143",
+      "from": "prompt_8b60063960d3d_1789034526143",
+      "to": "masterGenerator_bf743f822a89d_1789034526143",
+      "kind": "dataFlow",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_14d7370492429_1789034526143",
+      "from": "group_5eb62db1830b1_1789034526143",
+      "to": "masterGenerator_bf743f822a89d_1789034526143",
+      "kind": "dataFlow",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_1f293a41e24618_1789034526143",
+      "from": "masterGenerator_bf743f822a89d_1789034526143",
+      "to": "output_f863152329d02_1789034526143",
+      "kind": "dataFlow",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_8cab312cca3dd8_1789034526143",
+      "from": "masterGenerator_f0e134cf699058_1789034526143",
+      "to": "masterGenerator_c0beeac1822538_1789034526143",
+      "kind": "dataFlow",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_8e6ed8bc29834_1789034526143",
+      "from": "masterGenerator_c0beeac1822538_1789034526143",
+      "to": "output_7862c2242836b_1789034526143",
+      "kind": "dataFlow",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_981c42dea95078_1789034526143",
+      "from": "group_e5037feeecb26_1789034526143",
+      "to": "masterGenerator_c0beeac1822538_1789034526143",
+      "kind": "dataFlow",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_6ada163d47cbb8_1789034526143",
+      "from": "group_5eb62db1830b1_1789034526143",
+      "to": "masterGenerator_c0beeac1822538_1789034526143",
+      "kind": "dataFlow",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_4530fed27f6cb_1789034526143",
+      "from": "masterGenerator_f0e134cf699058_1789034526143",
+      "to": "masterGenerator_480df06d2eb5e_1789034526143",
+      "kind": "dataFlow",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_b8f2c72ef2123_1789034526143",
+      "from": "prompt_18f84d33375318_1789034526143",
+      "to": "masterGenerator_480df06d2eb5e_1789034526143",
+      "kind": "dataFlow",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_988211c4f6c7d_1789034526143",
+      "from": "prompt_18f84d33375318_1789034526143",
+      "to": "masterGenerator_bf743f822a89d_1789034526143",
+      "kind": "dataFlow",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_771a0ff39b4a8_1789034526143",
+      "from": "group_5eb62db1830b1_1789034526143",
+      "to": "masterGenerator_e6712bcd262ef_1789034526143",
+      "kind": "dataFlow",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_fe0cdc9fb55bb_1789034526143",
+      "from": "gameKvPrompt_2138440b47d_1789034526143",
+      "to": "gameKvPopupPrompt_564e61ecfa777_1789034526143",
+      "kind": "kvInheritance",
+      "fromPort": "kvOut",
+      "toPort": "kvIn"
+    },
+    {
+      "id": "c_91436faa7770d8_1789034526143",
+      "from": "gameKvPopupPrompt_564e61ecfa777_1789034526143",
+      "to": "prompt_c237e38bf0133_1789034526143",
+      "kind": "promptFlow",
+      "fromPort": "promptOut",
+      "toPort": "in"
+    },
+    {
+      "id": "c_231527f67aba_1789034526143",
+      "from": "prompt_c237e38bf0133_1789034526143",
+      "to": "masterGenerator_c0beeac1822538_1789034526143",
+      "kind": "dataFlow",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_7e8c4de543bbb8_1789034526143",
+      "from": "prompt_18f84d33375318_1789034526143",
+      "to": "masterGenerator_f0e134cf699058_1789034526143",
+      "kind": "dataFlow",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_663190d97ffc98_1789034526143",
+      "from": "irregularPopupKvPrompt_ac28eae4bf2f2_1789034526143",
+      "to": "prompt_5121cbe22ab928_1789034526143",
+      "kind": "promptFlow",
+      "fromPort": "promptOut",
+      "toPort": "in"
+    },
+    {
+      "id": "c_3a478f0ffe034_1789034526143",
+      "from": "group_0556d50aa7fec_1789034526143",
+      "to": "masterGenerator_e6712bcd262ef_1789034526143",
+      "kind": "dataFlow",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_f8d628d95e67d8_1789034526143",
+      "kind": "kvImageBinding",
+      "from": "gameKvPrompt_2138440b47d_1789034526143",
+      "to": "masterGenerator_f0e134cf699058_1789034526143",
+      "fromPort": "imageOut",
+      "toPort": "in"
+    },
+    {
+      "id": "c_468b3400f694a8_1789034526143",
+      "kind": "kvInheritance",
+      "from": "gameKvPrompt_2138440b47d_1789034526143",
+      "to": "irregularPopupKvPrompt_ac28eae4bf2f2_1789034526143",
+      "fromPort": "kvOut",
+      "toPort": "kvIn"
+    },
+    {
+      "id": "c_e3e815d6462128_1789034526143",
+      "kind": "kvImageBinding",
+      "from": "irregularPopupKvPrompt_ac28eae4bf2f2_1789034526143",
+      "to": "masterGenerator_e6712bcd262ef_1789034526143",
+      "fromPort": "imageOut",
+      "toPort": "in"
+    },
+    {
+      "id": "c_9ce1cf2eb818e8_1789034526143",
+      "kind": "kvImageBinding",
+      "from": "gameKvPopupPrompt_564e61ecfa777_1789034526143",
+      "to": "masterGenerator_c0beeac1822538_1789034526143",
+      "fromPort": "imageOut",
+      "toPort": "in"
+    },
+    {
+      "id": "c_f3d9cb8da0d6c8_1789035265975",
+      "kind": "dataFlow",
+      "from": "masterGenerator_e6712bcd262ef_1789034526143",
+      "to": "output_c314aafb5455_1789034526143",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_f0dd9d74c4d01_1789036050661",
+      "kind": "promptFlow",
+      "from": "gameKvPrompt_2138440b47d_1789034526143",
+      "to": "prompt_18f84d33375318_1789034526143",
+      "fromPort": "promptOut",
+      "toPort": "in"
+    },
+    {
+      "id": "c_3936982dbb2168_1789354184712",
+      "from": "grp_b1a7b758c640e8_1789354184712",
+      "to": "gen_11b2ca1e4dc108_1789354135016",
+      "kind": "dataFlow",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_409c1f8125c098_1789354204663",
+      "kind": "dataFlow",
+      "from": "gen_11b2ca1e4dc108_1789354135016",
+      "to": "out_72f033227b3848_1789354204501",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_5a35b1debbb3b_1789525126453",
+      "kind": "dataFlow",
+      "from": "masterGenerator_f0e134cf699058_1789034526143",
+      "to": "masterGenerator_bf743f822a89d_1789034526143",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_74b6edcfbecc8_1789525130914",
+      "kind": "dataFlow",
+      "from": "masterGenerator_f0e134cf699058_1789034526143",
+      "to": "masterGenerator_e6712bcd262ef_1789034526143",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_09468ccba58628_1790151407225",
+      "kind": "dataFlow",
+      "from": "image_9c053aaa11fc5_1790151407224",
+      "to": "video_0127b3e31f836_1790151407224",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_17be80ebde6798_1790151407225",
+      "kind": "dataFlow",
+      "from": "prompt_18499f028df52_1790151407225",
+      "to": "video_0127b3e31f836_1790151407224",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_6a4a2471f32a28_1790151407225",
+      "kind": "dataFlow",
+      "from": "image_08718575e78e7_1790151407225",
+      "to": "video_0127b3e31f836_1790151407224",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_c51ce5c120005_1790151407225",
+      "kind": "dataFlow",
+      "from": "video_0127b3e31f836_1790151407224",
+      "to": "output_70eec14d71b2e8_1790151407225",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_24124c7069d208_1789034526143",
+      "kind": "labelBinding",
+      "from": "label_021c534e3efe08_1789034526143",
+      "to": "output_4240b6c56b399_1789034526143",
+      "fromPort": "in",
+      "toPort": "out"
+    },
+    {
+      "id": "c_efcc731fd04778_1789034526143",
+      "kind": "labelBinding",
+      "from": "label_4ad0378a3ef968_1789034526143",
+      "to": "output_7862c2242836b_1789034526143",
+      "fromPort": "in",
+      "toPort": "out"
+    },
+    {
+      "id": "c_b4075fc0078b7_1789034526143",
+      "kind": "labelBinding",
+      "from": "label_139482fbeab548_1789034526143",
+      "to": "output_f863152329d02_1789034526143",
+      "fromPort": "in",
+      "toPort": "out"
+    },
+    {
+      "id": "c_3442490c312a4_1789034526143",
+      "kind": "labelBinding",
+      "from": "label_0ba3d2280a065_1789034526143",
+      "to": "output_37547e1d121128_1789034526143",
+      "fromPort": "in",
+      "toPort": "out"
+    },
+    {
+      "id": "c_20371b19c2185_1789034526143",
+      "kind": "labelBinding",
+      "from": "label_b21a053e8f8d68_1789034526143",
+      "to": "output_c314aafb5455_1789034526143",
+      "fromPort": "in",
+      "toPort": "out"
+    },
+    {
+      "id": "c_65ee9c362b10a_1789034526143",
+      "kind": "labelBinding",
+      "from": "label_a81af86dc7374_1789034526143",
+      "to": "group_5eb62db1830b1_1789034526143",
+      "fromPort": "in",
+      "toPort": "out"
+    },
+    {
+      "id": "c_b4dabb821f6d6_1789034526143",
+      "kind": "labelBinding",
+      "from": "label_13325749f529e8_1789034526143",
+      "to": "image_27e6fdbe468f38_1789034526143",
+      "fromPort": "in",
+      "toPort": "out"
+    },
+    {
+      "id": "c_39fbb331b0a898_1789034526143",
+      "kind": "labelBinding",
+      "from": "label_76478d980a62b8_1789034526143",
+      "to": "masterGenerator_f0e134cf699058_1789034526143",
+      "fromPort": "in",
+      "toPort": "out"
+    },
+    {
+      "id": "c_47f0b305bb58e_1789034526143",
+      "kind": "labelBinding",
+      "from": "label_bf24a290897ae8_1789034526143",
+      "to": "gameKvPrompt_2138440b47d_1789034526143",
+      "fromPort": "in",
+      "toPort": "out"
+    },
+    {
+      "id": "c_851d84ab4e727_1789034526143",
+      "kind": "labelBinding",
+      "from": "label_fccfe1c2f0c7d8_1789034526143",
+      "to": "gameKvPopupPrompt_564e61ecfa777_1789034526143",
+      "fromPort": "in",
+      "toPort": "out"
+    },
+    {
+      "id": "c_c012deb39edf6_1789034526143",
+      "kind": "labelBinding",
+      "from": "label_f58700fbfad69_1789034526143",
+      "to": "irregularPopupKvPrompt_ac28eae4bf2f2_1789034526143",
+      "fromPort": "in",
+      "toPort": "out"
+    },
+    {
+      "id": "c_93e11095f0f7e_1790151407225",
+      "kind": "labelBinding",
+      "from": "label_79f237103549f8_1790151407225",
+      "to": "output_70eec14d71b2e8_1790151407225",
+      "fromPort": "in",
+      "toPort": "out"
+    }
+  ],
+  "viewport": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "board_x": 413.0,
+  "board_y": 315.0,
+  "logs": [
+    {
+      "id": "log_38888a53e6ffb_1789528738564",
+      "createdAt": 1789528738564,
+      "status": "success",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2",
+      "request": {
+        "task_id": "task_01M2M3BTR62CRV16196M107XMT",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "高清化图片\n\n在画面合适的位置添加slogan：\n永不言棄 凡軀也可斬魔\n\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "outputs": [
+        "/assets/output/online_8b02e1f6b6.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_71eb7ae0ecd8.jpg",
+          "name": "商店首页.jpg"
+        }
+      ],
+      "runMs": 238139,
+      "error": ""
+    },
+    {
+      "id": "log_de295306f86cb8_1789528397172",
+      "createdAt": 1789528397172,
+      "status": "success",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2",
+      "request": {
+        "task_id": "task_01M2M36V98R8JV4F3ECB35WXXD",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "高清化图片\n修复人物的手部错误\n\n在画面合适的位置添加slogan：\n夥伴齊心衝破難關\n冒險旅程現在啟程\n\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "outputs": [
+        "/assets/output/online_2c611b06ab.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_6275f22d01cb.jpg",
+          "name": "商店精品游戏.jpg"
+        }
+      ],
+      "runMs": 59795,
+      "error": ""
+    },
+    {
+      "id": "log_98b129091f1458_1789528270153",
+      "createdAt": 1789528270153,
+      "status": "success",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {
+        "task_id": "task_01M2M3351CFRVEDQ345QWE7VF5",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "高清化图片\n修复人物的手部错误\n\n在画面合适的位置添加slogan：\n夥伴齊心衝破難關\n冒險旅程現在啟程\n\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "outputs": [
+        "/assets/output/online_fbf4fe104b.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_6275f22d01cb.jpg",
+          "name": "商店精品游戏.jpg"
+        }
+      ],
+      "runMs": 54052,
+      "error": ""
+    },
+    {
+      "id": "log_0915a1ed72906_1789528192640",
+      "createdAt": 1789528192640,
+      "status": "success",
+      "platform": "畅指",
+      "nodeType": "generator",
+      "model": "gpt-image-2",
+      "request": {
+        "task_id": "",
+        "request_id": "",
+        "provider_id": "custom-api",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "高清化图片\n修复人物的手部错误\n\n在画面合适的位置添加slogan：\n夥伴齊心衝破難關\n冒險旅程現在啟程\n\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "outputs": [
+        "/assets/output/online_3f07d76174.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_6275f22d01cb.jpg",
+          "name": "商店精品游戏.jpg"
+        }
+      ],
+      "runMs": 38265,
+      "error": ""
+    },
+    {
+      "id": "log_f831a13756ebf_1789526384164",
+      "createdAt": 1789526384164,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M2M18Z3H0HYJE64GVX9M1M7P",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "去掉原图的广告，和文字,\n竖版广告，以广告为主，广告可适当放大,\n\n请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n- 图片3作为黑色五叶草logo-白.png参考。\n\n画面设计：\n- 视觉风格：日系高品質動漫遊戲KV，主推角色插画，黑色五葉草風格，官方授權RPG海報風，細膩線條，頂級二次元立繪，電影感，遊戲宣傳主視覺。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「熱血魔法點燃戰場」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：高冲击力战斗标题字，红金火焰能量、粗壮描边和清晰立体层次，保持文字准确可读。\n- 排版位置：随机：- 在画面合适位置。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "outputs": [
+        "/assets/output/online_85657f87e7.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_2762e22025a4.webp",
+          "name": "01.webp"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_9ac46b66bd96.png",
+          "name": "黑色五叶草logo-白.png"
+        }
+      ],
+      "runMs": 75070,
+      "error": ""
+    },
+    {
+      "id": "log_aea3aeee22ae6_1789526176738",
+      "createdAt": 1789526176738,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M2M121HYPW65AMXXVNGTMW1W",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "去掉原图的广告，和文字,\n竖版广告，以广告为主，广告可适当放大,\n\n请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n- 图片3作为黑色五叶草logo-白.png参考。\n\n画面设计：\n- 视觉风格：日系高品質動漫遊戲KV，主推角色插画，黑色五葉草風格，官方授權RPG海報風，細膩線條，頂級二次元立繪，電影感，遊戲宣傳主視覺。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「夥伴齊心衝破難關」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：简洁有力的白色商业标题字，细描边与克制投影，高对比、清晰可读，不使用复杂纹理。\n- 排版位置：随机：- 在画面合适位置。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "outputs": [
+        "/assets/output/online_ee10aec54f.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_15780c08a0cb.jpeg",
+          "name": "五葉魔導書：魔法騎士-800 X 800-2026-09-16-fcbf191a102b61ff08e0641c82b7713c.jpeg"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_9ac46b66bd96.png",
+          "name": "黑色五叶草logo-白.png"
+        }
+      ],
+      "runMs": 94341,
+      "error": ""
+    },
+    {
+      "id": "log_dcb3621cb5f24_1789525864151",
+      "createdAt": 1789525864151,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M2M0PDEZWAF9SPGJN9Q0MD10",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "竖版广告，以广告为主，广告可适当放大\n\n请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n- 图片3作为黑色五叶草logo-白.png参考。\n\n画面设计：\n- 视觉风格：日系高品質動漫遊戲KV，主推角色插画，黑色五葉草風格，官方授權RPG海報風，細膩線條，頂級二次元立繪，電影感，遊戲宣傳主視覺。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「夥伴齊心衝破難關」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：通透水晶质感标题字，冷色内发光、细致高光边缘与轻微空间投影，清晰可读。\n- 排版位置：随机：- 在画面合适位置。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "outputs": [
+        "/assets/output/online_14e1a0c56d.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_b0bb6b5055dc.jpeg",
+          "name": "五葉魔導書：魔法騎士-1672 X 941-2026-09-16-ee3b366b6e609b4e21599533c2f31fdc.jpeg"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_9ac46b66bd96.png",
+          "name": "黑色五叶草logo-白.png"
+        }
+      ],
+      "runMs": 163135,
+      "error": ""
+    },
+    {
+      "id": "log_48cc25f42530b8_1789525777826",
+      "createdAt": 1789525777826,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M2M0PDF9BZZQQMMCS0C79M88",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n- 图片3作为黑色五叶草logo-白.png参考。\n\n画面设计：\n- 视觉风格：日系高品質動漫遊戲KV，主推角色插画，黑色五葉草風格，官方授權RPG海報風，細膩線條，頂級二次元立繪，電影感，遊戲宣傳主視覺。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「夥伴齊心衝破難關」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：通透水晶质感标题字，冷色内发光、细致高光边缘与轻微空间投影，清晰可读。\n- 排版位置：随机：- 在画面合适位置。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "outputs": [
+        "/assets/output/online_3a570f7dc4.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_b0bb6b5055dc.jpeg",
+          "name": "五葉魔導書：魔法騎士-1672 X 941-2026-09-16-ee3b366b6e609b4e21599533c2f31fdc.jpeg"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_9ac46b66bd96.png",
+          "name": "黑色五叶草logo-白.png"
+        }
+      ],
+      "runMs": 77183,
+      "error": ""
+    },
+    {
+      "id": "log_34045bc2c0073_1789525469167",
+      "createdAt": 1789525469167,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M2M0D74CKE2TKKKTZGZTBJFP",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "去掉原图的广告，和文字,\n竖版广告，以广告为主，广告可适当放大,\n\n请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n- 图片3作为黑色五叶草logo-白.png参考。\n\n画面设计：\n- 视觉风格：日系高品質動漫遊戲KV，主推角色插画，黑色五葉草風格，官方授權RPG海報風，細膩線條，頂級二次元立繪，電影感，遊戲宣傳主視覺。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「召集夥伴守護王國」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：符合画面风格：.。\n- 排版位置：主标题位于画面下部中央，副标题紧随主标题下方，保持明确的视觉层级。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "outputs": [
+        "/assets/output/online_bd4b479ef4.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_50a2ebbf27a3.jpg",
+          "name": "小弹窗.jpg"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_9ac46b66bd96.png",
+          "name": "黑色五叶草logo-白.png"
+        }
+      ],
+      "runMs": 69123,
+      "error": ""
+    },
+    {
+      "id": "log_df7a68d2d90b_1789525007109",
+      "createdAt": 1789525007109,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M2KZYB1W9621R7Q41ZVH9JW2",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n- 图片3作为黑色五叶草logo-白.png参考。\n\n画面设计：\n- 视觉风格：日系高品質動漫遊戲KV，主推角色插画，黑色五葉草風格，官方授權RPG海報風，細膩線條，頂級二次元立繪，電影感，遊戲宣傳主視覺。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「永不言棄 凡軀也可斬魔」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：符合画面风格：.。\n- 排版位置：主标题位于画面下部中央，副标题紧随主标题下方，保持明确的视觉层级。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字\n\n修改构图，制作一张繁体中文的游戏banner，左广告右主图的格式：\n1、去掉原图所有的广告和游戏logo。\n参考图说明：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片3作为黑色五叶草logo-白.png参考。\n2、为全图增加广告文案：\n\n- 主标题：\n  永不言棄 凡軀也可斬魔\n\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n\n- 副标题：\n  集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。\n  副标题为小字，在主标题下方\n\n- 三分法则（Rule of Thirds）：画面采用了经典的“左文右图”布局。\n  组内居中对齐：左侧的所有文字模块（主标题、副标题、按钮）在自身所在的隐形文本框内，均采用了居中对齐。\n\n- 位于文字区域最下方，按钮包裹文字：立即下載",
+      "outputs": [
+        "/assets/output/online_eb3338b3c1.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_f0987d3f5b06.jpg",
+          "name": "商店首页.jpg"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_9ac46b66bd96.png",
+          "name": "黑色五叶草logo-白.png"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/902d2135_faf1ae3a_d08f5808_751b1bd7_ai_ref_460126d55727.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 95586,
+      "error": ""
+    },
+    {
+      "id": "log_723255567b4088_1789524986791",
+      "createdAt": 1789524986791,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M2KZYAZ3MD248ZA6WWZ4RM31",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "竖版广告，以广告为主，广告可适当放大\n\n请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n- 图片3作为黑色五叶草logo-白.png参考。\n\n画面设计：\n- 视觉风格：日系高品質動漫遊戲KV，主推角色插画，黑色五葉草風格，官方授權RPG海報風，細膩線條，頂級二次元立繪，電影感，遊戲宣傳主視覺。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「永不言棄 凡軀也可斬魔」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：符合画面风格：.。\n- 排版位置：主标题位于画面下部中央，副标题紧随主标题下方，保持明确的视觉层级。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "outputs": [
+        "/assets/output/online_76ca171b30.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_f0987d3f5b06.jpg",
+          "name": "商店首页.jpg"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_9ac46b66bd96.png",
+          "name": "黑色五叶草logo-白.png"
+        }
+      ],
+      "runMs": 74829,
+      "error": ""
+    },
+    {
+      "id": "log_62bb82a003c7b8_1789524970415",
+      "createdAt": 1789524970415,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M2KZYATWSCDVDT0QGF39XFWJ",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n- 图片3作为黑色五叶草logo-白.png参考。\n\n画面设计：\n- 视觉风格：日系高品質動漫遊戲KV，主推角色插画，黑色五葉草風格，官方授權RPG海報風，細膩線條，頂級二次元立繪，電影感，遊戲宣傳主視覺。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「永不言棄 凡軀也可斬魔」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：符合画面风格：.。\n- 排版位置：主标题位于画面下部中央，副标题紧随主标题下方，保持明确的视觉层级。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "outputs": [
+        "/assets/output/online_2d34f75e9a.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_f0987d3f5b06.jpg",
+          "name": "商店首页.jpg"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_9ac46b66bd96.png",
+          "name": "黑色五叶草logo-白.png"
+        }
+      ],
+      "runMs": 59310,
+      "error": ""
+    },
+    {
+      "id": "log_e17967c888f0b_1789524732747",
+      "createdAt": 1789524732747,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M2KZPXR5TWG1XX3KD2MB6V8H",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "竖版广告，以广告为主，广告可适当放大\n\n请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n- 图片3作为黑色五叶草logo-白.png参考。\n\n画面设计：\n- 视觉风格：日系高品質動漫遊戲KV，主推角色插画，黑色五葉草風格，官方授權RPG海報風，細膩線條，頂級二次元立繪，電影感，遊戲宣傳主視覺。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「永不言棄 凡軀也可斬魔」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：醒目的奇幻游戏标题字，亮金色金属质感，立体描边、柔和投影与轻微发光，角落有闪耀反光，清晰可读。\n- 排版位置：主标题位于画面下部中央，副标题紧随主标题下方，保持明确的视觉层级。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "outputs": [
+        "/assets/output/online_5aefdee912.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_f0987d3f5b06.jpg",
+          "name": "商店首页.jpg"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_9ac46b66bd96.png",
+          "name": "黑色五叶草logo-白.png"
+        }
+      ],
+      "runMs": 63722,
+      "error": ""
+    },
+    {
+      "id": "log_b1578a7014d2a8_1789524731009",
+      "createdAt": 1789524731009,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M2KZPXX6WGHN81S9Q4HTZ7P3",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n- 图片3作为黑色五叶草logo-白.png参考。\n\n画面设计：\n- 视觉风格：日系高品質動漫遊戲KV，主推角色插画，黑色五葉草風格，官方授權RPG海報風，細膩線條，頂級二次元立繪，電影感，遊戲宣傳主視覺。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「永不言棄 凡軀也可斬魔」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：醒目的奇幻游戏标题字，亮金色金属质感，立体描边、柔和投影与轻微发光，角落有闪耀反光，清晰可读。\n- 排版位置：主标题位于画面下部中央，副标题紧随主标题下方，保持明确的视觉层级。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字\n\n修改构图，制作一张繁体中文的游戏banner，左广告右主图的格式：\n1、去掉原图所有的广告和游戏logo。\n参考图说明：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片3作为黑色五叶草logo-白.png参考。\n2、为全图增加广告文案：\n\n- 主标题：\n  永不言棄 凡軀也可斬魔\n\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n\n- 副标题：\n  集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。\n  副标题为小字，在主标题下方\n\n- 三分法则（Rule of Thirds）：画面采用了经典的“左文右图”布局。\n  组内居中对齐：左侧的所有文字模块（主标题、副标题、按钮）在自身所在的隐形文本框内，均采用了居中对齐。\n\n- 位于文字区域最下方，按钮包裹文字：立即下載",
+      "outputs": [
+        "/assets/output/online_5bc8df0ce6.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_f0987d3f5b06.jpg",
+          "name": "商店首页.jpg"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_9ac46b66bd96.png",
+          "name": "黑色五叶草logo-白.png"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/902d2135_faf1ae3a_d08f5808_751b1bd7_ai_ref_460126d55727.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 62424,
+      "error": ""
+    },
+    {
+      "id": "log_859bd1da84ae88_1789524729198",
+      "createdAt": 1789524729198,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M2KZPXMRP42T9803NYZYZTNB",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n- 图片3作为黑色五叶草logo-白.png参考。\n\n画面设计：\n- 视觉风格：日系高品質動漫遊戲KV，主推角色插画，黑色五葉草風格，官方授權RPG海報風，細膩線條，頂級二次元立繪，電影感，遊戲宣傳主視覺。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「永不言棄 凡軀也可斬魔」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：醒目的奇幻游戏标题字，亮金色金属质感，立体描边、柔和投影与轻微发光，角落有闪耀反光，清晰可读。\n- 排版位置：主标题位于画面下部中央，副标题紧随主标题下方，保持明确的视觉层级。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "outputs": [
+        "/assets/output/online_67a5b133c9.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_f0987d3f5b06.jpg",
+          "name": "商店首页.jpg"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_9ac46b66bd96.png",
+          "name": "黑色五叶草logo-白.png"
+        }
+      ],
+      "runMs": 61041,
+      "error": ""
+    },
+    {
+      "id": "log_b36c6aa6dc3878_1789524254580",
+      "createdAt": 1789524254580,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M2KZ8SCYY7KWY1KGBSEKGJX2",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "异形弹窗广告补充提示词：\n\n一、生成目标\n制作一张繁体中文的高质量异形弹窗广告，要求符合拦截大弹窗的视觉形式。\n异形弹窗主体具有醒目的广告利益点，整体达到高品质游戏宣传KV水准。\n\n二、画面背景\n透明背景，输出PNG格式。\n保留真实透明通道，方便后期抠图与修改。\n所有主体必须完整呈现，不得裁切。\n\n三、参考图说明\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片4作为画面限制参考，绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围\n\n四、广告文案\n- 主标题：\n  進軍王國挑戰巔峰\n\n- 副标题：\n  集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。\n  副标题为小字，在主标题下方。\n\n- 使用图片3中的游戏Logo，保持Logo清晰完整。\n\n- 在画面合适位置加入图片5的下载按钮，按钮内文字：立即下載。\n\n五、构图设计\n- 以主体角色参考图中的一个人物为主角，放大置于C位，重新排布其他人物的动作与位置，形成欢乐温馨、主体明确的镜头。\n- 以主角在前的夸张广角动作为主，其他角色群像在主角后方的建议构图。\n- 角色身体、标志性道具可以突破异形弹窗主体容器的边框，形成明确的“破框”设计。\n- 顶部破框：角色头部、手臂或武器可突破主体容器上边框。\n- 构建清晰的Z轴景深，区分前景破框元素、中景角色主体和背景氛围。\n\n六、视觉风格\n- 高质量日系动漫游戏KV，细腻线条，顶级二次元立绘，强光影，电影感，醒目的广告利益点。\n\n七、边界约束\n- 绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围。\n- 角色、武器、标题和道具只允许突破异形弹窗主体容器边框，绝对不能突破最终画布边界。\n- **画面禁止超出最终画布与黑色绘画区域范围。**\n- **画面禁止超出最终画布与黑色绘画区域范围。**\n- 全部画面必须保持在视觉中心内，不得超出画幅，不得裁切。\n\n八、负向提示词\n模糊，低清，噪点，颗粒感\n脏污，灰蒙，雾感，低对比\n过曝，过暗，色彩失真\n多余物体，杂乱背景\n畸形，变形，手部错误\n主体被裁切，内容超出最终画布边界，在禁止作画区域出现内容",
+      "outputs": [
+        "/assets/output/online_dae1c33574.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_d6f016e69184.jpg",
+          "name": "大弹窗.jpg"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_9ac46b66bd96.png",
+          "name": "黑色五叶草logo-白.png"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/5185b75c_7ab16a7a_619d6d72_ai_ref_0c45a638baa8.png",
+          "name": "异形弹窗，原分辨率.png"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/902d2135_faf1ae3a_d08f5808_751b1bd7_ai_ref_460126d55727.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 48339,
+      "error": ""
+    },
+    {
+      "id": "log_466ea4ff930ff8_1789523755098",
+      "createdAt": 1789523755098,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M2KYR5DB0VGBMD2X03RZP1Y2",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "竖版广告，以广告为主，广告可适当放大\n\n请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n- 图片3作为黑色五叶草logo-白.png参考。\n\n画面设计：\n- 视觉风格：日系高品質動漫遊戲KV，主推角色插画，黑色五葉草風格，官方授權RPG海報風，細膩線條，頂級二次元立繪，電影感，遊戲宣傳主視覺。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「強者之戰現在開始」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：醒目的奇幻游戏标题字，亮金色金属质感，立体描边、柔和投影与轻微发光，角落有闪耀反光，清晰可读。\n- 排版位置：主标题位于画面下部中央，副标题紧随主标题下方，保持明确的视觉层级。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 成图不要添加游戏Logo、品牌标识、水印或角标。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "outputs": [
+        "/assets/output/online_df4912186e.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_b24be406877f.jpg",
+          "name": "启动页横.jpg"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_9ac46b66bd96.png",
+          "name": "黑色五叶草logo-白.png"
+        }
+      ],
+      "runMs": 94510,
+      "error": ""
+    },
+    {
+      "id": "log_2caccc353db09_1789523720446",
+      "createdAt": 1789523720446,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M2KYR58KDKBP8Q9V8BSA1QG2",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "去掉原图的广告，和文字,\n竖版广告，以广告为主，广告可适当放大,\n\n请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n- 图片3作为黑色五叶草logo-白.png参考。\n\n画面设计：\n- 视觉风格：日系高品質動漫遊戲KV，主推角色插画，黑色五葉草風格，官方授權RPG海報風，細膩線條，頂級二次元立繪，電影感，遊戲宣傳主視覺。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「強者之戰現在開始」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：醒目的奇幻游戏标题字，亮金色金属质感，立体描边、柔和投影与轻微发光，角落有闪耀反光，清晰可读。\n- 排版位置：主标题位于画面下部中央，副标题紧随主标题下方，保持明确的视觉层级。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 成图不要添加游戏Logo、品牌标识、水印或角标。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "outputs": [
+        "/assets/output/online_d9195ef79f.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_b24be406877f.jpg",
+          "name": "启动页横.jpg"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_9ac46b66bd96.png",
+          "name": "黑色五叶草logo-白.png"
+        }
+      ],
+      "runMs": 60663,
+      "error": ""
+    },
+    {
+      "id": "log_95e7b25d72bd08_1789523720427",
+      "createdAt": 1789523720427,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M2KYR5BJKX2XV9HAFXNJDXSM",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n- 图片3作为黑色五叶草logo-白.png参考。\n\n画面设计：\n- 视觉风格：日系高品質動漫遊戲KV，主推角色插画，黑色五葉草風格，官方授權RPG海報風，細膩線條，頂級二次元立繪，電影感，遊戲宣傳主視覺。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「強者之戰現在開始」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：醒目的奇幻游戏标题字，亮金色金属质感，立体描边、柔和投影与轻微发光，角落有闪耀反光，清晰可读。\n- 排版位置：主标题位于画面下部中央，副标题紧随主标题下方，保持明确的视觉层级。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 成图不要添加游戏Logo、品牌标识、水印或角标。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字\n\n修改构图，制作一张繁体中文的游戏banner，左广告右主图的格式：\n1、去掉原图所有的广告和游戏logo。\n参考图说明：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片3作为黑色五叶草logo-白.png参考。\n2、为全图增加广告文案：\n\n- 主标题：\n  強者之戰現在開始\n\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n\n- 副标题：\n  集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。\n  副标题为小字，在主标题下方\n\n- 三分法则（Rule of Thirds）：画面采用了经典的“左文右图”布局。\n  组内居中对齐：左侧的所有文字模块（主标题、副标题、按钮）在自身所在的隐形文本框内，均采用了居中对齐。\n\n- 位于文字区域最下方，按钮包裹文字：立即下載",
+      "outputs": [
+        "/assets/output/online_6fd1ee87f9.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_b24be406877f.jpg",
+          "name": "启动页横.jpg"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_9ac46b66bd96.png",
+          "name": "黑色五叶草logo-白.png"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/902d2135_faf1ae3a_d08f5808_751b1bd7_ai_ref_460126d55727.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 60261,
+      "error": ""
+    },
+    {
+      "id": "log_f8bb0f20ff1898_1789523715011",
+      "createdAt": 1789523715011,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M2KYR5ECYJQN6BHDP1ACT13F",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n- 图片3作为黑色五叶草logo-白.png参考。\n\n画面设计：\n- 视觉风格：日系高品質動漫遊戲KV，主推角色插画，黑色五葉草風格，官方授權RPG海報風，細膩線條，頂級二次元立繪，電影感，遊戲宣傳主視覺。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「強者之戰現在開始」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：醒目的奇幻游戏标题字，亮金色金属质感，立体描边、柔和投影与轻微发光，角落有闪耀反光，清晰可读。\n- 排版位置：主标题位于画面下部中央，副标题紧随主标题下方，保持明确的视觉层级。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 成图不要添加游戏Logo、品牌标识、水印或角标。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "outputs": [
+        "/assets/output/online_8914036633.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_b24be406877f.jpg",
+          "name": "启动页横.jpg"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_9ac46b66bd96.png",
+          "name": "黑色五叶草logo-白.png"
+        }
+      ],
+      "runMs": 55664,
+      "error": ""
+    },
+    {
+      "id": "log_0b254a54472928_1789523695022",
+      "createdAt": 1789523695022,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M2KYR5BZZD5J7F21F8DHTJCW",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "异形弹窗广告补充提示词：\n\n一、生成目标\n制作一张繁体中文的高质量异形弹窗广告，要求符合拦截大弹窗的视觉形式。\n异形弹窗主体具有醒目的广告利益点，整体达到高品质游戏宣传KV水准。\n\n二、画面背景\n透明背景，输出PNG格式。\n保留真实透明通道，方便后期抠图与修改。\n所有主体必须完整呈现，不得裁切。\n\n三、参考图说明\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片4作为画面限制参考，绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围\n\n四、广告文案\n- 主标题：\n  強者之戰現在開始\n\n- 副标题：\n  集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。\n  副标题为小字，在主标题下方。\n\n- 使用图片3中的游戏Logo，保持Logo清晰完整。\n\n- 在画面合适位置加入图片5的下载按钮，按钮内文字：立即下載。\n\n五、构图设计\n- 以主体角色参考图中的一个人物为主角，放大置于C位，重新排布其他人物的动作与位置，形成欢乐温馨、主体明确的镜头。\n- 以主角在前的夸张广角动作为主，其他角色群像在主角后方的建议构图。\n- 角色身体、标志性道具可以突破异形弹窗主体容器的边框，形成明确的“破框”设计。\n- 顶部破框：角色头部、手臂或武器可突破主体容器上边框。\n- 构建清晰的Z轴景深，区分前景破框元素、中景角色主体和背景氛围。\n\n六、视觉风格\n- 高质量日系动漫游戏KV，细腻线条，顶级二次元立绘，强光影，电影感，醒目的广告利益点。\n\n七、边界约束\n- 绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围。\n- 角色、武器、标题和道具只允许突破异形弹窗主体容器边框，绝对不能突破最终画布边界。\n- **画面禁止超出最终画布与黑色绘画区域范围。**\n- **画面禁止超出最终画布与黑色绘画区域范围。**\n- 全部画面必须保持在视觉中心内，不得超出画幅，不得裁切。\n\n八、负向提示词\n模糊，低清，噪点，颗粒感\n脏污，灰蒙，雾感，低对比\n过曝，过暗，色彩失真\n多余物体，杂乱背景\n畸形，变形，手部错误\n主体被裁切，内容超出最终画布边界，在禁止作画区域出现内容",
+      "outputs": [
+        "/assets/output/online_8607fe3851.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_b24be406877f.jpg",
+          "name": "启动页横.jpg"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_9ac46b66bd96.png",
+          "name": "黑色五叶草logo-白.png"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/5185b75c_7ab16a7a_619d6d72_ai_ref_0c45a638baa8.png",
+          "name": "异形弹窗，原分辨率.png"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/902d2135_faf1ae3a_d08f5808_751b1bd7_ai_ref_460126d55727.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 34004,
+      "error": ""
+    },
+    {
+      "id": "log_f6f74e4c3ba9e_1789523556762",
+      "createdAt": 1789523556762,
+      "status": "failed",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {},
+      "prompt": "去掉原图的广告，和文字,\n竖版广告，以广告为主，广告可适当放大,\n\n请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n- 图片3作为黑色五叶草logo-白.png参考。\n\n画面设计：\n- 视觉风格：日系高品質動漫遊戲KV，主推角色插画，黑色五葉草風格，官方授權RPG海報風，細膩線條，頂級二次元立繪，電影感，遊戲宣傳主視覺。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「強者之戰現在開始」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：醒目的奇幻游戏标题字，亮金色金属质感，立体描边、柔和投影与轻微发光，角落有闪耀反光，清晰可读。\n- 排版位置：主标题位于画面下部中央，副标题紧随主标题下方，保持明确的视觉层级。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 成图不要添加游戏Logo、品牌标识、水印或角标。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "outputs": [],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_b24be406877f.jpg",
+          "name": "启动页横.jpg"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_9ac46b66bd96.png",
+          "name": "黑色五叶草logo-白.png"
+        }
+      ],
+      "runMs": 2083,
+      "error": "GPT-Image-2 编辑接口 /images/edits 调用失败：{\"type\":\"error\",\"error\":{\"type\":\"invalid_request\",\"message\":\"请求格式非法，请检查请求结构是否符合 API 规范 (request_id: sess_mu3g4ccm_8406507f8793)\"}}。已停止自动重试，避免上游可能已扣费后再次请求。"
+    },
+    {
+      "id": "log_c8cecbb3b3423_1789035413084",
+      "createdAt": 1789035413084,
+      "status": "failed",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {},
+      "prompt": "异形弹窗广告补充提示词：\n\n一、生成目标\n制作一张繁体中文的高质量异形弹窗广告，要求符合拦截大弹窗的视觉形式。\n异形弹窗主体具有醒目的广告利益点，整体达到高品质游戏宣传KV水准。\n\n二、画面背景\n背景#000000。\n纯色背景干净统一，方便后期抠图与修改。\n所有主体必须完整呈现，不得裁切。\n\n三、参考图说明\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片3作为画面限制参考，绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围\n- 图片4作为异形弹窗构图参考，参考主体容器、倾斜方向、空间层次和破框方式\n\n四、广告文案\n- 主标题：\n  強者之戰現在開始\n\n- 副标题：\n  集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。\n  副标题为小字，在主标题下方。\n\n- 不添加游戏Logo。\n\n五、构图设计\n- 以主体角色参考图中的一个人物为主角，放大置于C位，重新排布其他人物的动作与位置，形成欢乐温馨、主体明确的镜头。\n- 漫画式构图与破框表现：主体容器采用粗黑边框、整体倾斜的不规则多边形，形成动感分镜。角色群像是第一视觉落点，核心角色位于视觉中心，动作张扬、辨识度高。\n- 角色身体、武器可以突破异形弹窗主体容器的边框，形成明确的“破框”设计。\n- 顶部破框：角色头部、手臂或武器可突破主体容器上边框。\n- 构建清晰的Z轴景深，区分前景破框元素、中景角色主体和背景氛围。\n\n六、视觉风格\n- 高质量日系动漫游戏KV，细腻线条，顶级二次元立绘，强光影，电影感，醒目的广告利益点。\n\n七、边界约束\n- 绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围。\n- 角色、武器、标题和道具只允许突破异形弹窗主体容器边框，绝对不能突破最终画布边界。\n- **画面禁止超出最终画布与黑色绘画区域范围。**\n- **画面禁止超出最终画布与黑色绘画区域范围。**\n- 全部画面必须保持在视觉中心内，不得超出画幅，不得裁切。\n\n八、负向提示词\n模糊，低清，噪点，颗粒感\n脏污，灰蒙，雾感，低对比\n过曝，过暗，色彩失真\n多余物体，杂乱背景\n畸形，变形，手部错误\n主体被裁切，内容超出最终画布边界，在禁止作画区域出现内容",
+      "outputs": [],
+      "refs": [
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ce55a044_ba1e81cd_67a2b731_ai_ref_404614667f10.jpg",
+          "name": "images.jpg"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/5185b75c_7ab16a7a_619d6d72_ai_ref_0c45a638baa8.png",
+          "name": "异形弹窗，原分辨率.png"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/834f65a3_fb21e5a5_8c913059_ai_ref_f9b613aa4811.png",
+          "name": "20260814-英勇之地手游-韩国S1赛季-大弹窗650X390.png"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/1e217f5e_ba5981bb_a931bce9_ai_ref_3f44a3fc6ec3.png",
+          "name": "下载按钮(无投影).png"
+        }
+      ],
+      "runMs": 22081,
+      "error": "GPT-Image-2 编辑接口 /images/edits 调用失败：{\"error\":{\"message\":\"本地请求处理容量不足，请稍后重试。\",\"type\":\"local_capacity_exceeded\",\"code\":\"local_capacity_exceeded\"}}。已停止自动重试，避免上游可能已扣费后再次请求。"
+    },
+    {
+      "id": "log_296ab6f74115f_1789035393903",
+      "createdAt": 1789035393903,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "",
+        "request_id": "",
+        "provider_id": "custom-api",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "竖版广告，以广告为主，广告可适当放大\n\n请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n\n画面设计：\n- 视觉风格：暗黑史诗游戏广告KV，写实与二次元融合，强烈明暗反差，厚重材质，压迫感与英雄气质并存。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「強者之戰現在開始」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：醒目的奇幻游戏标题字，亮金色金属质感，立体描边、柔和投影与轻微发光，角落有闪耀反光，清晰可读。\n- 排版位置：主标题位于画面下部中央，副标题紧随主标题下方，保持明确的视觉层级。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 成图不要添加游戏Logo、品牌标识、水印或角标。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "outputs": [
+        "/assets/output/online_5b5668031b.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ce55a044_ba1e81cd_67a2b731_ai_ref_404614667f10.jpg",
+          "name": "images.jpg"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 53098,
+      "error": ""
+    },
+    {
+      "id": "log_34bd427cec5268_1789035361326",
+      "createdAt": 1789035361326,
+      "status": "failed",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {},
+      "prompt": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n\n画面设计：\n- 视觉风格：暗黑史诗游戏广告KV，写实与二次元融合，强烈明暗反差，厚重材质，压迫感与英雄气质并存。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「強者之戰現在開始」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：醒目的奇幻游戏标题字，亮金色金属质感，立体描边、柔和投影与轻微发光，角落有闪耀反光，清晰可读。\n- 排版位置：主标题位于画面下部中央，副标题紧随主标题下方，保持明确的视觉层级。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 成图不要添加游戏Logo、品牌标识、水印或角标。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "outputs": [],
+      "refs": [
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ce55a044_ba1e81cd_67a2b731_ai_ref_404614667f10.jpg",
+          "name": "images.jpg"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 20760,
+      "error": "GPT-Image-2 编辑接口 /images/edits 调用失败：{\"error\":{\"message\":\"本地请求处理容量不足，请稍后重试。\",\"type\":\"local_capacity_exceeded\",\"code\":\"local_capacity_exceeded\"}}。已停止自动重试，避免上游可能已扣费后再次请求。"
+    },
+    {
+      "id": "log_cad329fbb42f18_1789035361238",
+      "createdAt": 1789035361238,
+      "status": "failed",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {},
+      "prompt": "异形弹窗广告补充提示词：\n\n一、生成目标\n制作一张繁体中文的高质量异形弹窗广告，要求符合拦截大弹窗的视觉形式。\n异形弹窗主体具有醒目的广告利益点，整体达到高品质游戏宣传KV水准。\n\n二、画面背景\n背景#000000。\n纯色背景干净统一，方便后期抠图与修改。\n所有主体必须完整呈现，不得裁切。\n\n三、参考图说明\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片3作为画面限制参考，绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围\n- 图片4作为异形弹窗构图参考，参考主体容器、倾斜方向、空间层次和破框方式\n\n四、广告文案\n- 主标题：\n  強者之戰現在開始\n\n- 副标题：\n  集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。\n  副标题为小字，在主标题下方。\n\n- 不添加游戏Logo。\n\n五、构图设计\n- 以主体角色参考图中的一个人物为主角，放大置于C位，重新排布其他人物的动作与位置，形成欢乐温馨、主体明确的镜头。\n- 漫画式构图与破框表现：主体容器采用粗黑边框、整体倾斜的不规则多边形，形成动感分镜。角色群像是第一视觉落点，核心角色位于视觉中心，动作张扬、辨识度高。\n- 角色身体、武器可以突破异形弹窗主体容器的边框，形成明确的“破框”设计。\n- 顶部破框：角色头部、手臂或武器可突破主体容器上边框。\n- 构建清晰的Z轴景深，区分前景破框元素、中景角色主体和背景氛围。\n\n六、视觉风格\n- 高质量日系动漫游戏KV，细腻线条，顶级二次元立绘，强光影，电影感，醒目的广告利益点。\n\n七、边界约束\n- 绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围。\n- 角色、武器、标题和道具只允许突破异形弹窗主体容器边框，绝对不能突破最终画布边界。\n- **画面禁止超出最终画布与黑色绘画区域范围。**\n- **画面禁止超出最终画布与黑色绘画区域范围。**\n- 全部画面必须保持在视觉中心内，不得超出画幅，不得裁切。\n\n八、负向提示词\n模糊，低清，噪点，颗粒感\n脏污，灰蒙，雾感，低对比\n过曝，过暗，色彩失真\n多余物体，杂乱背景\n畸形，变形，手部错误\n主体被裁切，内容超出最终画布边界，在禁止作画区域出现内容",
+      "outputs": [],
+      "refs": [
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ce55a044_ba1e81cd_67a2b731_ai_ref_404614667f10.jpg",
+          "name": "images.jpg"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/5185b75c_7ab16a7a_619d6d72_ai_ref_0c45a638baa8.png",
+          "name": "异形弹窗，原分辨率.png"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/834f65a3_fb21e5a5_8c913059_ai_ref_f9b613aa4811.png",
+          "name": "20260814-英勇之地手游-韩国S1赛季-大弹窗650X390.png"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/1e217f5e_ba5981bb_a931bce9_ai_ref_3f44a3fc6ec3.png",
+          "name": "下载按钮(无投影).png"
+        }
+      ],
+      "runMs": 20381,
+      "error": "GPT-Image-2 编辑接口 /images/edits 调用失败：{\"error\":{\"message\":\"本地请求处理容量不足，请稍后重试。\",\"type\":\"local_capacity_exceeded\",\"code\":\"local_capacity_exceeded\"}}。已停止自动重试，避免上游可能已扣费后再次请求。"
+    },
+    {
+      "id": "log_d7bd8a8ab157f_1789035361198",
+      "createdAt": 1789035361198,
+      "status": "failed",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {},
+      "prompt": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n\n画面设计：\n- 视觉风格：暗黑史诗游戏广告KV，写实与二次元融合，强烈明暗反差，厚重材质，压迫感与英雄气质并存。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「強者之戰現在開始」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：醒目的奇幻游戏标题字，亮金色金属质感，立体描边、柔和投影与轻微发光，角落有闪耀反光，清晰可读。\n- 排版位置：主标题位于画面下部中央，副标题紧随主标题下方，保持明确的视觉层级。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 成图不要添加游戏Logo、品牌标识、水印或角标。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字\n\n修改构图，制作一张繁体中文的游戏banner，左广告右主图的格式：\n1、去掉原图所有的广告和游戏logo。\n参考图说明：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n2、为全图增加广告文案：\n\n- 主标题：\n  強者之戰現在開始\n\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n\n- 副标题：\n  集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。\n  副标题为小字，在主标题下方\n\n- 三分法则（Rule of Thirds）：画面采用了经典的“左文右图”布局。\n  组内居中对齐：左侧的所有文字模块（主标题、副标题、按钮）在自身所在的隐形文本框内，均采用了居中对齐。\n\n- 位于文字区域最下方，按钮包裹文字：立即下載",
+      "outputs": [],
+      "refs": [
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/902d2135_faf1ae3a_d08f5808_751b1bd7_ai_ref_460126d55727.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ce55a044_ba1e81cd_67a2b731_ai_ref_404614667f10.jpg",
+          "name": "images.jpg"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 20444,
+      "error": "GPT-Image-2 编辑接口 /images/edits 调用失败：{\"error\":{\"message\":\"本地请求处理容量不足，请稍后重试。\",\"type\":\"local_capacity_exceeded\",\"code\":\"local_capacity_exceeded\"}}。已停止自动重试，避免上游可能已扣费后再次请求。"
+    },
+    {
+      "id": "log_944d5f0eca1038_1789035361152",
+      "createdAt": 1789035361152,
+      "status": "failed",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {},
+      "prompt": "去掉原图的广告，和文字,\n竖版广告，以广告为主，广告可适当放大,\n\n请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n\n画面设计：\n- 视觉风格：暗黑史诗游戏广告KV，写实与二次元融合，强烈明暗反差，厚重材质，压迫感与英雄气质并存。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「強者之戰現在開始」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：醒目的奇幻游戏标题字，亮金色金属质感，立体描边、柔和投影与轻微发光，角落有闪耀反光，清晰可读。\n- 排版位置：主标题位于画面下部中央，副标题紧随主标题下方，保持明确的视觉层级。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 成图不要添加游戏Logo、品牌标识、水印或角标。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "outputs": [],
+      "refs": [
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ce55a044_ba1e81cd_67a2b731_ai_ref_404614667f10.jpg",
+          "name": "images.jpg"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 20417,
+      "error": "GPT-Image-2 编辑接口 /images/edits 调用失败：{\"error\":{\"message\":\"本地请求处理容量不足，请稍后重试。\",\"type\":\"local_capacity_exceeded\",\"code\":\"local_capacity_exceeded\"}}。已停止自动重试，避免上游可能已扣费后再次请求。"
+    },
+    {
+      "id": "log_b0917bb9aea7a_1789035304633",
+      "createdAt": 1789035304633,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "",
+        "request_id": "",
+        "provider_id": "custom-api",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n\n画面设计：\n- 视觉风格：暗黑史诗游戏广告KV，写实与二次元融合，强烈明暗反差，厚重材质，压迫感与英雄气质并存。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「強者之戰現在開始」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：醒目的奇幻游戏标题字，亮金色金属质感，立体描边、柔和投影与轻微发光，角落有闪耀反光，清晰可读。\n- 排版位置：主标题位于画面下部中央，副标题紧随主标题下方，保持明确的视觉层级。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 成图不要添加游戏Logo、品牌标识、水印或角标。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "outputs": [
+        "/assets/output/online_48e8a9c763.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ce55a044_ba1e81cd_67a2b731_ai_ref_404614667f10.jpg",
+          "name": "images.jpg"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 48368,
+      "error": ""
+    },
+    {
+      "id": "log_94b2278a137a58_1789035298803",
+      "createdAt": 1789035298803,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "",
+        "request_id": "",
+        "provider_id": "custom-api",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "去掉原图的广告，和文字,\n竖版广告，以广告为主，广告可适当放大,\n\n请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n\n画面设计：\n- 视觉风格：暗黑史诗游戏广告KV，写实与二次元融合，强烈明暗反差，厚重材质，压迫感与英雄气质并存。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「強者之戰現在開始」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：醒目的奇幻游戏标题字，亮金色金属质感，立体描边、柔和投影与轻微发光，角落有闪耀反光，清晰可读。\n- 排版位置：主标题位于画面下部中央，副标题紧随主标题下方，保持明确的视觉层级。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 成图不要添加游戏Logo、品牌标识、水印或角标。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "outputs": [
+        "/assets/output/online_eeec6ef076.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ce55a044_ba1e81cd_67a2b731_ai_ref_404614667f10.jpg",
+          "name": "images.jpg"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 42308,
+      "error": ""
+    },
+    {
+      "id": "log_90b7414aa2ce48_1789035295195",
+      "createdAt": 1789035295195,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "",
+        "request_id": "",
+        "provider_id": "custom-api",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "竖版广告，以广告为主，广告可适当放大\n\n请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n\n画面设计：\n- 视觉风格：暗黑史诗游戏广告KV，写实与二次元融合，强烈明暗反差，厚重材质，压迫感与英雄气质并存。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「強者之戰現在開始」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：醒目的奇幻游戏标题字，亮金色金属质感，立体描边、柔和投影与轻微发光，角落有闪耀反光，清晰可读。\n- 排版位置：主标题位于画面下部中央，副标题紧随主标题下方，保持明确的视觉层级。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 成图不要添加游戏Logo、品牌标识、水印或角标。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "outputs": [
+        "/assets/output/online_813b97e6cc.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ce55a044_ba1e81cd_67a2b731_ai_ref_404614667f10.jpg",
+          "name": "images.jpg"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 38648,
+      "error": ""
+    },
+    {
+      "id": "log_bda05b5e74ed9_1789035277084",
+      "createdAt": 1789035277084,
+      "status": "failed",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {},
+      "prompt": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n\n画面设计：\n- 视觉风格：暗黑史诗游戏广告KV，写实与二次元融合，强烈明暗反差，厚重材质，压迫感与英雄气质并存。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「強者之戰現在開始」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：醒目的奇幻游戏标题字，亮金色金属质感，立体描边、柔和投影与轻微发光，角落有闪耀反光，清晰可读。\n- 排版位置：主标题位于画面下部中央，副标题紧随主标题下方，保持明确的视觉层级。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 成图不要添加游戏Logo、品牌标识、水印或角标。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字\n\n修改构图，制作一张繁体中文的游戏banner，左广告右主图的格式：\n1、去掉原图所有的广告和游戏logo。\n参考图说明：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n2、为全图增加广告文案：\n\n- 主标题：\n  強者之戰現在開始\n\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n\n- 副标题：\n  集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。\n  副标题为小字，在主标题下方\n\n- 三分法则（Rule of Thirds）：画面采用了经典的“左文右图”布局。\n  组内居中对齐：左侧的所有文字模块（主标题、副标题、按钮）在自身所在的隐形文本框内，均采用了居中对齐。\n\n- 位于文字区域最下方，按钮包裹文字：立即下載",
+      "outputs": [],
+      "refs": [
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/902d2135_faf1ae3a_d08f5808_751b1bd7_ai_ref_460126d55727.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/ce55a044_ba1e81cd_67a2b731_ai_ref_404614667f10.jpg",
+          "name": "images.jpg"
+        },
+        {
+          "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 20568,
+      "error": "GPT-Image-2 编辑接口 /images/edits 调用失败：{\"error\":{\"message\":\"本地请求处理容量不足，请稍后重试。\",\"type\":\"local_capacity_exceeded\",\"code\":\"local_capacity_exceeded\"}}。已停止自动重试，避免上游可能已扣费后再次请求。"
+    }
+  ],
+  "settings": {}
+}

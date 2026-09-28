@@ -1,0 +1,92 @@
+/* recycle-hub.css — 垃圾桶页面专属样式
+   通用按钮 / 标签页 / 文件网格都复用 asset-manager.css，这里只写「画布分组卡片」
+   和页面骨架（工具栏、空状态）相关的样式。 */
+
+/* ===== 页面骨架 ===== */
+/* #hubRoot 是弹性列，内部的网格用 flex:1 + overflow:auto 自己滚动 */
+.hub-root { flex:1; min-height:0; display:flex; flex-direction:column; gap:12px; }
+
+.hub-toolbar {
+    flex:0 0 auto;
+    display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+    padding:10px 14px;
+    border:1px solid var(--line); border-radius:12px; background:var(--panel);
+    box-shadow:0 8px 22px var(--shadow);
+}
+.hub-toolbar-text { color:var(--muted); font-size:12px; font-weight:750; }
+.hub-toolbar-text b { color:var(--text); font-weight:900; }
+.hub-toolbar-actions { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.hub-toolbar-note { display:flex; align-items:center; gap:6px; color:var(--faint); font-size:11.5px; font-weight:750; }
+.hub-toolbar-note svg { width:13px; height:13px; }
+
+/* 小圆点分隔符 */
+.hub-dot { display:inline-block; width:3px; height:3px; margin:0 2px; border-radius:50%; background:var(--line-2); vertical-align:middle; }
+
+/* 剩余天数：默认灰，临近到期变红 */
+.hub-days { color:var(--muted); font-weight:800; }
+.hub-days.warn { color:var(--danger); }
+
+/* ===== 空状态 ===== */
+.hub-empty {
+    flex:1; min-height:0;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;
+    padding:48px 20px;
+    border:1px dashed var(--line-2); border-radius:16px; background:var(--panel);
+    color:var(--muted); text-align:center;
+}
+.hub-empty svg { width:34px; height:34px; color:var(--faint); }
+.hub-empty strong { color:var(--text); font-size:15px; font-weight:900; }
+.hub-empty span { font-size:12px; font-weight:700; line-height:1.6; max-width:420px; }
+
+/* ===== 画布回收站：按画布分组的卡片列表 ===== */
+.hub-canvas-list { flex:1; min-height:0; overflow:auto; display:flex; flex-direction:column; gap:10px; padding:2px; }
+
+.hub-canvas-card {
+    border:1px solid var(--line); border-radius:14px; background:var(--card);
+    box-shadow:0 8px 22px var(--shadow); overflow:hidden;
+}
+.hub-canvas-top { display:flex; align-items:center; gap:12px; padding:12px 14px; }
+.hub-canvas-icon {
+    flex:0 0 auto; width:40px; height:40px; border-radius:11px;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--soft); color:var(--muted); font-size:19px;
+}
+.hub-canvas-info { flex:1; min-width:0; }
+.hub-canvas-title { display:flex; align-items:center; gap:8px; min-width:0; }
+.hub-canvas-name { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--text); font-size:14px; font-weight:900; }
+.hub-canvas-meta { margin-top:4px; display:flex; align-items:center; gap:6px; flex-wrap:wrap; color:var(--muted); font-size:11.5px; font-weight:750; }
+.hub-canvas-actions { flex:0 0 auto; display:flex; align-items:center; gap:6px; }
+
+.hub-kind-badge { flex:0 0 auto; padding:2px 7px; border-radius:999px; font-size:10px; font-weight:900; background:var(--soft-2); color:var(--muted); }
+.hub-kind-badge.smart { background:rgba(37,99,235,.12); color:#2563eb; }
+
+/* 彻底删除前的提醒条 */
+.hub-canvas-note {
+    display:flex; align-items:center; gap:7px; margin:0 14px 10px;
+    padding:8px 10px; border:1px solid rgba(220,38,38,.22); border-radius:10px;
+    background:rgba(220,38,38,.06); color:var(--danger); font-size:11.5px; font-weight:800;
+}
+.hub-canvas-note svg { width:14px; height:14px; flex:0 0 auto; }
+
+/* 展开后的素材缩略图网格 */
+.hub-canvas-assets { padding:0 14px 14px; border-top:1px solid var(--line); }
+.hub-asset-grid {
+    margin-top:12px;
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(108px,1fr)); gap:10px;
+}
+.hub-asset { margin:0; min-width:0; display:flex; flex-direction:column; gap:4px; }
+.hub-asset img,
+.hub-asset video,
+.hub-asset .asset-file-icon { width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:9px; background:var(--soft); }
+.hub-asset .asset-file-icon { justify-content:center; }
+.hub-asset figcaption { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--text); font-size:11px; font-weight:800; }
+.hub-asset em { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--faint); font-size:10px; font-style:normal; font-weight:700; }
+.hub-asset-empty { margin-top:12px; color:var(--faint); font-size:12px; font-weight:750; }
+
+/* 二次确认区（默认 hidden） */
+.hub-canvas-confirm { padding:12px 14px; border-top:1px solid var(--line); background:var(--soft); }
+.hub-canvas-confirm-title { margin-bottom:10px; color:var(--text); font-size:12.5px; font-weight:850; line-height:1.6; }
+.hub-canvas-confirm-actions { display:flex; align-items:center; gap:8px; }
+
+/* ===== 素材回收站 / 素材文件：让文件网格自己滚动 ===== */
+.hub-file-grid { flex:1; min-height:0; }

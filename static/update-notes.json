@@ -1,0 +1,14 @@
+{
+  "version": "2026.08.04",
+  "updated_at": "2026-08-04T23:32:36+08:00",
+  "items": [
+    {
+      "type": "feature",
+      "text": "
+重要更新：
+1. 适配本地ComfyUI调用MiniMax H3，更新后需要手动下载一下workflow文件夹的相关工作流。
+2. 适配RunningHub调用MiniMax H3，由于现在国内站很多工作流不支持调用了，推荐大家在API设置中注册国际站。
+"
+    }
+  ]
+}

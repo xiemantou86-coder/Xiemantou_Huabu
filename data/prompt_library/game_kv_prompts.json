@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "visualStyle": [
+    {
+      "value": "custom-visualStyle-mty5du3k-9y4cy",
+      "label": "暗黑国风MMO",
+      "prompt": "暗黑国风画风，厚涂风格游戏CG，游戏KV广告，黑神话，暗黑风格",
+      "custom": true
+    },
+    {
+      "value": "custom-visualStyle-mu92jjna-2fw7r",
+      "label": "历史史诗",
+      "prompt": "历史真实画风类，写实风格，强烈的电影光照，压抑氛围，电影海报风格",
+      "custom": true
+    }
+  ],
+  "composition": [
+    {
+      "value": "custom-composition-mu3qta6c-73wpi",
+      "label": "单人up构图",
+      "prompt": "单人主推角色插画，唯美构图，吸引男性玩家",
+      "custom": true
+    },
+    {
+      "value": "custom-composition-mu3sdg73-ag9ag",
+      "label": "插图故事类",
+      "prompt": "角色在画面中，氛围温馨，欢乐",
+      "custom": true
+    }
+  ],
+  "titleEffect": [
+    {
+      "value": "custom-titleEffect-mu0yp534-mlw8l",
+      "label": "符合画面风格",
+      "prompt": ".",
+      "custom": true
+    }
+  ],
+  "copyPlacement": [
+    {
+      "value": "custom-copyPlacement-mu0yq5li-vy710",
+      "label": "随机",
+      "prompt": "- 在画面合适位置",
+      "custom": true
+    }
+  ],
+  "references": [],
+  "irregularComposition": [
+    {
+      "value": "custom-irregularComposition-mty5r4nn-75pye",
+      "label": "人物群像简易构图",
+      "prompt": "极简风格构图，以主角在前的夸张广角动作为主，其他角色群像在主角后方的建议构图。",
+      "custom": true
+    },
+    {
+      "value": "custom-irregularComposition-mu3wbyot-912v9",
+      "label": "单人up构图",
+      "prompt": "单人主推角色插画，唯美构图，吸引男性玩家",
+      "custom": true
+    }
+  ],
+  "irregularVisualStyle": [
+    {
+      "value": "custom-irregularVisualStyle-mu4xpagd-3o395",
+      "label": "极简构图",
+      "prompt": "简单视觉风格，以人物为重点",
+      "custom": true
+    }
+  ],
+  "updated_at": 1789863546939
+}

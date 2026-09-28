@@ -1,0 +1,73 @@
+{
+  "active_library_id": "default",
+  "libraries": [
+    {
+      "id": "default",
+      "name": "默认资产库",
+      "type": "asset",
+      "categories": [
+        {
+          "id": "characters",
+          "name": "角色",
+          "type": "image",
+          "items": [
+            {
+              "id": "asset_4e67c9b81643",
+              "name": "canvas-output-1788400576697",
+              "url": "/assets/library/%E8%A7%92%E8%89%B2/lib_63e971e92d51_canvas-output-1788400576697.png",
+              "kind": "image",
+              "created_at": 1788422865619,
+              "registrations": {}
+            }
+          ],
+          "dir": "角色"
+        },
+        {
+          "id": "scenes",
+          "name": "场景",
+          "type": "image",
+          "items": [],
+          "dir": "场景"
+        },
+        {
+          "id": "workflows",
+          "name": "工作流",
+          "type": "workflow",
+          "items": []
+        }
+      ]
+    }
+  ],
+  "categories": [
+    {
+      "id": "characters",
+      "name": "角色",
+      "type": "image",
+      "items": [
+        {
+          "id": "asset_4e67c9b81643",
+          "name": "canvas-output-1788400576697",
+          "url": "/assets/library/%E8%A7%92%E8%89%B2/lib_63e971e92d51_canvas-output-1788400576697.png",
+          "kind": "image",
+          "created_at": 1788422865619,
+          "registrations": {}
+        }
+      ],
+      "dir": "角色"
+    },
+    {
+      "id": "scenes",
+      "name": "场景",
+      "type": "image",
+      "items": [],
+      "dir": "场景"
+    },
+    {
+      "id": "workflows",
+      "name": "工作流",
+      "type": "workflow",
+      "items": []
+    }
+  ],
+  "updated_at": 1790151412993
+}
