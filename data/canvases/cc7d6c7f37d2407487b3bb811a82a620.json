@@ -8,7 +8,7 @@
   "pinned": false,
   "project": "default",
   "created_at": 1789034316892,
-  "updated_at": 1790590930269,
+  "updated_at": 1790662055646,
   "nodes": [
     {
       "id": "containerGroup_cdc65987d9fd3_1789034526143",
@@ -2134,10 +2134,10 @@
       "type": "generator",
       "x": 1189.8002910959256,
       "y": 2136.760930822275,
-      "apiProvider": "apimart",
-      "model": "gpt-image-2.5-ext",
-      "ratio": "square",
-      "resolution": "1k",
+      "apiProvider": "exellome",
+      "model": "gpt-image2-2k",
+      "ratio": "wide",
+      "resolution": "2k",
       "customRatio": "",
       "customSize": "",
       "customRatioWidth": "",
@@ -2146,24 +2146,230 @@
       "customHeight": "",
       "transparentBackground": false,
       "inputs": [
-        "prompt_0e75e9ae865f08_1790586646738"
+        "prompt_0e75e9ae865f08_1790586646738",
+        "img_2ea607ca643ff8_1790653049011"
       ],
-      "_apiResolutionUserSet": true
+      "_apiResolutionUserSet": true,
+      "generatedOutputs": [
+        "/assets/output/online_9f0fe10b38.png"
+      ],
+      "quality": "medium"
     },
     {
       "id": "prompt_0e75e9ae865f08_1790586646738",
       "type": "prompt",
       "x": 806.348769890801,
       "y": 2136.327085075842,
-      "text": ""
+      "text": "用参考图生成一只猫娘"
     },
     {
       "id": "out_65440683bc7018_1790586661552",
       "type": "output",
       "x": 1649.8002910959256,
       "y": 2136.760930822275,
-      "images": [],
-      "_pending": []
+      "images": [
+        {
+          "url": "/assets/output/online_f366fd8673.png",
+          "viewed": true,
+          "runMs": 152157,
+          "run": {
+            "nodeType": "generator",
+            "node": {
+              "id": "gen_3b62f0a4a62078_1790586642641",
+              "type": "generator",
+              "x": 1189.8002910959256,
+              "y": 2136.760930822275,
+              "apiProvider": "exellome",
+              "model": "gpt-image2-2k",
+              "ratio": "landscape",
+              "resolution": "2k",
+              "customRatio": "",
+              "customSize": "",
+              "customRatioWidth": "",
+              "customRatioHeight": "",
+              "customWidth": "",
+              "customHeight": "",
+              "transparentBackground": false,
+              "_apiResolutionUserSet": true
+            },
+            "prompt": "用参考图生成一只猫娘",
+            "refs": [],
+            "request": {
+              "task_id": "task_UnGcxw9ujXc8soywoUHJwCTWw83D6JkG",
+              "request_id": "task_UnGcxw9ujXc8soywoUHJwCTWw83D6JkG",
+              "provider_id": "exellome",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        },
+        {
+          "url": "/assets/output/online_a3f2c34630.png",
+          "viewed": true,
+          "runMs": 334714,
+          "run": {
+            "nodeType": "generator",
+            "node": {
+              "id": "gen_3b62f0a4a62078_1790586642641",
+              "type": "generator",
+              "x": 1189.8002910959256,
+              "y": 2136.760930822275,
+              "apiProvider": "exellome",
+              "model": "gpt-image2-2k",
+              "ratio": "landscape",
+              "resolution": "2k",
+              "customRatio": "",
+              "customSize": "",
+              "customRatioWidth": "",
+              "customRatioHeight": "",
+              "customWidth": "",
+              "customHeight": "",
+              "transparentBackground": false,
+              "_apiResolutionUserSet": true,
+              "generatedOutputs": [
+                "/assets/output/online_f366fd8673.png"
+              ]
+            },
+            "prompt": "用参考图生成一只猫娘",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_e2ec5b23bc3e.png",
+                "name": "1785836362165.png"
+              }
+            ],
+            "request": {
+              "task_id": "task_1tfBPP2LDg7khRImA6ci0wMyXF0UpGOw",
+              "request_id": "task_1tfBPP2LDg7khRImA6ci0wMyXF0UpGOw",
+              "provider_id": "exellome",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        },
+        {
+          "url": "/assets/output/online_9f0fe10b38.png",
+          "viewed": true,
+          "runMs": 354364,
+          "run": {
+            "nodeType": "generator",
+            "node": {
+              "id": "gen_3b62f0a4a62078_1790586642641",
+              "type": "generator",
+              "x": 1189.8002910959256,
+              "y": 2136.760930822275,
+              "apiProvider": "exellome",
+              "model": "gpt-image2-2k",
+              "ratio": "wide",
+              "resolution": "2k",
+              "customRatio": "",
+              "customSize": "",
+              "customRatioWidth": "",
+              "customRatioHeight": "",
+              "customWidth": "",
+              "customHeight": "",
+              "transparentBackground": false,
+              "_apiResolutionUserSet": true,
+              "generatedOutputs": [
+                "/assets/output/online_a3f2c34630.png"
+              ],
+              "quality": "medium"
+            },
+            "prompt": "用参考图生成一只猫娘",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_e2ec5b23bc3e.png",
+                "name": "1785836362165.png"
+              }
+            ],
+            "request": {
+              "task_id": "task_8dwg0xvn19kDKiSlf79NgZvD57dgUxTT",
+              "request_id": "task_8dwg0xvn19kDKiSlf79NgZvD57dgUxTT",
+              "provider_id": "exellome",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        }
+      ],
+      "_pending": [
+        {
+          "id": "p_af8a21025fd71_1790659874029",
+          "startedAt": 1790659874029,
+          "run": {
+            "nodeType": "generator",
+            "node": {
+              "id": "gen_3b62f0a4a62078_1790586642641",
+              "type": "generator",
+              "x": 1189.8002910959256,
+              "y": 2136.760930822275,
+              "apiProvider": "exellome",
+              "model": "gpt-image2-2k",
+              "ratio": "landscape",
+              "resolution": "2k",
+              "customRatio": "",
+              "customSize": "",
+              "customRatioWidth": "",
+              "customRatioHeight": "",
+              "customWidth": "",
+              "customHeight": "",
+              "transparentBackground": false,
+              "_apiResolutionUserSet": true,
+              "generatedOutputs": [
+                "/assets/output/online_f366fd8673.png"
+              ]
+            },
+            "prompt": "用参考图生成一只猫娘",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_2b7feb7adf31.png",
+                "name": "image.png"
+              }
+            ]
+          },
+          "canvasTaskId": "canvas_img_8d8b698ec7f3464bbb7e93fc5e580439",
+          "canvasTaskType": "online-image",
+          "providerId": "exellome",
+          "model": "gpt-image2-2k",
+          "appendGenerated": false,
+          "previewSize": {
+            "w": 2048,
+            "h": 1360
+          },
+          "failed": true,
+          "querying": false,
+          "error": "image content safety blocked: 451 {\"error_code\":\"image_unsafe\",\"message\":\"The generated images appear to be unsafe. Try modifying the prompts or the seeds.\"}",
+          "recoverTaskId": "task_HYQydYPiq8lImr9RXrhigZQxuSlwZ6GC",
+          "canvasTaskStatus": "failed"
+        }
+      ],
+      "imageComparisons": {
+        "/assets/output/online_a3f2c34630.png": {
+          "url": "/assets/input/ai_ref_e2ec5b23bc3e.png",
+          "name": "1785836362165.png"
+        },
+        "/assets/output/online_9f0fe10b38.png": {
+          "url": "/assets/input/ai_ref_e2ec5b23bc3e.png",
+          "name": "1785836362165.png"
+        }
+      }
+    },
+    {
+      "id": "img_2ea607ca643ff8_1790653049011",
+      "type": "image",
+      "x": 816.1855790712132,
+      "y": 2397.631880090469,
+      "url": "/assets/input/ai_ref_e2ec5b23bc3e.png",
+      "name": "1785836362165.png",
+      "mediaKind": "image",
+      "_naturalSizeLoading": false,
+      "natural_w": 1024,
+      "natural_h": 1024
     }
   ],
   "connections": [
@@ -2496,6 +2702,14 @@
       "toPort": "in"
     },
     {
+      "id": "c_28d4ed1eeb5b_1790659256246",
+      "kind": "dataFlow",
+      "from": "img_2ea607ca643ff8_1790653049011",
+      "to": "gen_3b62f0a4a62078_1790586642641",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
       "id": "c_24124c7069d208_1789034526143",
       "kind": "labelBinding",
       "from": "label_021c534e3efe08_1789034526143",
@@ -2608,6 +2822,221 @@
   "board_x": 413.0,
   "board_y": 315.0,
   "logs": [
+    {
+      "id": "log_287ebffc382f7_1790661991242",
+      "createdAt": 1790661991242,
+      "status": "success",
+      "platform": "EXELLOME",
+      "nodeType": "generator",
+      "model": "gpt-image2-2k",
+      "request": {
+        "task_id": "task_8dwg0xvn19kDKiSlf79NgZvD57dgUxTT",
+        "request_id": "task_8dwg0xvn19kDKiSlf79NgZvD57dgUxTT",
+        "provider_id": "exellome",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "用参考图生成一只猫娘",
+      "outputs": [
+        "/assets/output/online_9f0fe10b38.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_e2ec5b23bc3e.png",
+          "name": "1785836362165.png"
+        }
+      ],
+      "runMs": 354364,
+      "error": ""
+    },
+    {
+      "id": "log_7fbf02f2500598_1790660568141",
+      "createdAt": 1790660568141,
+      "status": "success",
+      "platform": "EXELLOME",
+      "nodeType": "generator",
+      "model": "gpt-image2-2k",
+      "request": {
+        "task_id": "task_1tfBPP2LDg7khRImA6ci0wMyXF0UpGOw",
+        "request_id": "task_1tfBPP2LDg7khRImA6ci0wMyXF0UpGOw",
+        "provider_id": "exellome",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "用参考图生成一只猫娘",
+      "outputs": [
+        "/assets/output/online_a3f2c34630.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_e2ec5b23bc3e.png",
+          "name": "1785836362165.png"
+        }
+      ],
+      "runMs": 334714,
+      "error": ""
+    },
+    {
+      "id": "log_a76dd139a21c9_1790659958125",
+      "createdAt": 1790659958125,
+      "status": "failed",
+      "platform": "EXELLOME",
+      "nodeType": "generator",
+      "model": "gpt-image2-2k",
+      "request": {},
+      "prompt": "用参考图生成一只猫娘",
+      "outputs": [],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_2b7feb7adf31.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 84096,
+      "error": "生图任务失败：image content safety blocked: 451 {\"error_code\":\"image_unsafe\",\"message\":\"The generated images appear to be unsafe. Try modifying the prompts or the seeds.\"}"
+    },
+    {
+      "id": "log_4903506951bb18_1790659308213",
+      "createdAt": 1790659308213,
+      "status": "failed",
+      "platform": "EXELLOME",
+      "nodeType": "generator",
+      "model": "gpt-image2-2k",
+      "request": {},
+      "prompt": "用参考图生成一只猫娘",
+      "outputs": [],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_2b7feb7adf31.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 166,
+      "error": "Attempted to send an sync request with an AsyncClient instance."
+    },
+    {
+      "id": "log_81dfa69d956738_1790659268412",
+      "createdAt": 1790659268412,
+      "status": "failed",
+      "platform": "EXELLOME",
+      "nodeType": "generator",
+      "model": "gpt-image2-2k",
+      "request": {},
+      "prompt": "用参考图生成一只猫娘",
+      "outputs": [],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_2b7feb7adf31.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 176,
+      "error": "Attempted to send an sync request with an AsyncClient instance."
+    },
+    {
+      "id": "log_33060565212db_1790659258680",
+      "createdAt": 1790659258680,
+      "status": "failed",
+      "platform": "EXELLOME",
+      "nodeType": "generator",
+      "model": "gpt-image2-2k",
+      "request": {},
+      "prompt": "用参考图生成一只猫娘",
+      "outputs": [],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_2b7feb7adf31.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 234,
+      "error": "Attempted to send an sync request with an AsyncClient instance."
+    },
+    {
+      "id": "log_4df140c47a353_1790657771895",
+      "createdAt": 1790657771895,
+      "status": "success",
+      "platform": "EXELLOME",
+      "nodeType": "generator",
+      "model": "gpt-image2-2k",
+      "request": {
+        "task_id": "task_UnGcxw9ujXc8soywoUHJwCTWw83D6JkG",
+        "request_id": "task_UnGcxw9ujXc8soywoUHJwCTWw83D6JkG",
+        "provider_id": "exellome",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "用参考图生成一只猫娘",
+      "outputs": [
+        "/assets/output/online_f366fd8673.png"
+      ],
+      "refs": [],
+      "runMs": 152157,
+      "error": ""
+    },
+    {
+      "id": "log_b3e1a585f5083_1790653088315",
+      "createdAt": 1790653088315,
+      "status": "failed",
+      "platform": "EXELLOME",
+      "nodeType": "generator",
+      "model": "gpt-image2-2k",
+      "request": {},
+      "prompt": "用参考图生成一只猫娘",
+      "outputs": [],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_2b7feb7adf31.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 192,
+      "error": "Attempted to send an sync request with an AsyncClient instance."
+    },
+    {
+      "id": "log_26b3b2cd46ae5_1790653079890",
+      "createdAt": 1790653079890,
+      "status": "failed",
+      "platform": "EXELLOME",
+      "nodeType": "generator",
+      "model": "gpt-image2-2k",
+      "request": {},
+      "prompt": "用参考图生成一只猫娘",
+      "outputs": [],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_2b7feb7adf31.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 203,
+      "error": "Attempted to send an sync request with an AsyncClient instance."
+    },
+    {
+      "id": "log_bd5aa146817868_1790653066352",
+      "createdAt": 1790653066352,
+      "status": "failed",
+      "platform": "EXELLOME",
+      "nodeType": "generator",
+      "model": "gpt-image2-2k",
+      "request": {},
+      "prompt": "用参考图生成一只猫娘",
+      "outputs": [],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_2b7feb7adf31.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 197,
+      "error": "Attempted to send an sync request with an AsyncClient instance."
+    },
     {
       "id": "log_f6e7289ea58db_1790586662075",
       "createdAt": 1790586662075,

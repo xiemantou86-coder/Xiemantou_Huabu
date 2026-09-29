@@ -1,4 +1,4 @@
-import json
+﻿import json
 import uuid
 import base64
 import hashlib
@@ -1322,7 +1322,6 @@ def normalize_provider(item):
         "video_models": video_models,
         "model_names": normalize_model_name_map(item.get("model_names")),
         "model_protocols": normalize_model_protocols(item.get("model_protocols")),
-        "model_request_modes": normalize_model_request_modes(item.get("model_request_modes"), provider_id),
         "ms_loras": normalize_ms_loras(item.get("ms_loras") or []),
         "ms_defaults_version": int(item.get("ms_defaults_version") or 0),
         "rh_apps": normalize_runninghub_entries(item.get("rh_apps") or [], "app"),
@@ -3001,7 +3000,6 @@ class ApiProviderPayload(BaseModel):
     video_models: List[str] = []
     model_names: Dict[str, str] = {}
     model_protocols: Dict[str, str] = {}
-    model_request_modes: Dict[str, str] = {}
     transparent_png: bool = False
     ms_loras: List[Dict[str, Any]] = []
     ms_defaults_version: int = 0
@@ -4774,19 +4772,6 @@ def normalize_model_protocols(value):
                 out[name] = proto
     return out
 
-def normalize_model_request_modes(value, provider_id=""):
-    """仅 Exellome 保存模型级图片通道；其它平台忽略该字段。"""
-    if str(provider_id or "").strip().lower() != "exellome":
-        return {}
-    out = {}
-    if isinstance(value, dict):
-        for raw_name, raw_mode in value.items():
-            name = str(raw_name or "").strip()
-            mode = normalize_image_request_mode(raw_mode)
-            if name and mode in {"openai", "openai-video-proxy", "openai-json", "openai-responses", "gemini"}:
-                out[name] = mode
-    return out
-
 def normalize_model_name_map(value):
     """规整 {模型ID: 展示名}，只保存真正有意义的显示标签。"""
     normalized = {}
@@ -4828,12 +4813,6 @@ def effective_image_request_mode(provider, model=""):
     detected = detect_image_request_mode((provider or {}).get("base_url"), [model])
     if detected:
         return detected
-    if str((provider or {}).get("id") or "").strip().lower() == "exellome":
-        overrides = (provider or {}).get("model_request_modes")
-        if isinstance(overrides, dict):
-            mode = str(overrides.get(str(model or "").strip()) or "").strip().lower()
-            if mode in {"openai", "openai-video-proxy", "openai-json", "openai-responses", "gemini"}:
-                return mode
     return normalize_image_request_mode((provider or {}).get("image_request_mode"))
 
 def is_gemini_provider(provider):
@@ -11928,24 +11907,31 @@ async def generate_ai_image(prompt, size, quality, model, reference_images=None,
             local_image_paths = [openai_video_proxy_local_image_path(ref) for ref in refs_for_proxy]
             has_local_images = any(local_image_paths)
             if has_local_images:
-                multipart_fields = [(key, (None, str(value))) for key, value in body.items()]
+                form_data = [(key, value) for key, value in body.items()]
                 for ref, local_path in zip(refs_for_proxy, local_image_paths):
                     if local_path:
                         continue
                     url = await openai_video_proxy_public_reference_url(ref)
                     if url:
-                        multipart_fields.append(("images", (None, str(url))))
-                for local_path in local_image_paths:
-                    if not local_path:
-                        continue
-                    with open(local_path, "rb") as fh:
-                        file_bytes = fh.read()
-                    multipart_fields.append(("images", (os.path.basename(local_path), file_bytes, content_type_for_path(local_path))))
-                response = await client.post(
-                    video_url,
-                    headers=api_headers(json_body=False, provider=provider, model=model),
-                    files=multipart_fields,
-                )
+                        form_data.append(("images", url))
+                files = []
+                opened = []
+                try:
+                    for local_path in local_image_paths:
+                        if not local_path:
+                            continue
+                        fh = open(local_path, "rb")
+                        opened.append(fh)
+                        files.append(("images", (os.path.basename(local_path), fh, content_type_for_path(local_path))))
+                    response = await client.post(
+                        video_url,
+                        headers=api_headers(json_body=False, provider=provider, model=model),
+                        data=form_data,
+                        files=files,
+                    )
+                finally:
+                    for fh in opened:
+                        fh.close()
             else:
                 if refs_for_proxy:
                     body["images"] = [await openai_video_proxy_public_reference_url(ref) for ref in refs_for_proxy]

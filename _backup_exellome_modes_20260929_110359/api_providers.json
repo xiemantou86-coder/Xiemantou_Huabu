@@ -3376,16 +3376,6 @@
     "rh_workflows": [],
     "volcengine_project_name": "",
     "volcengine_region": "",
-    "transparent_png": false,
-    "model_request_modes": {
-      "gpt-image2-2k": "openai-video-proxy",
-      "gpt-image2-4k": "openai-video-proxy",
-      "Nano-Banana-2-2k": "openai-video-proxy",
-      "Nano-Banana-2-4k": "openai-video-proxy",
-      "Nano-Banana-Pro-2k": "openai-video-proxy",
-      "Nano-Banana-Pro-4k": "openai-video-proxy",
-      "gemini-3.1-flash-image-preview": "gemini",
-      "gemini-3-pro-image-preview": "gemini"
-    }
+    "transparent_png": false
   }
 ]

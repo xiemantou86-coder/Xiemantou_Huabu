@@ -3450,29 +3450,6 @@ function modelProtocolSelectHtml(kind, index, model, item){
         ${opt('gemini', 'Gemini')}
     </select>`;
 }
-function modelRequestModeSelectHtml(kind, index, model, item){
-    if(kind !== 'image' || item?.id !== 'exellome') return '';
-    const map = (item.model_request_modes && typeof item.model_request_modes === 'object') ? item.model_request_modes : {};
-    const current = String(map[String(model || '').trim()] || '').toLowerCase();
-    const option = (value, label) => `<option value="${value}" ${current === value ? 'selected' : ''}>${label}</option>`;
-    return `<select class="model-request-mode-select" title="Exellome 模型通道" onchange="updateModelRequestMode(${index}, this.value)">
-        <option value="" ${current === '' ? 'selected' : ''}>默认（异步）</option>
-        ${option('openai-video-proxy', '异步')}
-        ${option('openai', '同步')}
-        ${option('gemini', 'Gemini')}
-    </select>`;
-}
-function updateModelRequestMode(index, value){
-    const item = provider();
-    if(!item || item.id !== 'exellome') return;
-    const model = String(item.image_models?.[index] || '').trim();
-    if(!model) return;
-    if(!item.model_request_modes || typeof item.model_request_modes !== 'object') item.model_request_modes = {};
-    const mode = String(value || '').trim().toLowerCase();
-    if(['openai', 'openai-video-proxy', 'gemini'].includes(mode)) item.model_request_modes[model] = mode;
-    else delete item.model_request_modes[model];
-    renderModels('image');
-}
 function renderModels(kind){
     const item = provider();
     const key = kind === 'image' ? 'image_models' : kind === 'video' ? 'video_models' : 'chat_models';

@@ -3342,50 +3342,5 @@
     "volcengine_project_name": "",
     "volcengine_region": "",
     "transparent_png": false
-  },
-  {
-    "id": "exellome",
-    "name": "EXELLOME",
-    "base_url": "https://new.exellome.online",
-    "protocol": "apimart",
-    "image_request_mode": "openai-video-proxy",
-    "image_generation_endpoint": "",
-    "image_edit_endpoint": "",
-    "enabled": true,
-    "primary": false,
-    "image_models": [
-      "gpt-image2-2k",
-      "gpt-image2-4k",
-      "Nano-Banana-2-2k",
-      "Nano-Banana-2-4k",
-      "Nano-Banana-Pro-2k",
-      "Nano-Banana-Pro-4k",
-      "gemini-3.1-flash-image-preview",
-      "gemini-3-pro-image-preview"
-    ],
-    "chat_models": [],
-    "video_models": [],
-    "model_names": {},
-    "model_protocols": {
-      "gemini-3.1-flash-image-preview": "gemini",
-      "gemini-3-pro-image-preview": "gemini"
-    },
-    "ms_loras": [],
-    "ms_defaults_version": 0,
-    "rh_apps": [],
-    "rh_workflows": [],
-    "volcengine_project_name": "",
-    "volcengine_region": "",
-    "transparent_png": false,
-    "model_request_modes": {
-      "gpt-image2-2k": "openai-video-proxy",
-      "gpt-image2-4k": "openai-video-proxy",
-      "Nano-Banana-2-2k": "openai-video-proxy",
-      "Nano-Banana-2-4k": "openai-video-proxy",
-      "Nano-Banana-Pro-2k": "openai-video-proxy",
-      "Nano-Banana-Pro-4k": "openai-video-proxy",
-      "gemini-3.1-flash-image-preview": "gemini",
-      "gemini-3-pro-image-preview": "gemini"
-    }
   }
 ]

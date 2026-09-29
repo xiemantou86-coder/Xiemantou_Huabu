@@ -1,5 +1,132 @@
 [
     {
+        "prompt": "用参考图生成一只猫娘",
+        "images": [
+            "/assets/output/online_9f0fe10b38.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_9f0fe10b38.png",
+                "kind": "image",
+                "name": "online_9f0fe10b38.png",
+                "natural_w": 2560,
+                "natural_h": 1440,
+                "width": 2560,
+                "height": 1440
+            }
+        ],
+        "timestamp": 1790661990.2264776,
+        "type": "online",
+        "model": "gpt-image2-2k",
+        "provider_id": "exellome",
+        "provider_name": "EXELLOME",
+        "task_id": "task_8dwg0xvn19kDKiSlf79NgZvD57dgUxTT",
+        "request_id": "task_8dwg0xvn19kDKiSlf79NgZvD57dgUxTT",
+        "params": {
+            "provider_id": "exellome",
+            "model": "gpt-image2-2k",
+            "size": "2048x1152",
+            "requested_size": "2048x1152",
+            "quality": "medium",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_e2ec5b23bc3e.png",
+                    "name": "1785836362165.png",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": null
+    },
+    {
+        "prompt": "用参考图生成一只猫娘",
+        "images": [
+            "/assets/output/online_a3f2c34630.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_a3f2c34630.png",
+                "kind": "image",
+                "name": "online_a3f2c34630.png",
+                "natural_w": 2048,
+                "natural_h": 2048,
+                "width": 2048,
+                "height": 2048
+            }
+        ],
+        "timestamp": 1790660566.3356571,
+        "type": "online",
+        "model": "gpt-image2-2k",
+        "provider_id": "exellome",
+        "provider_name": "EXELLOME",
+        "task_id": "task_1tfBPP2LDg7khRImA6ci0wMyXF0UpGOw",
+        "request_id": "task_1tfBPP2LDg7khRImA6ci0wMyXF0UpGOw",
+        "params": {
+            "provider_id": "exellome",
+            "model": "gpt-image2-2k",
+            "size": "2048x1360",
+            "requested_size": "2048x1360",
+            "quality": "auto",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_e2ec5b23bc3e.png",
+                    "name": "1785836362165.png",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": null
+    },
+    {
+        "prompt": "用参考图生成一只猫娘",
+        "images": [
+            "/assets/output/online_f366fd8673.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_f366fd8673.png",
+                "kind": "image",
+                "name": "online_f366fd8673.png",
+                "natural_w": 2048,
+                "natural_h": 2048,
+                "width": 2048,
+                "height": 2048
+            }
+        ],
+        "timestamp": 1790657771.875593,
+        "type": "online",
+        "model": "gpt-image2-2k",
+        "provider_id": "exellome",
+        "provider_name": "EXELLOME",
+        "task_id": "task_UnGcxw9ujXc8soywoUHJwCTWw83D6JkG",
+        "request_id": "task_UnGcxw9ujXc8soywoUHJwCTWw83D6JkG",
+        "params": {
+            "provider_id": "exellome",
+            "model": "gpt-image2-2k",
+            "size": "2048x1360",
+            "requested_size": "2048x1360",
+            "quality": "auto",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": []
+        },
+        "raw_usage": null
+    },
+    {
         "prompt": "高清化图片\n\n在画面合适的位置添加slogan：\n永不言棄 凡軀也可斬魔\n\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
         "images": [
             "/assets/output/online_8b02e1f6b6.png"
