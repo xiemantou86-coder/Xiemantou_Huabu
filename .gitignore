@@ -2,5 +2,9 @@
 __pycache__/
 *.pyc
 data/update_backups/
+data/media_previews/
 output/
 .docx_qa/
+*.env
+.env
+_backup*/
