@@ -325,6 +325,33 @@ JIMENG_LOGIN_SESSION = {
 PROVIDER_ID_RE = re.compile(r"^[a-zA-Z0-9_-]{2,40}$")
 SUPPORTED_PROVIDER_PROTOCOLS = {"openai", "apimart", "gemini", "gemini-cli", "volcengine", "runninghub", "jimeng", "codex"}
 SUPPORTED_IMAGE_REQUEST_MODES = {"openai", "openai-json", "openai-video-proxy", "openai-responses", "tudou-async"}
+
+# Exellome 专属默认配置（缺失时自动注入，可在 API 设置页面自由编辑）
+EXELLOME_DEFAULT_BASE_URL = "https://new.exellome.online"
+EXELLOME_DEFAULT_IMAGE_MODELS = [
+    "gpt-image2-2k",
+    "gpt-image2-4k",
+    "Nano-Banana-2-2k",
+    "Nano-Banana-2-4k",
+    "Nano-Banana-Pro-2k",
+    "Nano-Banana-Pro-4k",
+    "gemini-3.1-flash-image-preview",
+    "gemini-3-pro-image-preview",
+]
+EXELLOME_DEFAULT_MODEL_PROTOCOLS = {
+    "gemini-3.1-flash-image-preview": "gemini",
+    "gemini-3-pro-image-preview": "gemini",
+}
+EXELLOME_DEFAULT_MODEL_REQUEST_MODES = {
+    "gpt-image2-2k": "openai-video-proxy",
+    "gpt-image2-4k": "openai-video-proxy",
+    "Nano-Banana-2-2k": "openai-video-proxy",
+    "Nano-Banana-2-4k": "openai-video-proxy",
+    "Nano-Banana-Pro-2k": "openai-video-proxy",
+    "Nano-Banana-Pro-4k": "openai-video-proxy",
+    "gemini-3.1-flash-image-preview": "gemini",
+    "gemini-3-pro-image-preview": "gemini",
+}
 RUNNINGHUB_DEFAULT_BASE_URL = "https://www.runninghub.ai"
 RUNNINGHUB_OPENAPI_BASE_URL = "https://www.runninghub.ai/openapi/v2"
 RUNNINGHUB_MODEL_REGISTRY_URL = "https://raw.githubusercontent.com/HM-RunningHub/ComfyUI_RH_OpenAPI/main/models_registry.json"
@@ -846,6 +873,29 @@ def default_api_providers():
             "volcengine_project_name": VOLCENGINE_DEFAULT_PROJECT_NAME,
             "volcengine_region": VOLCENGINE_DEFAULT_REGION,
         },
+        {
+            "id": "exellome",
+            "name": "EXELLOME",
+            "base_url": EXELLOME_DEFAULT_BASE_URL,
+            "protocol": "apimart",
+            "image_request_mode": "openai-video-proxy",
+            "image_generation_endpoint": "",
+            "image_edit_endpoint": "",
+            "enabled": True,
+            "primary": False,
+            "image_models": list(EXELLOME_DEFAULT_IMAGE_MODELS),
+            "chat_models": [],
+            "video_models": [],
+            "model_names": {},
+            "model_protocols": dict(EXELLOME_DEFAULT_MODEL_PROTOCOLS),
+            "model_request_modes": dict(EXELLOME_DEFAULT_MODEL_REQUEST_MODES),
+            "ms_loras": [],
+            "ms_defaults_version": 0,
+            "rh_apps": [],
+            "rh_workflows": [],
+            "volcengine_project_name": "",
+            "volcengine_region": "",
+        },
     ]
 
 def merge_default_api_providers(providers, inject_missing=True):
@@ -909,6 +959,23 @@ def merge_default_api_providers(providers, inject_missing=True):
             current["protocol"] = "volcengine"
             current["volcengine_project_name"] = str(current.get("volcengine_project_name") or VOLCENGINE_DEFAULT_PROJECT_NAME).strip() or VOLCENGINE_DEFAULT_PROJECT_NAME
             current["volcengine_region"] = str(current.get("volcengine_region") or VOLCENGINE_DEFAULT_REGION).strip() or VOLCENGINE_DEFAULT_REGION
+    # Exellome：缺失时自动注入到平台列表；已存在时保留用户自定义的模型、Key 与选项。
+    exellome_default = next((d for d in default_api_providers() if d["id"] == "exellome"), None)
+    if exellome_default:
+        current = next((item for item in merged if item.get("id") == "exellome"), None)
+        if not current:
+            merged.append(dict(exellome_default))
+        else:
+            if not current.get("base_url"):
+                current["base_url"] = exellome_default["base_url"]
+            current["protocol"] = "apimart"
+            current["image_request_mode"] = "openai-video-proxy"
+            if not current.get("image_models"):
+                current["image_models"] = list(EXELLOME_DEFAULT_IMAGE_MODELS)
+            if not current.get("model_protocols"):
+                current["model_protocols"] = dict(EXELLOME_DEFAULT_MODEL_PROTOCOLS)
+            if not current.get("model_request_modes"):
+                current["model_request_modes"] = dict(EXELLOME_DEFAULT_MODEL_REQUEST_MODES)
     # 即梦 CLI 不再是强制保留的默认平台：仅在用户已添加了即梦协议的平台时，规范化其默认模型/地址。
     for current in merged:
         if not is_jimeng_provider(current):
