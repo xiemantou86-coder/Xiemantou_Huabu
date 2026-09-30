@@ -2847,7 +2847,7 @@ function syncGameKvPopupPromptOutputs(sourceId){
     refreshGameKvPopupPromptDom(source);
     canvasDataConnections().filter(c => c.from === source.id && isKvPromptConnection(c)).forEach(c => {
         const target = nodes.find(n => n.id === c.to);
-        if(target?.type === 'prompt') { target.text = segments.combined; refreshSyncedPromptDom?.(target, segments.combined); }
+        if(target?.type === 'prompt') syncKvTextToPrompt(target, segments.combined);
         if(isGameKvPopupPromptNode(target)) syncGameKvPopupPromptOutputs(target.id);
     });
     return changed;
@@ -2947,8 +2947,16 @@ function compileIrregularPopupKvConfig(node){
     const references = enabledReferences.filter(item => !dedicatedKeys.has(kvReferenceSelectionKey(item))
         && !kvReferenceMatchesRole(item, 'button')
         && !kvReferenceMatchesRole(item, 'logo'));
-    const composition = irregularPopupPreset(irregularPopupCompositionOptions(), node.compositionPreset);
-    const style = irregularPopupPreset(irregularPopupStyleOptions(), node.visualStylePreset);
+    // Keep the compiler usable in isolated callers (for example import/export
+    // validation) where the UI option helpers are not present yet.
+    const compositionOptions = typeof irregularPopupCompositionOptions === 'function'
+        ? irregularPopupCompositionOptions()
+        : IRREGULAR_POPUP_COMPOSITIONS;
+    const styleOptions = typeof irregularPopupStyleOptions === 'function'
+        ? irregularPopupStyleOptions()
+        : IRREGULAR_POPUP_STYLES;
+    const composition = irregularPopupPreset(compositionOptions, node.compositionPreset);
+    const style = irregularPopupPreset(styleOptions, node.visualStylePreset);
     const compositionPrompt = node.compositionPreset === 'custom' ? String(node.customCompositionPrompt || '').trim() : String(composition?.prompt || '');
     const stylePrompt = node.visualStylePreset === 'custom' ? String(node.customStylePrompt || '').trim() : String(style?.prompt || '');
     const background = String(node.backgroundColor || '#000000').trim();
@@ -3093,10 +3101,7 @@ function syncIrregularPopupKvPromptOutputs(sourceId){
     refreshIrregularPopupKvPromptDom(source);
     canvasDataConnections().filter(c => c.from === source.id && isKvPromptConnection(c)).forEach(c => {
         const target = nodes.find(n => n.id === c.to);
-        if(target?.type === 'prompt'){
-            target.text = segments.combined;
-            refreshSyncedPromptDom?.(target, segments.combined);
-        }
+        if(target?.type === 'prompt') syncKvTextToPrompt(target, segments.combined);
     });
     return changed;
 }
@@ -3114,9 +3119,249 @@ const KV_CONNECTION_KIND_PROMPT = 'promptFlow';
 const KV_CONNECTION_KIND_IMAGE = 'kvImageBinding';
 const KV_CONNECTION_KIND_INHERIT = 'kvInheritance';
 const KV_CONNECTION_KIND_LEGACY_PROMPT = 'legacyKvPromptFlow';
+const KV_GALLERY_DEFAULT_SLOTS = Object.freeze([
+    {slotId:'main', role:'main', label:'主要画面 / 角色', prompt:'图片1作为主要画面/角色参考，保持角色身份、脸部、发型、服装和核心特征一致', enabled:true},
+    {slotId:'logo', role:'logo', label:'游戏 Logo', prompt:'图片2作为游戏 Logo 参考，仅参考 Logo 的形状、字形和品牌识别，不复制其他画面内容', enabled:false},
+    {slotId:'downloadButton', role:'downloadButton', label:'下载按钮', prompt:'图片3作为下载按钮样式参考，仅参考按钮的形状、边框和视觉质感', enabled:false},
+    {slotId:'copyStyle', role:'copyStyle', label:'文案样式', prompt:'图片4作为文案样式参考，参考字体、排版层级和文字质感，不复制其中的具体文字', enabled:false}
+]);
+function isKvReferenceGalleryNode(node){ return node?.type === 'kvReferenceGallery'; }
+function normalizeKvGallerySlot(slot, index){
+    const base = KV_GALLERY_DEFAULT_SLOTS.find(item => item.slotId === (slot?.slotId || slot?.id))
+        || (!slot?.slotId && !slot?.id ? KV_GALLERY_DEFAULT_SLOTS[index] : null) || {};
+    const slotId = String(slot?.slotId || slot?.id || base.slotId || `custom-${index + 1}`).trim() || `custom-${index + 1}`;
+    const role = String(slot?.role || base.role || 'custom').trim() || 'custom';
+    return {
+        ...slot,
+        slotId,
+        role,
+        label:String(slot?.label || base.label || `自定义参考图${index + 1}`),
+        prompt:String(slot?.prompt || base.prompt || `图片${index + 1}作为自定义参考图参考`),
+        enabled:slot?.enabled !== false,
+        imageNumber:Number(slot?.imageNumber) || index + 1,
+        imageNodeId:String(slot?.imageNodeId || '')
+    };
+}
+function normalizeKvReferenceGallery(node){
+    if(!node || !isKvReferenceGalleryNode(node)) return node;
+    const raw = Array.isArray(node.slots) && node.slots.length ? node.slots : KV_GALLERY_DEFAULT_SLOTS;
+    const seen = new Set();
+    node.slots = raw.map((item, index) => {
+        const normalized = normalizeKvGallerySlot(item, index);
+        let slotId = normalized.slotId;
+        if(seen.has(slotId)) slotId = `${slotId}-${index + 1}`;
+        seen.add(slotId);
+        return {...normalized, slotId};
+    });
+    const fixedIds = ['logo', 'downloadButton', 'copyStyle'];
+    node.slots = [...node.slots.filter(slot => !fixedIds.includes(slot.slotId)),
+        ...fixedIds.flatMap(id => node.slots.filter(slot => slot.slotId === id))];
+    node.title = String(node.title || 'KV 参考图库');
+    if(!Number.isFinite(Number(node.w)) || Number(node.w) < 360) node.w = 420;
+    if(!Number.isFinite(Number(node.h)) || Number(node.h) < 420) node.h = 560;
+    return node;
+}
+function kvGallerySlot(node, slotId){
+    normalizeKvReferenceGallery(node);
+    return node?.slots?.find(slot => String(slot.slotId) === String(slotId)) || null;
+}
+function kvGallerySource(node){
+    if(!isKvPromptNode(node)) return null;
+    const connection = canvasDataConnections().find(item => item.to === node.id && isKvGalleryConnection(item));
+    return connection ? nodes.find(item => item.id === connection.from) || null : null;
+}
+function kvGallerySlotConnection(gallery, slotId){
+    if(!isKvReferenceGalleryNode(gallery)) return null;
+    return canvasDataConnections().find(item => item.to === gallery.id
+        && isKvGallerySlotConnection(item)
+        && String(item.toPort || '').replace(/^gallerySlot:/, '') === String(slotId));
+}
+function kvGallerySlotSource(gallery, slot){
+    const connection = kvGallerySlotConnection(gallery, slot?.slotId);
+    const source = connection ? nodes.find(item => item.id === connection.from) : nodes.find(item => item.id === slot?.imageNodeId);
+    if(!source) return null;
+    const refs = mediaRefsFromNode(source);
+    let ref = imageRefsOnly(refs)[0];
+    if(!ref?.url) return null;
+    if(source.type === 'group'){
+        const imageId = (source.items || []).find(id => nodes.some(node => node.id === id && node.url === ref.url));
+        if(imageId) ref = {...ref, nodeId:imageId};
+    }
+    return {source, ref, sourceId:String(source.id || ''), preview:String(ref.url || '')};
+}
+function kvGalleryReferences(gallery){
+    normalizeKvReferenceGallery(gallery);
+    const seen = new Set();
+    return (gallery?.slots || []).flatMap((slot, index) => {
+        const source = kvGallerySlotSource(gallery, slot);
+        if(slot.enabled === false || !source) return [];
+        const identity = `${source.sourceId}::${source.preview}`;
+        if(seen.has(identity)) return [];
+        seen.add(identity);
+        const imageNodeId = source?.sourceId || String(slot.imageNodeId || '');
+        return {
+            ...slot,
+            id:`gallery::${gallery.id}::${slot.slotId}`,
+            value:`gallery::${gallery.id}::${slot.slotId}`,
+            slotId:slot.slotId,
+            galleryId:gallery.id,
+            gallerySlotId:slot.slotId,
+            sourceKey:`kvref:gallery::${gallery.id}::slot::${slot.slotId}`,
+            sourceId:imageNodeId,
+            sourceNodeId:String(source.ref.nodeId || imageNodeId),
+            nodeId:imageNodeId,
+            preview:source?.preview || '',
+            imageNumber:slot.imageNumber,
+            inherited:false,
+            bound:Boolean(source),
+            enabled:slot.enabled !== false
+        };
+    }).map((reference, index) => {
+        const prompt = renumberKvReferencePrompt(reference.prompt, index + 1, reference.label, reference.imageNumber);
+        const slot = gallery.slots.find(item => item.slotId === reference.slotId);
+        slot.imageNumber = index + 1;
+        slot.prompt = prompt;
+        return {...reference, imageNumber:index + 1, prompt};
+    });
+}
+function reorderKvGallerySlots(gallery, movedId, targetId){
+    normalizeKvReferenceGallery(gallery);
+    const fixedIds = ['logo', 'downloadButton', 'copyStyle'];
+    if(!gallery || movedId === targetId || fixedIds.includes(movedId) || fixedIds.includes(targetId)) return false;
+    const from = gallery.slots.findIndex(slot => slot.slotId === movedId);
+    const to = gallery.slots.findIndex(slot => slot.slotId === targetId);
+    if(from < 0 || to < 0) return false;
+    pushUndo();
+    gallery.slots.splice(to, 0, gallery.slots.splice(from, 1)[0]);
+    syncGeneratorInputs();
+    scheduleKvGraphRefresh();
+    scheduleSave();
+    render();
+    return true;
+}
+function generatorReferenceGallery(gen){
+    if(!gen) return null;
+    const direct = canvasDataConnections().find(connection => connection.to === gen.id
+        && nodes.some(node => node.id === connection.from && node.type === 'kvReferenceGallery')
+        && !isKvGalleryConnection(connection));
+    if(direct) return nodes.find(node => node.id === direct.from) || null;
+    if(gen.type !== 'masterGenerator') return null;
+    const binding = canvasDataConnections().find(connection => connection.to === gen.id && isKvImageBindingConnection(connection));
+    return binding ? kvGallerySource(nodes.find(node => node.id === binding.from)) : null;
+}
+function kvGalleryGenerator(node){
+    const master = kvBoundMasterGenerator(node);
+    if(master) return master;
+    const gallery = kvGallerySource(node);
+    if(!gallery) return null;
+    const connection = canvasDataConnections().find(item => item.from === gallery.id
+        && nodes.some(target => target.id === item.to && ['generator', 'masterGenerator'].includes(target.type)));
+    return connection ? nodes.find(target => target.id === connection.to) || null : null;
+}
+function kvGalleryImageSources(gallery){
+    return kvGalleryReferences(gallery).map(reference => ({
+        id:reference.sourceId, type:'kvGalleryImage', label:reference.label, preview:reference.preview,
+        galleryControlled:true, galleryReference:reference, gallerySlotId:reference.gallerySlotId,
+        refs:[{url:reference.preview, name:reference.label, role:reference.role, kind:'image', nodeId:reference.sourceNodeId}],
+        prompt:''
+    }));
+}
+function kvGalleryDropPoint(gallery, slotIndex=0){
+    const x = Number(gallery?.x || 0) - 320;
+    const y = Number(gallery?.y || 0) + Math.max(0, Number(slotIndex) || 0) * 150;
+    return {x, y};
+}
+async function createImageNodeFromGalleryDropPayload(payload, point){
+    if(!payload || payload.type === 'none') return null;
+    if(payload.type === 'files'){
+        const created = await uploadMediaFiles((payload.files || []).slice(0, 1), point, true);
+        return created?.[0] || null;
+    }
+    if(payload.type === 'localPaths'){
+        const files = await importLocalImages((payload.localPaths || []).slice(0, 1));
+        const file = files?.[0];
+        if(!file?.url) return null;
+        const node = {id:uid('img'), type:'image', x:point.x, y:point.y, url:file.url, name:file.name || outputImageName(file.url), mediaKind:'image'};
+        nodes.push(node);
+        return node;
+    }
+    if(payload.type === 'url' && payload.url){
+        const node = {id:uid('img'), type:'image', x:point.x, y:point.y, url:payload.url, name:outputImageName(payload.url), mediaKind:isVideoUrl(payload.url) ? 'video' : isAudioUrl(payload.url) ? 'audio' : 'image'};
+        nodes.push(node);
+        return node;
+    }
+    return null;
+}
+async function applyImageDropPayloadToGallerySlot(galleryId, slotId, payload){
+    const gallery = nodes.find(node => node.id === galleryId);
+    const slot = kvGallerySlot(gallery, slotId);
+    if(!gallery || !slot || !payload || payload.type === 'none') return null;
+    const existing = kvGallerySlotSource(gallery, slot);
+    if(existing?.source?.type === 'image' && existing.source.id){
+        if(payload.type === 'files') pushUndo();
+        await applyImageDropPayloadToNode(existing.source.id, payload.type === 'files'
+            ? {...payload, files:(payload.files || []).slice(0, 1)}
+            : payload.type === 'localPaths'
+                ? {...payload, localPaths:(payload.localPaths || []).slice(0, 1)}
+                : payload);
+        syncGeneratorInputs();
+        scheduleKvGraphRefresh();
+        return existing.source;
+    }
+    pushUndo();
+    const slotIndex = Math.max(0, gallery.slots.findIndex(item => item.slotId === slotId));
+    const imageNode = await createImageNodeFromGalleryDropPayload(payload, kvGalleryDropPoint(gallery, slotIndex));
+    if(!imageNode) return null;
+    connections = connections.filter(connection => !(isKvGallerySlotConnection(connection)
+        && connection.to === gallery.id
+        && String(connection.toPort || '').replace(/^gallerySlot:/, '') === String(slotId)));
+    slot.imageNodeId = imageNode.id;
+    connections.push({id:uid('c'), kind:KV_CONNECTION_KIND_GALLERY_SLOT, from:imageNode.id, to:gallery.id, fromPort:'out', toPort:`gallerySlot:${slotId}`});
+    render();
+    reconcileAllGroupMemberships({persist:false});
+    syncGeneratorInputs();
+    scheduleKvGraphRefresh();
+    scheduleSave();
+    return imageNode;
+}
+async function handleKvGallerySlotDropEvent(e, galleryId, slotId, highlightEl){
+    // Stop bubbling before awaiting file-entry reads, otherwise the board also
+    // consumes this drop and creates an unrelated image node.
+    clearImageNodeDropState(e, highlightEl);
+    try {
+        let payload;
+        if(hasOutputImageDrag(e.dataTransfer)){
+            payload = {type:'url', url:readDropData(e.dataTransfer, 'application/x-canvas-output-image')};
+        } else if(dropDataTypes(e.dataTransfer).includes('application/x-canvas-asset')){
+            const asset = JSON.parse(readDropData(e.dataTransfer, 'application/x-canvas-asset') || '{}');
+            payload = asset.url && mediaKindForRef(asset) === 'image' ? {type:'url', url:asset.url} : {type:'none'};
+        } else {
+            payload = await resolveImageDropPayload(e.dataTransfer);
+        }
+        if(payload.type === 'files') payload = {...payload, files:payload.files.filter(file => mediaKindForUpload(file) === 'image').slice(0, 1)};
+        if(payload.type === 'none' || (payload.type === 'files' && !payload.files.length)
+            || (payload.type === 'url' && (!payload.url || isVideoUrl(payload.url) || isAudioUrl(payload.url)))) return;
+        await applyImageDropPayloadToGallerySlot(galleryId, slotId, payload);
+        setStatus(langIsEn() ? 'Gallery reference updated' : '图库参考图已更新');
+    } catch(err) {
+        setStatus('Ready');
+        showErrorModal(err.message || (langIsEn() ? 'Image import failed' : '导入图片失败'), langIsEn() ? 'Image import failed' : '导入图片失败');
+    }
+}
+function isKvGalleryConnection(connection){ return kvConnectionKind(connection) === KV_CONNECTION_KIND_GALLERY; }
+function isKvGallerySlotConnection(connection){ return kvConnectionKind(connection) === KV_CONNECTION_KIND_GALLERY_SLOT; }
+function clearKvGallerySlotConnectionState(connection){
+    if(!connection || !isKvGallerySlotConnection(connection)) return;
+    const gallery = nodes.find(node => node.id === connection.to);
+    const slotId = String(connection.toPort || '').replace(/^gallerySlot:/, '');
+    const slot = kvGallerySlot(gallery, slotId);
+    if(slot && slot.imageNodeId === connection.from) slot.imageNodeId = '';
+}
 function isKvPromptNode(node){
     return isGameKvPromptNode(node) || isGameKvPopupPromptNode(node) || isIrregularPopupKvPromptNode(node);
 }
+const KV_CONNECTION_KIND_GALLERY = 'kvReferenceGallery';
+const KV_CONNECTION_KIND_GALLERY_SLOT = 'kvReferenceGallerySlot';
 function kvConnectionKind(connection, fromNode=null, toNode=null){
     // `dataFlow` was the only persisted data-link kind before KV ports were
     // split. Reclassify those legacy links from their endpoints, while
@@ -3126,6 +3371,8 @@ function kvConnectionKind(connection, fromNode=null, toNode=null){
     const to = toNode || nodes.find(node => node.id === connection?.to);
     if(!from || !to) return '';
     if(isLabelNode(from) || isLabelNode(to)) return 'labelBinding';
+    if(to?.type === 'kvReferenceGallery' && String(connection?.toPort || '').startsWith('gallerySlot:')) return KV_CONNECTION_KIND_GALLERY_SLOT;
+    if(from?.type === 'kvReferenceGallery' && isKvPromptNode(to)) return KV_CONNECTION_KIND_GALLERY;
     if(isKvPromptNode(from) && to.type === 'prompt') return KV_CONNECTION_KIND_PROMPT;
     if(isGameKvPromptNode(from) && (isGameKvPopupPromptNode(to) || isIrregularPopupKvPromptNode(to))) return KV_CONNECTION_KIND_INHERIT;
     // Popup KV nodes could feed generators before image bindings existed.
@@ -3155,6 +3402,8 @@ function kvBoundMasterGenerator(node){
 }
 function configuredKvReferences(node){
     if(!node) return [];
+    const gallery = kvGallerySource(node);
+    if(gallery) return kvGalleryReferences(gallery);
     if(isGameKvPopupPromptNode(node)) return configuredPopupReferences(node);
     if(isIrregularPopupKvPromptNode(node)) return configuredIrregularPopupReferences(node);
     if(isGameKvPromptNode(node)){
@@ -3234,19 +3483,31 @@ function remapKvReferenceState(node, idMap){
     });
     return node;
 }
+function remapKvGalleryState(node, idMap){
+    if(!isKvReferenceGalleryNode(node) || !(idMap instanceof Map) || !idMap.size) return node;
+    normalizeKvReferenceGallery(node);
+    node.slots.forEach(slot => {
+        if(slot?.imageNodeId && idMap.has(slot.imageNodeId)) slot.imageNodeId = idMap.get(slot.imageNodeId);
+    });
+    return node;
+}
 function kvBoundImageEntries(node){
-    const master = kvBoundMasterGenerator(node);
-    if(!master) return [];
-    const ordered = orderedSources(master, generatorSources(master));
+    const gallery = typeof kvGallerySource === 'function' ? kvGallerySource(node) : null;
+    const master = gallery ? kvGalleryGenerator(node) : kvBoundMasterGenerator(node);
+    if(!master && !gallery) return [];
+    const ordered = master ? orderedSources(master, generatorSources(master)) : kvGalleryImageSources(gallery);
     return ordered.flatMap(source => imageRefsOnly(source.refs || []).map((ref, index) => {
         const identity = kvReferenceIdentity(source, ref, index);
         const legacy = kvLegacyReferenceAliases(source, ref, index);
+        const galleryReference = source.galleryReference;
         return {
-            sourceKey:identity.sourceKey,
+            sourceKey:galleryReference?.sourceKey || identity.sourceKey,
             legacySourceKeys:legacy.keys,
             legacySourcePrefixes:legacy.prefixes,
             sourceId:String(source.id || ''),
-            sourceNodeId:identity.sourceNodeId,
+            sourceNodeId:galleryReference?.sourceNodeId || identity.sourceNodeId,
+            gallerySlotId:galleryReference?.gallerySlotId || '',
+            galleryControlled:Boolean(source.galleryControlled),
             label:String(source.label || ref?.name || `参考图${index + 1}`),
             preview:String(ref?.url || source.preview || ''),
             ref
@@ -3274,8 +3535,13 @@ function kvLocalBoundReferences(node, configured){
     const bound = node.referenceBindings;
     const alreadyUsed = new Set(Object.keys(bound));
     images.forEach((image, index) => {
+        if(image.galleryControlled) return;
         if(kvTakeKeyedSetting(bound, image.sourceKey, image.legacySourceKeys, image.legacySourcePrefixes)) return;
-        const seed = configured.find((item, seedIndex) => seedIndex === index && !alreadyUsed.has(String(item?.sourceKey || ''))) || null;
+        const seed = configured.find((item, seedIndex) => (
+            (image.gallerySlotId && String(item?.gallerySlotId || item?.slotId || '') === String(image.gallerySlotId))
+            || String(item?.sourceKey || '') === String(image.sourceKey || '')
+            || (seedIndex === index && !alreadyUsed.has(String(item?.sourceKey || '')))
+        )) || null;
         bound[image.sourceKey] = {
             label:String(seed?.label || image.label || `参考图${index + 1}`),
             prompt:String(seed?.prompt || ''),
@@ -3284,6 +3550,12 @@ function kvLocalBoundReferences(node, configured){
         alreadyUsed.add(image.sourceKey);
     });
     return images.map((image, index) => {
+        if(image.galleryControlled){
+            const configuredReference = configured.find(item => item.sourceKey === image.sourceKey) || {};
+            return {...configuredReference, ...image, id:image.sourceKey, value:image.sourceKey,
+                label:image.label, prompt:String(configuredReference.prompt || ''),
+                imageNumber:configuredReference.imageNumber, enabled:true, inherited:false, bound:true, orderLocked:true};
+        }
         const saved = kvTakeKeyedSetting(bound, image.sourceKey, image.legacySourceKeys, image.legacySourcePrefixes) || {};
         return {
             id:image.sourceKey,
@@ -3293,6 +3565,8 @@ function kvLocalBoundReferences(node, configured){
             legacySourcePrefixes:image.legacySourcePrefixes,
             sourceId:image.sourceId,
             sourceNodeId:image.sourceNodeId,
+            gallerySlotId:image.gallerySlotId || '',
+            orderLocked:typeof kvGallerySource === 'function' && Boolean(kvGallerySource(node)),
             preview:image.preview,
             label:String(saved.label || image.label || `参考图${index + 1}`),
             prompt:String(saved.prompt || ''),
@@ -3328,7 +3602,8 @@ function kvEffectiveReferences(node, configured=null, visited=new Set()){
     });
     const localBound = kvLocalBoundReferences(node, ownConfigured);
     const inheritedKeys = new Set(inherited.map(item => item.sourceKey).filter(Boolean));
-    const hasImageBinding = Boolean(kvBoundMasterGenerator(node));
+    const hasImageBinding = Boolean(kvBoundMasterGenerator(node))
+        || (typeof kvGallerySource === 'function' && Boolean(kvGallerySource(node)));
     const local = (hasImageBinding ? localBound : ownConfigured.map((item, index) => ({
         ...item,
         id:String(item?.id || item?.value || `reference-${index + 1}`),
@@ -3338,7 +3613,9 @@ function kvEffectiveReferences(node, configured=null, visited=new Set()){
         inherited:false,
         bound:false,
         enabled:item?.enabled !== false
-    }))).filter(item => !inheritedKeys.has(item.sourceKey));
+    }))).filter(item => !inheritedKeys.has(item.sourceKey)
+        && !inherited.some(reference => reference.sourceNodeId && reference.sourceNodeId === item.sourceNodeId
+            && reference.preview && reference.preview === item.preview));
     return [...inherited, ...local].map((reference, index) => ({
         ...reference,
         imageNumber:index + 1,
@@ -3378,6 +3655,11 @@ function updateKvReferenceSetting(node, reference, patch={}){
         node.inheritedReferenceOverrides[reference.sourceKey] = {...current, ...patch};
         return;
     }
+    if(reference.gallerySlotId && typeof kvGallerySource === 'function'){
+        const gallery = kvGallerySource(node);
+        const slot = gallery ? kvGallerySlot(gallery, reference.gallerySlotId) : null;
+        if(slot){ Object.assign(slot, patch); return; }
+    }
     if(!node.referenceBindings || typeof node.referenceBindings !== 'object') node.referenceBindings = {};
     const current = node.referenceBindings[reference.sourceKey] || {};
     node.referenceBindings[reference.sourceKey] = {...current, ...patch};
@@ -3408,7 +3690,11 @@ function kvResolveReferenceSelection(node, field, references){
         return null;
     }
     let selected = null;
-    if(/^\d+$/.test(raw)) selected = list[Math.max(0, Number(raw) - 1)] || null;
+    if(/^\d+$/.test(raw)){
+        const slotId = field === 'logoReference' ? 'logo' : field === 'downloadButtonReference' ? 'downloadButton' : '';
+        if(slotId && typeof kvGallerySource === 'function' && kvGallerySource(node)) selected = list.find(reference => reference.gallerySlotId === slotId) || null;
+        else selected = list[Math.max(0, Number(raw) - 1)] || null;
+    }
     if(!selected) selected = list.find(reference => {
         const keys = [kvReferenceSelectionKey(reference), String(reference?.id || ''), String(reference?.value || ''), ...(reference?.legacySourceKeys || [])];
         return keys.includes(raw) || (reference?.legacySourcePrefixes || []).some(prefix => raw.startsWith(prefix));
@@ -3427,7 +3713,7 @@ function kvReferenceSelectOptions(references, selectedReference, includeNone=tru
 }
 function kvReferenceThumbnailHtml(reference, index, dataAttribute){
     const inherited = Boolean(reference.inherited);
-    const movable = !inherited && Boolean(reference.bound);
+    const movable = !inherited && !reference.orderLocked && Boolean(reference.bound);
     const preview = reference.preview
         ? `<span class="kv-reference-thumb">${isMissingAssetUrl(reference.preview) ? missingAssetHtml(reference.preview, true) : canvasPreviewImgHtml(reference.preview, 192, 'draggable="false"')}</span>`
         : `<span class="kv-reference-thumb placeholder"><i data-lucide="image"></i></span>`;
@@ -3441,7 +3727,7 @@ function kvReferenceRowsHtml(references, dataAttribute, emptyHtml='', syncEnable
         const cards = items.map(reference => kvReferenceThumbnailHtml(reference, list.indexOf(reference), dataAttribute)).join('');
         return `<div class="kv-reference-row ${movable ? 'movable' : 'readonly'}"><span class="kv-reference-row-label"><strong>${movable ? '可调整' : '不可调整'}</strong><small>${movable ? '拖动排序' : '顺序只读'}</small></span><div class="kv-reference-items">${cards}</div></div>`;
     };
-    const movable = reference => !reference.inherited && Boolean(reference.bound);
+    const movable = reference => !reference.inherited && !reference.orderLocked && Boolean(reference.bound);
     // 图层数据的真实归属在下游主控 API 里，这里给一个把 KV 面板顺序写回主控 inputs 的入口。
     const sync = syncEnabled
         ? `<div class="kv-reference-sync"><button type="button" class="kv-reference-sync-btn" data-kv-sync-master title="按上面的参考图顺序重排主控 API 的输入图片"><i data-lucide="refresh-cw"></i><span>同步顺序到主控 API</span></button><small>主控 API 的实际图片顺序将按上方 KV 顺序重排</small></div>`
@@ -3450,6 +3736,7 @@ function kvReferenceRowsHtml(references, dataAttribute, emptyHtml='', syncEnable
 }
 function bindKvReferenceReorder(strip, node){
     if(!strip) return;
+    if(typeof kvGallerySource === 'function' && kvGallerySource(node)) return;
     strip.querySelectorAll('.kv-reference-card[draggable="true"]').forEach(card => {
         card.addEventListener('dragstart', event => {
             event.stopPropagation();
@@ -3540,6 +3827,19 @@ function addGameKvPromptNode(point){
     const p = point || defaultPoint(-40, 0);
     const data = window.GameKvPrompt?.createNodeData?.() || {};
     return addNode({...data, id:uid('game-kv'), type:'gameKvPrompt', x:p.x, y:p.y});
+}
+function addKvReferenceGalleryNode(point){
+    const p = point || defaultPoint(-40, 0);
+    return addNode({
+        id:uid('kv-gallery'),
+        type:'kvReferenceGallery',
+        x:p.x,
+        y:p.y,
+        w:420,
+        h:560,
+        title:'KV 参考图库',
+        slots:KV_GALLERY_DEFAULT_SLOTS.map(item => ({...item}))
+    });
 }
 function addLoopNode(point){
     const p = point || defaultPoint(40, 0);
@@ -4334,6 +4634,17 @@ function linkCreateOptions(state){
             if(originPort === 'imageOut') return [{type:'masterGenerator', label:'主控API', icon:'images'}];
             return [{type:'prompt', label:tr('canvas.prompt'), icon:'text-cursor-input'}, labelOption];
         }
+        if(isKvReferenceGalleryNode(node) && originPort === 'galleryOut'){
+            return [
+                {type:'gameKvPrompt', label:'游戏 KV 提示词', icon:'megaphone'},
+                {type:'gameKvPopupPrompt', label:'大弹窗 KV', icon:'megaphone'},
+                {type:'irregularPopupKvPrompt', label:'异形弹窗 KV', icon:'panels-top-left'}
+            ];
+        }
+        if(isKvReferenceGalleryNode(node) && originPort === 'out'){
+            return [{type:'generator', label:tr('canvas.apiGenerate'), icon:'sparkles'},
+                {type:'masterGenerator', label:'主控API', icon:'images'}];
+        }
         if(node.type === 'gameKvPopupPrompt'){
             if(originPort === 'imageOut') return [{type:'masterGenerator', label:'主控API', icon:'images'}];
             return [{type:'prompt', label:tr('canvas.prompt'), icon:'text-cursor-input'}, labelOption];
@@ -4364,6 +4675,16 @@ function linkCreateOptions(state){
     }
     if((node.type === 'gameKvPopupPrompt' || node.type === 'irregularPopupKvPrompt') && originPort === 'kvIn'){
         return [{type:'gameKvPrompt', label:'游戏 KV 提示词', icon:'megaphone'}, labelOption];
+    }
+    if(isKvPromptNode(node) && originPort === 'galleryIn'){
+        return [{type:'kvReferenceGallery', label:'KV 参考图库', icon:'images'}, labelOption];
+    }
+    if(isKvReferenceGalleryNode(node) && String(originPort).startsWith('gallerySlot:')){
+        return [
+            {type:'image', label:tr('canvas.imageCard'), icon:'image-plus'},
+            {type:'group', label:tr('canvas.group'), icon:'group'},
+            {type:'output', label:'Output', icon:'circle-dot'}
+        ];
     }
     if(CANVAS_GENERATOR_TYPES.includes(node.type) || node.type === 'llm'){
         return [
@@ -4727,8 +5048,8 @@ function createLinkedNode(type){
     const fromId = state.originKind === 'out' ? origin.id : created.id;
     const toId = state.originKind === 'out' ? created.id : origin.id;
     const originPort = state.originPort || state.originKind;
-    let fromPort = state.originKind === 'out' ? originPort : (isGameKvPromptNode(created) && originPort === 'kvIn' ? 'kvOut' : 'out');
-    let toPort = state.originKind === 'out' ? (isKvPromptNode(created) ? 'kvIn' : 'in') : originPort;
+    let fromPort = state.originKind === 'out' ? originPort : (isGameKvPromptNode(created) && originPort === 'kvIn' ? 'kvOut' : isKvReferenceGalleryNode(created) && String(originPort).startsWith('gallerySlot:') ? originPort : 'out');
+    let toPort = state.originKind === 'out' ? (originPort === 'galleryOut' ? 'galleryIn' : isKvPromptNode(created) ? 'kvIn' : isKvReferenceGalleryNode(created) ? 'galleryIn' : 'in') : originPort;
     const fromNode = nodes.find(node => node.id === fromId);
     const toNode = nodes.find(node => node.id === toId);
     const kind = connectionKindFromPorts(fromNode, toNode, fromPort, toPort);
@@ -4740,10 +5061,16 @@ function createLinkedNode(type){
     if(canConnect(fromId, toId, fromPort, toPort, kind) && !connections.some(c => c.from === fromId && c.to === toId && kvConnectionKind(c) === kind)){
         replacePromptChainInput(fromId, toId);
         if(kind === KV_CONNECTION_KIND_IMAGE) connections = connections.filter(c => !(isKvImageBindingConnection(c) && (c.from === fromId || c.to === toId)));
+        if(kind === KV_CONNECTION_KIND_GALLERY) connections = connections.filter(c => !(isKvGalleryConnection(c) && c.to === toId));
+        if(kind === KV_CONNECTION_KIND_GALLERY_SLOT) connections = connections.filter(c => !(isKvGallerySlotConnection(c) && c.to === toId && c.toPort === toPort));
+        if(fromNode.type === 'kvReferenceGallery' && ['generator', 'masterGenerator'].includes(toNode.type)){
+            connections = connections.filter(c => c.to !== toId || !nodes.some(node => node.id === c.from && node.type === 'kvReferenceGallery'));
+        }
         connections.push({id:uid('c'), kind, from:fromId, to:toId, fromPort, toPort});
         syncLatestGeneratedOutputToConnection(fromId, toId);
         syncPromptChainOutputs(fromId, {updateDom:false});
         syncGeneratorInputs();
+        scheduleKvGraphRefresh();
         scheduleSave();
         render();
     }
@@ -4755,6 +5082,7 @@ function createNodeByType(type, point){
     if(type === 'irregularPopupKvPrompt') return addIrregularPopupKvPromptNode(point);
     if(type === 'label') return addLabelNode(point);
     if(type === 'gameKvPrompt') return addGameKvPromptNode(point);
+    if(type === 'kvReferenceGallery') return addKvReferenceGalleryNode(point);
     if(type === 'loop') return addLoopNode(point);
     if(type === 'group') return addGroupNode(point);
     if(type === 'llm') return addLLMNode(point);
@@ -4778,6 +5106,7 @@ function menuAdd(type){
     if(type === 'irregularPopupKvPrompt') addIrregularPopupKvPromptNode(menuPoint);
     if(type === 'label') addLabelNode(menuPoint);
     if(type === 'gameKvPrompt') addGameKvPromptNode(menuPoint);
+    if(type === 'kvReferenceGallery') addKvReferenceGalleryNode(menuPoint);
     if(type === 'loop') addLoopNode(menuPoint);
     if(type === 'llm') addLLMNode(menuPoint);
     if(type === 'generator') addGeneratorNode(menuPoint);
@@ -7488,8 +7817,47 @@ function refreshSyncedPromptDom(prompt, text){
     const el = nodesEl.querySelector(`.prompt-node[data-id="${CSS.escape(prompt.id)}"]`);
     const body = el?.querySelector('.node-body');
     const textarea = body?.querySelector('textarea');
-    if(textarea && textarea.value !== text) textarea.value = text;
+    if(textarea && textarea.value !== text){
+        textarea.value = text;
+        const highlight = body.querySelector('.prompt-highlight');
+        if(highlight){
+            highlight.innerHTML = promptHighlightHtml(text);
+            syncPromptHighlightStyle(highlight, textarea);
+            positionPromptHighlight(highlight, textarea);
+        }
+    }
     if(body) refreshPromptCounter(body, text);
+    const notice = body?.querySelector('[data-kv-update-notice]');
+    if(notice) notice.hidden = !(prompt.kvManualOverride && prompt.kvPendingUpdate);
+}
+function syncKvTextToPrompt(prompt, text, options={}){
+    if(prompt?.type !== 'prompt') return false;
+    const next = String(text ?? '');
+    const previousText = String(prompt.text ?? '');
+    const previousSource = prompt.kvSourceText;
+    const previousPending = Boolean(prompt.kvPendingUpdate);
+    prompt.kvSourceText = next;
+    if(prompt.kvManualOverride){
+        if(typeof prompt.kvManualBaseText !== 'string') prompt.kvManualBaseText = typeof previousSource === 'string' ? previousSource : next;
+        prompt.kvPendingUpdate = next !== prompt.kvManualBaseText;
+    }else{
+        prompt.text = next;
+        prompt.kvManualBaseText = next;
+        prompt.kvPendingUpdate = false;
+    }
+    if(options.updateDom !== false) refreshSyncedPromptDom(prompt, String(prompt.text ?? ''));
+    return previousText !== String(prompt.text ?? '') || previousSource !== next || previousPending !== Boolean(prompt.kvPendingUpdate);
+}
+function setKvPromptManualOverride(prompt, enabled){
+    prompt.kvManualOverride = Boolean(enabled);
+    prompt.kvManualBaseText = String(prompt.kvSourceText ?? prompt.text ?? '');
+    prompt.kvPendingUpdate = false;
+    if(!prompt.kvManualOverride) prompt.text = prompt.kvManualBaseText;
+}
+function applyKvPromptUpdate(prompt){
+    prompt.text = String(prompt.kvSourceText ?? prompt.text ?? '');
+    prompt.kvManualBaseText = prompt.text;
+    prompt.kvPendingUpdate = false;
 }
 function syncGameKvPromptOutputs(sourceId, options={}){
     const source = nodes.find(n => n.id === sourceId);
@@ -7502,11 +7870,7 @@ function syncGameKvPromptOutputs(sourceId, options={}){
         if(isKvInheritanceConnection(c) && isGameKvPopupPromptNode(target)){ syncGameKvPopupPromptOutputs(target.id); return; }
         if(isKvInheritanceConnection(c) && isIrregularPopupKvPromptNode(target)){ syncIrregularPopupKvPromptOutputs(target.id); return; }
         if(!isKvPromptConnection(c) || target?.type !== 'prompt') return;
-        if(target.text !== text){
-            target.text = text;
-            changed = true;
-        }
-        if(options.updateDom !== false) refreshSyncedPromptDom(target, text);
+        if(syncKvTextToPrompt(target, text, options)) changed = true;
     });
     syncKvInheritedConfiguration(source.id);
     return changed;
@@ -7551,8 +7915,15 @@ function updateGameKvConditionalUi(root){
     copySection?.querySelectorAll('input,select,textarea').forEach(control => {
         control.disabled = !copyEnabled;
     });
-    // 「游戏 Logo」开关跟随广告文案总开关一起置灰。
+    const logoEnabled = Boolean(root.querySelector('[data-kv-field="showLogo"]')?.checked);
+    const customButton = Boolean(root.querySelector('[data-kv-field="downloadButtonCustom"]')?.checked);
     root.querySelector('[data-kv-conditional="logo"]')?.classList.toggle('disabled', !copyEnabled);
+    const logoSelect = root.querySelector('[data-kv-field="logoReference"]');
+    const buttonSelect = root.querySelector('[data-kv-field="downloadButtonReference"]');
+    const customControl = root.querySelector('[data-kv-field="downloadButtonCustom"]');
+    if(logoSelect) logoSelect.disabled = !copyEnabled || !logoEnabled || logoSelect.options.length <= 1;
+    if(customControl) customControl.disabled = !copyEnabled;
+    if(buttonSelect) buttonSelect.disabled = !copyEnabled || !customButton || buttonSelect.options.length <= 1;
     subtitleField?.classList.toggle('disabled', !copyEnabled || !subtitleEnabled);
     negativeField?.classList.toggle('disabled', !negativeEnabled);
     const subtitle = subtitleField?.querySelector('textarea');
@@ -7567,10 +7938,12 @@ function renderGameKvPromptBody(node){
     node.text = outputPrompt;
     const checked = value => value ? 'checked' : '';
     const initialReferences = kvEffectiveReferences(node, configuredKvReferences(node));
+    const logoReference = kvResolveReferenceSelection(node, 'logoReference', initialReferences);
+    const buttonReference = kvResolveReferenceSelection(node, 'downloadButtonReference', initialReferences);
     const boundMaster = kvBoundMasterGenerator(node);
     const downstreamKvCount = canvasDataConnections().filter(connection => connection.from === node.id && isKvInheritanceConnection(connection) && isKvPromptNode(nodes.find(item => item.id === connection.to))).length;
     const referenceEmptyHtml = `<div class="kv-reference-empty"><i data-lucide="images"></i><span>${boundMaster ? '主控 API 暂无参考图片' : '从绿色图片端口连接主控 API 后显示参考图'}</span></div>`;
-    const referenceStripHtml = references => kvReferenceRowsHtml(references, 'data-kv-reference-toggle', referenceEmptyHtml, Boolean(boundMaster));
+    const referenceStripHtml = references => kvReferenceRowsHtml(references, 'data-kv-reference-toggle', referenceEmptyHtml, Boolean(boundMaster) && !kvGallerySource(node));
     const language = kvEffectiveLanguage(node);
     const languageSelect = language.options.map(item => `<option value="${escapeAttr(item.value)}" ${item.value === language.value ? 'selected' : ''}>${escapeHtml(item.label)}</option>`).join('');
     const wrap = document.createElement('div');
@@ -7618,7 +7991,9 @@ function renderGameKvPromptBody(node){
                 <label class="game-kv-field"><span>标题效果</span><select data-kv-field="titleEffect">${gameKvSelectOptions(gameKvPromptOptions('titleEffect'), state.titleEffect)}</select></label>
                 <label class="game-kv-field"><span>文案位置</span><select data-kv-field="copyPlacement">${gameKvSelectOptions(gameKvPromptOptions('copyPlacement'), state.copyPlacement)}</select></label>
             </div>
-            <label class="game-kv-switch game-kv-logo-switch" data-kv-conditional="logo"><span>游戏 Logo</span><input data-kv-field="showLogo" type="checkbox" ${checked(state.showLogo)}><span class="game-kv-switch-ui"></span></label>
+            <label class="game-kv-switch popup-kv-inline-switch"><span>下载按钮</span><input data-kv-field="downloadButtonEnabled" type="checkbox" ${checked(state.downloadButtonEnabled)}><span class="game-kv-switch-ui"></span></label>
+            <div class="popup-kv-control-grid"><label class="game-kv-switch popup-kv-inline-switch"><span>按钮参考图自定义</span><input data-kv-field="downloadButtonCustom" type="checkbox" ${checked(state.downloadButtonCustom)}><span class="game-kv-switch-ui"></span></label><label class="game-kv-field"><span>按钮参考图</span><select data-kv-field="downloadButtonReference">${kvReferenceSelectOptions(initialReferences, buttonReference)}</select></label></div>
+            <div class="popup-kv-control-grid" data-kv-conditional="logo"><label class="game-kv-switch popup-kv-inline-switch"><span>游戏 Logo</span><input data-kv-field="showLogo" type="checkbox" ${checked(state.showLogo)}><span class="game-kv-switch-ui"></span></label><label class="game-kv-field"><span>Logo 参考图</span><select data-kv-field="logoReference">${kvReferenceSelectOptions(initialReferences, logoReference)}</select></label></div>
         </section>
         <section class="game-kv-section kv-editor-section">
             <div class="kv-editor-section-head"><span class="kv-editor-section-index">06</span><span><strong>输出控制</strong><small>决定最终提示词包含的内容</small></span></div>
@@ -7685,6 +8060,11 @@ function renderGameKvPromptBody(node){
         liveReferences = kvEffectiveReferences(node, configuredKvReferences(node));
         const references = liveReferences;
         referenceStrip.innerHTML = referenceStripHtml(references);
+        ['logoReference', 'downloadButtonReference'].forEach(field => {
+            const select = wrap.querySelector(`[data-kv-field="${field}"]`);
+            if(select) select.innerHTML = kvReferenceSelectOptions(references, kvResolveReferenceSelection(node, field, references));
+        });
+        updateGameKvConditionalUi(wrap);
         bindReferenceButtons();
         bindKvReferenceReorder(referenceStrip, node);
         refreshIcons();
@@ -8254,7 +8634,7 @@ function restoreOutputScrolls(state){
     });
 }
 function isNodeControl(target){
-    return !!target.closest('textarea, input, select, option, button, audio, video, [contenteditable="true"], .seg, .gen-btn, .comfy-run, .input-item, .blank-image, .mode-tabs, .ms-model-tabs, .llm-provider, .llm-output, .llm-chat-log, .llm-bubble, .llm-pane-resizer, .loop-preview, .ltx-director-timeline-host, .minimax-canvas-workbench, .pr-wrapper, .pr-toolbar, .pr-viewport, .pr-canvas, .pr-player-controls, .pr-prompt-area, .game-kv-switch');
+    return !!target.closest('textarea, input, select, option, button, audio, video, [contenteditable="true"], .seg, .gen-btn, .comfy-run, .input-item, .blank-image, .mode-tabs, .ms-model-tabs, .llm-provider, .llm-output, .llm-chat-log, .llm-bubble, .llm-pane-resizer, .loop-preview, .ltx-director-timeline-host, .minimax-canvas-workbench, .pr-wrapper, .pr-toolbar, .pr-viewport, .pr-canvas, .pr-player-controls, .pr-prompt-area, .game-kv-switch, .prompt-kv-edit-switch');
 }
 function destroyLTXEditor(node){
     if(!node?._ltxEditor) return;
@@ -8503,7 +8883,7 @@ function renderGameKvPopupPromptNode(node){
     const copy = kvEffectiveCopy(node);
     const boundMaster = kvBoundMasterGenerator(node);
     const referenceEmptyHtml = `<div class="kv-reference-empty"><i data-lucide="images"></i><span>${boundMaster ? '当前主控 API 暂无新增图片' : '从绿色图片端口连接主控 API'}</span></div>`;
-    const referenceStripHtml = kvReferenceRowsHtml(references, 'data-popup-reference-toggle', referenceEmptyHtml, Boolean(boundMaster));
+    const referenceStripHtml = kvReferenceRowsHtml(references, 'data-popup-reference-toggle', referenceEmptyHtml, Boolean(boundMaster) && !kvGallerySource(node));
     const languageSelect = languageOptions.map(item => `<option value="${escapeAttr(item.value)}" ${item.value === language?.value ? 'selected' : ''}>${escapeHtml(item.label)}</option>`).join('');
     const buttonReference = kvResolveReferenceSelection(node, 'downloadButtonReference', references);
     const buttonReferenceOptions = kvReferenceSelectOptions(references, buttonReference);
@@ -8644,7 +9024,7 @@ function renderGameKvPopupPromptNode(node){
         if(!referenceStrip) return;
         liveReferences = popupReferences(node);
         const emptyHtml = `<div class="kv-reference-empty"><i data-lucide="images"></i><span>${kvBoundMasterGenerator(node) ? '当前主控 API 暂无新增图片' : '从绿色图片端口连接主控 API'}</span></div>`;
-        referenceStrip.innerHTML = kvReferenceRowsHtml(liveReferences, 'data-popup-reference-toggle', emptyHtml, Boolean(kvBoundMasterGenerator(node)));
+        referenceStrip.innerHTML = kvReferenceRowsHtml(liveReferences, 'data-popup-reference-toggle', emptyHtml, Boolean(kvBoundMasterGenerator(node)) && !kvGallerySource(node));
         const refSelect = el.querySelector('[data-popup-field="downloadButtonReference"]');
         if(refSelect){
             const selectedReference = kvResolveReferenceSelection(node, 'downloadButtonReference', liveReferences);
@@ -8686,7 +9066,7 @@ function renderGameKvPopupPromptNode(node){
     };
     el.onmousedown = e => { if(e.button === 0 && !isNodeControl(e.target) && !e.target.closest('.port,.resize-handle')) startNodeDrag(e, node); };
     el.querySelectorAll('button,textarea').forEach(c => c.addEventListener('mousedown', e => e.stopPropagation()));
-    el.insertAdjacentHTML('beforeend', `<div class="port in kv-special-port kv-inherit-port" data-port="kvIn" title="连接上游 KV 配置"></div><div class="port out kv-special-port kv-prompt-port" data-port="promptOut" title="输出提示词到 Prompt"></div><div class="port out kv-special-port kv-image-port" data-port="imageOut" title="绑定主控 API 图片"></div><div class="resize-handle" title="缩放"></div>`);
+    el.insertAdjacentHTML('beforeend', `<div class="port in kv-special-port kv-inherit-port" data-port="kvIn" title="连接上游 KV 配置"></div><div class="port in kv-special-port kv-gallery-port" data-port="galleryIn" title="连接 KV 参考图库"></div><div class="port out kv-special-port kv-prompt-port" data-port="promptOut" title="输出提示词到 Prompt"></div><div class="port out kv-special-port kv-image-port" data-port="imageOut" title="绑定主控 API 图片"></div><div class="resize-handle" title="缩放"></div>`);
     el.querySelectorAll('.port.in,.port.out').forEach(port => { port.onmousedown = e => { if(e.button === 0) startLink(e, node.id, port.classList.contains('out') ? 'out' : 'in', port.dataset.port); }; });
     el.querySelector('.resize-handle').onmousedown = e => startNodeResize(e, node);
     return el;
@@ -8710,7 +9090,7 @@ function renderIrregularPopupKvPromptNode(node){
     const backgroundColor = String(node.backgroundColor || '#000000').trim().toLowerCase();
     const backgroundPresetOptions = IRREGULAR_POPUP_BACKGROUND_PRESETS.map(item => `<option value="${escapeAttr(item.value)}" ${item.value !== 'custom' && item.value === backgroundColor ? 'selected' : ''}>${escapeHtml(item.label)}${item.color ? ` · ${item.color}` : ''}</option>`).join('');
     const referenceEmptyHtml = `<div class="kv-reference-empty"><i data-lucide="images"></i><span>${boundMaster ? '当前主控 API 暂无新增图片' : '从绿色图片端口连接主控 API'}</span></div>`;
-    const referenceStripHtml = kvReferenceRowsHtml(references, 'data-irregular-reference-toggle', referenceEmptyHtml, Boolean(boundMaster));
+    const referenceStripHtml = kvReferenceRowsHtml(references, 'data-irregular-reference-toggle', referenceEmptyHtml, Boolean(boundMaster) && !kvGallerySource(node));
     const el = document.createElement('div');
     el.className = `node irregularPopupKvPrompt-node sized ${selected.has(node.id) ? 'selected' : ''}`;
     el.style.left = `${node.x}px`;
@@ -8928,7 +9308,7 @@ function renderIrregularPopupKvPromptNode(node){
         if(!referenceStrip) return;
         liveReferences = irregularPopupReferences(node);
         const emptyHtml = `<div class="kv-reference-empty"><i data-lucide="images"></i><span>${kvBoundMasterGenerator(node) ? '当前主控 API 暂无新增图片' : '从绿色图片端口连接主控 API'}</span></div>`;
-        referenceStrip.innerHTML = kvReferenceRowsHtml(liveReferences, 'data-irregular-reference-toggle', emptyHtml, Boolean(kvBoundMasterGenerator(node)));
+        referenceStrip.innerHTML = kvReferenceRowsHtml(liveReferences, 'data-irregular-reference-toggle', emptyHtml, Boolean(kvBoundMasterGenerator(node)) && !kvGallerySource(node));
         [['downloadButtonReference', 'downloadButtonEnabled'], ['logoReference', 'logoEnabled']].forEach(([field, enabledField]) => {
             const select = el.querySelector(`[data-irregular-field="${field}"]`);
             if(!select) return;
@@ -8989,7 +9369,121 @@ function renderIrregularPopupKvPromptNode(node){
     el.onclick = event => { event.stopPropagation(); if(isNodeControl(event.target)) return; if(event.ctrlKey || event.metaKey) selected.has(node.id) ? selected.delete(node.id) : selected.add(node.id); else if(!selected.has(node.id)){ selected.clear(); selected.add(node.id); } refreshSelectionVisuals(); };
     el.onmousedown = event => { if(event.button === 0 && !isNodeControl(event.target) && !event.target.closest('.port,.resize-handle')) startNodeDrag(event, node); };
     el.querySelectorAll('button,input,select,textarea').forEach(control => control.addEventListener('mousedown', event => event.stopPropagation()));
-    el.insertAdjacentHTML('beforeend', '<div class="port in kv-special-port kv-inherit-port" data-port="kvIn" title="连接上游 KV 配置"></div><div class="port out kv-special-port kv-prompt-port" data-port="promptOut" title="输出提示词到 Prompt"></div><div class="port out kv-special-port kv-image-port" data-port="imageOut" title="绑定主控 API 图片"></div><div class="resize-handle" title="缩放"></div>');
+    el.insertAdjacentHTML('beforeend', '<div class="port in kv-special-port kv-inherit-port" data-port="kvIn" title="连接上游 KV 配置"></div><div class="port in kv-special-port kv-gallery-port" data-port="galleryIn" title="连接 KV 参考图库"></div><div class="port out kv-special-port kv-prompt-port" data-port="promptOut" title="输出提示词到 Prompt"></div><div class="port out kv-special-port kv-image-port" data-port="imageOut" title="绑定主控 API 图片"></div><div class="resize-handle" title="缩放"></div>');
+    el.querySelectorAll('.port.in,.port.out').forEach(port => { port.onmousedown = event => { if(event.button === 0) startLink(event, node.id, port.classList.contains('out') ? 'out' : 'in', port.dataset.port); }; });
+    el.querySelector('.resize-handle').onmousedown = event => startNodeResize(event, node);
+    return el;
+}
+function renderKvReferenceGalleryNode(node){
+    normalizeKvReferenceGallery(node);
+    const el = document.createElement('div');
+    el.className = `node kvReferenceGallery-node sized ${selected.has(node.id) ? 'selected' : ''}`;
+    el.style.left = `${node.x}px`;
+    el.style.top = `${node.y}px`;
+    el.style.width = `${node.w || 420}px`;
+    el.style.height = `${node.h || 560}px`;
+    el.dataset.id = node.id;
+    const fixedIds = ['logo', 'downloadButton', 'copyStyle'];
+    const activeReferences = kvGalleryReferences(node);
+    const slotHtml = (slot, index) => {
+        const source = kvGallerySlotSource(node, slot);
+        const preview = source?.preview
+            ? `<div class="kv-gallery-slot-preview" data-gallery-drop-preview="${escapeAttr(slot.slotId)}">${canvasPreviewImgHtml(source.preview, 220, 'draggable="false"')}</div>`
+            : `<div class="kv-gallery-slot-preview empty" data-gallery-drop-preview="${escapeAttr(slot.slotId)}"><i data-lucide="image-plus"></i><span>拖入图片</span></div>`;
+        const builtin = KV_GALLERY_DEFAULT_SLOTS.some(item => item.slotId === slot.slotId);
+        const fixed = fixedIds.includes(slot.slotId);
+        const number = activeReferences.find(reference => reference.slotId === slot.slotId)?.imageNumber || '-';
+        return `<div class="kv-gallery-slot ${slot.enabled !== false ? '' : 'disabled'} ${fixed ? 'kv-gallery-slot-fixed' : 'movable'}" draggable="false" data-gallery-slot="${escapeAttr(slot.slotId)}">
+            <div class="kv-gallery-slot-port-anchor"><div class="port in kv-gallery-slot-port" data-port="gallerySlot:${escapeAttr(slot.slotId)}" title="连接图片到${escapeAttr(slot.label)}"></div></div>
+            <div class="kv-gallery-slot-head"><span class="kv-gallery-slot-index">${number}</span><span class="kv-gallery-slot-handle" title="${fixed ? '固定顺序' : '拖动排序'}"><i data-lucide="${fixed ? 'lock' : 'grip-vertical'}"></i></span><input class="kv-gallery-slot-label" data-gallery-label="${escapeAttr(slot.slotId)}" value="${escapeAttr(slot.label)}" aria-label="参考图职责"><label class="game-kv-switch kv-gallery-slot-switch" title="启用此参考图"><input data-gallery-enabled="${escapeAttr(slot.slotId)}" type="checkbox" ${slot.enabled !== false ? 'checked' : ''}><span class="game-kv-switch-ui"></span></label>${builtin ? '' : `<button type="button" class="kv-gallery-slot-delete" data-gallery-delete="${escapeAttr(slot.slotId)}" title="删除参考图"><i data-lucide="trash-2"></i></button>`}</div>
+            <div class="kv-gallery-slot-body">${preview}<textarea data-gallery-prompt="${escapeAttr(slot.slotId)}" aria-label="参考图提示词">${escapeHtml(slot.prompt || '')}</textarea></div>
+        </div>`;
+    };
+    el.innerHTML = `<div class="node-head"><span class="node-title">${escapeHtml(node.title || 'KV 参考图库')}</span><button type="button" class="text-gray-300 hover:text-red-500" onclick="deleteNodeFromButton('${node.id}', event)" title="删除节点"><i data-lucide="x" class="w-4 h-4"></i></button></div><div class="node-body kv-gallery-body"><div class="kv-gallery-slots">${node.slots.filter(slot => !fixedIds.includes(slot.slotId)).map(slotHtml).join('')}</div><button type="button" class="kv-gallery-add" data-gallery-add><i data-lucide="plus"></i><span>新增参考图框</span></button><div class="kv-gallery-fixed-label">固定参考</div><div class="kv-gallery-slots kv-gallery-fixed-slots">${node.slots.filter(slot => fixedIds.includes(slot.slotId)).map(slotHtml).join('')}</div></div>`;
+    el.querySelectorAll('.kv-gallery-slot.movable').forEach(card => {
+        card.addEventListener('mousedown', event => {
+            if(event.button !== 0 || event.target.closest('input,textarea,button,.port,.game-kv-switch')) return;
+            event.preventDefault(); event.stopPropagation();
+            internalDrag = true;
+            let moved = false;
+            let target = null;
+            window.onmousemove = move => {
+                if(Math.hypot(move.clientX - event.clientX, move.clientY - event.clientY) < 4 && !moved) return;
+                moved = true;
+                card.classList.add('dragging');
+                target?.classList.remove('drag-over');
+                const hovered = document.elementFromPoint(move.clientX, move.clientY)?.closest('.kv-gallery-slot.movable');
+                target = hovered && el.contains(hovered) && hovered !== card ? hovered : null;
+                target?.classList.add('drag-over');
+            };
+            window.onmouseup = () => {
+                window.onmousemove = null; window.onmouseup = null;
+                internalDrag = false;
+                card.classList.remove('dragging'); target?.classList.remove('drag-over');
+                if(moved && target) reorderKvGallerySlots(node, card.dataset.gallerySlot, target.dataset.gallerySlot);
+            };
+        });
+    });
+    el.querySelectorAll('[data-gallery-drop-preview]').forEach(preview => {
+        const slotId = preview.dataset.galleryDropPreview || '';
+        preview.ondragover = event => allowImageNodeDropEvent(event, preview);
+        preview.ondragleave = event => {
+            event.stopPropagation();
+            preview.classList.remove('drag-over');
+        };
+        preview.ondrop = event => handleKvGallerySlotDropEvent(event, node.id, slotId, preview);
+    });
+    const scheduleGalleryUpdate = () => {
+        scheduleSave();
+        scheduleKvGraphRefresh();
+        syncGeneratorInputs();
+    };
+    el.querySelectorAll('[data-gallery-label]').forEach(input => input.addEventListener('input', event => {
+        const slot = kvGallerySlot(node, event.currentTarget.dataset.galleryLabel);
+        if(slot) slot.label = String(event.currentTarget.value || '').slice(0, 80);
+        scheduleGalleryUpdate();
+    }));
+    el.querySelectorAll('[data-gallery-prompt]').forEach(input => input.addEventListener('input', event => {
+        const slot = kvGallerySlot(node, event.currentTarget.dataset.galleryPrompt);
+        if(slot) slot.prompt = String(event.currentTarget.value || '').replace(/\r\n?/g, '\n');
+        scheduleGalleryUpdate();
+    }));
+    el.querySelectorAll('[data-gallery-enabled]').forEach(input => input.addEventListener('change', event => {
+        const slot = kvGallerySlot(node, event.currentTarget.dataset.galleryEnabled);
+        if(slot) slot.enabled = Boolean(event.currentTarget.checked);
+        render();
+        scheduleGalleryUpdate();
+    }));
+    el.querySelectorAll('[data-gallery-delete]').forEach(button => button.addEventListener('click', event => {
+        event.preventDefault();
+        event.stopPropagation();
+        pushUndo();
+        const slotId = button.dataset.galleryDelete;
+        connections = connections.filter(connection => !(connection.to === node.id && isKvGallerySlotConnection(connection) && String(connection.toPort || '').replace(/^gallerySlot:/, '') === String(slotId)));
+        node.slots = node.slots.filter(slot => slot.slotId !== slotId);
+        render();
+        scheduleGalleryUpdate();
+    }));
+    el.querySelector('[data-gallery-add]')?.addEventListener('click', event => {
+        event.preventDefault();
+        event.stopPropagation();
+        pushUndo();
+        const index = node.slots.length + 1;
+        node.slots.push({slotId:`custom-${Date.now().toString(36)}`, role:'custom', label:`自定义参考图${index}`, prompt:`图片${index}作为自定义参考图参考`, enabled:true, imageNodeId:''});
+        normalizeKvReferenceGallery(node);
+        render();
+        scheduleGalleryUpdate();
+    });
+    el.onclick = event => {
+        event.stopPropagation();
+        if(isNodeControl(event.target)) return;
+        if(event.ctrlKey || event.metaKey) selected.has(node.id) ? selected.delete(node.id) : selected.add(node.id);
+        else if(!selected.has(node.id)){ selected.clear(); selected.add(node.id); }
+        refreshSelectionVisuals();
+    };
+    el.onmousedown = event => { if(event.button === 0 && !isNodeControl(event.target) && !event.target.closest('.port,.resize-handle,[data-gallery-slot]')) startNodeDrag(event, node); };
+    el.querySelectorAll('button,input,textarea').forEach(control => control.addEventListener('mousedown', event => event.stopPropagation()));
+    el.insertAdjacentHTML('beforeend', '<div class="port out kv-gallery-out-port" data-port="galleryOut" title="参考职责：连接 KV"></div><div class="port out kv-gallery-image-port" data-port="out" title="图片输出：连接 API / 主控"></div><div class="resize-handle" title="缩放"></div>');
     el.querySelectorAll('.port.in,.port.out').forEach(port => { port.onmousedown = event => { if(event.button === 0) startLink(event, node.id, port.classList.contains('out') ? 'out' : 'in', port.dataset.port); }; });
     el.querySelector('.resize-handle').onmousedown = event => startNodeResize(event, node);
     return el;
@@ -8997,6 +9491,7 @@ function renderIrregularPopupKvPromptNode(node){
 function renderNode(node){
     if(isContainerGroupNode(node)) return renderContainerGroupNode(node);
     if(isLabelNode(node)) return renderLabelNode(node);
+    if(isKvReferenceGalleryNode(node)) return renderKvReferenceGalleryNode(node);
     if(isGameKvPopupPromptNode(node)) return renderGameKvPopupPromptNode(node);
     if(isIrregularPopupKvPromptNode(node)) return renderIrregularPopupKvPromptNode(node);
     normalizeApiNodeLayout(node);
@@ -9129,14 +9624,33 @@ function renderNode(node){
     if(node.type === 'prompt') {
         const syncSource = promptSyncSourceForPrompt(node.id);
         const synced = Boolean(syncSource);
+        const editable = !synced || node.kvManualOverride === true;
         const popupSynced = isGameKvPopupPromptNode(syncSource);
         const irregularSynced = isIrregularPopupKvPromptNode(syncSource);
         const templateActive = promptTemplateModal?.classList.contains('open') && promptTemplateNodeId === node.id;
         const toolbarControl = synced
             ? `<span class="prompt-sync-badge" title="${irregularSynced ? '由异形弹窗 KV 节点实时合并同步' : popupSynced ? '由大弹窗 KV 节点实时合并同步' : '由游戏 KV 提示词节点实时同步'}"><i data-lucide="link-2"></i><span>${irregularSynced ? '异形弹窗 KV 合并同步' : popupSynced ? '大弹窗 KV 合并同步' : '游戏 KV 同步'}</span></span>`
             : `<button class="prompt-template-btn ${templateActive ? 'active' : ''}" type="button" data-prompt-template-open data-prompt-template-node-id="${escapeAttr(node.id)}" aria-pressed="${templateActive ? 'true' : 'false'}" title="${escapeAttr(tr('canvas.promptTemplateLibrary'))}"><i data-lucide="library"></i><span>${escapeHtml(tr('canvas.promptTemplateShort'))}</span></button>`;
-        body.innerHTML = `<div class="prompt-editor ${synced ? 'synced' : ''}"><div class="prompt-toolbar">${toolbarControl}${promptCounterHtml(node.text || '')}</div><textarea ${synced ? 'readonly aria-readonly="true"' : ''} placeholder="${tr('canvas.promptPlaceholder')}">${escapeHtml(node.text || '')}</textarea></div>`;
+        const editSwitch = synced ? `<label class="prompt-kv-edit-switch" title="开启后可手动修改，KV 更新不会自动覆盖；关闭后恢复同步"><span>修改</span><input data-prompt-kv-edit type="checkbox" ${node.kvManualOverride ? 'checked' : ''}><span class="game-kv-switch-ui"></span></label>` : '';
+        const updateNotice = synced ? `<div class="prompt-kv-update" data-kv-update-notice ${node.kvManualOverride && node.kvPendingUpdate ? '' : 'hidden'}><span>KV 节点有变动</span><button type="button" data-prompt-kv-apply>覆盖修改</button></div>` : '';
+        body.innerHTML = `<div class="prompt-editor ${synced ? 'synced' : ''} ${synced && editable ? 'manual' : ''}"><div class="prompt-toolbar ${synced ? 'kv-connected' : ''}">${toolbarControl}${editSwitch}${promptCounterHtml(node.text || '')}</div>${updateNotice}<textarea ${editable ? '' : 'readonly aria-readonly="true"'} placeholder="${tr('canvas.promptPlaceholder')}">${escapeHtml(node.text || '')}</textarea></div>`;
         const textarea = body.querySelector('textarea');
+        body.querySelector('[data-prompt-kv-edit]')?.addEventListener('change', event => {
+            setKvPromptManualOverride(node, event.currentTarget.checked);
+            scheduleSave();
+            scheduleGeneratorInputSync();
+            render();
+            if(node.kvManualOverride) nodesEl.querySelector(`.prompt-node[data-id="${CSS.escape(node.id)}"] textarea`)?.focus();
+        });
+        body.querySelector('[data-prompt-kv-apply]')?.addEventListener('click', event => {
+            event.preventDefault();
+            event.stopPropagation();
+            applyKvPromptUpdate(node);
+            refreshSyncedPromptDom(node, node.text);
+            scheduleSave();
+            scheduleGeneratorInputSync();
+            setStatus('已用 KV 最新提示词覆盖修改');
+        });
         const templateBtn = body.querySelector('[data-prompt-template-open]');
         if(templateBtn){
             templateBtn.onclick = e => {
@@ -9162,10 +9676,10 @@ function renderNode(node){
             });
         };
         textarea.oninput = e => {
-            if(synced) return;
+            if(!editable) return;
             applyPromptText(e.target.value);
         };
-        if(!synced) bindPromptMentionMenu(node, textarea, applyPromptText);
+        if(editable) bindPromptMentionMenu(node, textarea, applyPromptText);
     }
     if(node.type === 'gameKvPrompt') body.appendChild(renderGameKvPromptBody(node));
     if(node.type === 'loop') body.appendChild(renderLoopBody(node));
@@ -9222,7 +9736,7 @@ function renderNode(node){
         body.querySelectorAll('.output-img-wrap').forEach(wrap => bindOutputWrap(wrap, node));
     }
     el.appendChild(body);
-    el.querySelectorAll('button, select, textarea, input').forEach(control => {
+    el.querySelectorAll('button, select, textarea, input, .prompt-kv-edit-switch').forEach(control => {
         control.addEventListener('mousedown', e => e.stopPropagation(), true);
         control.addEventListener('click', e => e.stopPropagation());
     });
@@ -9234,7 +9748,7 @@ function renderNode(node){
     const canOutput = ['image','prompt','loop','group','promptGroup','generator','masterGenerator','midjourney','comfy','ltxDirector','llm','msgen','video','rh','minimax','output'].includes(node.type);
     if(canInput) el.insertAdjacentHTML('beforeend', `<div class="port in" title="${tr('canvas.connectHere')}"></div>`);
     if(canOutput) el.insertAdjacentHTML('beforeend', `<div class="port out" title="${tr('canvas.dragConnect')}"></div>`);
-    if(isGameKvPromptNode(node)) el.insertAdjacentHTML('beforeend', `<div class="port out kv-special-port kv-inherit-port" data-port="kvOut" title="输出配置到下游 KV"></div><div class="port out kv-special-port kv-prompt-port" data-port="promptOut" title="输出提示词到 Prompt"></div><div class="port out kv-special-port kv-image-port" data-port="imageOut" title="绑定主控 API 图片"></div>`);
+    if(isGameKvPromptNode(node)) el.insertAdjacentHTML('beforeend', `<div class="port in kv-special-port kv-gallery-port" data-port="galleryIn" title="连接 KV 参考图库"></div><div class="port out kv-special-port kv-inherit-port" data-port="kvOut" title="输出配置到下游 KV"></div><div class="port out kv-special-port kv-prompt-port" data-port="promptOut" title="输出提示词到 Prompt"></div><div class="port out kv-special-port kv-image-port" data-port="imageOut" title="绑定主控 API 图片"></div>`);
     el.insertAdjacentHTML('beforeend', `<div class="resize-handle" title="${tr('canvas.resize')}"></div>`);
     el.querySelector('.node-head').onmousedown = e => {
         if(e.button !== 0) return;
@@ -9419,6 +9933,7 @@ function defaultNodeSize(type){
     if(type === 'image') return {w:260, h:336};
     if(type === 'prompt') return {w:310, h:0};
     if(type === 'gameKvPrompt') return {w:410, h:760};
+    if(type === 'kvReferenceGallery') return {w:420, h:560};
     if(type === 'loop') return {w:336, h:0};
     if(type === 'llm') return {w:420, h:590};
     if(type === 'generator' || type === 'masterGenerator') return {w:380, h:0};
@@ -12440,12 +12955,14 @@ function renderImageInputList(list, node, imageInputs, emptyText=null){
     imageInputs.forEach((src, i) => {
         const item = document.createElement('div');
         item.className = 'input-item';
-        item.draggable = true;
+        item.draggable = !src.galleryControlled;
+        if(src.galleryControlled) item.title = '图库控制顺序';
         item.dataset.sourceId = src.id;
         const previewHtml = src.preview && !isMissingAssetUrl(src.preview) ? canvasPreviewImgHtml(src.preview, 256) : (src.preview ? missingAssetHtml(src.preview, true) : '<i data-lucide="image" class="w-6 h-6 text-slate-400"></i>');
         item.innerHTML = `<span class="input-index">${i + 1}</span>${previewHtml}<span class="input-label">${escapeHtml(src.label)}</span>`;
         item.ondragstart = e => {
             e.stopPropagation();
+            if(src.galleryControlled){ e.preventDefault(); return; }
             internalDrag = true;
             e.dataTransfer.effectAllowed = 'move';
             e.dataTransfer.setData('application/x-canvas-input', src.id);
@@ -14167,7 +14684,7 @@ function mediaRefsFromNode(node){
 }
 function generatorSources(gen){
     const ignoreGeneratedRefs = gen?.type === 'masterGenerator';
-    return canvasDataConnections()
+    let sources = canvasDataConnections()
         .filter(c => c.to === gen.id && !isKvImageBindingConnection(c) && !isKvInheritanceConnection(c))
         .map(c => nodes.find(n => n.id === c.from)).filter(Boolean).map(n => {
         if(n.type === 'output' && (n.images||[]).length){
@@ -14286,10 +14803,30 @@ function generatorSources(gen){
         if(n.type === 'llm' && (n.mode || 'node') === 'node' && n.outputText) return {id:n.id, type:'llm', label:(n.outputText || 'LLM').slice(0, 32), refs:[], prompt:n.outputText || ''};
         return null;
     }).flat().filter(Boolean);
+    const gallery = typeof generatorReferenceGallery === 'function' ? generatorReferenceGallery(gen) : null;
+    if(gallery){
+        const gallerySources = kvGalleryImageSources(gallery);
+        // Direct links and collections may expose the same picture under other ids.
+        const galleryUrls = new Set(gallerySources.map(source => source.preview));
+        const galleryIds = new Set(gallerySources.map(source => source.id));
+        sources = sources.flatMap(source => {
+            if(galleryIds.has(source.id)) return [];
+            const refs = (source.refs || []).filter(ref => !galleryUrls.has(ref.url));
+            if(source.refs?.length && !refs.length && !source.prompt) return [];
+            return [{...source, refs, preview:refs[0]?.url || source.preview}];
+        });
+        sources = [...gallerySources, ...sources];
+    }
+    return sources;
 }
 function orderedSources(gen, sources){
     gen.inputs = (gen.inputs || []).filter(id => sources.some(s => s.id === id));
     sources.forEach(s => { if(!gen.inputs.includes(s.id)) gen.inputs.push(s.id); });
+    const galleryIds = sources.filter(source => source.galleryControlled).map(source => source.id);
+    if(galleryIds.length){
+        const controlled = new Set(galleryIds);
+        gen.inputs = [...galleryIds, ...gen.inputs.filter(id => !controlled.has(id))];
+    }
     // Keep the popup chain deterministic even when its upstream is connected
     // after the API node already has the second segment in its input list.
     const popupIds = sources
@@ -14309,6 +14846,7 @@ function orderedSources(gen, sources){
 function reorderInput(gen, movedId, targetId){
     if(!movedId || movedId === targetId) return;
     const sources = generatorSources(gen);
+    if(sources.some(source => source.galleryControlled && (source.id === movedId || source.id === targetId))) return;
     const imageIds = sources.filter(s => s.refs?.length).map(s => s.id);
     if(!imageIds.includes(movedId) || !imageIds.includes(targetId)) return;
     const promptIds = (gen.inputs || []).filter(id => !imageIds.includes(id));
@@ -14326,7 +14864,7 @@ function reorderInput(gen, movedId, targetId){
     scheduleSave();
     // 顺序变化会沿 KV 继承链影响下游主控（下游主控直连的是上游集合/图片，手里还是旧顺序），
     // 触发一次全局同步，让下游 KV 与下游主控的 inputs 都跟着重排。
-    scheduleKvGraphRefresh();
+    if(typeof scheduleKvGraphRefresh === 'function') scheduleKvGraphRefresh();
 }
 // 下游 KV 绑定的主控：上游继承来的参考图固定排在最前（顺序跟随上游 KV），
 // 本地参考图只能排在上游图之后。这样 API 里的「图片N」才和 KV 面板一致。
@@ -14336,18 +14874,21 @@ function normalizeKvBoundMasterInputs(gen){
     if(!binding) return;
     const kvNode = nodes.find(node => node.id === binding.from);
     if(!isKvPromptNode(kvNode)) return;
-    const upstream = kvInheritanceSource(kvNode);
+    const upstream = typeof kvInheritanceSource === 'function' ? kvInheritanceSource(kvNode) : null;
     if(!upstream) return;
     const inherited = kvEffectiveReferences(upstream, configuredKvReferences(upstream));
     if(!inherited.length) return;
     const sourceIdByKey = new Map();
-    kvBoundImageEntries(kvNode).forEach(entry => {
+    const entries = kvBoundImageEntries(kvNode);
+    entries.forEach(entry => {
         if(entry.sourceKey && entry.sourceId && !sourceIdByKey.has(entry.sourceKey)) sourceIdByKey.set(entry.sourceKey, entry.sourceId);
     });
     const inputs = Array.isArray(gen.inputs) ? gen.inputs.slice() : [];
     const upstreamIds = [];
     inherited.forEach(reference => {
-        const id = sourceIdByKey.get(String(reference.sourceKey || ''));
+        const id = sourceIdByKey.get(String(reference.sourceKey || ''))
+            || entries.find(entry => reference.sourceNodeId && entry.sourceNodeId === reference.sourceNodeId
+                && entry.preview === reference.preview)?.sourceId;
         if(id && inputs.includes(id) && !upstreamIds.includes(id)) upstreamIds.push(id);
     });
     if(!upstreamIds.length) return;
@@ -14359,18 +14900,22 @@ function normalizeKvBoundMasterInputs(gen){
 // 面板上点按钮时，把面板当前显示的顺序（上游块在前 + 本地块）原样写回主控 inputs，
 // 其余输入（提示词等）保持相对顺序排在后面，保证「图片N」与实际喂给 API 的图一一对应。
 function applyKvReferencesToMasterInputs(kvNode, references=null){
+    if(typeof kvGallerySource === 'function' && kvGallerySource(kvNode)) return 0;
     const master = kvBoundMasterGenerator(kvNode);
     if(!master) return 0;
     const list = Array.isArray(references) ? references : kvEffectiveReferences(kvNode, configuredKvReferences(kvNode));
     if(!list.length) return 0;
     const inputs = Array.isArray(master.inputs) ? master.inputs.slice() : [];
     const sourceIdByKey = new Map();
-    kvBoundImageEntries(kvNode).forEach(entry => {
+    const entries = kvBoundImageEntries(kvNode);
+    entries.forEach(entry => {
         if(entry.sourceKey && entry.sourceId && !sourceIdByKey.has(entry.sourceKey)) sourceIdByKey.set(entry.sourceKey, entry.sourceId);
     });
     const orderedIds = [];
     list.forEach(reference => {
-        const id = sourceIdByKey.get(String(reference.sourceKey || ''));
+        const id = sourceIdByKey.get(String(reference.sourceKey || ''))
+            || entries.find(entry => reference.sourceNodeId && entry.sourceNodeId === reference.sourceNodeId
+                && entry.preview === reference.preview)?.sourceId;
         if(id && inputs.includes(id) && !orderedIds.includes(id)) orderedIds.push(id);
     });
     if(!orderedIds.length) return 0;
@@ -14414,7 +14959,9 @@ function scheduleKvGraphRefresh(){
         try {
             syncGeneratorInputs();
             syncAllKvPromptOutputs({updateDom:false});
-            refreshNodes(nodes.filter(isKvPromptNode).map(node => node.id));
+            const editingGalleryId = document.activeElement?.closest?.('.kvReferenceGallery-node')?.dataset?.id;
+            refreshNodes(nodes.filter(node => isKvPromptNode(node)
+                || (isKvReferenceGalleryNode(node) && node.id !== editingGalleryId)).map(node => node.id));
             refreshGeneratorInputViews();
         } finally {
             kvGraphRefreshRunning = false;
@@ -16398,6 +16945,7 @@ function deleteNode(id, event){
     pushUndo();
     destroyLTXEditor(nodes.find(n => n.id === id));
     nodes = nodes.filter(n => n.id !== id);
+    connections.forEach(clearKvGallerySlotConnectionState);
     connections = connections.filter(c => c.from !== id && c.to !== id);
     nodes.forEach(n => {
         if(Array.isArray(n.members)) n.members = n.members.filter(memberId => memberId !== id);
@@ -16443,6 +16991,8 @@ function deleteConnection(id, event){
     event?.preventDefault();
     event?.stopPropagation();
     pushUndo();
+    const removed = connections.find(c => c.id === id);
+    if(typeof clearKvGallerySlotConnectionState === 'function') clearKvGallerySlotConnectionState(removed);
     connections = connections.filter(c => c.id !== id);
     if(hoveredConnectionId === id) hoveredConnectionId = '';
     syncGeneratorInputs();
@@ -18167,6 +18717,7 @@ function pasteNodes(){
         if(c.type === 'containerGroup' && c.members)
             c.members = c.members.map(id => idMap.get(id) || id);
         remapKvReferenceState(c, idMap);
+        remapKvGalleryState(c, idMap);
     });
     const newConnections = clipConnections
         .map(c => ({...c, id:uid('c'), from:idMap.get(c.from), to:idMap.get(c.to)}))
@@ -18386,6 +18937,7 @@ function insertWorkflowIntoCanvas(imported){
             node.members = node.members.map(id => idMap.get(id) || id).filter(id => idMap.has(id) || nodes.some(n => n.id === id));
         }
         remapKvReferenceState(node, idMap);
+        remapKvGalleryState(node, idMap);
     });
     const newConnections = srcConnections
         .map(c => ({...c, id:uid('c'), from:idMap.get(c.from), to:idMap.get(c.to)}))
@@ -18614,11 +19166,17 @@ function startLink(e, originId, originKind, originPort=''){
                     pushUndo();
                     replacePromptChainInput(fromId, toId);
                     if(kind === KV_CONNECTION_KIND_IMAGE) connections = connections.filter(c => !(isKvImageBindingConnection(c) && (c.from === fromId || c.to === toId)));
+                    if(kind === KV_CONNECTION_KIND_GALLERY) connections = connections.filter(c => !(isKvGalleryConnection(c) && c.to === toId));
+                    if(kind === KV_CONNECTION_KIND_GALLERY_SLOT) connections = connections.filter(c => !(isKvGallerySlotConnection(c) && c.to === toId && c.toPort === toPort));
+                    if(fromNode.type === 'kvReferenceGallery' && ['generator', 'masterGenerator'].includes(toNode.type)){
+                        connections = connections.filter(c => c.to !== toId || !nodes.some(node => node.id === c.from && node.type === 'kvReferenceGallery'));
+                    }
                     connections.push({id:uid('c'), kind, from:fromId, to:toId, fromPort, toPort});
                     syncLatestGeneratedOutputToConnection(fromId, toId);
                 }
                 syncPromptChainOutputs(fromId, {updateDom:false});
                 syncGeneratorInputs();
+                scheduleKvGraphRefresh();
                 scheduleSave();
                 render();
             }
@@ -18714,6 +19272,8 @@ function wouldCreateGeneratorCycle(fromId, toId){
 }
 function connectionKindFromPorts(from, to, fromPort='out', toPort='in', preferredKind=''){
     if(preferredKind && preferredKind !== 'dataFlow') return preferredKind;
+    if(fromPort === 'galleryOut' || toPort === 'galleryIn') return KV_CONNECTION_KIND_GALLERY;
+    if(String(toPort || '').startsWith('gallerySlot:')) return KV_CONNECTION_KIND_GALLERY_SLOT;
     if(fromPort === 'promptOut') return KV_CONNECTION_KIND_PROMPT;
     if(fromPort === 'imageOut') return KV_CONNECTION_KIND_IMAGE;
     if(fromPort === 'kvOut' || toPort === 'kvIn') return KV_CONNECTION_KIND_INHERIT;
@@ -18730,6 +19290,7 @@ function normalizedCanvasConnection(connection){
     if(kind === KV_CONNECTION_KIND_IMAGE){ fromPort = 'imageOut'; toPort = 'in'; }
     if(kind === KV_CONNECTION_KIND_INHERIT){ fromPort = 'kvOut'; toPort = 'kvIn'; }
     if(kind === KV_CONNECTION_KIND_LEGACY_PROMPT){ fromPort = 'out'; toPort = 'in'; }
+    if(kind === KV_CONNECTION_KIND_GALLERY){ fromPort = 'galleryOut'; toPort = 'galleryIn'; }
     return {...connection, kind, fromPort, toPort};
 }
 function canConnect(fromId, toId, fromPort='out', toPort='in', preferredKind=''){
@@ -18739,6 +19300,14 @@ function canConnect(fromId, toId, fromPort='out', toPort='in', preferredKind='')
     if(!from || !to) return false;
     if(isLabelNode(from) || isLabelNode(to)) return isLabelNode(from) !== isLabelNode(to);
     const kind = connectionKindFromPorts(from, to, fromPort, toPort, preferredKind);
+    if(kind === KV_CONNECTION_KIND_GALLERY){
+        return isKvReferenceGalleryNode(from) && isKvPromptNode(to) && fromPort === 'galleryOut' && toPort === 'galleryIn';
+    }
+    if(kind === KV_CONNECTION_KIND_GALLERY_SLOT){
+        return isKvReferenceGalleryNode(to)
+            && String(toPort || '').startsWith('gallerySlot:')
+            && ['image','group','output',...CANVAS_MEDIA_OUTPUT_TYPES].includes(from.type);
+    }
     if(kind === KV_CONNECTION_KIND_PROMPT) return isKvPromptNode(from) && to.type === 'prompt' && fromPort === 'promptOut' && toPort === 'in';
     if(kind === KV_CONNECTION_KIND_IMAGE) return isKvPromptNode(from) && to.type === 'masterGenerator' && fromPort === 'imageOut' && toPort === 'in';
     if(kind === KV_CONNECTION_KIND_INHERIT){
@@ -18748,6 +19317,9 @@ function canConnect(fromId, toId, fromPort='out', toPort='in', preferredKind='')
     if(kind === KV_CONNECTION_KIND_LEGACY_PROMPT) return (isGameKvPopupPromptNode(from) || isIrregularPopupKvPromptNode(from))
         && CANVAS_GENERATOR_TYPES.includes(to.type) && fromPort === 'out' && toPort === 'in';
     if(isKvPromptNode(from) || isKvPromptNode(to)) return false;
+    if(from.type === 'kvReferenceGallery'){
+        return ['generator', 'masterGenerator'].includes(to.type) && fromPort === 'out' && toPort === 'in';
+    }
     if(to.type === 'prompt') return false;
     // The popup node is deliberately a fixed second segment. Its only valid
     // upstream is the game-KV node; allowing a normal prompt here would make
@@ -19147,7 +19719,7 @@ function portPoint(id, portName){
     if(!n) return {x:0,y:0};  // 真正的孤儿连线（节点已删除）：renderLinks 会跳过它
     const el = nodesEl.querySelector(`.node[data-id="${CSS.escape(id)}"]`);
     const side = portSide(portName, 'in');
-    const namedSelector = portName && portName !== side ? `.port[data-port="${CSS.escape(String(portName))}"]` : '';
+    const namedSelector = portName ? `.port[data-port="${CSS.escape(String(portName))}"]` : '';
     const port = (namedSelector ? el?.querySelector(namedSelector) : null) || el?.querySelector(`.port.${side}`);
     if(port){
         const r = port.getBoundingClientRect();

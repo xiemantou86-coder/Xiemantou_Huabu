@@ -146,6 +146,13 @@
         references:DEFAULT_REFERENCES,
         useFontReference:true,
         showLogo:false,
+        logoReference:'',
+        downloadButtonEnabled:false,
+        downloadButtonCustom:false,
+        downloadButtonReference:'',
+        // Keep the legacy noLogo switch separate from showLogo. Older saved
+        // canvases used noLogo to disable the entire logo restriction section.
+        noLogo:true,
         qualityEnabled:true,
         negativeEnabled:true,
         adLanguage:'zh-hant',
@@ -240,7 +247,7 @@
         const label = textValue(item, ['label','name','title'], option?.label || `参考图${index + 1}`) || `参考图${index + 1}`;
         const prompt = textValue(item, ['prompt','instruction','text','rule','description'], option?.prompt || '');
         const enabled = booleanValue(item, ['enabled','active','use'], true);
-        return {id:value || `reference-${index + 1}`, value:value || `reference-${index + 1}`, label, prompt, enabled};
+        return {...item, id:value || `reference-${index + 1}`, value:value || `reference-${index + 1}`, label, prompt, enabled};
     }
 
     function normalizeReferences(source, catalog={}){
@@ -301,6 +308,14 @@
             copyPlacement:choiceValue(source, ['copyPlacement','placement','copyLayout'], BASE_DEFAULTS.copyPlacement, copyPlacements),
             useFontReference:booleanValue(source, ['useFontReference','useImage2Typography','useImage2','includeImage2'], BASE_DEFAULTS.useFontReference),
             showLogo:booleanValue(source, ['showLogo','includeLogo','addLogo'], BASE_DEFAULTS.showLogo),
+            logoReference:textValue(source, ['logoReference'], BASE_DEFAULTS.logoReference),
+            downloadButtonEnabled:booleanValue(source, ['downloadButtonEnabled'], BASE_DEFAULTS.downloadButtonEnabled),
+            downloadButtonCustom:booleanValue(source, ['downloadButtonCustom'], BASE_DEFAULTS.downloadButtonCustom),
+            downloadButtonReference:textValue(source, ['downloadButtonReference'], BASE_DEFAULTS.downloadButtonReference),
+            noLogo:booleanValue(source, ['noLogo','excludeLogo','noGameLogo'],
+                firstValue(source, ['noLogo','excludeLogo','noGameLogo']) === undefined
+                    ? !booleanValue(source, ['showLogo','includeLogo','addLogo'], BASE_DEFAULTS.showLogo)
+                    : BASE_DEFAULTS.noLogo),
             qualityEnabled:booleanValue(source, ['qualityEnabled','includeQuality','showQuality'], BASE_DEFAULTS.qualityEnabled),
             negativeEnabled:booleanValue(source, ['negativeEnabled','includeNegative'], BASE_DEFAULTS.negativeEnabled),
             adLanguage:textValue(source, ['adLanguage','language'], BASE_DEFAULTS.adLanguage),
@@ -327,6 +342,15 @@
         return `${lead}，${safeInstruction.replace(/[。！？.!?]+$/u, '')}。`;
     }
 
+    function selectedReference(references, value){
+        const key = String(value ?? '').trim();
+        if(!key || key === 'none') return null;
+        const reference = /^\d+$/.test(key)
+            ? references[Number(key) - 1]
+            : references.find(item => [item?.sourceKey, item?.id, item?.value].some(candidate => String(candidate ?? '') === key));
+        return reference?.enabled === false ? null : reference || null;
+    }
+
     function compileFields(node, catalog={}){
         const visualStyles = optionsFor(catalog, 'visualStyle', VISUAL_STYLE_OPTIONS);
         const compositions = optionsFor(catalog, 'composition', COMPOSITION_OPTIONS);
@@ -337,8 +361,14 @@
         const sections = [`请生成一张${language.prompt || language.label}的游戏广告KV。`];
 
         const references = Array.isArray(node.references) ? node.references : [];
+        const logoReference = node.showLogo ? selectedReference(references, node.logoReference) : null;
+        const buttonReference = node.copyEnabled && node.downloadButtonEnabled && node.downloadButtonCustom
+            ? selectedReference(references, node.downloadButtonReference)
+            : null;
+        const dedicatedKeys = new Set([logoReference, buttonReference].filter(Boolean).map(item => String(item.sourceKey || item.id || item.value)));
         const referenceRules = references
             .filter(item => item && item.enabled !== false)
+            .filter(item => !dedicatedKeys.has(String(item.sourceKey || item.id || item.value)))
             .map(item => String(item.prompt || '').trim())
             .filter(Boolean);
         if(referenceRules.length) sections.push(`参考图规则：\n${referenceRules.map(item => `- ${item}`).join('\n')}`);
@@ -366,16 +396,24 @@
                 : placementText;
             if(titleEffect) copy.push(`字体效果：${titleEffect}。`);
             if(copyPlacement) copy.push(`排版位置：${copyPlacement}。`);
+            if(node.downloadButtonEnabled){
+                const button = buttonReference ? `图片${buttonReference.imageNumber || references.indexOf(buttonReference) + 1}的按钮` : '按钮';
+                copy.push(`位于文字区域最下方，${button}包裹文字：${language.buttonText || 'Download'}。`);
+            }
             copy.push('除上述指定文案外，不添加其他文字。');
             sections.push(`文字排版：\n${copy.map(item => `- ${item}`).join('\n')}`);
+        }else if(node.copyEnabled && node.downloadButtonEnabled){
+            const button = buttonReference ? `图片${buttonReference.imageNumber || references.indexOf(buttonReference) + 1}的按钮` : '按钮';
+            sections.push(`下载按钮：\n- 位于文字区域最下方，${button}包裹文字：${language.buttonText || 'Download'}。`);
         }
 
         if(node.qualityEnabled){
             sections.push(`画质要求：\n- ${QUALITY_PROMPT}。`);
         }
         if(node.showLogo){
-            sections.push('限制：\n- 在画面四周角落放置游戏logo，确保logo不会变形，出错');
-        }else{
+            const logo = logoReference ? `图片${logoReference.imageNumber || references.indexOf(logoReference) + 1}的游戏Logo，保持样式清晰完整` : '游戏logo';
+            sections.push(`限制：\n- 在画面四周角落放置${logo}，确保logo不会变形，出错`);
+        }else if(node.noLogo !== false){
             sections.push('限制：\n- 成图不要添加游戏Logo、品牌标识、水印或角标。');
         }
         if(node.extraPrompt){

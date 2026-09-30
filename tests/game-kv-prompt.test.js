@@ -128,6 +128,33 @@ test('compiles customizable reference image roles and instructions', () => {
     assert.match(output, /图片2仅作为品牌字体气质参考，只借鉴字体轮廓与金属质感，不复制原图内容。/);
 });
 
+test('base KV uses selected Logo and download button images with the current image numbers', () => {
+    const references = [
+        {id:'hero', sourceKey:'image-hero', imageNumber:1, prompt:'图片1作为主角色参考', enabled:true},
+        {id:'logo', sourceKey:'image-logo', imageNumber:2, prompt:'图片2作为游戏Logo参考', enabled:true},
+        {id:'button', sourceKey:'image-button', imageNumber:3, prompt:'图片3作为下载按钮参考', enabled:true}
+    ];
+    const input = {
+        references, showLogo:true, logoReference:'image-logo',
+        downloadButtonEnabled:true, downloadButtonCustom:true,
+        downloadButtonReference:'image-button'
+    };
+    const output = GameKvPrompt.compile(input);
+    assert.match(output, /图片2的游戏Logo，保持样式清晰完整/);
+    assert.match(output, /图片3的按钮包裹文字：立即下載/);
+    assert.equal((output.match(/图片2作为游戏Logo参考/g) || []).length, 0);
+    assert.equal((output.match(/图片3作为下载按钮参考/g) || []).length, 0);
+
+    const reordered = GameKvPrompt.compile({...input, references:[references[2], references[0], references[1]]
+        .map((reference, index) => ({...reference, imageNumber:index + 1}))});
+    assert.match(reordered, /图片3的游戏Logo/);
+    assert.match(reordered, /图片1的按钮包裹文字/);
+
+    const disabled = GameKvPrompt.compile({...input, showLogo:false, downloadButtonEnabled:false});
+    assert.doesNotMatch(disabled, /图片2的游戏Logo|图片3的按钮包裹文字/);
+    assert.match(disabled, /成图不要添加游戏Logo/);
+});
+
 test('disabling the no-logo rule does not keep suppressing logos through the default negative prompt', () => {
     const output = GameKvPrompt.compile({noLogo:false});
     const negativePrompt = output.split('负向提示词：\n')[1] || '';
