@@ -8,7 +8,7 @@
   "pinned": false,
   "project": "default",
   "created_at": 1789034316892,
-  "updated_at": 1790774479405,
+  "updated_at": 1790776884160,
   "nodes": [
     {
       "id": "containerGroup_cdc65987d9fd3_1789034526143",
@@ -2139,172 +2139,6 @@
       "baseFontSize": 20,
       "labelScale": 2.1,
       "_labelManualSize": true
-    },
-    {
-      "id": "kv-gallery_e75c6536518208_1790774453755",
-      "type": "kvReferenceGallery",
-      "x": 2423.8771125994135,
-      "y": 3391.156056070247,
-      "w": 461,
-      "h": 726,
-      "title": "KV 参考图库",
-      "slots": [
-        {
-          "slotId": "main",
-          "role": "main",
-          "label": "主要画面 / 角色",
-          "prompt": "图片1作为主要画面/角色参考，保持角色身份、脸部、发型、服装和核心特征一致",
-          "enabled": true,
-          "imageNumber": 1,
-          "imageNodeId": ""
-        },
-        {
-          "slotId": "logo",
-          "role": "logo",
-          "label": "游戏 Logo",
-          "prompt": "图片2作为游戏 Logo 参考，仅参考 Logo 的形状、字形和品牌识别，不复制其他画面内容",
-          "enabled": false,
-          "imageNumber": 2,
-          "imageNodeId": ""
-        },
-        {
-          "slotId": "downloadButton",
-          "role": "downloadButton",
-          "label": "下载按钮",
-          "prompt": "图片3作为下载按钮样式参考，仅参考按钮的形状、边框和视觉质感",
-          "enabled": false,
-          "imageNumber": 3,
-          "imageNodeId": ""
-        },
-        {
-          "slotId": "copyStyle",
-          "role": "copyStyle",
-          "label": "文案样式",
-          "prompt": "图片4作为文案样式参考，参考字体、排版层级和文字质感，不复制其中的具体文字",
-          "enabled": false,
-          "imageNumber": 4,
-          "imageNodeId": ""
-        }
-      ]
-    },
-    {
-      "type": "gameKvPrompt",
-      "promptKind": "game-kv",
-      "kvVersion": 1,
-      "visualStyle": "anime-fantasy",
-      "composition": "hero-center",
-      "mainTitle": "強者之戰現在開始",
-      "copyEnabled": true,
-      "subtitleEnabled": true,
-      "subtitle": "集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。",
-      "image1Role": "主角色",
-      "image1Instruction": "保持角色身份、脸部、发型、服装和核心特征一致",
-      "image2Role": "字体设计与排版风格",
-      "image2Instruction": "不复制其中的人物、背景、Logo或其他内容",
-      "references": [
-        {
-          "id": "reference-1",
-          "value": "reference-1",
-          "label": "主角色",
-          "prompt": "图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。",
-          "enabled": true
-        },
-        {
-          "id": "reference-2",
-          "value": "reference-2",
-          "label": "字体设计与排版风格",
-          "prompt": "图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。",
-          "enabled": true
-        }
-      ],
-      "titleEffect": "gold-metal",
-      "copyPlacement": "bottom-center",
-      "useFontReference": true,
-      "showLogo": false,
-      "logoReference": "",
-      "downloadButtonEnabled": false,
-      "downloadButtonCustom": false,
-      "downloadButtonReference": "",
-      "noLogo": true,
-      "qualityEnabled": true,
-      "negativeEnabled": true,
-      "adLanguage": "zh-hant",
-      "adLanguageOptions": [
-        {
-          "value": "zh-hant",
-          "label": "繁体中文",
-          "prompt": "繁体中文",
-          "buttonText": "立即下載",
-          "custom": false
-        },
-        {
-          "value": "ko",
-          "label": "韩文",
-          "prompt": "韩文",
-          "buttonText": "지금 다운로드",
-          "custom": false
-        },
-        {
-          "value": "th",
-          "label": "泰文",
-          "prompt": "泰文",
-          "buttonText": "ดาวน์โหลดเลย",
-          "custom": false
-        },
-        {
-          "value": "ru",
-          "label": "俄文",
-          "prompt": "俄文",
-          "buttonText": "Скачать",
-          "custom": false
-        },
-        {
-          "value": "vi",
-          "label": "越南语",
-          "prompt": "越南语",
-          "buttonText": "Tải ngay",
-          "custom": false
-        },
-        {
-          "value": "id",
-          "label": "印尼语",
-          "prompt": "印尼语",
-          "buttonText": "Download",
-          "custom": false
-        },
-        {
-          "value": "en",
-          "label": "英文",
-          "prompt": "英文",
-          "buttonText": "Download",
-          "custom": false
-        }
-      ],
-      "extraPrompt": "",
-      "negativePrompt": "模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
-      "text": "请生成一张繁体中文的游戏广告KV。\n\n画面设计：\n- 视觉风格：日系高品質動漫遊戲KV，主推角色插画，黑色五葉草風格，官方授權RPG海報風，細膩線條，頂級二次元立繪，電影感，遊戲宣傳主視覺。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「強者之戰現在開始」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：醒目的奇幻游戏标题字，亮金色金属质感，立体描边、柔和投影与轻微发光，角落有闪耀反光，清晰可读。\n- 排版位置：主标题位于画面下部中央，副标题紧随主标题下方，保持明确的视觉层级。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 成图不要添加游戏Logo、品牌标识、水印或角标。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
-      "id": "game-kv_39fbff145a929_1790774466248",
-      "x": 3009.675631013581,
-      "y": 3387.915501696512,
-      "inheritedReferenceOverrides": {}
-    },
-    {
-      "id": "gen_f8607fa4488ea8_1790774475149",
-      "type": "generator",
-      "x": 3493.8615681523024,
-      "y": 3373.9036900108254,
-      "apiProvider": "apimart",
-      "model": "gemini-3.1-flash-image-preview",
-      "ratio": "square",
-      "resolution": "1k",
-      "customRatio": "",
-      "customSize": "",
-      "customRatioWidth": "",
-      "customRatioHeight": "",
-      "customWidth": "",
-      "customHeight": "",
-      "transparentBackground": false,
-      "inputs": []
     }
   ],
   "connections": [
@@ -2617,22 +2451,6 @@
       "kind": "dataFlow",
       "from": "mgen_c602d446ea5548_1790582135090",
       "to": "out_9edc0181ea747_1790582146099",
-      "fromPort": "out",
-      "toPort": "in"
-    },
-    {
-      "id": "c_01a68c39f8555_1790774466348",
-      "kind": "kvReferenceGallery",
-      "from": "kv-gallery_e75c6536518208_1790774453755",
-      "to": "game-kv_39fbff145a929_1790774466248",
-      "fromPort": "galleryOut",
-      "toPort": "galleryIn"
-    },
-    {
-      "id": "c_67b7ed9dedcb28_1790774475233",
-      "kind": "dataFlow",
-      "from": "kv-gallery_e75c6536518208_1790774453755",
-      "to": "gen_f8607fa4488ea8_1790774475149",
       "fromPort": "out",
       "toPort": "in"
     },

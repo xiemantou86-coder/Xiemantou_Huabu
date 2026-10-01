@@ -5,7 +5,7 @@ const assert = require('node:assert/strict');
 
 const GameKvPrompt = require('../static/js/game-kv-prompt.js');
 
-const DEFAULT_OUTPUT = `请生成一张繁体中文的游戏广告KV。
+const DEFAULT_OUTPUT = `请生成一张简体中文的游戏广告KV。
 
 参考图规则：
 - 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。
@@ -141,7 +141,7 @@ test('base KV uses selected Logo and download button images with the current ima
     };
     const output = GameKvPrompt.compile(input);
     assert.match(output, /图片2的游戏Logo，保持样式清晰完整/);
-    assert.match(output, /图片3的按钮包裹文字：立即下載/);
+    assert.match(output, /图片3的按钮包裹文字：立即下载/);
     assert.equal((output.match(/图片2作为游戏Logo参考/g) || []).length, 0);
     assert.equal((output.match(/图片3作为下载按钮参考/g) || []).length, 0);
 

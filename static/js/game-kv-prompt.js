@@ -117,6 +117,7 @@
         }
     ]);
     const LANGUAGE_OPTIONS = freezeOptions([
+        {value:'zh-hans', label:'简体中文', prompt:'简体中文', buttonText:'立即下载'},
         {value:'zh-hant', label:'繁体中文', prompt:'繁体中文', buttonText:'立即下載'},
         {value:'ko', label:'韩文', prompt:'韩文', buttonText:'지금 다운로드'},
         {value:'th', label:'泰文', prompt:'泰文', buttonText:'ดาวน์โหลดเลย'},
@@ -155,7 +156,7 @@
         noLogo:true,
         qualityEnabled:true,
         negativeEnabled:true,
-        adLanguage:'zh-hant',
+        adLanguage:'zh-hans',
         adLanguageOptions:LANGUAGE_OPTIONS,
         extraPrompt:'',
         negativePrompt:'模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字',
@@ -280,6 +281,10 @@
                 custom:Boolean(item?.custom || !LANGUAGE_OPTIONS.some(option => option.value === value))
             };
         }).filter(Boolean);
+        if(!result.some(item => item.value === 'zh-hans')) {
+            const hasBuiltInLanguage = result.some(item => LANGUAGE_OPTIONS.some(option => option.value === item.value));
+            (hasBuiltInLanguage ? result.unshift.bind(result) : result.push.bind(result))({...LANGUAGE_OPTIONS[0]});
+        }
         return result.length ? result : LANGUAGE_OPTIONS.map(item => ({...item}));
     }
 

@@ -1,0 +1,23 @@
+{
+  "id": "271ae8c22ee846e8ac9adf092d1bb3f3",
+  "title": "测试",
+  "icon": "🧩",
+  "kind": "classic",
+  "owner": "",
+  "color": "",
+  "pinned": false,
+  "project": "default",
+  "created_at": 1790776890867,
+  "updated_at": 1790836777329,
+  "nodes": [],
+  "connections": [],
+  "viewport": {
+    "x": 0,
+    "y": 0,
+    "scale": 1
+  },
+  "board_x": 138.0,
+  "board_y": 144.0,
+  "logs": [],
+  "settings": {}
+}
