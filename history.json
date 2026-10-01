@@ -1,39 +1,49 @@
 [
     {
-        "prompt": "高清化图片\n\n在画面合适的位置添加slogan：\n永不言棄 凡軀也可斬魔\n\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+        "prompt": "高清化图片1\n\nlogo内字体为图片2的[畅]的样子，#38404b色圆角icon，中间镂空，透明底图\n\nsvg效果，其他地方透明效果\n干净边缘，矢量图效果\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
         "images": [
-            "/assets/output/online_8b02e1f6b6.png"
+            "/assets/output/online_ae8b915f44.png"
         ],
         "image_items": [
             {
-                "url": "/assets/output/online_8b02e1f6b6.png",
+                "url": "/assets/output/online_ae8b915f44.png",
                 "kind": "image",
-                "name": "online_8b02e1f6b6.png",
+                "name": "online_ae8b915f44.png",
                 "natural_w": 2048,
-                "natural_h": 1152,
+                "natural_h": 2048,
                 "width": 2048,
-                "height": 1152
+                "height": 2048
             }
         ],
-        "timestamp": 1789528737.0610468,
+        "timestamp": 1790881247.4702673,
         "type": "online",
-        "model": "gpt-image-2",
+        "model": "gpt-image-2.5-sunburst",
         "provider_id": "apimart",
         "provider_name": "APIMART",
-        "task_id": "task_01M2M3BTR62CRV16196M107XMT",
+        "task_id": "task_01M3WDD07775WJ60C88YP4ECA0",
         "request_id": null,
         "params": {
             "provider_id": "apimart",
-            "model": "gpt-image-2",
-            "size": "2048x1152",
-            "requested_size": "2048x1152",
+            "model": "gpt-image-2.5-sunburst",
+            "size": "2048x2048",
+            "requested_size": "2048x2048",
             "quality": "auto",
-            "transparent_background": false,
+            "transparent_background": true,
             "n": 1,
             "reference_images": [
                 {
-                    "url": "/assets/input/ai_ref_71eb7ae0ecd8.jpg",
-                    "name": "商店首页.jpg",
+                    "url": "/assets/input/ai_ref_018463c953fa.png",
+                    "name": "image.png",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                },
+                {
+                    "url": "/assets/input/ai_ref_a7fc16ecc8f4.png",
+                    "name": "image.png",
                     "role": "",
                     "kind": "image",
                     "mime": "",
@@ -43,7 +53,117 @@
                 }
             ]
         },
-        "raw_usage": null
+        "raw_usage": null,
+        "transparent_check": {
+            "requested": true,
+            "checked": true,
+            "ok": true,
+            "message": ""
+        }
+    },
+    {
+        "prompt": "高清化图片\n\n提取雷电模拟器的logo，透明底图\n\n不要黄色实体，大描边#38404b，勾勒图像样子，svg效果，其他地方透明效果\n干净边缘，矢量图效果\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+        "images": [
+            "/assets/output/online_75a512b003.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_75a512b003.png",
+                "kind": "image",
+                "name": "online_75a512b003.png",
+                "natural_w": 2048,
+                "natural_h": 2048,
+                "width": 2048,
+                "height": 2048
+            }
+        ],
+        "timestamp": 1790877487.6543837,
+        "type": "online",
+        "model": "gpt-image-2.5-sunburst",
+        "provider_id": "apimart",
+        "provider_name": "APIMART",
+        "task_id": "task_01M3W9TJA6QM6P9P9ZYQCMAYSR",
+        "request_id": null,
+        "params": {
+            "provider_id": "apimart",
+            "model": "gpt-image-2.5-sunburst",
+            "size": "2048x2048",
+            "requested_size": "2048x2048",
+            "quality": "auto",
+            "transparent_background": true,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_4ff3c0a50727.png",
+                    "name": "image.png",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": null,
+        "transparent_check": {
+            "requested": true,
+            "checked": true,
+            "ok": true,
+            "message": ""
+        }
+    },
+    {
+        "prompt": "高清化图片\n\n提取雷电模拟器的logo，透明底图\n干净边缘，矢量图效果\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+        "images": [
+            "/assets/output/online_cd8c5eec39.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_cd8c5eec39.png",
+                "kind": "image",
+                "name": "online_cd8c5eec39.png",
+                "natural_w": 2048,
+                "natural_h": 2048,
+                "width": 2048,
+                "height": 2048
+            }
+        ],
+        "timestamp": 1790875502.136066,
+        "type": "online",
+        "model": "gpt-image-2.5-sunburst",
+        "provider_id": "apimart",
+        "provider_name": "APIMART",
+        "task_id": "task_01M3W7XM9HXZJBDRBT2CKXBHN3",
+        "request_id": null,
+        "params": {
+            "provider_id": "apimart",
+            "model": "gpt-image-2.5-sunburst",
+            "size": "2048x2048",
+            "requested_size": "2048x2048",
+            "quality": "auto",
+            "transparent_background": true,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_4ff3c0a50727.png",
+                    "name": "image.png",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": null,
+        "transparent_check": {
+            "requested": true,
+            "checked": true,
+            "ok": true,
+            "message": ""
+        }
     },
     {
         "prompt": "去掉原图的广告，和文字,\n竖版广告，以广告为主，广告可适当放大,\n\n请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n- 图片3作为黑色五叶草logo-白.png参考。\n\n画面设计：\n- 视觉风格：日系高品質動漫遊戲KV，主推角色插画，黑色五葉草風格，官方授權RPG海報風，細膩線條，頂級二次元立繪，電影感，遊戲宣傳主視覺。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「熱血魔法點燃戰場」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：高冲击力战斗标题字，红金火焰能量、粗壮描边和清晰立体层次，保持文字准确可读。\n- 排版位置：随机：- 在画面合适位置。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",

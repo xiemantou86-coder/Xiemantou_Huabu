@@ -219,6 +219,66 @@ test('batch submits enabled languages concurrently with individual prompts and s
     assert.equal(outputs[0]._pending[0].run.node.id, outputs[0].id);
 });
 
+test('multiple translation images create independent image-language-size outputs and requests', async () => {
+    const requests = [];
+    const context = setup({createCanvasImageTask:async payload => {
+        requests.push(payload); return {task_id:`multi-${requests.length}`};
+    }, pollCanvasImageTask:async () => 'succeeded'});
+    const node = input(context, ['ko','th']);
+    node.translationImages = [
+        {id:'image-a', url:'/a.png', name:'a.png'},
+        {id:'image-b', url:'/b.png', name:'b.png'},
+    ];
+    node.url = '/a.png'; node.name = 'a.png';
+    node.translationSizes.push({id:'story',ratio:'story',resolution:'1k'});
+    context.syncTranslationOutputNodes(node);
+    const outputs = context.translationOutputNodes(node.id);
+    assert.equal(outputs.length, 8);
+    assert.equal(new Set(outputs.map(output => output.translationImageId)).size, 2);
+    await context.runAllTranslationOutputs(node.id);
+    assert.equal(requests.length, 8);
+    assert.deepEqual(new Set(requests.map(request => request.reference_images[0].url)), new Set(['/a.png','/b.png']));
+    assert.equal(requests.filter(request => request.reference_images[0].url === '/a.png').length, 4);
+    assert.equal(requests.filter(request => request.reference_images[0].url === '/b.png').length, 4);
+});
+
+test('translation node switches to resize mode without deleting translation outputs', async () => {
+    const requests = [];
+    const context = setup({createCanvasImageTask:async payload => {
+        requests.push(payload); return {task_id:`resize-mode-${requests.length}`};
+    }, pollCanvasImageTask:async () => 'succeeded'});
+    const node = input(context, ['ko']);
+    const translationOutput = context.translationOutputNodes(node.id)[0];
+    node.translationMode = 'resize';
+    context.syncTranslationOutputNodes(node);
+    const resizeOutputs = context.translationOutputNodes(node.id, 'resize');
+    assert.equal(resizeOutputs.length, 1);
+    assert.equal(resizeOutputs[0].translationLanguageId, '__resize__');
+    assert.ok(context.translationOutputNodes(node.id, 'translate').includes(translationOutput));
+    assert.equal(context.translationOutputPrompt(resizeOutputs[0]), '原图元素不变，把图片改成16:9比例图片。');
+    await context.runAllTranslationOutputs(node.id);
+    assert.equal(requests.length, 1);
+    assert.equal(requests[0].prompt, '原图元素不变，把图片改成16:9比例图片。');
+});
+
+test('removing one translation image removes only its downstream outputs and links', () => {
+    const context = setup();
+    const node = input(context, ['ko']);
+    node.translationImages = [
+        {id:'image-a', url:'/a.png', name:'a.png'},
+        {id:'image-b', url:'/b.png', name:'b.png'},
+    ];
+    context.syncTranslationOutputNodes(node);
+    const keep = context.translationOutputNodes(node.id).find(output => output.translationImageId === 'image-b');
+    const remove = context.translationOutputNodes(node.id).find(output => output.translationImageId === 'image-a');
+    remove.images = ['/generated.png'];
+    node.translationImages = node.translationImages.filter(image => image.id !== 'image-a');
+    context.syncTranslationOutputNodes(node, {confirmRemoval:true});
+    assert.equal(context.translationOutputNodes(node.id).length, 1);
+    assert.equal(context.translationOutputNodes(node.id)[0], keep);
+    assert.equal(context.connections.length, 1);
+});
+
 test('one failed language does not prevent others from submitting and failure is recorded', async () => {
     let requests = 0;
     const context = setup({createCanvasImageTask:async payload => {

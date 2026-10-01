@@ -8,7 +8,7 @@
   "pinned": false,
   "project": "default",
   "created_at": 1789034316892,
-  "updated_at": 1790776884160,
+  "updated_at": 1790881278448,
   "nodes": [
     {
       "id": "containerGroup_cdc65987d9fd3_1789034526143",
@@ -1782,8 +1782,8 @@
       "x": 5715.1655207297945,
       "y": 1561.2613017384133,
       "apiProvider": "apimart",
-      "model": "gpt-image-2",
-      "ratio": "wide",
+      "model": "gpt-image-2.5-sunburst",
+      "ratio": "square",
       "resolution": "2k",
       "customRatio": "",
       "customSize": "",
@@ -1791,24 +1791,25 @@
       "customRatioHeight": "",
       "customWidth": "",
       "customHeight": "",
-      "transparentBackground": false,
+      "transparentBackground": true,
       "inputs": [
+        "grp_b1a7b758c640e8_1789354184712:prompts",
         "grp_b1a7b758c640e8_1789354184712:image_586e6c89b0a538_1789354162216",
-        "grp_b1a7b758c640e8_1789354184712:prompts"
+        "grp_b1a7b758c640e8_1789354184712:img_3bc19561fc3fe8_1790881053838"
       ],
       "_apiResolutionUserSet": true,
       "w": 438,
       "h": 639,
       "generatedOutputs": [
-        "/assets/output/online_8b02e1f6b6.png"
+        "/assets/output/online_ae8b915f44.png"
       ]
     },
     {
       "id": "prompt_3d61a7b3c96cd8_1789354139628",
       "type": "prompt",
-      "x": 5319.933328560702,
-      "y": 1608.6229837520875,
-      "text": "高清化图片\n\n在画面合适的位置添加slogan：\n永不言棄 凡軀也可斬魔\n\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "x": 5314.392848088782,
+      "y": 1601.9744071857838,
+      "text": "高清化图片1\n\nlogo内字体为图片2的[畅]的样子，#38404b色圆角icon，中间镂空，透明底图\n\nsvg效果，其他地方透明效果\n干净边缘，矢量图效果\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
       "w": 335,
       "h": 626
     },
@@ -1826,7 +1827,8 @@
         "prompt_3d61a7b3c96cd8_1789354139628",
         "image_586e6c89b0a538_1789354162216",
         "grp_b1a7b758c640e8_1789354184712",
-        "out_72f033227b3848_1789354204501"
+        "out_72f033227b3848_1789354204501",
+        "img_3bc19561fc3fe8_1790881053838"
       ]
     },
     {
@@ -1834,8 +1836,8 @@
       "type": "image",
       "x": 4986.070447272542,
       "y": 1614.0392898243852,
-      "url": "/assets/input/ai_ref_71eb7ae0ecd8.jpg",
-      "name": "商店首页.jpg",
+      "url": "/assets/input/ai_ref_018463c953fa.png",
+      "name": "image.png",
       "mediaKind": "image",
       "_naturalSizeLoading": false,
       "natural_w": 1791,
@@ -1852,7 +1854,8 @@
       "h": 702,
       "items": [
         "image_586e6c89b0a538_1789354162216",
-        "prompt_3d61a7b3c96cd8_1789354139628"
+        "prompt_3d61a7b3c96cd8_1789354139628",
+        "img_3bc19561fc3fe8_1790881053838"
       ]
     },
     {
@@ -1862,9 +1865,9 @@
       "y": 1571.5010812478652,
       "images": [
         {
-          "url": "/assets/output/online_8b02e1f6b6.png",
+          "url": "/assets/output/online_75a512b003.png",
           "viewed": true,
-          "runMs": 238139,
+          "runMs": 36662,
           "run": {
             "nodeType": "generator",
             "node": {
@@ -1873,8 +1876,8 @@
               "x": 5715.1655207297945,
               "y": 1561.2613017384133,
               "apiProvider": "apimart",
-              "model": "gpt-image-2",
-              "ratio": "wide",
+              "model": "gpt-image-2.5-sunburst",
+              "ratio": "square",
               "resolution": "2k",
               "customRatio": "",
               "customSize": "",
@@ -1882,23 +1885,74 @@
               "customRatioHeight": "",
               "customWidth": "",
               "customHeight": "",
-              "transparentBackground": false,
+              "transparentBackground": true,
               "_apiResolutionUserSet": true,
               "w": 438,
               "h": 639,
               "generatedOutputs": [
-                "/assets/output/online_2c611b06ab.png"
+                "/assets/output/online_cd8c5eec39.png"
               ]
             },
-            "prompt": "高清化图片\n\n在画面合适的位置添加slogan：\n永不言棄 凡軀也可斬魔\n\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+            "prompt": "高清化图片\n\n提取雷电模拟器的logo，透明底图\n\n不要黄色实体，大描边#38404b，勾勒图像样子，svg效果，其他地方透明效果\n干净边缘，矢量图效果\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
             "refs": [
               {
-                "url": "/assets/input/ai_ref_71eb7ae0ecd8.jpg",
-                "name": "商店首页.jpg"
+                "url": "/assets/input/ai_ref_4ff3c0a50727.png",
+                "name": "image.png"
               }
             ],
             "request": {
-              "task_id": "task_01M2M3BTR62CRV16196M107XMT",
+              "task_id": "task_01M3W9TJA6QM6P9P9ZYQCMAYSR",
+              "request_id": "",
+              "provider_id": "apimart",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        },
+        {
+          "url": "/assets/output/online_ae8b915f44.png",
+          "viewed": true,
+          "runMs": 46155,
+          "run": {
+            "nodeType": "generator",
+            "node": {
+              "id": "gen_11b2ca1e4dc108_1789354135016",
+              "type": "generator",
+              "x": 5715.1655207297945,
+              "y": 1561.2613017384133,
+              "apiProvider": "apimart",
+              "model": "gpt-image-2.5-sunburst",
+              "ratio": "square",
+              "resolution": "2k",
+              "customRatio": "",
+              "customSize": "",
+              "customRatioWidth": "",
+              "customRatioHeight": "",
+              "customWidth": "",
+              "customHeight": "",
+              "transparentBackground": true,
+              "_apiResolutionUserSet": true,
+              "w": 438,
+              "h": 639,
+              "generatedOutputs": [
+                "/assets/output/online_75a512b003.png"
+              ]
+            },
+            "prompt": "高清化图片1\n\nlogo内字体为图片2的[畅]的样子，#38404b色圆角icon，中间镂空，透明底图\n\nsvg效果，其他地方透明效果\n干净边缘，矢量图效果\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_018463c953fa.png",
+                "name": "image.png"
+              },
+              {
+                "url": "/assets/input/ai_ref_a7fc16ecc8f4.png",
+                "name": "image.png"
+              }
+            ],
+            "request": {
+              "task_id": "task_01M3WDD07775WJ60C88YP4ECA0",
               "request_id": "",
               "provider_id": "apimart",
               "backend": "",
@@ -1909,13 +1963,17 @@
           }
         }
       ],
-      "w": 255,
-      "h": 709,
+      "w": 327,
+      "h": 684,
       "_pending": [],
       "imageComparisons": {
-        "/assets/output/online_8b02e1f6b6.png": {
-          "url": "/assets/input/ai_ref_71eb7ae0ecd8.jpg",
-          "name": "商店首页.jpg"
+        "/assets/output/online_75a512b003.png": {
+          "url": "/assets/input/ai_ref_4ff3c0a50727.png",
+          "name": "image.png"
+        },
+        "/assets/output/online_ae8b915f44.png": {
+          "url": "/assets/input/ai_ref_018463c953fa.png",
+          "name": "image.png"
         }
       }
     },
@@ -2139,6 +2197,20 @@
       "baseFontSize": 20,
       "labelScale": 2.1,
       "_labelManualSize": true
+    },
+    {
+      "id": "img_3bc19561fc3fe8_1790881053838",
+      "type": "image",
+      "x": 4996.1998254263435,
+      "y": 1960.3996572652907,
+      "url": "/assets/input/ai_ref_a7fc16ecc8f4.png",
+      "name": "image.png",
+      "mediaKind": "image",
+      "_naturalSizeLoading": false,
+      "natural_w": 678,
+      "natural_h": 455,
+      "w": 243,
+      "h": 277
     }
   ],
   "connections": [
@@ -2567,6 +2639,116 @@
   "board_x": 413.0,
   "board_y": 315.0,
   "logs": [
+    {
+      "id": "log_eb00fee56fe39_1790881247527",
+      "createdAt": 1790881247527,
+      "status": "success",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {
+        "task_id": "task_01M3WDD07775WJ60C88YP4ECA0",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "高清化图片1\n\nlogo内字体为图片2的[畅]的样子，#38404b色圆角icon，中间镂空，透明底图\n\nsvg效果，其他地方透明效果\n干净边缘，矢量图效果\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "outputs": [
+        "/assets/output/online_ae8b915f44.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_018463c953fa.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_a7fc16ecc8f4.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 46155,
+      "error": ""
+    },
+    {
+      "id": "log_e531b8869bcbd8_1790877488587",
+      "createdAt": 1790877488587,
+      "status": "success",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {
+        "task_id": "task_01M3W9TJA6QM6P9P9ZYQCMAYSR",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "高清化图片\n\n提取雷电模拟器的logo，透明底图\n\n不要黄色实体，大描边#38404b，勾勒图像样子，svg效果，其他地方透明效果\n干净边缘，矢量图效果\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "outputs": [
+        "/assets/output/online_75a512b003.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_4ff3c0a50727.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 36662,
+      "error": ""
+    },
+    {
+      "id": "log_9a5efbae213ad_1790877422383",
+      "createdAt": 1790877422383,
+      "status": "failed",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {},
+      "prompt": "高清化图片\n\n提取雷电模拟器的logo，透明底图\n\n不要黄色实体，大描边#38404b，勾勒图像样子，svg效果，其他地方透明效果\n干净边缘，矢量图效果\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "outputs": [],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_4ff3c0a50727.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 20150,
+      "error": "请求上游生图接口失败："
+    },
+    {
+      "id": "log_a3c115523cfe98_1790875504566",
+      "createdAt": 1790875504566,
+      "status": "success",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {
+        "task_id": "task_01M3W7XM9HXZJBDRBT2CKXBHN3",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "高清化图片\n\n提取雷电模拟器的logo，透明底图\n干净边缘，矢量图效果\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "outputs": [
+        "/assets/output/online_cd8c5eec39.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_4ff3c0a50727.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 49568,
+      "error": ""
+    },
     {
       "id": "log_287ebffc382f7_1790661991242",
       "createdAt": 1790661991242,

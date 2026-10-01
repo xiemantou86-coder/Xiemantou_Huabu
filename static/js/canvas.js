@@ -2278,6 +2278,7 @@ function canvasLocalAssetUrls(){
     nodes.forEach(node => {
         if(node.url) add(node.url);
         (node.images || []).forEach(add);
+        (node.resizeImages || []).forEach(add);
         (node.generatedOutputs || []).forEach(add);
         Object.entries(node.imageComparisons || {}).forEach(([key, value]) => {
             add(key);
@@ -2657,8 +2658,43 @@ const translationBatchSources = new Set();
 const translationQueuedOutputs = new Set();
 const translationOutputHeights = new WeakMap();
 const translationNewOutputs = new WeakSet();
+const TRANSLATION_RESIZE_LANGUAGE_ID = '__resize__';
+function translationMode(node){ return node?.translationMode === 'resize' ? 'resize' : 'translate'; }
+function translationModeLanguageIds(node, mode=translationMode(node)){
+    return mode === 'resize' ? [TRANSLATION_RESIZE_LANGUAGE_ID] : translationSelectedIds(node);
+}
 function translationGenerationCount(node){
     return Math.max(1, Math.min(8, Math.floor(Number(node?.count) || 1)));
+}
+function normalizeTranslationImages(source){
+    if(!Array.isArray(source.translationImages)){
+        source.translationImages = source.url || translationOutputNodes(source.id).length
+            ? [{id:`legacy-${source.id}`, url:source.url || '', name:source.name || '翻译原图', kind:'image'}]
+            : [];
+    }
+    const seen = new Set();
+    source.translationImages = source.translationImages.filter(image => image?.url || image?.id === `legacy-${source.id}`).map(image => {
+        const id = String(image.id || uid('translate-image'));
+        if(seen.has(id)) return null;
+        seen.add(id);
+        return {id, url:image.url, name:image.name || canvasFileNameFromUrl(image.url) || '翻译原图', kind:'image'};
+    }).filter(Boolean);
+    if(!source.url && source.translationImages[0]){
+        source.url = source.translationImages[0].url;
+        source.name = source.translationImages[0].name;
+    }
+    const legacyImage = source.translationImages.find(image => image.id === `legacy-${source.id}`);
+    if(legacyImage && Array.isArray(source.translationExcludedOutputs)){
+        source.translationExcludedOutputs = source.translationExcludedOutputs.map(value => {
+            try {
+                const parsed = JSON.parse(value);
+                return Array.isArray(parsed) && parsed.length === 2
+                    ? translationOutputKeyForImage(legacyImage.id, parsed[0], parsed[1])
+                    : value;
+            } catch(_) { return value; }
+        });
+    }
+    return source.translationImages;
 }
 function normalizeTranslationSizes(source){
     if(!Array.isArray(source.translationSizes)){
@@ -2675,10 +2711,13 @@ function translationSizeLabel(size){
     return `${size?.id === 'custom' ? (size.customRatio || ratio) : ratio} · ${(size?.resolution || '1k').toUpperCase()}`;
 }
 function translationOutputKey(languageId, sizeId){ return JSON.stringify([languageId, sizeId]); }
+function translationOutputKeyForImage(imageId, languageId, sizeId){ return JSON.stringify([String(imageId || ''), String(languageId || ''), String(sizeId || '')]); }
 function translationCombinations(source, includeExcluded=false){
+    const images = normalizeTranslationImages(source);
+    const mode = translationMode(source);
     const excluded = new Set(source.translationExcludedOutputs || []);
-    return normalizeTranslationSizes(source).flatMap(size => translationSelectedIds(source).map(languageId => ({languageId, size,
-        key:translationOutputKey(languageId, size.id)}))).filter(item => includeExcluded || !excluded.has(item.key));
+    return images.flatMap(image => normalizeTranslationSizes(source).flatMap(size => translationModeLanguageIds(source, mode).map(languageId => ({image, imageId:image.id, languageId, size,
+        key:translationOutputKeyForImage(image.id, languageId, size.id)})))).filter(item => includeExcluded || !excluded.has(item.key));
 }
 function translationOutputSize(source, output){
     const sizes = normalizeTranslationSizes(source);
@@ -2687,14 +2726,17 @@ function translationOutputSize(source, output){
 function translationOutputSettings(source, output){
     const size = translationOutputSize(source, output);
     if(!size) return null;
-    return {...JSON.parse(JSON.stringify(source)), ...size, id:source.id, translationSizeId:size.id,
+    const image = normalizeTranslationImages(source).find(item => item.id === output.translationImageId) || normalizeTranslationImages(source)[0];
+    return {...JSON.parse(JSON.stringify(source)), ...size, ...(image || {}), id:source.id, translationMode:translationMode(output), translationImageId:image?.id || '', translationSizeId:size.id,
         resolution:size.resolution === 'auto' ? '1k' : (size.resolution || '1k')};
 }
 function excludeTranslationOutput(output){
     const source = translationSourceNode(output);
     if(!source) return;
     normalizeTranslationSizes(source);
-    const key = translationOutputKey(output.translationLanguageId, output.translationSizeId);
+    const imageId = output.translationImageId || normalizeTranslationImages(source)[0]?.id || '';
+    output.translationImageId = imageId;
+    const key = translationOutputKeyForImage(imageId, output.translationLanguageId, output.translationSizeId);
     source.translationExcludedOutputs = [...new Set([...(source.translationExcludedOutputs || []), key])];
 }
 function translationLanguageCatalog(node){
@@ -2721,6 +2763,14 @@ function translationSelectedIds(node){
     return catalog.filter(item => selected.has(item.id)).map(item => item.id);
 }
 function translationPromptFor(node, languageId, size=null){
+    const mode = arguments[3] || translationMode(node);
+    if(mode === 'resize'){
+        const ratio = size?.ratio === 'custom' ? size.customRatio : TRANSLATION_SIZE_DEFAULTS.find(item => item.id === size?.ratio)?.label;
+        const lines = [`原图元素不变，把图片改成${ratio || '目标'}比例图片。`];
+        const supplementalPrompt = String(node?.supplementalPrompt || '').trim();
+        if(supplementalPrompt) lines.push(`补充提示词：${supplementalPrompt}`);
+        return lines.join('\n');
+    }
     const source = translationLanguage(node, node?.sourceLanguage) || TRANSLATION_LANGUAGE_DEFAULTS[1];
     const target = translationLanguage(node, languageId) || translationLanguage(node, node?.targetLanguages?.[0]) || TRANSLATION_LANGUAGE_DEFAULTS[0];
     const lines = [size && size.ratio !== 'source'
@@ -2737,8 +2787,9 @@ function translationPromptFor(node, languageId, size=null){
     if(supplementalPrompt) lines.push(`补充提示词：${supplementalPrompt}`);
     return lines.join('\n');
 }
-function translationOutputNodes(nodeId){
-    return nodes.filter(item => item.type === 'translationOutput' && item.translationSourceId === nodeId)
+function translationOutputNodes(nodeId, mode=null){
+    return nodes.filter(item => item.type === 'translationOutput' && item.translationSourceId === nodeId
+        && (mode === null || translationMode(item) === mode))
         .sort((a, b) => Number(a.translationOrder || 0) - Number(b.translationOrder || 0));
 }
 function translationOutputPosition(source, index, count=translationSelectedIds(source).length){
@@ -2747,23 +2798,37 @@ function translationOutputPosition(source, index, count=translationSelectedIds(s
     return {x:Number(source.x || 0) + Number(source.w || 820) / 2 - rowWidth / 2 + index * 420,
         y:Number(source.y || 0) + (element?.offsetHeight || source.h || 560) + 80};
 }
+function translationOutputColumn(source, output){
+    const images = normalizeTranslationImages(source);
+    const languages = translationModeLanguageIds(source, translationMode(output));
+    const imageIndex = Math.max(0, images.findIndex(image => image.id === output.translationImageId));
+    const languageIndex = Math.max(0, languages.indexOf(output.translationLanguageId));
+    return imageIndex * Math.max(1, languages.length) + languageIndex;
+}
 function layoutTranslationOutputs(source, {onlyNew=false}={}){
     const outputs = translationOutputNodes(source.id);
-    const languages = translationSelectedIds(source);
-    let rowOffset = 0;
-    normalizeTranslationSizes(source).forEach(size => {
-        const row = outputs.filter(output => output.translationSizeId === size.id);
-        row.forEach(output => {
-            if(onlyNew && !translationNewOutputs.has(output)) return;
-            const point = translationOutputPosition(source, languages.indexOf(output.translationLanguageId), languages.length);
-            point.y += rowOffset;
-            Object.assign(output, point);
-            const element = nodesEl.querySelector(`.node[data-id="${CSS.escape(output.id)}"]`);
-            if(element){ element.style.left = `${point.x}px`; element.style.top = `${point.y}px`; }
-            translationOutputHeights.set(output, element?.offsetHeight || output.h || 320);
-            translationNewOutputs.delete(output);
+    const images = normalizeTranslationImages(source);
+    let modeOffset = 0;
+    ['translate','resize'].forEach(mode => {
+        const modeOutputs = outputs.filter(output => translationMode(output) === mode);
+        if(!modeOutputs.length) return;
+        const columnCount = Math.max(1, images.length * Math.max(1, translationModeLanguageIds(source, mode).length));
+        let rowOffset = modeOffset;
+        normalizeTranslationSizes(source).forEach(size => {
+            const row = modeOutputs.filter(output => output.translationSizeId === size.id);
+            row.forEach(output => {
+                if(onlyNew && !translationNewOutputs.has(output)) return;
+                const point = translationOutputPosition(source, translationOutputColumn(source, output), columnCount);
+                point.y += rowOffset;
+                Object.assign(output, point);
+                const element = nodesEl.querySelector(`.node[data-id="${CSS.escape(output.id)}"]`);
+                if(element){ element.style.left = `${output.x}px`; element.style.top = `${output.y}px`; }
+                translationOutputHeights.set(output, element?.offsetHeight || output.h || 320);
+                translationNewOutputs.delete(output);
+            });
+            rowOffset += Math.max(320, ...row.map(output => nodesEl.querySelector(`.node[data-id="${CSS.escape(output.id)}"]`)?.offsetHeight || output.h || 320)) + 80;
         });
-        rowOffset += Math.max(320, ...row.map(output => nodesEl.querySelector(`.node[data-id="${CSS.escape(output.id)}"]`)?.offsetHeight || output.h || 320)) + 80;
+        modeOffset = rowOffset;
     });
     refreshGeometry();
 }
@@ -2801,10 +2866,17 @@ function restoreTranslationCopies(copies){
 }
 function syncTranslationOutputNodes(source, {confirmRemoval=false, layout=true}={}){
     if(!source || source.type !== 'translationInput') return [];
+    const images = normalizeTranslationImages(source);
+    const mode = translationMode(source);
+    const legacyImageId = images[0]?.id || '';
+    translationOutputNodes(source.id).forEach(output => {
+        if(!output.translationImageId) output.translationImageId = legacyImageId;
+        if(!output.translationImageName) output.translationImageName = images.find(image => image.id === output.translationImageId)?.name || images[0]?.name || '翻译原图';
+    });
     const combinations = translationCombinations(source);
     const selectedSet = new Set(combinations.map(item => item.key));
-    const existing = translationOutputNodes(source.id);
-    const removed = existing.filter(item => !selectedSet.has(translationOutputKey(item.translationLanguageId, item.translationSizeId)));
+    const existing = translationOutputNodes(source.id, mode);
+    const removed = existing.filter(item => !selectedSet.has(translationOutputKeyForImage(item.translationImageId, item.translationLanguageId, item.translationSizeId)));
     if(removed.length && confirmRemoval){
         if(!window.confirm(`此调整将删除 ${removed.length} 个下游输出节点及其已有生成图片，是否继续？`)) return false;
     }
@@ -2814,18 +2886,21 @@ function syncTranslationOutputNodes(source, {confirmRemoval=false, layout=true}=
         nodes = nodes.filter(item => !removedIds.has(item.id));
         connections = connections.filter(item => !removedIds.has(item.from) && !removedIds.has(item.to));
     }
-    const byCombination = new Map(translationOutputNodes(source.id).map(item => [translationOutputKey(item.translationLanguageId, item.translationSizeId), item]));
-    combinations.forEach(({languageId, size, key}, index) => {
-        const language = translationLanguage(source, languageId);
+    const byCombination = new Map(translationOutputNodes(source.id, mode).map(item => [translationOutputKeyForImage(item.translationImageId, item.translationLanguageId, item.translationSizeId), item]));
+    combinations.forEach(({image, imageId, languageId, size, key}, index) => {
+        const language = mode === 'resize' ? {id:TRANSLATION_RESIZE_LANGUAGE_ID, label:'改尺寸', prompt:''} : translationLanguage(source, languageId);
         if(!language) return;
         let output = byCombination.get(key);
         if(!output){
-            const point = translationOutputPosition(source, translationSelectedIds(source).indexOf(languageId));
-            output = {id:uid('translate-out'), type:'translationOutput', x:point.x, y:point.y, w:360, translationSourceId:source.id, translationSizeId:size.id, translationLanguageId:language.id, translationLanguageLabel:language.label, translationLanguagePrompt:language.prompt, translationOrder:index, images:[], _pending:[], blocked:false};
+            const point = translationOutputPosition(source, translationOutputColumn(source, {translationImageId:imageId, translationLanguageId:language.id, translationMode:mode}), Math.max(1, normalizeTranslationImages(source).length * Math.max(1, translationModeLanguageIds(source, mode).length)));
+            output = {id:uid('translate-out'), type:'translationOutput', x:point.x, y:point.y, w:360, translationSourceId:source.id, translationMode:mode, translationImageId:imageId, translationImageName:image.name, translationSizeId:size.id, translationLanguageId:language.id, translationLanguageLabel:language.label, translationLanguagePrompt:language.prompt, translationOrder:index, images:[], _pending:[], blocked:false};
             nodes.push(output);
             translationNewOutputs.add(output);
         }
         output.translationOrder = index;
+        output.translationMode = mode;
+        output.translationImageId = output.translationImageId || imageId;
+        output.translationImageName = image.name;
         output.translationLanguageLabel = language.label;
         output.translationLanguagePrompt = language.prompt;
         output.translationSizeLabel = translationSizeLabel(size);
@@ -2836,31 +2911,37 @@ function syncTranslationOutputNodes(source, {confirmRemoval=false, layout=true}=
     if(layout) layoutTranslationOutputs(source);
     return true;
 }
-async function uploadTranslationImage(nodeId, file){
-    if(!file) return;
-    if(!String(file.type || '').startsWith('image/')) throw new Error('请选择图片文件');
+async function uploadTranslationImages(nodeId, files){
+    const images = Array.from(files || []).filter(file => String(file.type || '').startsWith('image/'));
+    if(!images.length) throw new Error('请选择图片文件');
+    const node = nodes.find(item => item.id === nodeId);
+    if(!node) return;
+    const available = 20 - normalizeTranslationImages(node).length;
+    if(images.length > available) throw new Error('每个节点最多放入 20 张原图');
     const form = new FormData();
-    form.append('files', file);
+    images.forEach(file => form.append('files', file));
     const response = await fetch('/api/ai/upload', {method:'POST', body:form});
     if(!response.ok) throw new Error(await responseErrorMessage(response, '图片上传失败'));
     const data = await response.json();
-    const uploaded = data.files?.[0];
-    const node = nodes.find(item => item.id === nodeId);
-    if(!uploaded?.url) throw new Error('上传未返回图片');
-    if(!node) return;
+    const uploaded = (data.files || []).filter(item => item?.url);
+    if(!uploaded.length) throw new Error('上传未返回图片');
     pushUndo();
-    node.url = uploaded.url;
-    node.name = uploaded.name || file.name || '翻译原图';
+    const existing = normalizeTranslationImages(node);
+    node.translationImages = [...existing, ...uploaded.map(item => ({id:uid('translate-image'), url:item.url, name:item.name || '翻译原图', kind:'image'}))];
+    node.url = node.translationImages[0]?.url || '';
+    node.name = node.translationImages[0]?.name || '翻译原图';
     node.mediaKind = 'image';
+    syncTranslationOutputNodes(node, {layout:false});
     render();
     layoutTranslationOutputs(node);
     scheduleSave();
 }
+async function uploadTranslationImage(nodeId, file){ return uploadTranslationImages(nodeId, file ? [file] : []); }
 function addTranslationInputNode(point){
     const p = point || defaultPoint(-220, 0);
     const providerId = imageApiProviders()[0]?.id || '';
     const model = allImageModels(providerId)[0] || '';
-    const node = {id:uid('translate-in'), type:'translationInput', x:p.x, y:p.y, w:820, h:0, translationLayoutVersion:1, url:'', name:'翻译原图', sourceLanguage:'zh-hant', targetLanguages:[], customLanguages:[], sourceCopyDescription:'', supplementalPrompt:'', apiProvider:providerId, model, ratio:'wide', resolution:defaultApiImageResolution(model), quality:'auto', count:1, customRatio:'', customSize:''};
+    const node = {id:uid('translate-in'), type:'translationInput', x:p.x, y:p.y, w:820, h:0, translationLayoutVersion:1, translationMode:'translate', url:'', name:'改图/翻译节点', sourceLanguage:'zh-hant', targetLanguages:[], customLanguages:[], sourceCopyDescription:'', supplementalPrompt:'', apiProvider:providerId, model, ratio:'wide', resolution:defaultApiImageResolution(model), quality:'auto', count:1, customRatio:'', customSize:''};
     addNode(node);
     syncTranslationOutputNodes(node);
     render();
@@ -2873,21 +2954,21 @@ function translationSourceNode(output){
 }
 function translationOutputPrompt(node){
     const source = translationSourceNode(node);
-    return source ? translationPromptFor(source, node.translationLanguageId, translationOutputSize(source, node)) : '';
+    return source ? translationPromptFor(source, node.translationLanguageId, translationOutputSize(source, node), translationMode(node)) : '';
 }
 async function runTranslationOutputNode(outputId, options={}){
     const output = nodes.find(item => item.id === outputId && item.type === 'translationOutput');
     const source = translationSourceNode(output);
     if(!output || !source || output.blocked) return;
     if(!nodes.includes(output) || (translationQueuedOutputs.has(outputId) && !options.fromBatch)) return;
-    if(!source.url){ if(!options.silent) alert('请先在翻译上传节点放入原图'); return; }
+    if(!normalizeTranslationImages(source).length){ if(!options.silent) alert('请先在改图/翻译节点放入原图'); return; }
     if(!source.apiProvider || !source.model){ if(!options.silent) alert('请先选择 API 平台和模型'); return; }
     if(output.running || (output._pending || []).some(pending => !pending.failed)) return;
     const settings = options.settings || translationOutputSettings(source, output);
     if(!settings) return;
     const prompt = options.prompt || translationOutputPrompt(output);
     const ref = {url:settings.url, name:settings.name || '翻译原图', kind:'image'};
-    const run = runSnapshot({...settings, id:output.id, type:output.type, translationLanguageId:output.translationLanguageId}, prompt, [ref]);
+    const run = runSnapshot({...settings, id:output.id, type:output.type, translationImageId:output.translationImageId, translationLanguageId:output.translationLanguageId}, prompt, [ref]);
     run.taskLabel = `翻译：${output.translationLanguageLabel || output.translationLanguageId} · ${output.translationSizeLabel || translationSizeLabel(settings)}`;
     output.running = true;
     output.runStatus = 'running';
@@ -2929,10 +3010,10 @@ async function runAllTranslationOutputs(sourceId){
     const source = nodes.find(item => item.id === sourceId && item.type === 'translationInput');
     if(!source) return;
     if(translationBatchSources.has(sourceId)) return;
-    if(!source.url){ alert('请先在翻译上传节点放入原图'); return; }
+    if(!normalizeTranslationImages(source).length){ alert('请先在改图/翻译节点放入原图'); return; }
     if(!source.apiProvider || !source.model){ alert('请先选择 API 平台和模型'); return; }
-    const outputs = translationOutputNodes(source.id).filter(item => !item.blocked && !item.running && !(item._pending || []).some(pending => !pending.failed));
-    if(!outputs.length){ alert('没有可生成的语言输出'); return; }
+    const outputs = translationOutputNodes(source.id, translationMode(source)).filter(item => !item.blocked && !item.running && !(item._pending || []).some(pending => !pending.failed));
+    if(!outputs.length){ alert(translationMode(source) === 'resize' ? '没有可生成的改尺寸输出' : '没有可生成的语言输出'); return; }
     const jobs = outputs.map(output => ({id:output.id, settings:translationOutputSettings(source, output), prompt:translationOutputPrompt(output)}));
     translationBatchSources.add(sourceId);
     jobs.forEach(job => translationQueuedOutputs.add(job.id));
@@ -2953,35 +3034,44 @@ async function runAllTranslationOutputs(sourceId){
     }
 }
 function renderTranslationInputBody(node){
+    const mode = translationMode(node);
+    const images = normalizeTranslationImages(node);
+    translationOutputNodes(node.id).forEach(output => {
+        if(!output.translationImageId) output.translationImageId = images[0]?.id || '';
+        if(!output.translationImageName) output.translationImageName = images.find(image => image.id === output.translationImageId)?.name || images[0]?.name || '翻译原图';
+    });
     const sizes = normalizeTranslationSizes(node);
     const languages = translationLanguageCatalog(node);
     const selected = new Set(translationSelectedIds(node));
     const providerOptions = imageApiProviders().map(provider => `<option value="${escapeAttr(provider.id)}" ${provider.id === node.apiProvider ? 'selected' : ''}>${escapeHtml(provider.label || provider.name || provider.id)}</option>`).join('');
     const modelOptions = imageModelOptions(node.model, node.apiProvider);
-    const imageHtml = node.url ? canvasPreviewImgHtml(node.url, 768, 'draggable="false"') : `<div class="translation-empty-image"><i data-lucide="image-plus"></i><span>点击或拖入原图</span></div>`;
+    const imageHtml = images.length ? `<div class="translation-image-list">${images.map(image => `<div class="translation-image-item" data-translation-image="${escapeAttr(image.id)}"><div class="translation-source-image">${canvasPreviewImgHtml(image.url, 768, 'draggable="false"')}</div><div class="translation-image-item-footer"><span title="${escapeAttr(image.name)}">${escapeHtml(image.name)}</span><button type="button" class="translation-remove-image" data-translation-remove-image="${escapeAttr(image.id)}" title="移除原图" aria-label="移除 ${escapeAttr(image.name)}"><i data-lucide="x"></i></button></div></div>`).join('')}</div>` : `<div class="translation-source-image" data-translation-image=""><div class="translation-empty-image"><i data-lucide="image-plus"></i><span>点击或拖入原图</span></div></div>`;
     const targetHtml = languages.map(language => `<label class="translation-language-option"><input type="checkbox" data-translation-target="${escapeAttr(language.id)}" ${selected.has(language.id) ? 'checked' : ''}><span>${escapeHtml(language.label)}</span></label>`).join('');
     const sizeHtml = TRANSLATION_SIZE_DEFAULTS.map(size => `<label class="translation-language-option"><input type="checkbox" data-translation-size="${size.id}" ${sizes.some(item => item.id === size.id) ? 'checked' : ''}><span>${size.label}</span></label>`).join('');
-    const sizeSettingsHtml = sizes.map(size => `<div class="translation-size-setting"><span>${escapeHtml(TRANSLATION_SIZE_DEFAULTS.find(item => item.id === size.id)?.label || size.id)}</span><select data-translation-size-field="resolution" data-size-id="${escapeAttr(size.id)}" aria-label="${escapeAttr(size.id)} 分辨率">${['1k','2k','4k','custom'].map(value => `<option value="${value}" ${size.resolution === value ? 'selected' : ''}>${value === 'custom' ? '自定义尺寸' : value.toUpperCase()}</option>`).join('')}</select>${size.id === 'custom' && size.resolution !== 'custom' ? `<input data-translation-size-field="customRatio" data-size-id="custom" value="${escapeAttr(size.customRatio || '')}" placeholder="宽高比 16:9" aria-label="自定义比例">` : ''}${size.resolution === 'custom' ? `<input data-translation-size-field="customSize" data-size-id="${escapeAttr(size.id)}" value="${escapeAttr(size.customSize || '')}" placeholder="1920x1080" aria-label="${escapeAttr(size.id)} 自定义尺寸">` : ''}</div>`).join('');
-    const outputByKey = new Map(translationOutputNodes(node.id).map(output => [translationOutputKey(output.translationLanguageId, output.translationSizeId), output]));
-    const outputHtml = translationCombinations(node, true).map(({languageId, size, key}) => {
+    const sharedResolution = sizes[0]?.resolution || '1k';
+    const sharedCustomSize = sizes.find(size => size.customSize)?.customSize || '';
+    const sizeSettingsHtml = `<select data-translation-size-field="resolution-global" aria-label="统一分辨率">${['1k','2k','4k','custom'].map(value => `<option value="${value}" ${sharedResolution === value ? 'selected' : ''}>${value === 'custom' ? '自定义尺寸' : value.toUpperCase()}</option>`).join('')}</select>${sharedResolution === 'custom' ? `<input data-translation-size-field="customSize-global" value="${escapeAttr(sharedCustomSize)}" placeholder="1920x1080" aria-label="统一自定义尺寸">` : ''}`;
+    const outputByKey = new Map(translationOutputNodes(node.id, mode).map(output => [translationOutputKeyForImage(output.translationImageId, output.translationLanguageId, output.translationSizeId), output]));
+    const outputHtml = translationCombinations(node, true).map(({image, imageId, languageId, size, key}) => {
         const output = outputByKey.get(key);
-        const label = `${translationLanguage(node, languageId)?.label || languageId} · ${translationSizeLabel(size)}`;
+        const label = `${images.length > 1 ? `${image.name} · ` : ''}${mode === 'resize' ? '改尺寸' : (translationLanguage(node, languageId)?.label || languageId)} · ${translationSizeLabel(size)}`;
         if(!output) return `<div class="translation-output-toggle"><span>${escapeHtml(label)}</span><button type="button" class="translation-restore-output" data-translation-restore="${escapeAttr(key)}" title="恢复输出节点" aria-label="恢复 ${escapeAttr(label)}"><i data-lucide="rotate-ccw"></i></button></div>`;
         return `<label class="translation-output-toggle"><input type="checkbox" data-translation-block="${escapeAttr(output.id)}" ${output.blocked ? '' : 'checked'}><span>${escapeHtml(label)}</span><small>${output.blocked ? '已屏蔽' : '参与生成'}</small></label>`;
     }).join('');
     const batchRunning = translationBatchSources.has(node.id);
     return `<div class="translation-input-body">
+        <div class="translation-mode-switch" role="group" aria-label="节点模式"><span>功能</span><button type="button" data-translation-mode="translate" aria-pressed="${mode === 'translate'}">翻译</button><button type="button" data-translation-mode="resize" aria-pressed="${mode === 'resize'}">改尺寸</button></div>
         <div class="translation-source-column">
-        <div class="translation-source-image" data-translation-image>${imageHtml}</div>
-        <div class="translation-image-actions"><button type="button" class="secondary-btn" data-translation-pick><i data-lucide="upload" class="w-3.5 h-3.5"></i>上传原图</button><span>${escapeHtml(node.name || '未上传')}</span></div>
-        <label class="translation-field"><span>原图文案语言</span><select data-translation-source-language>${languages.map(item => `<option value="${escapeAttr(item.id)}" ${item.id === node.sourceLanguage ? 'selected' : ''}>${escapeHtml(item.label)}</option>`).join('')}</select></label>
-        <div class="translation-field"><span>目标语言</span><div class="translation-language-grid">${targetHtml}</div><button type="button" class="translation-add-language" data-translation-add-language><i data-lucide="plus" class="w-3.5 h-3.5"></i>添加自定义语言</button></div>
-        <div class="translation-field"><span>输出尺寸</span><div class="translation-size-grid">${sizeHtml}</div><div class="translation-size-settings">${sizeSettingsHtml}</div></div>
+        ${imageHtml}
+        <div class="translation-image-actions"><button type="button" class="secondary-btn" data-translation-pick><i data-lucide="upload" class="w-3.5 h-3.5"></i>上传原图</button><span>${images.length ? `${images.length} / 20 张原图` : '未上传'}</span></div>
+        ${mode === 'translate' ? `<label class="translation-field"><span>原图文案语言</span><select data-translation-source-language>${languages.map(item => `<option value="${escapeAttr(item.id)}" ${item.id === node.sourceLanguage ? 'selected' : ''}>${escapeHtml(item.label)}</option>`).join('')}</select></label>
+        <div class="translation-field"><span>目标语言</span><div class="translation-language-grid">${targetHtml}</div><button type="button" class="translation-add-language" data-translation-add-language><i data-lucide="plus" class="w-3.5 h-3.5"></i>添加自定义语言</button></div>` : `<div class="translation-mode-hint">改尺寸模式：保留原图元素，按下方比例生成。</div>`}
+        <div class="translation-field"><span>输出尺寸</span><div class="translation-size-grid">${sizeHtml}</div></div>
         </div>
         <div class="translation-settings-column">
-        <label class="translation-field"><span>原图文案描述（可选）</span><textarea data-translation-description placeholder="例如：立即下载、开始游戏">${escapeHtml(node.sourceCopyDescription || '')}</textarea></label>
+        ${mode === 'translate' ? `<label class="translation-field"><span>原图文案描述（可选）</span><textarea data-translation-description placeholder="例如：立即下载、开始游戏">${escapeHtml(node.sourceCopyDescription || '')}</textarea></label>` : ''}
         <label class="translation-field"><span>补充提示词（可选）</span><textarea data-translation-supplemental-prompt placeholder="例如：保留 Logo 原文，保持角色外观和画面风格">${escapeHtml(node.supplementalPrompt || '')}</textarea></label>
-        <div class="translation-field"><span>生图参数</span><div class="translation-settings-grid"><label>API 平台<select data-translation-provider>${providerOptions || '<option value="">暂无 API 平台</option>'}</select></label><label>模型<select data-translation-model>${modelOptions}</select></label><label>画质<select data-translation-quality><option value="auto">自动</option><option value="low">低</option><option value="medium">中</option><option value="high">高</option></select></label><label>生成数量<input type="number" min="1" max="8" step="1" data-translation-count value="${translationGenerationCount(node)}" title="每个语言和尺寸组合生成的图片数量"></label></div></div>
+        <div class="translation-field"><span>生图参数</span><div class="translation-settings-grid"><label>API 平台<select data-translation-provider>${providerOptions || '<option value="">暂无 API 平台</option>'}</select></label><label>模型<select data-translation-model>${modelOptions}</select></label><label>画质<select data-translation-quality><option value="auto">自动</option><option value="low">低</option><option value="medium">中</option><option value="high">高</option></select></label><label>生成数量<input type="number" min="1" max="8" step="1" data-translation-count value="${translationGenerationCount(node)}" title="每个语言和尺寸组合生成的图片数量"></label><label class="translation-resolution-settings"><span>分辨率</span>${sizeSettingsHtml}</label></div></div>
         <div class="translation-output-controls"><button type="button" class="gen-btn" data-translation-run-all ${batchRunning ? 'disabled' : ''}><i data-lucide="${batchRunning ? 'loader-circle' : 'zap'}" class="w-4 h-4"></i>${batchRunning ? '生成中' : '全部生成'}</button><span>下游输出<strong>${outputByKey.size} 个</strong></span></div>
         <div class="translation-output-list">${outputHtml}</div>
         </div>
@@ -2996,24 +3086,66 @@ function renderTranslationOutputBody(node){
     const pixels = size && parseSizeValue(apiImageSize(size.ratio, size.resolution, size.customRatio, size.customSize));
     const ratioValue = size?.ratio === 'custom' ? parseRatioValue(size.customRatio) : parseRatioValue(API_RATIO_VALUES[size?.ratio]);
     const ratio = pixels && Number(pixels.width) > 0 && Number(pixels.height) > 0 ? `${pixels.width}/${pixels.height}` : (Number.isFinite(ratioValue) && ratioValue > 0 ? ratioValue : '16/9');
-    return `<div class="translation-output-body" style="--translation-output-ratio:${escapeAttr(ratio)}"><div class="translation-output-language"><span>${escapeHtml(node.translationLanguageLabel || node.translationLanguageId)}</span><small>${escapeHtml(size ? translationSizeLabel(size) : (node.translationSizeLabel || '翻译输出'))}</small></div>${node.blocked ? '<div class="translation-output-state">已屏蔽</div>' : ''}<div class="translation-output-prompt">${escapeHtml(translationOutputPrompt(node))}</div>${!source ? '<div class="translation-error">未连接翻译上传节点</div>' : ''}${node.runError ? `<div class="translation-error">${escapeHtml(node.runError)}</div>` : ''}<div class="translation-output-images">${renderOutputGrid(node, pendingHtml)}</div><button type="button" class="gen-btn translation-rerun-btn" data-translation-rerun ${!source || node.blocked || running || queued ? 'disabled' : ''}><i data-lucide="refresh-cw" class="w-4 h-4"></i>${queued ? '等待生成' : running ? '生成中' : '重新生成'}</button></div>`;
+    const outputTitle = node.translationMode === 'resize'
+        ? `${node.translationImageName || '原图'} · 改尺寸`
+        : (node.translationImageName && normalizeTranslationImages(source || {}).length > 1
+            ? `${node.translationImageName} · ${node.translationLanguageLabel || node.translationLanguageId}`
+            : (node.translationLanguageLabel || node.translationLanguageId));
+    return `<div class="translation-output-body" style="--translation-output-ratio:${escapeAttr(ratio)}"><div class="translation-output-language"><span>${escapeHtml(outputTitle)}</span><small>${escapeHtml(size ? translationSizeLabel(size) : (node.translationSizeLabel || '翻译输出'))}</small></div>${node.blocked ? '<div class="translation-output-state">已屏蔽</div>' : ''}<div class="translation-output-prompt">${escapeHtml(translationOutputPrompt(node))}</div>${!source ? '<div class="translation-error">未连接翻译上传节点</div>' : ''}${node.runError ? `<div class="translation-error">${escapeHtml(node.runError)}</div>` : ''}<div class="translation-output-images">${renderOutputGrid(node, pendingHtml)}</div><button type="button" class="gen-btn translation-rerun-btn" data-translation-rerun ${!source || node.blocked || running || queued ? 'disabled' : ''}><i data-lucide="refresh-cw" class="w-4 h-4"></i>${queued ? '等待生成' : running ? '生成中' : '重新生成'}</button></div>`;
 }
 function bindTranslationInputBody(el, node){
-    const sourceImage = el.querySelector('[data-translation-image]');
+    const uploadDroppedImages = files => {
+        if(typeof uploadTranslationImages === 'function') return uploadTranslationImages(node.id, files);
+        return uploadTranslationImage(node.id, files?.[0]);
+    };
     const pick = () => {
-        const input = document.createElement('input'); input.type = 'file'; input.accept = 'image/*';
-        input.onchange = () => uploadTranslationImage(node.id, input.files?.[0]).catch(error => showErrorModal(error.message || '图片上传失败'));
+        const input = document.createElement('input'); input.type = 'file'; input.accept = 'image/*'; input.multiple = true;
+        input.onchange = () => uploadTranslationImages(node.id, input.files).catch(error => showErrorModal(error.message || '图片上传失败'));
         input.click();
     };
-    sourceImage?.addEventListener('click', pick);
-    el.querySelector('[data-translation-pick]')?.addEventListener('click', pick);
-    sourceImage?.addEventListener('dragover', event => allowImageNodeDropEvent(event, sourceImage));
-    sourceImage?.addEventListener('dragleave', event => { event.stopPropagation(); sourceImage.classList.remove('drag-over'); });
-    sourceImage?.addEventListener('drop', event => {
-        clearImageNodeDropState(event, sourceImage);
-        const file = event.dataTransfer?.files?.[0];
-        if(file) uploadTranslationImage(node.id, file).catch(error => showErrorModal(error.message || '图片上传失败'));
+    el.querySelectorAll('[data-translation-image]').forEach(sourceImage => {
+        sourceImage.addEventListener('click', event => { if(!event.target.closest('[data-translation-remove-image]')) pick(); });
+        sourceImage.addEventListener('dragover', event => allowImageNodeDropEvent(event, sourceImage));
+        sourceImage.addEventListener('dragleave', event => { event.stopPropagation(); sourceImage.classList.remove('drag-over'); });
+        sourceImage.addEventListener('drop', event => {
+            clearImageNodeDropState(event, sourceImage);
+            const files = [...(event.dataTransfer?.files || [])];
+            if(files.length) uploadDroppedImages(files).catch(error => showErrorModal(error.message || '图片上传失败'));
+        });
     });
+    const legacySourceImage = !el.querySelectorAll('[data-translation-image]').length ? el.querySelector('[data-translation-image]') : null;
+    if(legacySourceImage){
+        legacySourceImage.addEventListener('click', pick);
+        legacySourceImage.addEventListener('dragover', event => allowImageNodeDropEvent(event, legacySourceImage));
+        legacySourceImage.addEventListener('dragleave', event => { event.stopPropagation(); legacySourceImage.classList.remove('drag-over'); });
+        legacySourceImage.addEventListener('drop', event => {
+            clearImageNodeDropState(event, legacySourceImage);
+            const files = [...(event.dataTransfer?.files || [])];
+            if(files.length) uploadDroppedImages(files).catch(error => showErrorModal(error.message || '图片上传失败'));
+        });
+    }
+    el.querySelector('[data-translation-pick]')?.addEventListener('click', pick);
+    el.querySelectorAll('[data-translation-mode]').forEach(button => button.addEventListener('click', () => {
+        const nextMode = button.dataset.translationMode;
+        if(translationMode(node) === nextMode) return;
+        pushUndo();
+        node.translationMode = nextMode;
+        syncTranslationOutputNodes(node);
+        render(); layoutTranslationOutputs(node); scheduleSave();
+    }));
+    el.querySelectorAll('[data-translation-remove-image]').forEach(button => button.addEventListener('click', event => {
+        event.preventDefault(); event.stopPropagation();
+        const imageId = button.dataset.translationRemoveImage;
+        const owned = translationOutputNodes(node.id).filter(output => output.translationImageId === imageId);
+        if(owned.some(output => output.images?.length || output._pending?.length)
+            && !window.confirm('移除原图将删除对应输出节点及已有生成图片，是否继续？')) return;
+        pushUndo();
+        node.translationImages = normalizeTranslationImages(node).filter(image => image.id !== imageId);
+        node.url = node.translationImages[0]?.url || '';
+        node.name = node.translationImages[0]?.name || '翻译原图';
+        syncTranslationOutputNodes(node);
+        render(); layoutTranslationOutputs(node); scheduleSave();
+    }));
     el.querySelector('[data-translation-source-language]')?.addEventListener('change', event => { node.sourceLanguage = event.target.value; render(); scheduleSave(); });
     el.querySelectorAll('[data-translation-target]').forEach(input => input.addEventListener('change', event => {
         const id = event.target.dataset.translationTarget;
@@ -3059,13 +3191,22 @@ function bindTranslationInputBody(el, node){
         const sizes = normalizeTranslationSizes(node).filter(size => size.id !== sizeId);
         if(event.target.checked) sizes.push({id:sizeId, ratio:sizeId, resolution:'1k', customRatio:'', customSize:''});
         node.translationSizes = sizes;
-        const sizeKeys = new Set(translationLanguageCatalog(node).map(language => translationOutputKey(language.id, sizeId)));
+        const sizeKeys = new Set(normalizeTranslationImages(node).flatMap(image => translationLanguageCatalog(node).map(language => translationOutputKeyForImage(image.id, language.id, sizeId))));
         node.translationExcludedOutputs = (node.translationExcludedOutputs || []).filter(key => !sizeKeys.has(key));
         syncTranslationOutputNodes(node); render(); layoutTranslationOutputs(node); scheduleSave();
     }));
     el.querySelectorAll('[data-translation-size-field]').forEach(input => input.addEventListener('change', event => {
-        const size = normalizeTranslationSizes(node).find(item => item.id === event.target.dataset.sizeId);
         const field = event.target.dataset.translationSizeField;
+        if(field === 'resolution-global' || field === 'customSize-global'){
+            pushUndo();
+            const sizes = normalizeTranslationSizes(node);
+            if(field === 'resolution-global') sizes.forEach(size => { size.resolution = event.target.value; });
+            if(field === 'customSize-global') sizes.forEach(size => { size.customSize = event.target.value; });
+            node.translationSizes = sizes;
+            syncTranslationOutputNodes(node); render(); layoutTranslationOutputs(node); scheduleSave();
+            return;
+        }
+        const size = normalizeTranslationSizes(node).find(item => item.id === event.target.dataset.sizeId);
         if(!size || size[field] === event.target.value) return;
         pushUndo(); size[field] = event.target.value;
         syncTranslationOutputNodes(node); render(); layoutTranslationOutputs(node); scheduleSave();
@@ -5057,8 +5198,15 @@ function openCreateMenu(clientX, clientY){
     createMenu.classList.add('open');
     refreshIcons();
 }
+function toggleWorkflowNodeMenu(event){
+    event?.preventDefault();
+    event?.stopPropagation();
+    const group = event?.currentTarget?.closest('.workflow-node-menu-group');
+    if(group) group.classList.toggle('open');
+}
 function closeCreateMenu(){
     createMenu.classList.remove('open');
+    createMenu.querySelector('.workflow-node-menu-group')?.classList.remove('open');
     closeLinkCreateMenu();
     closeImageNodeMenu();
 }
@@ -5531,6 +5679,7 @@ function createLinkedNode(type){
     }
 }
 function createNodeByType(type, point){
+    if(type === 'batchResize') return addBatchResizeNode(point);
     if(type === 'image') return addImageNode(point);
     if(type === 'translationInput') return addTranslationInputNode(point);
     if(type === 'prompt') return addPromptNode(point);
@@ -5556,6 +5705,7 @@ function createNodeByType(type, point){
 }
 function menuAdd(type){
     closeCreateMenu();
+    if(type === 'batchResize') addBatchResizeNode(menuPoint);
     if(type === 'image') addImageNode(menuPoint);
     if(type === 'translationInput') addTranslationInputNode(menuPoint);
     if(type === 'prompt') addPromptNode(menuPoint);
@@ -8857,6 +9007,15 @@ function renderGameKvPromptLibrary(){
     refreshIcons();
 }
 function render(){
+    // Legacy batch-resize nodes are retired; remove them and their owned outputs from loaded canvases.
+    const legacyBatchIds = new Set(nodes.filter(node => node?.type === 'batchResize').map(node => node.id));
+    const legacyBatchOutputIds = new Set(nodes.filter(node => legacyBatchIds.has(node?.resizeSourceId)).map(node => node.id));
+    const retiredBatchIds = new Set([...legacyBatchIds, ...legacyBatchOutputIds]);
+    if(retiredBatchIds.size){
+        nodes = nodes.filter(node => !retiredBatchIds.has(node.id));
+        connections = connections.filter(connection => !retiredBatchIds.has(connection.from) && !retiredBatchIds.has(connection.to));
+        scheduleSave();
+    }
     // 移除上一版错误的通用自定义提示词节点，避免旧节点继续出现在画布中。
     const obsoleteCustomIds = new Set(nodes.filter(n => n?.type === 'customPrompt').map(n => n.id));
     if(obsoleteCustomIds.size){
@@ -8902,6 +9061,7 @@ function render(){
     translationLayoutUpdates.forEach(layoutTranslationOutputs);
     translationSizeUpdates.forEach(source => layoutTranslationOutputs(source, {onlyNew:true}));
     nodes.filter(node => node.type === 'translationInput').forEach(ensureTranslationRowSpacing);
+    nodes.filter(node => node.type === 'batchResize').forEach(ensureBatchResizeSpacing);
     if(translationLayoutUpdates.length || translationSizeUpdates.length) scheduleSave();
     refreshGeometry();
     refreshGeometryAfterLayout();
@@ -8945,6 +9105,7 @@ function refreshNodes(ids=[]){
         const source = nodes.find(node => node.id === id && node.type === 'translationInput');
         if(source) ensureTranslationRowSpacing(source);
     });
+    uniqueIds.map(id => nodes.find(node => node.id === id)).filter(node => node?.type === 'batchResize').forEach(ensureBatchResizeSpacing);
     refreshGeometry();
     refreshGeometryAfterLayout();
     refreshIcons();
@@ -9993,8 +10154,8 @@ function renderNode(node){
         if(node.type === 'output') openOutputNodeMenu(node.id, e.clientX, e.clientY);
         else openGeneratorNodeMenu(node.id, e.clientX, e.clientY);
     };
-    const title = node.type === 'image' ? 'Image' : node.type === 'prompt' ? 'Prompt' : node.type === 'translationInput' ? '翻译上传' : node.type === 'translationOutput' ? (node.translationLanguageLabel || '翻译输出') : node.type === 'gameKvPopupPrompt' ? (node.title || '大弹窗 KV 提示词') : node.type === 'gameKvPrompt' ? '游戏 KV 提示词' : node.type === 'loop' ? tr('canvas.loopNode') : node.type === 'promptGroup' ? 'Prompts' : node.type === 'group' ? 'Group' : node.type === 'output' ? 'Output' : node.type === 'llm' ? 'LLM' : node.type === 'comfy' ? 'ComfyUI' : node.type === 'ltxDirector' ? tr('canvas.ltxDirector') : node.type === 'rh' ? 'RunningHub' : node.type === 'minimax' ? 'MiniMax H3' : node.type === 'midjourney' ? 'Midjourney' : node.type === 'msgen' ? tr('canvas.modelscopeGenerate') : node.type === 'video' ? tr('canvas.videoGenerateNode') : node.type === 'masterGenerator' ? '主控API' : 'API生成';
-    const displayTitle = node.type === 'image' && node.url ? nodeTitleForMedia(node) : title;
+    const title = node.type === 'image' ? 'Image' : node.type === 'prompt' ? 'Prompt' : node.type === 'translationInput' ? '改图/翻译节点' : node.type === 'translationOutput' ? (node.translationLanguageLabel || '翻译输出') : node.type === 'gameKvPopupPrompt' ? (node.title || '大弹窗 KV 提示词') : node.type === 'gameKvPrompt' ? '游戏 KV 提示词' : node.type === 'loop' ? tr('canvas.loopNode') : node.type === 'promptGroup' ? 'Prompts' : node.type === 'group' ? 'Group' : node.type === 'output' ? 'Output' : node.type === 'llm' ? 'LLM' : node.type === 'comfy' ? 'ComfyUI' : node.type === 'ltxDirector' ? tr('canvas.ltxDirector') : node.type === 'rh' ? 'RunningHub' : node.type === 'minimax' ? 'MiniMax H3' : node.type === 'midjourney' ? 'Midjourney' : node.type === 'msgen' ? tr('canvas.modelscopeGenerate') : node.type === 'video' ? tr('canvas.videoGenerateNode') : node.type === 'masterGenerator' ? '主控API' : 'API生成';
+    const displayTitle = node.type === 'batchResize' ? '批量尺寸适配' : node.resizeSourceId ? escapeHtml(node.resizeName || '尺寸输出') : node.type === 'image' && node.url ? nodeTitleForMedia(node) : title;
     // 失败徽章只在一键运行模式中显示，单节点失败已通过 alert 提示
     const showStatus = ['generator','masterGenerator','midjourney','msgen','comfy','ltxDirector','llm','video','rh','minimax'].includes(node.type) && node.runStatus
         && (node.runStatus !== 'failed' || node._cascadeFailed);
@@ -10005,6 +10166,10 @@ function renderNode(node){
     el.innerHTML = `<div class="node-head"><span class="node-title">${displayTitle}</span><div style="display:flex;align-items:center;gap:8px">${statusHtml}<button onclick="deleteNodeFromButton('${node.id}', event)" class="text-gray-300 hover:text-red-500"><i data-lucide="x" class="w-4 h-4"></i></button></div></div>`;
     const body = document.createElement('div');
     body.className = 'node-body';
+    if(node.type === 'batchResize') {
+        body.innerHTML = renderBatchResizeBody(node);
+        bindBatchResizeBody(body, node);
+    }
     if(node.type === 'translationInput') {
         body.appendChild(document.createRange().createContextualFragment(renderTranslationInputBody(node)));
         bindTranslationInputBody(body, node);
@@ -10210,7 +10375,8 @@ function renderNode(node){
         const pendingHtml = (node._pending || []).map(p =>
             renderPendingOutput(p)
         ).join('');
-        body.innerHTML = renderOutputGrid(node, pendingHtml);
+        body.innerHTML = node.resizeSourceId ? renderBatchResizeOutputBody(node) : renderOutputGrid(node, pendingHtml);
+        if(node.resizeSourceId) bindBatchResizeOutputBody(body, node);
         body.onwheel = e => {
             e.stopPropagation();
         };
@@ -10231,6 +10397,7 @@ function renderNode(node){
     if(canOutput) el.insertAdjacentHTML('beforeend', `<div class="port out" title="${tr('canvas.dragConnect')}"></div>`);
     if(isGameKvPromptNode(node)) el.insertAdjacentHTML('beforeend', `<div class="port in kv-special-port kv-gallery-port" data-port="galleryIn" title="连接 KV 参考图库"></div><div class="port out kv-special-port kv-inherit-port" data-port="kvOut" title="输出配置到下游 KV"></div><div class="port out kv-special-port kv-prompt-port" data-port="promptOut" title="输出提示词到 Prompt"></div><div class="port out kv-special-port kv-image-port" data-port="imageOut" title="绑定主控 API 图片"></div>`);
     if(node.type === 'translationInput') el.insertAdjacentHTML('beforeend', '<div class="port out translation-port" data-port="translationOut" title="输出翻译图片和生成参数"></div>');
+    if(node.type === 'batchResize') el.insertAdjacentHTML('beforeend', '<div class="port out" data-port="resizeOut" title="尺寸输出"></div>');
     el.insertAdjacentHTML('beforeend', `<div class="resize-handle" title="${tr('canvas.resize')}"></div>`);
     el.querySelector('.node-head').onmousedown = e => {
         if(e.button !== 0) return;
@@ -10355,6 +10522,7 @@ function outputDomKeyForPending(pending){
     return `pending:${pending?.id || ''}`;
 }
 function refreshOutputNodeContent(node){
+    if(node.resizeSourceId) return false;
     const el = nodesEl.querySelector(`.output-node[data-id="${CSS.escape(node.id)}"]`);
     const body = el?.querySelector('.node-body');
     const grid = body?.querySelector('.output-grid');
@@ -10408,6 +10576,7 @@ function refreshOutputNodeContent(node){
     return true;
 }
 function defaultNodeSize(type){
+    if(type === 'batchResize') return {w:740, h:0};
     if(type === 'label') return {w:132, h:52};
     if(type === 'gameKvPopupPrompt') return {w:410, h:540};
     if(type === 'irregularPopupKvPrompt') return {w:440, h:860};
@@ -17430,7 +17599,7 @@ function deleteNode(id, event){
     const deleting = nodes.find(n => n.id === id);
     const translationChildren = deleting?.type === 'translationInput'
         ? new Set(translationOutputNodes(id).map(n => n.id))
-        : new Set();
+        : deleting?.type === 'batchResize' ? new Set(batchResizeOutputs(id).map(n => n.id)) : new Set();
     if(deleting?.type === 'translationOutput'){
         excludeTranslationOutput(deleting);
     }
@@ -17461,6 +17630,7 @@ function clearNodeContentBeforeDelete(id){
     if(node.type === 'output' && ((node.images || []).length || (node._pending || []).length)){
         pushUndo();
         node.images = [];
+        if(node.resizeSourceId) node.resizeJobs = [];
         node._pending = [];
         node.imageComparisons = {};
         refreshNodes([node.id]);
@@ -17829,6 +17999,7 @@ function providerIdForPending(pending){
 }
 function completeRecoverPendingOutput(out, pending, result){
     if(!out || !pending || !result) return;
+    if(out.resizeSourceId && pending.resizeSizeId) return completeBatchResizeTask(out, pending, result);
     const images = result.images || [];
     if(!images.length) return;
     const meta = {
@@ -17956,6 +18127,7 @@ function completeCanvasImageTask(taskId, result){
     const found = findPendingTask(taskId);
     if(!found) return;
     const {out, pending} = found;
+    if(out.resizeSourceId && pending.resizeSizeId) return completeBatchResizeTask(out, pending, result);
     const meta = {
         runMs: nowMs() - Number(pending.startedAt || nowMs()),
         run: pending.run || {},
@@ -17979,6 +18151,7 @@ function failCanvasImageTask(taskId, message, taskData={}){
     const found = findPendingTask(taskId);
     if(!found) return;
     const {out, pending} = found;
+    if(out.resizeSourceId && pending.resizeSizeId) failBatchResizeTask(out, pending, message);
     const run = pending.run || {};
     const runMs = nowMs() - Number(pending.startedAt || nowMs());
     const recoverTaskId = taskData?.upstream_task_id || taskData?.task_id || extractUpstreamTaskId(message);
@@ -19169,7 +19342,7 @@ function duplicateNodesForAltDrag(node, preserveConnections=false){
             }
         });
     }
-    copies.forEach(item => { remapKvReferenceState(item, idMap); remapTranslationState(item, idMap); });
+    copies.forEach(item => { remapKvReferenceState(item, idMap); remapTranslationState(item, idMap); remapBatchResizeState(item, idMap); });
     restoreTranslationCopies(copies);
     return copy;
 }
@@ -19212,6 +19385,7 @@ function pasteNodes(){
         remapKvReferenceState(c, idMap);
         remapKvGalleryState(c, idMap);
         remapTranslationState(c, idMap);
+        remapBatchResizeState(c, idMap);
     });
     const newConnections = clipConnections
         .map(c => ({...c, id:uid('c'), from:idMap.get(c.from), to:idMap.get(c.to)}))
@@ -19434,6 +19608,7 @@ function insertWorkflowIntoCanvas(imported){
         remapKvReferenceState(node, idMap);
         remapKvGalleryState(node, idMap);
         remapTranslationState(node, idMap);
+        remapBatchResizeState(node, idMap);
     });
     const newConnections = srcConnections
         .map(c => ({...c, id:uid('c'), from:idMap.get(c.from), to:idMap.get(c.to)}))
@@ -19497,6 +19672,7 @@ function startNodeDrag(e, node){
         if(n.type === 'translationInput'){
             translationOutputNodes(n.id).forEach(collect);
         }
+        if(n.type === 'batchResize') batchResizeOutputs(n.id).forEach(collect);
     };
     if(isGroup){
         (dragTarget.items || []).map(id => nodes.find(n => n.id === id)).forEach(collect);
@@ -19507,6 +19683,7 @@ function startNodeDrag(e, node){
     if(dragTarget.type === 'translationInput'){
         translationOutputNodes(dragTarget.id).forEach(collect);
     }
+    if(dragTarget.type === 'batchResize') batchResizeOutputs(dragTarget.id).forEach(collect);
     // 如果被拖节点在多选里，所有其他选中节点（含其组成员）一起移动
     if(selected.has(dragTarget.id) && selected.size > 1){
         [...selected].forEach(id => collect(nodes.find(n => n.id === id)));
@@ -19608,6 +19785,7 @@ function onNodeResize(e){
         el.style.width = `${resizeNode.node.w}px`;
         el.style.height = `${resizeNode.node.h}px`;
     }
+    if(resizeNode.node.type === 'batchResize') ensureBatchResizeSpacing(resizeNode.node);
     scheduleLinksRender();
     renderSelectionHub();
     scheduleMinimapRender();
@@ -19775,6 +19953,7 @@ function wouldCreateGeneratorCycle(fromId, toId){
 }
 function connectionKindFromPorts(from, to, fromPort='out', toPort='in', preferredKind=''){
     if(preferredKind && preferredKind !== 'dataFlow') return preferredKind;
+    if(fromPort === 'resizeOut') return 'batchResizeFlow';
     if(fromPort === 'translationOut' || (from?.type === 'translationInput' && to?.type === 'translationOutput')) return TRANSLATION_CONNECTION_KIND;
     if(fromPort === 'galleryOut' || toPort === 'galleryIn') return KV_CONNECTION_KIND_GALLERY;
     if(String(toPort || '').startsWith('gallerySlot:')) return KV_CONNECTION_KIND_GALLERY_SLOT;
@@ -19805,6 +19984,8 @@ function canConnect(fromId, toId, fromPort='out', toPort='in', preferredKind='')
     if(!from || !to) return false;
     if(isLabelNode(from) || isLabelNode(to)) return isLabelNode(from) !== isLabelNode(to);
     const kind = connectionKindFromPorts(from, to, fromPort, toPort, preferredKind);
+    if(kind === 'batchResizeFlow') return from.type === 'batchResize' && to.type === 'output'
+        && to.resizeSourceId === from.id && fromPort === 'resizeOut' && toPort === 'in';
     if(kind === TRANSLATION_CONNECTION_KIND) return from.type === 'translationInput' && to.type === 'translationOutput'
         && to.translationSourceId === from.id && fromPort === 'translationOut' && toPort === 'in';
     if(kind === KV_CONNECTION_KIND_GALLERY){
@@ -20768,6 +20949,7 @@ function deleteSelectedNodes(){
             (n.items || []).forEach(collect);
         }
         if(n?.type === 'translationInput') translationOutputNodes(n.id).forEach(output => collect(output.id));
+        if(n?.type === 'batchResize') batchResizeOutputs(n.id).forEach(output => collect(output.id));
     };
     selected.forEach(collect);
     nodes.filter(node => node.type === 'translationOutput' && toDelete.has(node.id)).forEach(output => {
