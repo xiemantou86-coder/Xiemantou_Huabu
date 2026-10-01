@@ -8,7 +8,7 @@
   "pinned": false,
   "project": "default",
   "created_at": 1789034316892,
-  "updated_at": 1790881278448,
+  "updated_at": 1790882241983,
   "nodes": [
     {
       "id": "containerGroup_cdc65987d9fd3_1789034526143",
@@ -1865,53 +1865,6 @@
       "y": 1571.5010812478652,
       "images": [
         {
-          "url": "/assets/output/online_75a512b003.png",
-          "viewed": true,
-          "runMs": 36662,
-          "run": {
-            "nodeType": "generator",
-            "node": {
-              "id": "gen_11b2ca1e4dc108_1789354135016",
-              "type": "generator",
-              "x": 5715.1655207297945,
-              "y": 1561.2613017384133,
-              "apiProvider": "apimart",
-              "model": "gpt-image-2.5-sunburst",
-              "ratio": "square",
-              "resolution": "2k",
-              "customRatio": "",
-              "customSize": "",
-              "customRatioWidth": "",
-              "customRatioHeight": "",
-              "customWidth": "",
-              "customHeight": "",
-              "transparentBackground": true,
-              "_apiResolutionUserSet": true,
-              "w": 438,
-              "h": 639,
-              "generatedOutputs": [
-                "/assets/output/online_cd8c5eec39.png"
-              ]
-            },
-            "prompt": "高清化图片\n\n提取雷电模拟器的logo，透明底图\n\n不要黄色实体，大描边#38404b，勾勒图像样子，svg效果，其他地方透明效果\n干净边缘，矢量图效果\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
-            "refs": [
-              {
-                "url": "/assets/input/ai_ref_4ff3c0a50727.png",
-                "name": "image.png"
-              }
-            ],
-            "request": {
-              "task_id": "task_01M3W9TJA6QM6P9P9ZYQCMAYSR",
-              "request_id": "",
-              "provider_id": "apimart",
-              "backend": "",
-              "prompt_id": "",
-              "workflow_json": "",
-              "seed": ""
-            }
-          }
-        },
-        {
           "url": "/assets/output/online_ae8b915f44.png",
           "viewed": true,
           "runMs": 46155,
@@ -1967,10 +1920,6 @@
       "h": 684,
       "_pending": [],
       "imageComparisons": {
-        "/assets/output/online_75a512b003.png": {
-          "url": "/assets/input/ai_ref_4ff3c0a50727.png",
-          "name": "image.png"
-        },
         "/assets/output/online_ae8b915f44.png": {
           "url": "/assets/input/ai_ref_018463c953fa.png",
           "name": "image.png"
