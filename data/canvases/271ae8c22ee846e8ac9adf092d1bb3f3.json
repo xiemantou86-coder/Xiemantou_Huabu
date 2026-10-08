@@ -8,15 +8,19 @@
   "pinned": false,
   "project": "default",
   "created_at": 1790776890867,
-  "updated_at": 1791429940332,
+  "updated_at": 1791432957253,
   "nodes": [
     {
       "id": "img_1bd0474012244_1791275122369",
       "type": "image",
-      "x": 384,
-      "y": 277,
-      "url": "",
-      "name": "空白图片"
+      "x": 398.60049603841003,
+      "y": 212.75781743099594,
+      "url": "/assets/input/ai_ref_a35b24307513.png",
+      "name": "image.png",
+      "mediaKind": "image",
+      "_naturalSizeLoading": false,
+      "natural_w": 664,
+      "natural_h": 797
     },
     {
       "id": "mgen_7e9166c1df716_1791275126521",
@@ -25,7 +29,7 @@
       "y": 273,
       "apiProvider": "apimart",
       "model": "grok-imagine-image-2.0",
-      "ratio": "4:3",
+      "ratio": "3:4",
       "resolution": "2k",
       "customRatio": "",
       "customSize": "",
@@ -35,20 +39,21 @@
       "customHeight": "",
       "transparentBackground": false,
       "inputs": [
-        "prompt_53fef5bcd01b3_1791275134766"
+        "prompt_53fef5bcd01b3_1791275134766",
+        "img_1bd0474012244_1791275122369"
       ],
       "masterEnabled": false,
       "_apiResolutionUserSet": true,
       "quality": "medium",
       "generatedOutputs": [
-        "/assets/output/online_5cd2438f2b.png"
+        "/assets/output/online_a3c4676250.png"
       ]
     },
     {
       "id": "out_7f469d9512e9c8_1791275129675",
       "type": "output",
-      "x": 1113.714375172447,
-      "y": 281.9393559488535,
+      "x": 1099.4420974767816,
+      "y": 276.8421139146873,
       "images": [
         {
           "url": "/assets/output/online_0788d52823.png",
@@ -174,9 +179,9 @@
           }
         },
         {
-          "url": "/assets/output/online_0903dadee5.jpg",
+          "url": "/assets/output/online_a3c4676250.png",
           "viewed": false,
-          "runMs": 63403,
+          "runMs": 34473,
           "run": {
             "nodeType": "masterGenerator",
             "node": {
@@ -186,49 +191,7 @@
               "y": 273,
               "apiProvider": "apimart",
               "model": "grok-imagine-image-2.0",
-              "ratio": "19.5:9",
-              "resolution": "1k",
-              "customRatio": "",
-              "customSize": "",
-              "customRatioWidth": "",
-              "customRatioHeight": "",
-              "customWidth": "",
-              "customHeight": "",
-              "transparentBackground": false,
-              "masterEnabled": false,
-              "_apiResolutionUserSet": false,
-              "quality": "medium",
-              "generatedOutputs": [
-                "/assets/output/online_f51f11f03e.jpg"
-              ]
-            },
-            "prompt": "生成一张可爱的小猫",
-            "refs": [],
-            "request": {
-              "task_id": "task_01M4CRGFVPDW088T452VDCMAS8",
-              "request_id": "",
-              "provider_id": "apimart",
-              "backend": "",
-              "prompt_id": "",
-              "workflow_json": "",
-              "seed": ""
-            }
-          }
-        },
-        {
-          "url": "/assets/output/online_5cd2438f2b.png",
-          "viewed": false,
-          "runMs": 54227,
-          "run": {
-            "nodeType": "masterGenerator",
-            "node": {
-              "id": "mgen_7e9166c1df716_1791275126521",
-              "type": "masterGenerator",
-              "x": 687,
-              "y": 273,
-              "apiProvider": "apimart",
-              "model": "grok-imagine-image-2.0",
-              "ratio": "4:3",
+              "ratio": "3:4",
               "resolution": "2k",
               "customRatio": "",
               "customSize": "",
@@ -241,13 +204,18 @@
               "_apiResolutionUserSet": true,
               "quality": "medium",
               "generatedOutputs": [
-                "/assets/output/online_0903dadee5.jpg"
+                "/assets/output/online_f51f11f03e.jpg"
               ]
             },
-            "prompt": "生成一张可爱的小猫",
-            "refs": [],
+            "prompt": "把图片高清化",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_a35b24307513.png",
+                "name": "image.png"
+              }
+            ],
             "request": {
-              "task_id": "task_01M4CRNGSZP59TMEF98QV99H2D",
+              "task_id": "task_01M4CVJ7P1FH9J8MB201EVP3Z1",
               "request_id": "",
               "provider_id": "apimart",
               "backend": "",
@@ -259,15 +227,19 @@
         }
       ],
       "_pending": [],
-      "w": 510,
-      "h": 451
+      "imageComparisons": {
+        "/assets/output/online_a3c4676250.png": {
+          "url": "/assets/input/ai_ref_a35b24307513.png",
+          "name": "image.png"
+        }
+      }
     },
     {
       "id": "prompt_53fef5bcd01b3_1791275134766",
       "type": "prompt",
-      "x": 336.99942467329663,
-      "y": 631.0842442672804,
-      "text": "生成一张可爱的小猫"
+      "x": 351.59992071170666,
+      "y": 566.8420616982763,
+      "text": "把图片高清化"
     },
     {
       "id": "img_3dd41f69b4ea8_1791279017790",
@@ -419,14 +391,14 @@
   "board_y": 144.0,
   "logs": [
     {
-      "id": "log_59bbca4016f288_1791429939818",
-      "createdAt": 1791429939818,
+      "id": "log_c619d22d59d7b8_1791432956721",
+      "createdAt": 1791432956721,
       "status": "success",
       "platform": "masterGenerator",
       "nodeType": "masterGenerator",
       "model": "masterGenerator",
       "request": {
-        "task_id": "task_01M4CRNGSZP59TMEF98QV99H2D",
+        "task_id": "task_01M4CVJ7P1FH9J8MB201EVP3Z1",
         "request_id": "",
         "provider_id": "apimart",
         "backend": "",
@@ -434,37 +406,75 @@
         "workflow_json": "",
         "seed": ""
       },
-      "prompt": "生成一张可爱的小猫",
+      "prompt": "把图片高清化",
       "outputs": [
-        "/assets/output/online_5cd2438f2b.png"
+        "/assets/output/online_a3c4676250.png"
       ],
-      "refs": [],
-      "runMs": 54227,
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_a35b24307513.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 34473,
       "error": ""
     },
     {
-      "id": "log_593439a01a1668_1791429784060",
-      "createdAt": 1791429784060,
-      "status": "success",
+      "id": "log_d188890db33d7_1791431589183",
+      "createdAt": 1791431589183,
+      "status": "failed",
       "platform": "masterGenerator",
       "nodeType": "masterGenerator",
       "model": "masterGenerator",
-      "request": {
-        "task_id": "task_01M4CRGFVPDW088T452VDCMAS8",
-        "request_id": "",
-        "provider_id": "apimart",
-        "backend": "",
-        "prompt_id": "",
-        "workflow_json": "",
-        "seed": ""
-      },
-      "prompt": "生成一张可爱的小猫",
-      "outputs": [
-        "/assets/output/online_0903dadee5.jpg"
+      "request": {},
+      "prompt": "吧把图片高清化",
+      "outputs": [],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_a35b24307513.png",
+          "name": "image.png"
+        }
       ],
-      "refs": [],
-      "runMs": 63403,
-      "error": ""
+      "runMs": 2525,
+      "error": "上游生图接口错误：{\"error\":{\"code\":\"invalid_request_error\",\"message\":\"image_urls[0] must be an absolute http(s) URL\",\"param\":\"\",\"type\":\"invalid_request_error\"}}"
+    },
+    {
+      "id": "log_848ea984b4379_1791431583991",
+      "createdAt": 1791431583991,
+      "status": "failed",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {},
+      "prompt": "吧把图片高清化",
+      "outputs": [],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_a35b24307513.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 1864,
+      "error": "上游生图接口错误：{\"error\":{\"code\":\"invalid_request_error\",\"message\":\"image_urls[0] must be an absolute http(s) URL\",\"param\":\"\",\"type\":\"invalid_request_error\"}}"
+    },
+    {
+      "id": "log_948cae899a74b_1791431567970",
+      "createdAt": 1791431567970,
+      "status": "failed",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {},
+      "prompt": "吧把图片高清化",
+      "outputs": [],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_a35b24307513.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 21688,
+      "error": "请求上游生图接口失败："
     },
     {
       "id": "log_c556975a58fe48_1791428560053",

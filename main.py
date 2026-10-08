@@ -12102,7 +12102,26 @@ async def generate_ai_image(prompt, size, quality, model, reference_images=None,
                 body["background"] = "transparent"
                 body["output_format"] = "png"
             if image_refs:
-                body["image_urls"] = [reference_to_data_url(ref, max_size=1536) for ref in image_refs[:ONLINE_IMAGE_REFERENCE_MAX]]
+                if is_grok_imagine:
+                    # grok 图生图要求 image_urls 必须是绝对 http(s) URL；
+                    # 本地 /assets/、/output/、data: 参考图需先上传 APIMart 换回公网 URL。
+                    uploaded_urls = []
+                    upload_errors = []
+                    for ref in image_refs[:ONLINE_IMAGE_REFERENCE_MAX]:
+                        ref_value = str(ref.get("url") or "").strip() if isinstance(ref, dict) else ""
+                        up_url = await upload_image_for_apimart(client, provider, ref_value)
+                        if valid_apimart_video_image_input(up_url):
+                            uploaded_urls.append(up_url)
+                        else:
+                            upload_errors.append(up_url[4:] if isinstance(up_url, str) and up_url.startswith("ERR:") else "未知错误")
+                    if not uploaded_urls:
+                        raise HTTPException(
+                            status_code=400,
+                            detail="参考图上传到 APIMart 失败：" + (upload_errors[0] if upload_errors else "未获得可用的 http(s) URL") + "。请确认本地图片存在且未被删除。",
+                        )
+                    body["image_urls"] = uploaded_urls
+                else:
+                    body["image_urls"] = [reference_to_data_url(ref, max_size=1536) for ref in image_refs[:ONLINE_IMAGE_REFERENCE_MAX]]
             response = await client.post(gen_url, headers=api_headers(provider=provider, model=model), json=body)
         elif is_gpt2 and not image_refs and not mask_refs:
             body = {"model": model, "prompt": prompt, "size": size}

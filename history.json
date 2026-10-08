@@ -1,5 +1,97 @@
 [
     {
+        "prompt": "把图片高清化",
+        "images": [
+            "/assets/output/online_a3c4676250.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_a3c4676250.png",
+                "kind": "image",
+                "name": "online_a3c4676250.png",
+                "natural_w": 1776,
+                "natural_h": 2368,
+                "width": 1776,
+                "height": 2368
+            }
+        ],
+        "timestamp": 1791432955.9475257,
+        "type": "online",
+        "model": "grok-imagine-image-2.0",
+        "provider_id": "apimart",
+        "provider_name": "APIMART",
+        "task_id": "task_01M4CVJ7P1FH9J8MB201EVP3Z1",
+        "request_id": null,
+        "params": {
+            "provider_id": "apimart",
+            "model": "grok-imagine-image-2.0",
+            "size": "2048x2048",
+            "requested_size": "2048x2048",
+            "quality": "medium",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_a35b24307513.png",
+                    "name": "image.png",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": null
+    },
+    {
+        "prompt": "参考这张图，生成一只猫",
+        "images": [
+            "/assets/output/online_58b9b51fbd.jpg"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_58b9b51fbd.jpg",
+                "kind": "image",
+                "name": "online_58b9b51fbd.jpg",
+                "natural_w": 1024,
+                "natural_h": 1024,
+                "width": 1024,
+                "height": 1024
+            }
+        ],
+        "timestamp": 1791431992.1435633,
+        "type": "online",
+        "model": "grok-imagine-image-2.0",
+        "provider_id": "apimart",
+        "provider_name": "APIMART",
+        "task_id": "task_01M4CTN7WS3EX287VWDHTCAN3N",
+        "request_id": null,
+        "params": {
+            "provider_id": "apimart",
+            "model": "grok-imagine-image-2.0",
+            "size": "1024x1024",
+            "requested_size": "1024x1024",
+            "quality": "auto",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_a35b24307513.png",
+                    "name": "",
+                    "role": "",
+                    "kind": "",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": null
+    },
+    {
         "prompt": "生成一张可爱的小猫",
         "images": [
             "/assets/output/online_5cd2438f2b.png"
