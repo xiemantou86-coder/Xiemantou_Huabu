@@ -1,5 +1,239 @@
 [
     {
+        "prompt": "生成一张可爱的小猫",
+        "images": [
+            "/assets/output/online_f51f11f03e.jpg"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_f51f11f03e.jpg",
+                "kind": "image",
+                "name": "online_f51f11f03e.jpg",
+                "natural_w": 1024,
+                "natural_h": 1024,
+                "width": 1024,
+                "height": 1024
+            }
+        ],
+        "timestamp": 1791428559.1689403,
+        "type": "online",
+        "model": "grok-imagine-image-2.0",
+        "provider_id": "apimart",
+        "provider_name": "APIMART",
+        "task_id": "task_01M4CQBMGN5WE0K52PDJ2BFXAX",
+        "request_id": null,
+        "params": {
+            "provider_id": "apimart",
+            "model": "grok-imagine-image-2.0",
+            "size": "1024x1024",
+            "requested_size": "1024x1024",
+            "quality": "medium",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": []
+        },
+        "raw_usage": null
+    },
+    {
+        "prompt": "生成一张可爱的小猫",
+        "images": [
+            "/assets/output/online_4d75d83aea.jpg"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_4d75d83aea.jpg",
+                "kind": "image",
+                "name": "online_4d75d83aea.jpg",
+                "natural_w": 1024,
+                "natural_h": 1024,
+                "width": 1024,
+                "height": 1024
+            }
+        ],
+        "timestamp": 1791428546.1148632,
+        "type": "online",
+        "model": "grok-imagine-image-2.0",
+        "provider_id": "apimart",
+        "provider_name": "APIMART",
+        "task_id": "task_01M4CQAPJY5J4YHWGE4R532FZQ",
+        "request_id": null,
+        "params": {
+            "provider_id": "apimart",
+            "model": "grok-imagine-image-2.0",
+            "size": "1024x1024",
+            "requested_size": "1024x1024",
+            "quality": "medium",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": []
+        },
+        "raw_usage": null
+    },
+    {
+        "prompt": "一只可爱的橘猫坐在窗台上，阳光洒落",
+        "images": [
+            "/assets/output/online_22cbbc675b.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_22cbbc675b.png",
+                "kind": "image",
+                "name": "online_22cbbc675b.png",
+                "natural_w": 1344,
+                "natural_h": 2912,
+                "width": 1344,
+                "height": 2912
+            }
+        ],
+        "timestamp": 1791426676.361856,
+        "type": "online",
+        "model": "grok-imagine-image-2.0",
+        "provider_id": "apimart",
+        "provider_name": "APIMART",
+        "task_id": "task_01M4CNHHWFH033V88F730ZH749",
+        "request_id": null,
+        "params": {
+            "provider_id": "apimart",
+            "model": "grok-imagine-image-2.0",
+            "size": "1024x1024",
+            "requested_size": "1024x1024",
+            "quality": "auto",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": []
+        },
+        "raw_usage": null
+    },
+    {
+        "prompt": "一只可爱的橘猫坐在窗台上，阳光洒落",
+        "images": [
+            "/assets/output/online_3a0caf1913.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_3a0caf1913.png",
+                "kind": "image",
+                "name": "online_3a0caf1913.png",
+                "natural_w": 1344,
+                "natural_h": 2912,
+                "width": 1344,
+                "height": 2912
+            }
+        ],
+        "timestamp": 1791426593.215522,
+        "type": "online",
+        "model": "grok-imagine-image-2.0",
+        "provider_id": "apimart",
+        "provider_name": "APIMART",
+        "task_id": "task_01M4CNEH2Z211KFVK3H9SRXKCV",
+        "request_id": null,
+        "params": {
+            "provider_id": "apimart",
+            "model": "grok-imagine-image-2.0",
+            "size": "1024x1024",
+            "requested_size": "1024x1024",
+            "quality": "auto",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": []
+        },
+        "raw_usage": null
+    },
+    {
+        "prompt": "生成一张可爱的小猫",
+        "images": [
+            "/assets/output/online_19c5ad9133.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_19c5ad9133.png",
+                "kind": "image",
+                "name": "online_19c5ad9133.png",
+                "natural_w": 2048,
+                "natural_h": 2048,
+                "width": 2048,
+                "height": 2048
+            }
+        ],
+        "timestamp": 1791279656.2137096,
+        "type": "online",
+        "model": "gpt-image-2",
+        "provider_id": "custom-api",
+        "provider_name": "畅指",
+        "task_id": null,
+        "request_id": null,
+        "params": {
+            "provider_id": "custom-api",
+            "model": "gpt-image-2",
+            "size": "2048x2048",
+            "requested_size": "2048x2048",
+            "quality": "medium",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": []
+        },
+        "raw_usage": {
+            "input_tokens": 2,
+            "input_tokens_details": {
+                "image_tokens": 0,
+                "text_tokens": 2
+            },
+            "output_tokens": 1088,
+            "output_tokens_details": {
+                "image_tokens": 1088,
+                "text_tokens": 0
+            },
+            "total_tokens": 1090
+        }
+    },
+    {
+        "prompt": "生成一张可爱的小猫",
+        "images": [
+            "/assets/output/online_0788d52823.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_0788d52823.png",
+                "kind": "image",
+                "name": "online_0788d52823.png",
+                "natural_w": 2048,
+                "natural_h": 2048,
+                "width": 2048,
+                "height": 2048
+            }
+        ],
+        "timestamp": 1791275357.1715574,
+        "type": "online",
+        "model": "gpt-image-2",
+        "provider_id": "custom-api",
+        "provider_name": "畅指",
+        "task_id": null,
+        "request_id": null,
+        "params": {
+            "provider_id": "custom-api",
+            "model": "gpt-image-2",
+            "size": "2048x2048",
+            "requested_size": "2048x2048",
+            "quality": "medium",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": []
+        },
+        "raw_usage": {
+            "input_tokens": 2,
+            "input_tokens_details": {
+                "image_tokens": 0,
+                "text_tokens": 2
+            },
+            "output_tokens": 1088,
+            "output_tokens_details": {
+                "image_tokens": 1088,
+                "text_tokens": 0
+            },
+            "total_tokens": 1090
+        }
+    },
+    {
         "prompt": "高清化图片1\n\nlogo内字体为图片2的[畅]的样子，#38404b色圆角icon，中间镂空，透明底图\n\nsvg效果，其他地方透明效果\n干净边缘，矢量图效果\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
         "images": [
             "/assets/output/online_ae8b915f44.png"

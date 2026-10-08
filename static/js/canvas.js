@@ -557,6 +557,58 @@ const API_RATIO_VALUES = {
     ultratall:'9:21'
 };
 const RES_LONG_SIDE = { '1k':1536, '2k':2048, '4k':3840 };
+const GROK_RATIO_VALUES = ['auto','1:1','3:4','4:3','9:16','16:9','2:3','3:2','9:19.5','19.5:9','9:20','20:9','1:2','2:1'];
+function isGrokImageModel(model){
+    return String(model || '').trim().toLowerCase().startsWith('grok-imagine-image');
+}
+function defaultRatioSelectHtml(){
+    return '<option value="square">1:1</option>'
+        + '<option value="portrait">2:3</option>'
+        + '<option value="landscape">3:2</option>'
+        + '<option value="portrait43">3:4</option>'
+        + '<option value="landscape43">4:3</option>'
+        + '<option value="story">9:16</option>'
+        + '<option value="wide">16:9</option>'
+        + '<option value="ultrawide">21:9</option>'
+        + '<option value="ultratall">9:21</option>'
+        + '<option value="source">' + tr('canvas.adaptiveRatio') + '</option>'
+        + '<option value="custom">' + tr('canvas.custom') + '</option>';
+}
+function grokRatioSelectHtml(){
+    return GROK_RATIO_VALUES.map(function(value){ return '<option value="' + value + '">' + value + '</option>'; }).join('');
+}
+function normalizeRatioForModel(ratio, grok){
+    const value = String(ratio || '').trim();
+    if(grok){
+        if(GROK_RATIO_VALUES.indexOf(value) >= 0) return value;
+        const hit = Object.keys(API_RATIO_VALUES).find(function(key){ return API_RATIO_VALUES[key] === value; });
+        return hit ? API_RATIO_VALUES[hit] : '1:1';
+    }
+    if(Object.prototype.hasOwnProperty.call(API_RATIO_VALUES, value)) return value;
+    const hit = Object.keys(API_RATIO_VALUES).find(function(key){ return API_RATIO_VALUES[key] === value; });
+    return hit || 'square';
+}
+function ensureRatioOptionsForModel(node, ratioSelect){
+    if(!node || !ratioSelect) return;
+    const grok = isGrokImageModel(resolveImageModel(node.model));
+    const mode = grok ? '1' : '0';
+    if(ratioSelect.dataset.ratioMode !== mode){
+        ratioSelect.innerHTML = grok ? grokRatioSelectHtml() : defaultRatioSelectHtml();
+        ratioSelect.dataset.ratioMode = mode;
+    }
+    const next = normalizeRatioForModel(node.ratio, grok);
+    if(next !== node.ratio) node.ratio = next;
+}
+function generatorAspectRatioForRun(gen){
+    const ratio = String((gen && gen.ratio) || '').trim();
+    if(!ratio || ratio === 'source') return '';
+    if(isGrokImageModel(resolveImageModel(gen.model))){
+        if(ratio === 'auto') return 'auto';
+        if(/^\d+(?:\.\d+)?:\d+(?:\.\d+)?$/.test(ratio)) return ratio;
+    }
+    if(ratio === 'custom') return String(gen.customRatio || '').trim();
+    return API_RATIO_VALUES[ratio] || '';
+}
 const RES_PIXEL_LIMIT = { '1k':1572864, '2k':4194304, '4k':8294400 };
 const CUSTOM_IMAGE_MODELS_KEY = 'canvas_custom_image_models';
 const MANAGED_IMAGE_MODELS_KEY = 'canvas_image_models_ordered';
@@ -12590,6 +12642,7 @@ function renderGeneratorBody(node){
         } catch(_) {}
     };
     const syncSizeControls = () => {
+        ensureRatioOptionsForModel(node, ratioSelect);
         normalizeApiNodeSizeChoice(node);
         const autoOption = resolutionSelect.querySelector('option[value="auto"]');
         if(autoOption) autoOption.disabled = !isGptImageAutoSizeModel(resolveImageModel(node.model));
@@ -15669,6 +15722,8 @@ async function runGenerator(genId, opts={}){
         provider_id:resolveImageProviderId(gen.apiProvider || 'comfly'),
         model:resolveImageModel(gen.model),
         size:await generatorSizeForRun(gen, refs),
+        aspect_ratio:generatorAspectRatioForRun(gen),
+        resolution:['1k','2k','4k'].includes(gen.resolution) ? gen.resolution : '',
         reference_images:refs.slice(0, CANVAS_REFERENCE_IMAGE_MAX)
     };
     if(gen.transparentBackground) payload.transparent_background = true;
@@ -15925,7 +15980,7 @@ async function runGeneratorLegacy(genId, opts={}){
             provider_id:resolveImageProviderId(gen.apiProvider || 'comfly'),
             model:resolveImageModel(gen.model),
             size:requestSize,
-            aspect_ratio:API_RATIO_VALUES[gen.ratio] || (gen.ratio === 'custom' ? String(gen.customRatio || '').trim() : ''),
+            aspect_ratio:generatorAspectRatioForRun(gen),
             resolution:['1k','2k','4k'].includes(gen.resolution) ? gen.resolution : '',
             reference_images:refs.slice(0, CANVAS_REFERENCE_IMAGE_MAX)
         };

@@ -10435,6 +10435,12 @@ def gpt_image_2_size_exceeds_supported(size):
     width, height = parse_size_pair(size)
     return bool(width and height and (max(width, height) > GPT_IMAGE2_MAX_EDGE or width * height > GPT_IMAGE2_MAX_PIXELS))
 
+GROK_IMAGE_ALLOWED_ASPECT_RATIOS = {
+    "auto", "1:1", "3:4", "4:3", "9:16", "16:9", "2:3", "3:2",
+    "9:19.5", "19.5:9", "9:20", "20:9", "1:2", "2:1",
+}
+
+
 def apimart_size_resolution(size):
     width, height = parse_size_pair(size)
     if not width or not height:
@@ -12057,17 +12063,41 @@ async def generate_ai_image(prompt, size, quality, model, reference_images=None,
             body = {"model": model, "prompt": prompt, "size": size, "extra_body": extra_body}
             response = await client.post(gen_url, headers=api_headers(provider=provider, model=model), json=body)
         elif is_apimart:
+            requested_resolution = str(resolution or "").strip().lower()
             apimart_size, resolution = apimart_size_resolution(size)
+            # xAI 异步图片任务（grok-imagine-image-2.0）不接受 size 参数，
+            # 画面比例必须用 aspect_ratio 传递，分辨率只支持 1k/2k，质量只支持 low/medium。
+            is_grok_imagine = str(model or "").strip().lower().startswith("grok-imagine-image")
+            if is_grok_imagine:
+                if requested_resolution in {"1k", "2k", "4k"}:
+                    resolution = requested_resolution
+                if resolution == "4k":
+                    resolution = "2k"
+                if quality == "high":
+                    quality = "medium"
             # APIMart 的 GPT-Image-2 图生图仍走 /images/generations，
             # 通过 image_urls 传参考图，不使用 OpenAI multipart /images/edits。
             body = {
                 "model": model,
                 "prompt": prompt,
                 "n": 1,
-                "size": apimart_size,
                 "resolution": resolution,
-                "official_fallback": False,
             }
+            # xAI 异步图片任务不接受 official_fallback，非 grok 才附带。
+            if not is_grok_imagine:
+                body["official_fallback"] = False
+            if is_grok_imagine:
+                # grok 用 aspect_ratio 表达画幅；文生图可带 quality，带参考图时按文档不得发送 quality。
+                requested_aspect = str(aspect_ratio or "").strip()
+                body["aspect_ratio"] = (
+                    requested_aspect
+                    if requested_aspect in GROK_IMAGE_ALLOWED_ASPECT_RATIOS
+                    else apimart_size
+                )
+                if not image_refs and quality:
+                    body["quality"] = quality
+            else:
+                body["size"] = apimart_size
             if transparent_png:
                 body["background"] = "transparent"
                 body["output_format"] = "png"
