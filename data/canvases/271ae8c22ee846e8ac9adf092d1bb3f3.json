@@ -8,7 +8,7 @@
   "pinned": false,
   "project": "default",
   "created_at": 1790776890867,
-  "updated_at": 1791450407892,
+  "updated_at": 1791455284313,
   "nodes": [
     {
       "id": "img_1bd0474012244_1791275122369",
@@ -698,6 +698,2024 @@
       "inheritedReferenceOverrides": {},
       "promptText": "异形弹窗广告补充提示词：\n\n一、生成目标\n制作一张韩文的高质量异形弹窗广告，要求符合拦截大弹窗的视觉形式。\n异形弹窗主体具有醒目的广告利益点，整体达到高品质游戏宣传KV水准。\n\n二、画面背景\n背景#000000。\n纯色背景干净统一，方便后期抠图与修改。\n所有主体必须完整呈现，不得裁切。\n\n三、参考图说明\n- 图片1作为主体角色参考，保持角色身份、脸部、发型、服装和核心特征一致\n- 图片3作为画面限制参考，绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围\n- 图片4作为异形弹窗构图参考，参考主体容器、倾斜方向、空间层次和破框方式\n\n四、广告文案\n- 主标题：\n  함께라서 더 즐거운 열혈강호\n\n- 副标题：\n  새롭게 진화된 열혈강호 MMORPG\n  副标题为小字，在主标题下方。\n\n- 不添加游戏Logo。\n\n- 在画面合适位置加入图片2的下载按钮，按钮内文字：지금 다운로드。\n\n五、构图设计\n- 以主体角色参考图中的一个人物为主角，放大置于C位，重新排布其他人物的动作与位置，形成欢乐温馨、主体明确的镜头。\n- 漫画式构图与破框表现：主体容器采用粗黑边框、整体倾斜的不规则多边形，形成动感分镜。角色群像是第一视觉落点，核心角色位于视觉中心，动作张扬、辨识度高。\n- 角色身体、武器可以突破异形弹窗主体容器的边框，形成明确的“破框”设计。\n- 顶部破框：角色头部、手臂或武器可突破主体容器上边框。\n- 构建清晰的Z轴景深，区分前景破框元素、中景角色主体和背景氛围。\n\n六、视觉风格\n- 高质量日系动漫游戏KV，细腻线条，顶级二次元立绘，强光影，电影感，醒目的广告利益点。\n\n七、边界约束\n- 绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围。\n- 角色、武器、标题和道具只允许突破异形弹窗主体容器边框，绝对不能突破最终画布边界。\n- **画面禁止超出最终画布与黑色绘画区域范围。**\n- **画面禁止超出最终画布与黑色绘画区域范围。**\n- 全部画面必须保持在视觉中心内，不得超出画幅，不得裁切。\n\n八、负向提示词\n模糊，低清，噪点，颗粒感\n脏污，灰蒙，雾感，低对比\n过曝，过暗，色彩失真\n多余物体，杂乱背景\n畸形，变形，手部错误\n主体被裁切，内容超出最终画布边界，在禁止作画区域出现内容",
       "text": "异形弹窗广告补充提示词：\n\n一、生成目标\n制作一张韩文的高质量异形弹窗广告，要求符合拦截大弹窗的视觉形式。\n异形弹窗主体具有醒目的广告利益点，整体达到高品质游戏宣传KV水准。\n\n二、画面背景\n背景#000000。\n纯色背景干净统一，方便后期抠图与修改。\n所有主体必须完整呈现，不得裁切。\n\n三、参考图说明\n- 图片1作为主体角色参考，保持角色身份、脸部、发型、服装和核心特征一致\n- 图片3作为画面限制参考，绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围\n- 图片4作为异形弹窗构图参考，参考主体容器、倾斜方向、空间层次和破框方式\n\n四、广告文案\n- 主标题：\n  함께라서 더 즐거운 열혈강호\n\n- 副标题：\n  새롭게 진화된 열혈강호 MMORPG\n  副标题为小字，在主标题下方。\n\n- 不添加游戏Logo。\n\n- 在画面合适位置加入图片2的下载按钮，按钮内文字：지금 다운로드。\n\n五、构图设计\n- 以主体角色参考图中的一个人物为主角，放大置于C位，重新排布其他人物的动作与位置，形成欢乐温馨、主体明确的镜头。\n- 漫画式构图与破框表现：主体容器采用粗黑边框、整体倾斜的不规则多边形，形成动感分镜。角色群像是第一视觉落点，核心角色位于视觉中心，动作张扬、辨识度高。\n- 角色身体、武器可以突破异形弹窗主体容器的边框，形成明确的“破框”设计。\n- 顶部破框：角色头部、手臂或武器可突破主体容器上边框。\n- 构建清晰的Z轴景深，区分前景破框元素、中景角色主体和背景氛围。\n\n六、视觉风格\n- 高质量日系动漫游戏KV，细腻线条，顶级二次元立绘，强光影，电影感，醒目的广告利益点。\n\n七、边界约束\n- 绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围。\n- 角色、武器、标题和道具只允许突破异形弹窗主体容器边框，绝对不能突破最终画布边界。\n- **画面禁止超出最终画布与黑色绘画区域范围。**\n- **画面禁止超出最终画布与黑色绘画区域范围。**\n- 全部画面必须保持在视觉中心内，不得超出画幅，不得裁切。\n\n八、负向提示词\n模糊，低清，噪点，颗粒感\n脏污，灰蒙，雾感，低对比\n过曝，过暗，色彩失真\n多余物体，杂乱背景\n畸形，变形，手部错误\n主体被裁切，内容超出最终画布边界，在禁止作画区域出现内容"
+    },
+    {
+      "id": "translate-in_2bd42de3476f88_1791452610173",
+      "type": "translationInput",
+      "x": 4007.3640869950186,
+      "y": -23.17110653852602,
+      "w": 820,
+      "h": 0,
+      "translationLayoutVersion": 1,
+      "translationMode": "translate",
+      "url": "/assets/input/ai_ref_d27eca18f271.png",
+      "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+      "sourceLanguage": "__auto__",
+      "targetLanguages": [
+        "zh-hans",
+        "th"
+      ],
+      "customLanguages": [],
+      "sourceCopyDescription": "",
+      "supplementalPrompt": "",
+      "apiProvider": "custom-api",
+      "model": "gpt-image-2",
+      "ratio": "wide",
+      "resolution": "1k",
+      "quality": "auto",
+      "count": 1,
+      "customRatio": "",
+      "customSize": "",
+      "translationImages": [
+        {
+          "id": "translate-image_e60d557a235328_1791452909814",
+          "url": "/assets/input/ai_ref_d27eca18f271.png",
+          "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+          "kind": "image"
+        },
+        {
+          "id": "translate-image_00a1f859bdd0c8_1791453637807",
+          "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+          "name": "16：9.jpg",
+          "kind": "image"
+        }
+      ],
+      "translationSizes": [
+        {
+          "id": "wide",
+          "ratio": "wide",
+          "resolution": "1k",
+          "customRatio": "",
+          "customSize": ""
+        },
+        {
+          "id": "story",
+          "ratio": "story",
+          "resolution": "1k",
+          "customRatio": "",
+          "customSize": ""
+        },
+        {
+          "id": "ultratall",
+          "ratio": "ultratall",
+          "resolution": "1k",
+          "customRatio": "",
+          "customSize": ""
+        }
+      ],
+      "mediaKind": "image",
+      "translationExcludedOutputs": [
+        "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"wide\"]",
+        "[\"translate-image_00a1f859bdd0c8_1791453637807\",\"__resize__\",\"wide\"]",
+        "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"story\"]",
+        "[\"translate-image_00a1f859bdd0c8_1791453637807\",\"__resize__\",\"story\"]",
+        "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"ultratall\"]",
+        "[\"translate-image_00a1f859bdd0c8_1791453637807\",\"__resize__\",\"ultratall\"]"
+      ]
+    },
+    {
+      "id": "translate-out_164dd4404c416_1791452918646",
+      "type": "translationOutput",
+      "x": 3607.3640869950186,
+      "y": 976.828893461474,
+      "w": 360,
+      "translationSourceId": "translate-in_2bd42de3476f88_1791452610173",
+      "translationMode": "translate",
+      "translationImageId": "translate-image_e60d557a235328_1791452909814",
+      "translationImageName": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+      "translationSizeId": "wide",
+      "translationLanguageId": "zh-hans",
+      "translationLanguageLabel": "简体中文",
+      "translationLanguagePrompt": "简体中文",
+      "translationOrder": 0,
+      "images": [
+        {
+          "url": "/assets/output/online_7707212b46.png",
+          "viewed": false,
+          "runMs": 83231,
+          "run": {
+            "nodeType": "translationOutput",
+            "node": {
+              "id": "translate-out_164dd4404c416_1791452918646",
+              "type": "translationOutput",
+              "x": 4007.3640869950186,
+              "y": -23.17110653852602,
+              "w": 820,
+              "h": 0,
+              "translationLayoutVersion": 1,
+              "translationMode": "translate",
+              "url": "/assets/input/ai_ref_d27eca18f271.png",
+              "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+              "sourceLanguage": "__auto__",
+              "targetLanguages": [
+                "zh-hans",
+                "th"
+              ],
+              "customLanguages": [],
+              "sourceCopyDescription": "",
+              "supplementalPrompt": "",
+              "apiProvider": "custom-api",
+              "model": "gpt-image-2",
+              "ratio": "wide",
+              "resolution": "1k",
+              "quality": "auto",
+              "count": 1,
+              "customRatio": "",
+              "customSize": "",
+              "translationImages": [
+                {
+                  "id": "translate-image_e60d557a235328_1791452909814",
+                  "url": "/assets/input/ai_ref_d27eca18f271.png",
+                  "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+                  "kind": "image"
+                }
+              ],
+              "translationSizes": [
+                {
+                  "id": "wide",
+                  "ratio": "wide",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                }
+              ],
+              "mediaKind": "image",
+              "translationExcludedOutputs": [],
+              "kind": "image",
+              "translationImageId": "translate-image_e60d557a235328_1791452909814",
+              "translationSizeId": "wide",
+              "translationLanguageId": "zh-hans"
+            },
+            "prompt": "把原图图片中的广告文案，翻译成简体中文，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_d27eca18f271.png",
+                "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png"
+              }
+            ],
+            "taskLabel": "翻译：简体中文 · 16:9 · 1K",
+            "request": {
+              "task_id": "",
+              "request_id": "",
+              "provider_id": "custom-api",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        },
+        {
+          "url": "/assets/output/online_1d915757fe.png",
+          "viewed": false,
+          "runMs": 72362,
+          "run": {
+            "nodeType": "translationOutput",
+            "node": {
+              "id": "translate-out_164dd4404c416_1791452918646",
+              "type": "translationOutput",
+              "x": 4007.3640869950186,
+              "y": -23.17110653852602,
+              "w": 820,
+              "h": 0,
+              "translationLayoutVersion": 1,
+              "translationMode": "translate",
+              "url": "/assets/input/ai_ref_d27eca18f271.png",
+              "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+              "sourceLanguage": "__auto__",
+              "targetLanguages": [
+                "zh-hans",
+                "th"
+              ],
+              "customLanguages": [],
+              "sourceCopyDescription": "",
+              "supplementalPrompt": "",
+              "apiProvider": "custom-api",
+              "model": "gpt-image-2",
+              "ratio": "wide",
+              "resolution": "1k",
+              "quality": "auto",
+              "count": 1,
+              "customRatio": "",
+              "customSize": "",
+              "translationImages": [
+                {
+                  "id": "translate-image_e60d557a235328_1791452909814",
+                  "url": "/assets/input/ai_ref_d27eca18f271.png",
+                  "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+                  "kind": "image"
+                },
+                {
+                  "id": "translate-image_00a1f859bdd0c8_1791453637807",
+                  "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+                  "name": "16：9.jpg",
+                  "kind": "image"
+                }
+              ],
+              "translationSizes": [
+                {
+                  "id": "wide",
+                  "ratio": "wide",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                }
+              ],
+              "mediaKind": "image",
+              "translationExcludedOutputs": [
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"wide\"]"
+              ],
+              "kind": "image",
+              "translationImageId": "translate-image_e60d557a235328_1791452909814",
+              "translationSizeId": "wide",
+              "translationLanguageId": "zh-hans"
+            },
+            "prompt": "把原图图片中的广告文案，翻译成简体中文，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_d27eca18f271.png",
+                "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png"
+              }
+            ],
+            "taskLabel": "翻译：简体中文 · 16:9 · 1K",
+            "request": {
+              "task_id": "",
+              "request_id": "",
+              "provider_id": "custom-api",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        }
+      ],
+      "_pending": [],
+      "blocked": true,
+      "translationSizeLabel": "16:9 · 1K",
+      "imageComparisons": {
+        "/assets/output/online_7707212b46.png": {
+          "url": "/assets/input/ai_ref_d27eca18f271.png",
+          "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png"
+        },
+        "/assets/output/online_1d915757fe.png": {
+          "url": "/assets/input/ai_ref_d27eca18f271.png",
+          "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png"
+        }
+      },
+      "generatedOutputs": [
+        "/assets/output/online_1d915757fe.png"
+      ]
+    },
+    {
+      "id": "translate-in_c3a998b4695298_1791453464120",
+      "type": "translationInput",
+      "x": 5491.303916371113,
+      "y": 6.106456671055831,
+      "w": 820,
+      "h": 0,
+      "translationLayoutVersion": 1,
+      "translationMode": "resize",
+      "url": "/assets/input/ai_ref_b5023100c3c1.png",
+      "name": "canvas-output-1791442647947.png",
+      "sourceLanguage": "__auto__",
+      "targetLanguages": [],
+      "customLanguages": [],
+      "sourceCopyDescription": "",
+      "supplementalPrompt": "",
+      "apiProvider": "apimart",
+      "model": "gemini-3.1-flash-image-preview",
+      "ratio": "wide",
+      "resolution": "1k",
+      "quality": "auto",
+      "count": 1,
+      "customRatio": "",
+      "customSize": "",
+      "translationImages": [
+        {
+          "id": "translate-image_23f7fff93cbc38_1791454292683",
+          "url": "/assets/input/ai_ref_b5023100c3c1.png",
+          "name": "canvas-output-1791442647947.png",
+          "kind": "image"
+        }
+      ],
+      "translationSizes": [
+        {
+          "id": "story",
+          "ratio": "story",
+          "resolution": "1k",
+          "customRatio": "",
+          "customSize": ""
+        },
+        {
+          "id": "wide",
+          "ratio": "wide",
+          "resolution": "1k",
+          "customRatio": "",
+          "customSize": ""
+        },
+        {
+          "id": "square",
+          "ratio": "square",
+          "resolution": "1k",
+          "customRatio": "",
+          "customSize": ""
+        },
+        {
+          "id": "ultrawide",
+          "ratio": "ultrawide",
+          "resolution": "1k",
+          "customRatio": "",
+          "customSize": ""
+        }
+      ],
+      "mediaKind": "image",
+      "translationExcludedOutputs": []
+    },
+    {
+      "id": "translate-out_b0974165043cd_1791453478908",
+      "type": "translationOutput",
+      "x": 4027.3640869950186,
+      "y": 976.828893461474,
+      "w": 360,
+      "translationSourceId": "translate-in_2bd42de3476f88_1791452610173",
+      "translationMode": "translate",
+      "translationImageId": "translate-image_e60d557a235328_1791452909814",
+      "translationImageName": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+      "translationSizeId": "wide",
+      "translationLanguageId": "th",
+      "translationLanguageLabel": "泰文 ไทย",
+      "translationLanguagePrompt": "泰文 ไทย",
+      "translationOrder": 1,
+      "images": [
+        {
+          "url": "/assets/output/online_47f9b32f55.png",
+          "viewed": false,
+          "runMs": 81372,
+          "run": {
+            "nodeType": "translationOutput",
+            "node": {
+              "id": "translate-out_b0974165043cd_1791453478908",
+              "type": "translationOutput",
+              "x": 4007.3640869950186,
+              "y": -23.17110653852602,
+              "w": 820,
+              "h": 0,
+              "translationLayoutVersion": 1,
+              "translationMode": "translate",
+              "url": "/assets/input/ai_ref_d27eca18f271.png",
+              "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+              "sourceLanguage": "__auto__",
+              "targetLanguages": [
+                "zh-hans",
+                "th"
+              ],
+              "customLanguages": [],
+              "sourceCopyDescription": "",
+              "supplementalPrompt": "",
+              "apiProvider": "custom-api",
+              "model": "gpt-image-2",
+              "ratio": "wide",
+              "resolution": "1k",
+              "quality": "auto",
+              "count": 1,
+              "customRatio": "",
+              "customSize": "",
+              "translationImages": [
+                {
+                  "id": "translate-image_e60d557a235328_1791452909814",
+                  "url": "/assets/input/ai_ref_d27eca18f271.png",
+                  "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+                  "kind": "image"
+                }
+              ],
+              "translationSizes": [
+                {
+                  "id": "wide",
+                  "ratio": "wide",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                }
+              ],
+              "mediaKind": "image",
+              "translationExcludedOutputs": [],
+              "kind": "image",
+              "translationImageId": "translate-image_e60d557a235328_1791452909814",
+              "translationSizeId": "wide",
+              "translationLanguageId": "th"
+            },
+            "prompt": "把原图图片中的广告文案，翻译成泰文 ไทย，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_d27eca18f271.png",
+                "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png"
+              }
+            ],
+            "taskLabel": "翻译：泰文 ไทย · 16:9 · 1K",
+            "request": {
+              "task_id": "",
+              "request_id": "",
+              "provider_id": "custom-api",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        },
+        {
+          "url": "/assets/output/online_fb6459f546.png",
+          "viewed": false,
+          "runMs": 95806,
+          "run": {
+            "nodeType": "translationOutput",
+            "node": {
+              "id": "translate-out_b0974165043cd_1791453478908",
+              "type": "translationOutput",
+              "x": 4007.3640869950186,
+              "y": -23.17110653852602,
+              "w": 820,
+              "h": 0,
+              "translationLayoutVersion": 1,
+              "translationMode": "translate",
+              "url": "/assets/input/ai_ref_d27eca18f271.png",
+              "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+              "sourceLanguage": "__auto__",
+              "targetLanguages": [
+                "zh-hans",
+                "th"
+              ],
+              "customLanguages": [],
+              "sourceCopyDescription": "",
+              "supplementalPrompt": "",
+              "apiProvider": "custom-api",
+              "model": "gpt-image-2",
+              "ratio": "wide",
+              "resolution": "1k",
+              "quality": "auto",
+              "count": 1,
+              "customRatio": "",
+              "customSize": "",
+              "translationImages": [
+                {
+                  "id": "translate-image_e60d557a235328_1791452909814",
+                  "url": "/assets/input/ai_ref_d27eca18f271.png",
+                  "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+                  "kind": "image"
+                },
+                {
+                  "id": "translate-image_00a1f859bdd0c8_1791453637807",
+                  "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+                  "name": "16：9.jpg",
+                  "kind": "image"
+                }
+              ],
+              "translationSizes": [
+                {
+                  "id": "wide",
+                  "ratio": "wide",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                }
+              ],
+              "mediaKind": "image",
+              "translationExcludedOutputs": [
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"wide\"]"
+              ],
+              "kind": "image",
+              "translationImageId": "translate-image_e60d557a235328_1791452909814",
+              "translationSizeId": "wide",
+              "translationLanguageId": "th"
+            },
+            "prompt": "把原图图片中的广告文案，翻译成泰文 ไทย，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_d27eca18f271.png",
+                "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png"
+              }
+            ],
+            "taskLabel": "翻译：泰文 ไทย · 16:9 · 1K",
+            "request": {
+              "task_id": "",
+              "request_id": "",
+              "provider_id": "custom-api",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        }
+      ],
+      "_pending": [],
+      "blocked": true,
+      "translationSizeLabel": "16:9 · 1K",
+      "imageComparisons": {
+        "/assets/output/online_47f9b32f55.png": {
+          "url": "/assets/input/ai_ref_d27eca18f271.png",
+          "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png"
+        },
+        "/assets/output/online_fb6459f546.png": {
+          "url": "/assets/input/ai_ref_d27eca18f271.png",
+          "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png"
+        }
+      },
+      "generatedOutputs": [
+        "/assets/output/online_fb6459f546.png"
+      ]
+    },
+    {
+      "id": "translate-out_277f027cb748d8_1791453637807",
+      "type": "translationOutput",
+      "x": 4447.364086995019,
+      "y": 976.828893461474,
+      "w": 360,
+      "translationSourceId": "translate-in_2bd42de3476f88_1791452610173",
+      "translationMode": "translate",
+      "translationImageId": "translate-image_00a1f859bdd0c8_1791453637807",
+      "translationImageName": "16：9.jpg",
+      "translationSizeId": "wide",
+      "translationLanguageId": "zh-hans",
+      "translationLanguageLabel": "简体中文",
+      "translationLanguagePrompt": "简体中文",
+      "translationOrder": 6,
+      "images": [
+        {
+          "url": "/assets/output/online_866be81266.png",
+          "viewed": false,
+          "runMs": 54217,
+          "run": {
+            "nodeType": "translationOutput",
+            "node": {
+              "id": "translate-out_277f027cb748d8_1791453637807",
+              "type": "translationOutput",
+              "x": 4007.3640869950186,
+              "y": -23.17110653852602,
+              "w": 820,
+              "h": 0,
+              "translationLayoutVersion": 1,
+              "translationMode": "translate",
+              "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+              "name": "16：9.jpg",
+              "sourceLanguage": "__auto__",
+              "targetLanguages": [
+                "zh-hans",
+                "th"
+              ],
+              "customLanguages": [],
+              "sourceCopyDescription": "",
+              "supplementalPrompt": "",
+              "apiProvider": "custom-api",
+              "model": "gpt-image-2",
+              "ratio": "wide",
+              "resolution": "1k",
+              "quality": "auto",
+              "count": 1,
+              "customRatio": "",
+              "customSize": "",
+              "translationImages": [
+                {
+                  "id": "translate-image_e60d557a235328_1791452909814",
+                  "url": "/assets/input/ai_ref_d27eca18f271.png",
+                  "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+                  "kind": "image"
+                },
+                {
+                  "id": "translate-image_00a1f859bdd0c8_1791453637807",
+                  "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+                  "name": "16：9.jpg",
+                  "kind": "image"
+                }
+              ],
+              "translationSizes": [
+                {
+                  "id": "wide",
+                  "ratio": "wide",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                }
+              ],
+              "mediaKind": "image",
+              "translationExcludedOutputs": [
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"wide\"]"
+              ],
+              "kind": "image",
+              "translationImageId": "translate-image_00a1f859bdd0c8_1791453637807",
+              "translationSizeId": "wide",
+              "translationLanguageId": "zh-hans"
+            },
+            "prompt": "把原图图片中的广告文案，翻译成简体中文，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+                "name": "16：9.jpg"
+              }
+            ],
+            "taskLabel": "翻译：简体中文 · 16:9 · 1K",
+            "request": {
+              "task_id": "",
+              "request_id": "",
+              "provider_id": "custom-api",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        },
+        {
+          "url": "/assets/output/online_5ba55a6e28.png",
+          "viewed": false,
+          "runMs": 57955,
+          "run": {
+            "nodeType": "translationOutput",
+            "node": {
+              "id": "translate-out_277f027cb748d8_1791453637807",
+              "type": "translationOutput",
+              "x": 4007.3640869950186,
+              "y": -23.17110653852602,
+              "w": 820,
+              "h": 0,
+              "translationLayoutVersion": 1,
+              "translationMode": "translate",
+              "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+              "name": "16：9.jpg",
+              "sourceLanguage": "__auto__",
+              "targetLanguages": [
+                "zh-hans",
+                "th"
+              ],
+              "customLanguages": [],
+              "sourceCopyDescription": "",
+              "supplementalPrompt": "",
+              "apiProvider": "custom-api",
+              "model": "gpt-image-2",
+              "ratio": "wide",
+              "resolution": "1k",
+              "quality": "auto",
+              "count": 1,
+              "customRatio": "",
+              "customSize": "",
+              "translationImages": [
+                {
+                  "id": "translate-image_e60d557a235328_1791452909814",
+                  "url": "/assets/input/ai_ref_d27eca18f271.png",
+                  "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+                  "kind": "image"
+                },
+                {
+                  "id": "translate-image_00a1f859bdd0c8_1791453637807",
+                  "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+                  "name": "16：9.jpg",
+                  "kind": "image"
+                }
+              ],
+              "translationSizes": [
+                {
+                  "id": "wide",
+                  "ratio": "wide",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                },
+                {
+                  "id": "story",
+                  "ratio": "story",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                },
+                {
+                  "id": "ultratall",
+                  "ratio": "ultratall",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                }
+              ],
+              "mediaKind": "image",
+              "translationExcludedOutputs": [
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"wide\"]",
+                "[\"translate-image_00a1f859bdd0c8_1791453637807\",\"__resize__\",\"wide\"]",
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"story\"]",
+                "[\"translate-image_00a1f859bdd0c8_1791453637807\",\"__resize__\",\"story\"]",
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"ultratall\"]",
+                "[\"translate-image_00a1f859bdd0c8_1791453637807\",\"__resize__\",\"ultratall\"]"
+              ],
+              "kind": "image",
+              "translationImageId": "translate-image_00a1f859bdd0c8_1791453637807",
+              "translationSizeId": "wide",
+              "translationLanguageId": "zh-hans"
+            },
+            "prompt": "把原图图片中的广告文案，翻译成简体中文，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+                "name": "16：9.jpg"
+              }
+            ],
+            "taskLabel": "翻译：简体中文 · 16:9 · 1K",
+            "request": {
+              "task_id": "",
+              "request_id": "",
+              "provider_id": "custom-api",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        }
+      ],
+      "_pending": [],
+      "blocked": false,
+      "translationSizeLabel": "16:9 · 1K",
+      "imageComparisons": {
+        "/assets/output/online_866be81266.png": {
+          "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+          "name": "16：9.jpg"
+        },
+        "/assets/output/online_5ba55a6e28.png": {
+          "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+          "name": "16：9.jpg"
+        }
+      },
+      "generatedOutputs": [
+        "/assets/output/online_5ba55a6e28.png"
+      ]
+    },
+    {
+      "id": "translate-out_ee25b0c0cfdcf8_1791453637807",
+      "type": "translationOutput",
+      "x": 4867.364086995019,
+      "y": 976.828893461474,
+      "w": 360,
+      "translationSourceId": "translate-in_2bd42de3476f88_1791452610173",
+      "translationMode": "translate",
+      "translationImageId": "translate-image_00a1f859bdd0c8_1791453637807",
+      "translationImageName": "16：9.jpg",
+      "translationSizeId": "wide",
+      "translationLanguageId": "th",
+      "translationLanguageLabel": "泰文 ไทย",
+      "translationLanguagePrompt": "泰文 ไทย",
+      "translationOrder": 7,
+      "images": [
+        {
+          "url": "/assets/output/online_c1952da9d1.png",
+          "viewed": false,
+          "runMs": 52397,
+          "run": {
+            "nodeType": "translationOutput",
+            "node": {
+              "id": "translate-out_ee25b0c0cfdcf8_1791453637807",
+              "type": "translationOutput",
+              "x": 4007.3640869950186,
+              "y": -23.17110653852602,
+              "w": 820,
+              "h": 0,
+              "translationLayoutVersion": 1,
+              "translationMode": "translate",
+              "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+              "name": "16：9.jpg",
+              "sourceLanguage": "__auto__",
+              "targetLanguages": [
+                "zh-hans",
+                "th"
+              ],
+              "customLanguages": [],
+              "sourceCopyDescription": "",
+              "supplementalPrompt": "",
+              "apiProvider": "custom-api",
+              "model": "gpt-image-2",
+              "ratio": "wide",
+              "resolution": "1k",
+              "quality": "auto",
+              "count": 1,
+              "customRatio": "",
+              "customSize": "",
+              "translationImages": [
+                {
+                  "id": "translate-image_e60d557a235328_1791452909814",
+                  "url": "/assets/input/ai_ref_d27eca18f271.png",
+                  "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+                  "kind": "image"
+                },
+                {
+                  "id": "translate-image_00a1f859bdd0c8_1791453637807",
+                  "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+                  "name": "16：9.jpg",
+                  "kind": "image"
+                }
+              ],
+              "translationSizes": [
+                {
+                  "id": "wide",
+                  "ratio": "wide",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                }
+              ],
+              "mediaKind": "image",
+              "translationExcludedOutputs": [
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"wide\"]"
+              ],
+              "kind": "image",
+              "translationImageId": "translate-image_00a1f859bdd0c8_1791453637807",
+              "translationSizeId": "wide",
+              "translationLanguageId": "th"
+            },
+            "prompt": "把原图图片中的广告文案，翻译成泰文 ไทย，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+                "name": "16：9.jpg"
+              }
+            ],
+            "taskLabel": "翻译：泰文 ไทย · 16:9 · 1K",
+            "request": {
+              "task_id": "",
+              "request_id": "",
+              "provider_id": "custom-api",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        },
+        {
+          "url": "/assets/output/online_774b109750.png",
+          "viewed": false,
+          "runMs": 52633,
+          "run": {
+            "nodeType": "translationOutput",
+            "node": {
+              "id": "translate-out_ee25b0c0cfdcf8_1791453637807",
+              "type": "translationOutput",
+              "x": 4007.3640869950186,
+              "y": -23.17110653852602,
+              "w": 820,
+              "h": 0,
+              "translationLayoutVersion": 1,
+              "translationMode": "translate",
+              "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+              "name": "16：9.jpg",
+              "sourceLanguage": "__auto__",
+              "targetLanguages": [
+                "zh-hans",
+                "th"
+              ],
+              "customLanguages": [],
+              "sourceCopyDescription": "",
+              "supplementalPrompt": "",
+              "apiProvider": "custom-api",
+              "model": "gpt-image-2",
+              "ratio": "wide",
+              "resolution": "1k",
+              "quality": "auto",
+              "count": 1,
+              "customRatio": "",
+              "customSize": "",
+              "translationImages": [
+                {
+                  "id": "translate-image_e60d557a235328_1791452909814",
+                  "url": "/assets/input/ai_ref_d27eca18f271.png",
+                  "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+                  "kind": "image"
+                },
+                {
+                  "id": "translate-image_00a1f859bdd0c8_1791453637807",
+                  "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+                  "name": "16：9.jpg",
+                  "kind": "image"
+                }
+              ],
+              "translationSizes": [
+                {
+                  "id": "wide",
+                  "ratio": "wide",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                },
+                {
+                  "id": "story",
+                  "ratio": "story",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                },
+                {
+                  "id": "ultratall",
+                  "ratio": "ultratall",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                }
+              ],
+              "mediaKind": "image",
+              "translationExcludedOutputs": [
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"wide\"]",
+                "[\"translate-image_00a1f859bdd0c8_1791453637807\",\"__resize__\",\"wide\"]",
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"story\"]",
+                "[\"translate-image_00a1f859bdd0c8_1791453637807\",\"__resize__\",\"story\"]",
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"ultratall\"]",
+                "[\"translate-image_00a1f859bdd0c8_1791453637807\",\"__resize__\",\"ultratall\"]"
+              ],
+              "kind": "image",
+              "translationImageId": "translate-image_00a1f859bdd0c8_1791453637807",
+              "translationSizeId": "wide",
+              "translationLanguageId": "th"
+            },
+            "prompt": "把原图图片中的广告文案，翻译成泰文 ไทย，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+                "name": "16：9.jpg"
+              }
+            ],
+            "taskLabel": "翻译：泰文 ไทย · 16:9 · 1K",
+            "request": {
+              "task_id": "",
+              "request_id": "",
+              "provider_id": "custom-api",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        }
+      ],
+      "_pending": [],
+      "blocked": false,
+      "translationSizeLabel": "16:9 · 1K",
+      "imageComparisons": {
+        "/assets/output/online_c1952da9d1.png": {
+          "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+          "name": "16：9.jpg"
+        },
+        "/assets/output/online_774b109750.png": {
+          "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+          "name": "16：9.jpg"
+        }
+      },
+      "generatedOutputs": [
+        "/assets/output/online_774b109750.png"
+      ]
+    },
+    {
+      "id": "translate-out_cb5748a6a8a62_1791454307447",
+      "type": "translationOutput",
+      "x": 5721.303916371113,
+      "y": 711.1064566710559,
+      "w": 360,
+      "translationSourceId": "translate-in_c3a998b4695298_1791453464120",
+      "translationMode": "resize",
+      "translationImageId": "translate-image_23f7fff93cbc38_1791454292683",
+      "translationImageName": "canvas-output-1791442647947.png",
+      "translationSizeId": "story",
+      "translationLanguageId": "__resize__",
+      "translationLanguageLabel": "改尺寸",
+      "translationLanguagePrompt": "",
+      "translationOrder": 0,
+      "images": [],
+      "_pending": [],
+      "blocked": false,
+      "translationSizeLabel": "9:16 · 1K"
+    },
+    {
+      "id": "translate-out_9bcc9118c1a0b8_1791454312440",
+      "type": "translationOutput",
+      "x": 5721.303916371113,
+      "y": 1111.1064566710559,
+      "w": 360,
+      "translationSourceId": "translate-in_c3a998b4695298_1791453464120",
+      "translationMode": "resize",
+      "translationImageId": "translate-image_23f7fff93cbc38_1791454292683",
+      "translationImageName": "canvas-output-1791442647947.png",
+      "translationSizeId": "wide",
+      "translationLanguageId": "__resize__",
+      "translationLanguageLabel": "改尺寸",
+      "translationLanguagePrompt": "",
+      "translationOrder": 1,
+      "images": [],
+      "_pending": [],
+      "blocked": false,
+      "translationSizeLabel": "16:9 · 1K"
+    },
+    {
+      "id": "translate-out_33803d0bd17fd_1791454327517",
+      "type": "translationOutput",
+      "x": 5721.303916371113,
+      "y": 1511.1064566710559,
+      "w": 360,
+      "translationSourceId": "translate-in_c3a998b4695298_1791453464120",
+      "translationMode": "resize",
+      "translationImageId": "translate-image_23f7fff93cbc38_1791454292683",
+      "translationImageName": "canvas-output-1791442647947.png",
+      "translationSizeId": "square",
+      "translationLanguageId": "__resize__",
+      "translationLanguageLabel": "改尺寸",
+      "translationLanguagePrompt": "",
+      "translationOrder": 2,
+      "images": [],
+      "_pending": [],
+      "blocked": false,
+      "translationSizeLabel": "1:1 · 1K"
+    },
+    {
+      "id": "translate-out_1adda3e5d8eb1_1791454328152",
+      "type": "translationOutput",
+      "x": 5721.303916371113,
+      "y": 1911.1064566710559,
+      "w": 360,
+      "translationSourceId": "translate-in_c3a998b4695298_1791453464120",
+      "translationMode": "resize",
+      "translationImageId": "translate-image_23f7fff93cbc38_1791454292683",
+      "translationImageName": "canvas-output-1791442647947.png",
+      "translationSizeId": "ultrawide",
+      "translationLanguageId": "__resize__",
+      "translationLanguageLabel": "改尺寸",
+      "translationLanguagePrompt": "",
+      "translationOrder": 3,
+      "images": [],
+      "_pending": [],
+      "blocked": false,
+      "translationSizeLabel": "21:9 · 1K"
+    },
+    {
+      "id": "gen_ed134907c6e03_1791454907640",
+      "type": "generator",
+      "x": 3483.9918830278966,
+      "y": 80.71087615999056,
+      "apiProvider": "apimart",
+      "model": "gemini-3.1-flash-image-preview",
+      "ratio": "square",
+      "resolution": "1k",
+      "customRatio": "",
+      "customSize": "",
+      "customRatioWidth": "",
+      "customRatioHeight": "",
+      "customWidth": "",
+      "customHeight": "",
+      "transparentBackground": false,
+      "inputs": []
+    },
+    {
+      "id": "translate-out_88b4032c1536b8_1791455131312",
+      "type": "translationOutput",
+      "x": 3607.3640869950186,
+      "y": 1717.8288934614739,
+      "w": 360,
+      "translationSourceId": "translate-in_2bd42de3476f88_1791452610173",
+      "translationMode": "translate",
+      "translationImageId": "translate-image_e60d557a235328_1791452909814",
+      "translationImageName": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+      "translationSizeId": "story",
+      "translationLanguageId": "zh-hans",
+      "translationLanguageLabel": "简体中文",
+      "translationLanguagePrompt": "简体中文",
+      "translationOrder": 2,
+      "images": [],
+      "_pending": [],
+      "blocked": false,
+      "translationSizeLabel": "9:16 · 1K"
+    },
+    {
+      "id": "translate-out_7971eeda1055c8_1791455131312",
+      "type": "translationOutput",
+      "x": 4027.3640869950186,
+      "y": 1717.8288934614739,
+      "w": 360,
+      "translationSourceId": "translate-in_2bd42de3476f88_1791452610173",
+      "translationMode": "translate",
+      "translationImageId": "translate-image_e60d557a235328_1791452909814",
+      "translationImageName": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+      "translationSizeId": "story",
+      "translationLanguageId": "th",
+      "translationLanguageLabel": "泰文 ไทย",
+      "translationLanguagePrompt": "泰文 ไทย",
+      "translationOrder": 3,
+      "images": [
+        {
+          "url": "/assets/output/online_da463d0d0b.png",
+          "viewed": false,
+          "runMs": 97858,
+          "run": {
+            "nodeType": "translationOutput",
+            "node": {
+              "id": "translate-out_7971eeda1055c8_1791455131312",
+              "type": "translationOutput",
+              "x": 4007.3640869950186,
+              "y": -23.17110653852602,
+              "w": 820,
+              "h": 0,
+              "translationLayoutVersion": 1,
+              "translationMode": "translate",
+              "url": "/assets/input/ai_ref_d27eca18f271.png",
+              "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+              "sourceLanguage": "__auto__",
+              "targetLanguages": [
+                "zh-hans",
+                "th"
+              ],
+              "customLanguages": [],
+              "sourceCopyDescription": "",
+              "supplementalPrompt": "",
+              "apiProvider": "custom-api",
+              "model": "gpt-image-2",
+              "ratio": "story",
+              "resolution": "1k",
+              "quality": "auto",
+              "count": 1,
+              "customRatio": "",
+              "customSize": "",
+              "translationImages": [
+                {
+                  "id": "translate-image_e60d557a235328_1791452909814",
+                  "url": "/assets/input/ai_ref_d27eca18f271.png",
+                  "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+                  "kind": "image"
+                },
+                {
+                  "id": "translate-image_00a1f859bdd0c8_1791453637807",
+                  "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+                  "name": "16：9.jpg",
+                  "kind": "image"
+                }
+              ],
+              "translationSizes": [
+                {
+                  "id": "wide",
+                  "ratio": "wide",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                },
+                {
+                  "id": "story",
+                  "ratio": "story",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                },
+                {
+                  "id": "ultratall",
+                  "ratio": "ultratall",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                }
+              ],
+              "mediaKind": "image",
+              "translationExcludedOutputs": [
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"wide\"]",
+                "[\"translate-image_00a1f859bdd0c8_1791453637807\",\"__resize__\",\"wide\"]",
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"story\"]",
+                "[\"translate-image_00a1f859bdd0c8_1791453637807\",\"__resize__\",\"story\"]",
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"ultratall\"]",
+                "[\"translate-image_00a1f859bdd0c8_1791453637807\",\"__resize__\",\"ultratall\"]"
+              ],
+              "kind": "image",
+              "translationImageId": "translate-image_e60d557a235328_1791452909814",
+              "translationSizeId": "story",
+              "translationLanguageId": "th"
+            },
+            "prompt": "把原图图片中的广告文案，翻译成泰文 ไทย，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：9:16，请严格按此比例适配构图。",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_d27eca18f271.png",
+                "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png"
+              }
+            ],
+            "taskLabel": "翻译：泰文 ไทย · 9:16 · 1K",
+            "request": {
+              "task_id": "",
+              "request_id": "",
+              "provider_id": "custom-api",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        }
+      ],
+      "_pending": [],
+      "blocked": false,
+      "translationSizeLabel": "9:16 · 1K",
+      "imageComparisons": {
+        "/assets/output/online_da463d0d0b.png": {
+          "url": "/assets/input/ai_ref_d27eca18f271.png",
+          "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png"
+        }
+      },
+      "generatedOutputs": [
+        "/assets/output/online_da463d0d0b.png"
+      ]
+    },
+    {
+      "id": "translate-out_38304ebd31def8_1791455131312",
+      "type": "translationOutput",
+      "x": 3607.3640869950186,
+      "y": 2624.828893461474,
+      "w": 360,
+      "translationSourceId": "translate-in_2bd42de3476f88_1791452610173",
+      "translationMode": "translate",
+      "translationImageId": "translate-image_e60d557a235328_1791452909814",
+      "translationImageName": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+      "translationSizeId": "ultratall",
+      "translationLanguageId": "zh-hans",
+      "translationLanguageLabel": "简体中文",
+      "translationLanguagePrompt": "简体中文",
+      "translationOrder": 4,
+      "images": [
+        {
+          "url": "/assets/output/online_55195d7918.png",
+          "viewed": false,
+          "runMs": 90789,
+          "run": {
+            "nodeType": "translationOutput",
+            "node": {
+              "id": "translate-out_38304ebd31def8_1791455131312",
+              "type": "translationOutput",
+              "x": 4007.3640869950186,
+              "y": -23.17110653852602,
+              "w": 820,
+              "h": 0,
+              "translationLayoutVersion": 1,
+              "translationMode": "translate",
+              "url": "/assets/input/ai_ref_d27eca18f271.png",
+              "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+              "sourceLanguage": "__auto__",
+              "targetLanguages": [
+                "zh-hans",
+                "th"
+              ],
+              "customLanguages": [],
+              "sourceCopyDescription": "",
+              "supplementalPrompt": "",
+              "apiProvider": "custom-api",
+              "model": "gpt-image-2",
+              "ratio": "ultratall",
+              "resolution": "1k",
+              "quality": "auto",
+              "count": 1,
+              "customRatio": "",
+              "customSize": "",
+              "translationImages": [
+                {
+                  "id": "translate-image_e60d557a235328_1791452909814",
+                  "url": "/assets/input/ai_ref_d27eca18f271.png",
+                  "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+                  "kind": "image"
+                },
+                {
+                  "id": "translate-image_00a1f859bdd0c8_1791453637807",
+                  "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+                  "name": "16：9.jpg",
+                  "kind": "image"
+                }
+              ],
+              "translationSizes": [
+                {
+                  "id": "wide",
+                  "ratio": "wide",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                },
+                {
+                  "id": "story",
+                  "ratio": "story",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                },
+                {
+                  "id": "ultratall",
+                  "ratio": "ultratall",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                }
+              ],
+              "mediaKind": "image",
+              "translationExcludedOutputs": [
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"wide\"]",
+                "[\"translate-image_00a1f859bdd0c8_1791453637807\",\"__resize__\",\"wide\"]",
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"story\"]",
+                "[\"translate-image_00a1f859bdd0c8_1791453637807\",\"__resize__\",\"story\"]",
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"ultratall\"]",
+                "[\"translate-image_00a1f859bdd0c8_1791453637807\",\"__resize__\",\"ultratall\"]"
+              ],
+              "kind": "image",
+              "translationImageId": "translate-image_e60d557a235328_1791452909814",
+              "translationSizeId": "ultratall",
+              "translationLanguageId": "zh-hans"
+            },
+            "prompt": "把原图图片中的广告文案，翻译成简体中文，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：9:21，请严格按此比例适配构图。",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_d27eca18f271.png",
+                "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png"
+              }
+            ],
+            "taskLabel": "翻译：简体中文 · 9:21 · 1K",
+            "request": {
+              "task_id": "",
+              "request_id": "",
+              "provider_id": "custom-api",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        }
+      ],
+      "_pending": [],
+      "blocked": false,
+      "translationSizeLabel": "9:21 · 1K",
+      "imageComparisons": {
+        "/assets/output/online_55195d7918.png": {
+          "url": "/assets/input/ai_ref_d27eca18f271.png",
+          "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png"
+        }
+      },
+      "generatedOutputs": [
+        "/assets/output/online_55195d7918.png"
+      ]
+    },
+    {
+      "id": "translate-out_7bf941952e2f38_1791455131312",
+      "type": "translationOutput",
+      "x": 4027.3640869950186,
+      "y": 2624.828893461474,
+      "w": 360,
+      "translationSourceId": "translate-in_2bd42de3476f88_1791452610173",
+      "translationMode": "translate",
+      "translationImageId": "translate-image_e60d557a235328_1791452909814",
+      "translationImageName": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+      "translationSizeId": "ultratall",
+      "translationLanguageId": "th",
+      "translationLanguageLabel": "泰文 ไทย",
+      "translationLanguagePrompt": "泰文 ไทย",
+      "translationOrder": 5,
+      "images": [
+        {
+          "url": "/assets/output/online_ca645a825d.png",
+          "viewed": false,
+          "runMs": 90802,
+          "run": {
+            "nodeType": "translationOutput",
+            "node": {
+              "id": "translate-out_7bf941952e2f38_1791455131312",
+              "type": "translationOutput",
+              "x": 4007.3640869950186,
+              "y": -23.17110653852602,
+              "w": 820,
+              "h": 0,
+              "translationLayoutVersion": 1,
+              "translationMode": "translate",
+              "url": "/assets/input/ai_ref_d27eca18f271.png",
+              "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+              "sourceLanguage": "__auto__",
+              "targetLanguages": [
+                "zh-hans",
+                "th"
+              ],
+              "customLanguages": [],
+              "sourceCopyDescription": "",
+              "supplementalPrompt": "",
+              "apiProvider": "custom-api",
+              "model": "gpt-image-2",
+              "ratio": "ultratall",
+              "resolution": "1k",
+              "quality": "auto",
+              "count": 1,
+              "customRatio": "",
+              "customSize": "",
+              "translationImages": [
+                {
+                  "id": "translate-image_e60d557a235328_1791452909814",
+                  "url": "/assets/input/ai_ref_d27eca18f271.png",
+                  "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+                  "kind": "image"
+                },
+                {
+                  "id": "translate-image_00a1f859bdd0c8_1791453637807",
+                  "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+                  "name": "16：9.jpg",
+                  "kind": "image"
+                }
+              ],
+              "translationSizes": [
+                {
+                  "id": "wide",
+                  "ratio": "wide",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                },
+                {
+                  "id": "story",
+                  "ratio": "story",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                },
+                {
+                  "id": "ultratall",
+                  "ratio": "ultratall",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                }
+              ],
+              "mediaKind": "image",
+              "translationExcludedOutputs": [
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"wide\"]",
+                "[\"translate-image_00a1f859bdd0c8_1791453637807\",\"__resize__\",\"wide\"]",
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"story\"]",
+                "[\"translate-image_00a1f859bdd0c8_1791453637807\",\"__resize__\",\"story\"]",
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"ultratall\"]",
+                "[\"translate-image_00a1f859bdd0c8_1791453637807\",\"__resize__\",\"ultratall\"]"
+              ],
+              "kind": "image",
+              "translationImageId": "translate-image_e60d557a235328_1791452909814",
+              "translationSizeId": "ultratall",
+              "translationLanguageId": "th"
+            },
+            "prompt": "把原图图片中的广告文案，翻译成泰文 ไทย，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：9:21，请严格按此比例适配构图。",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_d27eca18f271.png",
+                "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png"
+              }
+            ],
+            "taskLabel": "翻译：泰文 ไทย · 9:21 · 1K",
+            "request": {
+              "task_id": "",
+              "request_id": "",
+              "provider_id": "custom-api",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        }
+      ],
+      "_pending": [],
+      "blocked": false,
+      "translationSizeLabel": "9:21 · 1K",
+      "imageComparisons": {
+        "/assets/output/online_ca645a825d.png": {
+          "url": "/assets/input/ai_ref_d27eca18f271.png",
+          "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png"
+        }
+      },
+      "generatedOutputs": [
+        "/assets/output/online_ca645a825d.png"
+      ]
+    },
+    {
+      "id": "translate-out_9f0fbadcca465_1791455131312",
+      "type": "translationOutput",
+      "x": 4447.364086995019,
+      "y": 1717.8288934614739,
+      "w": 360,
+      "translationSourceId": "translate-in_2bd42de3476f88_1791452610173",
+      "translationMode": "translate",
+      "translationImageId": "translate-image_00a1f859bdd0c8_1791453637807",
+      "translationImageName": "16：9.jpg",
+      "translationSizeId": "story",
+      "translationLanguageId": "zh-hans",
+      "translationLanguageLabel": "简体中文",
+      "translationLanguagePrompt": "简体中文",
+      "translationOrder": 8,
+      "images": [
+        {
+          "url": "/assets/output/online_06c805c03b.png",
+          "viewed": false,
+          "runMs": 47380,
+          "run": {
+            "nodeType": "translationOutput",
+            "node": {
+              "id": "translate-out_9f0fbadcca465_1791455131312",
+              "type": "translationOutput",
+              "x": 4007.3640869950186,
+              "y": -23.17110653852602,
+              "w": 820,
+              "h": 0,
+              "translationLayoutVersion": 1,
+              "translationMode": "translate",
+              "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+              "name": "16：9.jpg",
+              "sourceLanguage": "__auto__",
+              "targetLanguages": [
+                "zh-hans",
+                "th"
+              ],
+              "customLanguages": [],
+              "sourceCopyDescription": "",
+              "supplementalPrompt": "",
+              "apiProvider": "custom-api",
+              "model": "gpt-image-2",
+              "ratio": "story",
+              "resolution": "1k",
+              "quality": "auto",
+              "count": 1,
+              "customRatio": "",
+              "customSize": "",
+              "translationImages": [
+                {
+                  "id": "translate-image_e60d557a235328_1791452909814",
+                  "url": "/assets/input/ai_ref_d27eca18f271.png",
+                  "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+                  "kind": "image"
+                },
+                {
+                  "id": "translate-image_00a1f859bdd0c8_1791453637807",
+                  "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+                  "name": "16：9.jpg",
+                  "kind": "image"
+                }
+              ],
+              "translationSizes": [
+                {
+                  "id": "wide",
+                  "ratio": "wide",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                },
+                {
+                  "id": "story",
+                  "ratio": "story",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                },
+                {
+                  "id": "ultratall",
+                  "ratio": "ultratall",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                }
+              ],
+              "mediaKind": "image",
+              "translationExcludedOutputs": [
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"wide\"]",
+                "[\"translate-image_00a1f859bdd0c8_1791453637807\",\"__resize__\",\"wide\"]",
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"story\"]",
+                "[\"translate-image_00a1f859bdd0c8_1791453637807\",\"__resize__\",\"story\"]",
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"ultratall\"]",
+                "[\"translate-image_00a1f859bdd0c8_1791453637807\",\"__resize__\",\"ultratall\"]"
+              ],
+              "kind": "image",
+              "translationImageId": "translate-image_00a1f859bdd0c8_1791453637807",
+              "translationSizeId": "story",
+              "translationLanguageId": "zh-hans"
+            },
+            "prompt": "把原图图片中的广告文案，翻译成简体中文，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：9:16，请严格按此比例适配构图。",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+                "name": "16：9.jpg"
+              }
+            ],
+            "taskLabel": "翻译：简体中文 · 9:16 · 1K",
+            "request": {
+              "task_id": "",
+              "request_id": "",
+              "provider_id": "custom-api",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        }
+      ],
+      "_pending": [],
+      "blocked": false,
+      "translationSizeLabel": "9:16 · 1K",
+      "imageComparisons": {
+        "/assets/output/online_06c805c03b.png": {
+          "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+          "name": "16：9.jpg"
+        }
+      },
+      "generatedOutputs": [
+        "/assets/output/online_06c805c03b.png"
+      ]
+    },
+    {
+      "id": "translate-out_0a23f81d2583_1791455131312",
+      "type": "translationOutput",
+      "x": 4867.364086995019,
+      "y": 1717.8288934614739,
+      "w": 360,
+      "translationSourceId": "translate-in_2bd42de3476f88_1791452610173",
+      "translationMode": "translate",
+      "translationImageId": "translate-image_00a1f859bdd0c8_1791453637807",
+      "translationImageName": "16：9.jpg",
+      "translationSizeId": "story",
+      "translationLanguageId": "th",
+      "translationLanguageLabel": "泰文 ไทย",
+      "translationLanguagePrompt": "泰文 ไทย",
+      "translationOrder": 9,
+      "images": [
+        {
+          "url": "/assets/output/online_05f6bdfe3f.png",
+          "viewed": false,
+          "runMs": 45384,
+          "run": {
+            "nodeType": "translationOutput",
+            "node": {
+              "id": "translate-out_0a23f81d2583_1791455131312",
+              "type": "translationOutput",
+              "x": 4007.3640869950186,
+              "y": -23.17110653852602,
+              "w": 820,
+              "h": 0,
+              "translationLayoutVersion": 1,
+              "translationMode": "translate",
+              "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+              "name": "16：9.jpg",
+              "sourceLanguage": "__auto__",
+              "targetLanguages": [
+                "zh-hans",
+                "th"
+              ],
+              "customLanguages": [],
+              "sourceCopyDescription": "",
+              "supplementalPrompt": "",
+              "apiProvider": "custom-api",
+              "model": "gpt-image-2",
+              "ratio": "story",
+              "resolution": "1k",
+              "quality": "auto",
+              "count": 1,
+              "customRatio": "",
+              "customSize": "",
+              "translationImages": [
+                {
+                  "id": "translate-image_e60d557a235328_1791452909814",
+                  "url": "/assets/input/ai_ref_d27eca18f271.png",
+                  "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+                  "kind": "image"
+                },
+                {
+                  "id": "translate-image_00a1f859bdd0c8_1791453637807",
+                  "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+                  "name": "16：9.jpg",
+                  "kind": "image"
+                }
+              ],
+              "translationSizes": [
+                {
+                  "id": "wide",
+                  "ratio": "wide",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                },
+                {
+                  "id": "story",
+                  "ratio": "story",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                },
+                {
+                  "id": "ultratall",
+                  "ratio": "ultratall",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                }
+              ],
+              "mediaKind": "image",
+              "translationExcludedOutputs": [
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"wide\"]",
+                "[\"translate-image_00a1f859bdd0c8_1791453637807\",\"__resize__\",\"wide\"]",
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"story\"]",
+                "[\"translate-image_00a1f859bdd0c8_1791453637807\",\"__resize__\",\"story\"]",
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"ultratall\"]",
+                "[\"translate-image_00a1f859bdd0c8_1791453637807\",\"__resize__\",\"ultratall\"]"
+              ],
+              "kind": "image",
+              "translationImageId": "translate-image_00a1f859bdd0c8_1791453637807",
+              "translationSizeId": "story",
+              "translationLanguageId": "th"
+            },
+            "prompt": "把原图图片中的广告文案，翻译成泰文 ไทย，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：9:16，请严格按此比例适配构图。",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+                "name": "16：9.jpg"
+              }
+            ],
+            "taskLabel": "翻译：泰文 ไทย · 9:16 · 1K",
+            "request": {
+              "task_id": "",
+              "request_id": "",
+              "provider_id": "custom-api",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        }
+      ],
+      "_pending": [],
+      "blocked": false,
+      "translationSizeLabel": "9:16 · 1K",
+      "imageComparisons": {
+        "/assets/output/online_05f6bdfe3f.png": {
+          "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+          "name": "16：9.jpg"
+        }
+      },
+      "generatedOutputs": [
+        "/assets/output/online_05f6bdfe3f.png"
+      ]
+    },
+    {
+      "id": "translate-out_63ac37a989bf1_1791455131312",
+      "type": "translationOutput",
+      "x": 4447.364086995019,
+      "y": 2624.828893461474,
+      "w": 360,
+      "translationSourceId": "translate-in_2bd42de3476f88_1791452610173",
+      "translationMode": "translate",
+      "translationImageId": "translate-image_00a1f859bdd0c8_1791453637807",
+      "translationImageName": "16：9.jpg",
+      "translationSizeId": "ultratall",
+      "translationLanguageId": "zh-hans",
+      "translationLanguageLabel": "简体中文",
+      "translationLanguagePrompt": "简体中文",
+      "translationOrder": 10,
+      "images": [
+        {
+          "url": "/assets/output/online_ac0b480901.png",
+          "viewed": false,
+          "runMs": 50882,
+          "run": {
+            "nodeType": "translationOutput",
+            "node": {
+              "id": "translate-out_63ac37a989bf1_1791455131312",
+              "type": "translationOutput",
+              "x": 4007.3640869950186,
+              "y": -23.17110653852602,
+              "w": 820,
+              "h": 0,
+              "translationLayoutVersion": 1,
+              "translationMode": "translate",
+              "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+              "name": "16：9.jpg",
+              "sourceLanguage": "__auto__",
+              "targetLanguages": [
+                "zh-hans",
+                "th"
+              ],
+              "customLanguages": [],
+              "sourceCopyDescription": "",
+              "supplementalPrompt": "",
+              "apiProvider": "custom-api",
+              "model": "gpt-image-2",
+              "ratio": "ultratall",
+              "resolution": "1k",
+              "quality": "auto",
+              "count": 1,
+              "customRatio": "",
+              "customSize": "",
+              "translationImages": [
+                {
+                  "id": "translate-image_e60d557a235328_1791452909814",
+                  "url": "/assets/input/ai_ref_d27eca18f271.png",
+                  "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+                  "kind": "image"
+                },
+                {
+                  "id": "translate-image_00a1f859bdd0c8_1791453637807",
+                  "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+                  "name": "16：9.jpg",
+                  "kind": "image"
+                }
+              ],
+              "translationSizes": [
+                {
+                  "id": "wide",
+                  "ratio": "wide",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                },
+                {
+                  "id": "story",
+                  "ratio": "story",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                },
+                {
+                  "id": "ultratall",
+                  "ratio": "ultratall",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                }
+              ],
+              "mediaKind": "image",
+              "translationExcludedOutputs": [
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"wide\"]",
+                "[\"translate-image_00a1f859bdd0c8_1791453637807\",\"__resize__\",\"wide\"]",
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"story\"]",
+                "[\"translate-image_00a1f859bdd0c8_1791453637807\",\"__resize__\",\"story\"]",
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"ultratall\"]",
+                "[\"translate-image_00a1f859bdd0c8_1791453637807\",\"__resize__\",\"ultratall\"]"
+              ],
+              "kind": "image",
+              "translationImageId": "translate-image_00a1f859bdd0c8_1791453637807",
+              "translationSizeId": "ultratall",
+              "translationLanguageId": "zh-hans"
+            },
+            "prompt": "把原图图片中的广告文案，翻译成简体中文，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：9:21，请严格按此比例适配构图。",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+                "name": "16：9.jpg"
+              }
+            ],
+            "taskLabel": "翻译：简体中文 · 9:21 · 1K",
+            "request": {
+              "task_id": "",
+              "request_id": "",
+              "provider_id": "custom-api",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        }
+      ],
+      "_pending": [],
+      "blocked": false,
+      "translationSizeLabel": "9:21 · 1K",
+      "imageComparisons": {
+        "/assets/output/online_ac0b480901.png": {
+          "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+          "name": "16：9.jpg"
+        }
+      },
+      "generatedOutputs": [
+        "/assets/output/online_ac0b480901.png"
+      ]
+    },
+    {
+      "id": "translate-out_f0a27bc0ce5b6_1791455131312",
+      "type": "translationOutput",
+      "x": 4867.364086995019,
+      "y": 2624.828893461474,
+      "w": 360,
+      "translationSourceId": "translate-in_2bd42de3476f88_1791452610173",
+      "translationMode": "translate",
+      "translationImageId": "translate-image_00a1f859bdd0c8_1791453637807",
+      "translationImageName": "16：9.jpg",
+      "translationSizeId": "ultratall",
+      "translationLanguageId": "th",
+      "translationLanguageLabel": "泰文 ไทย",
+      "translationLanguagePrompt": "泰文 ไทย",
+      "translationOrder": 11,
+      "images": [
+        {
+          "url": "/assets/output/online_5006fb42e3.png",
+          "viewed": false,
+          "runMs": 47204,
+          "run": {
+            "nodeType": "translationOutput",
+            "node": {
+              "id": "translate-out_f0a27bc0ce5b6_1791455131312",
+              "type": "translationOutput",
+              "x": 4007.3640869950186,
+              "y": -23.17110653852602,
+              "w": 820,
+              "h": 0,
+              "translationLayoutVersion": 1,
+              "translationMode": "translate",
+              "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+              "name": "16：9.jpg",
+              "sourceLanguage": "__auto__",
+              "targetLanguages": [
+                "zh-hans",
+                "th"
+              ],
+              "customLanguages": [],
+              "sourceCopyDescription": "",
+              "supplementalPrompt": "",
+              "apiProvider": "custom-api",
+              "model": "gpt-image-2",
+              "ratio": "ultratall",
+              "resolution": "1k",
+              "quality": "auto",
+              "count": 1,
+              "customRatio": "",
+              "customSize": "",
+              "translationImages": [
+                {
+                  "id": "translate-image_e60d557a235328_1791452909814",
+                  "url": "/assets/input/ai_ref_d27eca18f271.png",
+                  "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+                  "kind": "image"
+                },
+                {
+                  "id": "translate-image_00a1f859bdd0c8_1791453637807",
+                  "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+                  "name": "16：9.jpg",
+                  "kind": "image"
+                }
+              ],
+              "translationSizes": [
+                {
+                  "id": "wide",
+                  "ratio": "wide",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                },
+                {
+                  "id": "story",
+                  "ratio": "story",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                },
+                {
+                  "id": "ultratall",
+                  "ratio": "ultratall",
+                  "resolution": "1k",
+                  "customRatio": "",
+                  "customSize": ""
+                }
+              ],
+              "mediaKind": "image",
+              "translationExcludedOutputs": [
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"wide\"]",
+                "[\"translate-image_00a1f859bdd0c8_1791453637807\",\"__resize__\",\"wide\"]",
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"story\"]",
+                "[\"translate-image_00a1f859bdd0c8_1791453637807\",\"__resize__\",\"story\"]",
+                "[\"translate-image_e60d557a235328_1791452909814\",\"__resize__\",\"ultratall\"]",
+                "[\"translate-image_00a1f859bdd0c8_1791453637807\",\"__resize__\",\"ultratall\"]"
+              ],
+              "kind": "image",
+              "translationImageId": "translate-image_00a1f859bdd0c8_1791453637807",
+              "translationSizeId": "ultratall",
+              "translationLanguageId": "th"
+            },
+            "prompt": "把原图图片中的广告文案，翻译成泰文 ไทย，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：9:21，请严格按此比例适配构图。",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+                "name": "16：9.jpg"
+              }
+            ],
+            "taskLabel": "翻译：泰文 ไทย · 9:21 · 1K",
+            "request": {
+              "task_id": "",
+              "request_id": "",
+              "provider_id": "custom-api",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        }
+      ],
+      "_pending": [],
+      "blocked": false,
+      "translationSizeLabel": "9:21 · 1K",
+      "imageComparisons": {
+        "/assets/output/online_5006fb42e3.png": {
+          "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+          "name": "16：9.jpg"
+        }
+      },
+      "generatedOutputs": [
+        "/assets/output/online_5006fb42e3.png"
+      ]
     }
   ],
   "connections": [
@@ -756,6 +2774,134 @@
       "to": "prompt_ccbf14dbbc2d6_1791445644473",
       "fromPort": "promptOut",
       "toPort": "in"
+    },
+    {
+      "id": "c_e733b7560517e_1791452918646",
+      "kind": "translationFlow",
+      "from": "translate-in_2bd42de3476f88_1791452610173",
+      "to": "translate-out_164dd4404c416_1791452918646",
+      "fromPort": "translationOut",
+      "toPort": "in"
+    },
+    {
+      "id": "c_533ae3274bfbc8_1791453478908",
+      "kind": "translationFlow",
+      "from": "translate-in_2bd42de3476f88_1791452610173",
+      "to": "translate-out_b0974165043cd_1791453478908",
+      "fromPort": "translationOut",
+      "toPort": "in"
+    },
+    {
+      "id": "c_dbfff7bbc5a16_1791453637807",
+      "kind": "translationFlow",
+      "from": "translate-in_2bd42de3476f88_1791452610173",
+      "to": "translate-out_277f027cb748d8_1791453637807",
+      "fromPort": "translationOut",
+      "toPort": "in"
+    },
+    {
+      "id": "c_3808cc5a0d3848_1791453637807",
+      "kind": "translationFlow",
+      "from": "translate-in_2bd42de3476f88_1791452610173",
+      "to": "translate-out_ee25b0c0cfdcf8_1791453637807",
+      "fromPort": "translationOut",
+      "toPort": "in"
+    },
+    {
+      "id": "c_938528dcd50398_1791454307447",
+      "kind": "translationFlow",
+      "from": "translate-in_c3a998b4695298_1791453464120",
+      "to": "translate-out_cb5748a6a8a62_1791454307447",
+      "fromPort": "translationOut",
+      "toPort": "in"
+    },
+    {
+      "id": "c_7a71da46af8c28_1791454312440",
+      "kind": "translationFlow",
+      "from": "translate-in_c3a998b4695298_1791453464120",
+      "to": "translate-out_9bcc9118c1a0b8_1791454312440",
+      "fromPort": "translationOut",
+      "toPort": "in"
+    },
+    {
+      "id": "c_f4b6cd65cc7bb_1791454327517",
+      "kind": "translationFlow",
+      "from": "translate-in_c3a998b4695298_1791453464120",
+      "to": "translate-out_33803d0bd17fd_1791454327517",
+      "fromPort": "translationOut",
+      "toPort": "in"
+    },
+    {
+      "id": "c_dd7d38195a54d_1791454328152",
+      "kind": "translationFlow",
+      "from": "translate-in_c3a998b4695298_1791453464120",
+      "to": "translate-out_1adda3e5d8eb1_1791454328152",
+      "fromPort": "translationOut",
+      "toPort": "in"
+    },
+    {
+      "id": "c_981ba11981478_1791455131312",
+      "kind": "translationFlow",
+      "from": "translate-in_2bd42de3476f88_1791452610173",
+      "to": "translate-out_88b4032c1536b8_1791455131312",
+      "fromPort": "translationOut",
+      "toPort": "in"
+    },
+    {
+      "id": "c_5e9a0008306e7_1791455131312",
+      "kind": "translationFlow",
+      "from": "translate-in_2bd42de3476f88_1791452610173",
+      "to": "translate-out_7971eeda1055c8_1791455131312",
+      "fromPort": "translationOut",
+      "toPort": "in"
+    },
+    {
+      "id": "c_d53df6a0d2ec48_1791455131312",
+      "kind": "translationFlow",
+      "from": "translate-in_2bd42de3476f88_1791452610173",
+      "to": "translate-out_38304ebd31def8_1791455131312",
+      "fromPort": "translationOut",
+      "toPort": "in"
+    },
+    {
+      "id": "c_5660505c313ce_1791455131312",
+      "kind": "translationFlow",
+      "from": "translate-in_2bd42de3476f88_1791452610173",
+      "to": "translate-out_7bf941952e2f38_1791455131312",
+      "fromPort": "translationOut",
+      "toPort": "in"
+    },
+    {
+      "id": "c_589628a2f4d958_1791455131312",
+      "kind": "translationFlow",
+      "from": "translate-in_2bd42de3476f88_1791452610173",
+      "to": "translate-out_9f0fbadcca465_1791455131312",
+      "fromPort": "translationOut",
+      "toPort": "in"
+    },
+    {
+      "id": "c_7c2300f705335_1791455131312",
+      "kind": "translationFlow",
+      "from": "translate-in_2bd42de3476f88_1791452610173",
+      "to": "translate-out_0a23f81d2583_1791455131312",
+      "fromPort": "translationOut",
+      "toPort": "in"
+    },
+    {
+      "id": "c_630bdb1a4282e8_1791455131312",
+      "kind": "translationFlow",
+      "from": "translate-in_2bd42de3476f88_1791452610173",
+      "to": "translate-out_63ac37a989bf1_1791455131312",
+      "fromPort": "translationOut",
+      "toPort": "in"
+    },
+    {
+      "id": "c_9ab03209bde95_1791455131312",
+      "kind": "translationFlow",
+      "from": "translate-in_2bd42de3476f88_1791452610173",
+      "to": "translate-out_f0a27bc0ce5b6_1791455131312",
+      "fromPort": "translationOut",
+      "toPort": "in"
     }
   ],
   "viewport": {
@@ -766,6 +2912,479 @@
   "board_x": 138.0,
   "board_y": 144.0,
   "logs": [
+    {
+      "id": "log_bf324e77b3b1b_1791455283784",
+      "createdAt": 1791455283784,
+      "status": "success",
+      "platform": "translationOutput",
+      "nodeType": "translationOutput",
+      "model": "翻译：简体中文 · 9:21 · 1K",
+      "request": {
+        "task_id": "",
+        "request_id": "",
+        "provider_id": "custom-api",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "把原图图片中的广告文案，翻译成简体中文，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：9:21，请严格按此比例适配构图。",
+      "outputs": [
+        "/assets/output/online_ac0b480901.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+          "name": "16：9.jpg"
+        }
+      ],
+      "runMs": 50882,
+      "error": ""
+    },
+    {
+      "id": "log_2dd219aea1497_1791455280144",
+      "createdAt": 1791455280144,
+      "status": "success",
+      "platform": "translationOutput",
+      "nodeType": "translationOutput",
+      "model": "翻译：泰文 ไทย · 9:21 · 1K",
+      "request": {
+        "task_id": "",
+        "request_id": "",
+        "provider_id": "custom-api",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "把原图图片中的广告文案，翻译成泰文 ไทย，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：9:21，请严格按此比例适配构图。",
+      "outputs": [
+        "/assets/output/online_5006fb42e3.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+          "name": "16：9.jpg"
+        }
+      ],
+      "runMs": 47204,
+      "error": ""
+    },
+    {
+      "id": "log_999d33a1fdad28_1791455265584",
+      "createdAt": 1791455265584,
+      "status": "success",
+      "platform": "translationOutput",
+      "nodeType": "translationOutput",
+      "model": "翻译：泰文 ไทย · 9:16 · 1K",
+      "request": {
+        "task_id": "",
+        "request_id": "",
+        "provider_id": "custom-api",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "把原图图片中的广告文案，翻译成泰文 ไทย，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：9:16，请严格按此比例适配构图。",
+      "outputs": [
+        "/assets/output/online_05f6bdfe3f.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+          "name": "16：9.jpg"
+        }
+      ],
+      "runMs": 45384,
+      "error": ""
+    },
+    {
+      "id": "log_329c3b88e29778_1791455247493",
+      "createdAt": 1791455247493,
+      "status": "success",
+      "platform": "translationOutput",
+      "nodeType": "translationOutput",
+      "model": "翻译：简体中文 · 9:16 · 1K",
+      "request": {
+        "task_id": "",
+        "request_id": "",
+        "provider_id": "custom-api",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "把原图图片中的广告文案，翻译成简体中文，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：9:16，请严格按此比例适配构图。",
+      "outputs": [
+        "/assets/output/online_06c805c03b.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+          "name": "16：9.jpg"
+        }
+      ],
+      "runMs": 47380,
+      "error": ""
+    },
+    {
+      "id": "log_24ba7ef6992b28_1791455239865",
+      "createdAt": 1791455239865,
+      "status": "success",
+      "platform": "translationOutput",
+      "nodeType": "translationOutput",
+      "model": "翻译：泰文 ไทย · 9:16 · 1K",
+      "request": {
+        "task_id": "",
+        "request_id": "",
+        "provider_id": "custom-api",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "把原图图片中的广告文案，翻译成泰文 ไทย，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：9:16，请严格按此比例适配构图。",
+      "outputs": [
+        "/assets/output/online_da463d0d0b.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_d27eca18f271.png",
+          "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png"
+        }
+      ],
+      "runMs": 97858,
+      "error": ""
+    },
+    {
+      "id": "log_123a5723d8c9f8_1791455232881",
+      "createdAt": 1791455232881,
+      "status": "success",
+      "platform": "translationOutput",
+      "nodeType": "translationOutput",
+      "model": "翻译：泰文 ไทย · 9:21 · 1K",
+      "request": {
+        "task_id": "",
+        "request_id": "",
+        "provider_id": "custom-api",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "把原图图片中的广告文案，翻译成泰文 ไทย，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：9:21，请严格按此比例适配构图。",
+      "outputs": [
+        "/assets/output/online_ca645a825d.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_d27eca18f271.png",
+          "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png"
+        }
+      ],
+      "runMs": 90802,
+      "error": ""
+    },
+    {
+      "id": "log_d1fb6c624f9228_1791455232846",
+      "createdAt": 1791455232846,
+      "status": "success",
+      "platform": "translationOutput",
+      "nodeType": "translationOutput",
+      "model": "翻译：简体中文 · 9:21 · 1K",
+      "request": {
+        "task_id": "",
+        "request_id": "",
+        "provider_id": "custom-api",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "把原图图片中的广告文案，翻译成简体中文，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：9:21，请严格按此比例适配构图。",
+      "outputs": [
+        "/assets/output/online_55195d7918.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_d27eca18f271.png",
+          "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png"
+        }
+      ],
+      "runMs": 90789,
+      "error": ""
+    },
+    {
+      "id": "log_02b94cbcee3ac_1791455220153",
+      "createdAt": 1791455220153,
+      "status": "success",
+      "platform": "translationOutput",
+      "nodeType": "translationOutput",
+      "model": "翻译：泰文 ไทย · 16:9 · 1K",
+      "request": {
+        "task_id": "",
+        "request_id": "",
+        "provider_id": "custom-api",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "把原图图片中的广告文案，翻译成泰文 ไทย，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
+      "outputs": [
+        "/assets/output/online_774b109750.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+          "name": "16：9.jpg"
+        }
+      ],
+      "runMs": 52633,
+      "error": ""
+    },
+    {
+      "id": "log_3998fb4facf718_1791455200076",
+      "createdAt": 1791455200076,
+      "status": "success",
+      "platform": "translationOutput",
+      "nodeType": "translationOutput",
+      "model": "翻译：简体中文 · 16:9 · 1K",
+      "request": {
+        "task_id": "",
+        "request_id": "",
+        "provider_id": "custom-api",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "把原图图片中的广告文案，翻译成简体中文，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
+      "outputs": [
+        "/assets/output/online_5ba55a6e28.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+          "name": "16：9.jpg"
+        }
+      ],
+      "runMs": 57955,
+      "error": ""
+    },
+    {
+      "id": "log_1cd216e7d1f19_1791455167466",
+      "createdAt": 1791455167466,
+      "status": "failed",
+      "platform": "translationOutput",
+      "nodeType": "translationOutput",
+      "model": "翻译：简体中文 · 9:16 · 1K",
+      "request": {},
+      "prompt": "把原图图片中的广告文案，翻译成简体中文，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：9:16，请严格按此比例适配构图。",
+      "outputs": [],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_d27eca18f271.png",
+          "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png"
+        }
+      ],
+      "runMs": 25472,
+      "error": "GPT-Image-2 编辑接口 /images/edits 调用失败：-1。已停止自动重试，避免上游可能已扣费后再次请求。"
+    },
+    {
+      "id": "log_820809f19538e_1791453743851",
+      "createdAt": 1791453743851,
+      "status": "success",
+      "platform": "translationOutput",
+      "nodeType": "translationOutput",
+      "model": "翻译：泰文 ไทย · 16:9 · 1K",
+      "request": {
+        "task_id": "",
+        "request_id": "",
+        "provider_id": "custom-api",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "把原图图片中的广告文案，翻译成泰文 ไทย，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
+      "outputs": [
+        "/assets/output/online_fb6459f546.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_d27eca18f271.png",
+          "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png"
+        }
+      ],
+      "runMs": 95806,
+      "error": ""
+    },
+    {
+      "id": "log_6a6d8efd61c838_1791453720356",
+      "createdAt": 1791453720356,
+      "status": "success",
+      "platform": "translationOutput",
+      "nodeType": "translationOutput",
+      "model": "翻译：简体中文 · 16:9 · 1K",
+      "request": {
+        "task_id": "",
+        "request_id": "",
+        "provider_id": "custom-api",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "把原图图片中的广告文案，翻译成简体中文，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
+      "outputs": [
+        "/assets/output/online_1d915757fe.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_d27eca18f271.png",
+          "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png"
+        }
+      ],
+      "runMs": 72362,
+      "error": ""
+    },
+    {
+      "id": "log_fcbeaa07b63178_1791453707901",
+      "createdAt": 1791453707901,
+      "status": "success",
+      "platform": "translationOutput",
+      "nodeType": "translationOutput",
+      "model": "翻译：简体中文 · 16:9 · 1K",
+      "request": {
+        "task_id": "",
+        "request_id": "",
+        "provider_id": "custom-api",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "把原图图片中的广告文案，翻译成简体中文，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
+      "outputs": [
+        "/assets/output/online_866be81266.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+          "name": "16：9.jpg"
+        }
+      ],
+      "runMs": 54217,
+      "error": ""
+    },
+    {
+      "id": "log_60791264af9ca8_1791453706582",
+      "createdAt": 1791453706582,
+      "status": "success",
+      "platform": "translationOutput",
+      "nodeType": "translationOutput",
+      "model": "翻译：泰文 ไทย · 16:9 · 1K",
+      "request": {
+        "task_id": "",
+        "request_id": "",
+        "provider_id": "custom-api",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "把原图图片中的广告文案，翻译成泰文 ไทย，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
+      "outputs": [
+        "/assets/output/online_c1952da9d1.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+          "name": "16：9.jpg"
+        }
+      ],
+      "runMs": 52397,
+      "error": ""
+    },
+    {
+      "id": "log_70a0e564ebd33_1791453618222",
+      "createdAt": 1791453618222,
+      "status": "success",
+      "platform": "translationOutput",
+      "nodeType": "translationOutput",
+      "model": "翻译：简体中文 · 16:9 · 1K",
+      "request": {
+        "task_id": "",
+        "request_id": "",
+        "provider_id": "custom-api",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "把原图图片中的广告文案，翻译成简体中文，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
+      "outputs": [
+        "/assets/output/online_7707212b46.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_d27eca18f271.png",
+          "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png"
+        }
+      ],
+      "runMs": 83231,
+      "error": ""
+    },
+    {
+      "id": "log_9a4ac9c9c66d4_1791453616398",
+      "createdAt": 1791453616398,
+      "status": "success",
+      "platform": "translationOutput",
+      "nodeType": "translationOutput",
+      "model": "翻译：泰文 ไทย · 16:9 · 1K",
+      "request": {
+        "task_id": "",
+        "request_id": "",
+        "provider_id": "custom-api",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "把原图图片中的广告文案，翻译成泰文 ไทย，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
+      "outputs": [
+        "/assets/output/online_47f9b32f55.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_d27eca18f271.png",
+          "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png"
+        }
+      ],
+      "runMs": 81372,
+      "error": ""
+    },
+    {
+      "id": "log_b3aa0cd6711848_1791453494551",
+      "createdAt": 1791453494551,
+      "status": "failed",
+      "platform": "translationOutput",
+      "nodeType": "translationOutput",
+      "model": "翻译：简体中文 · 16:9 · 1K",
+      "request": {},
+      "prompt": "把原图图片中的广告文案，翻译成简体中文，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
+      "outputs": [],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_d27eca18f271.png",
+          "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png"
+        }
+      ],
+      "runMs": 198,
+      "error": "未配置 畅指 的 API Key，请在 API 平台管理中填写。"
+    },
     {
       "id": "log_c619d22d59d7b8_1791432956721",
       "createdAt": 1791432956721,

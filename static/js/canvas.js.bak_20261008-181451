@@ -2704,7 +2704,7 @@ const TRANSLATION_SIZE_DEFAULTS = Object.freeze([
     {id:'wide', label:'16:9'}, {id:'story', label:'9:16'}, {id:'square', label:'1:1'},
     {id:'portrait', label:'2:3'}, {id:'landscape', label:'3:2'},
     {id:'portrait43', label:'3:4'}, {id:'landscape43', label:'4:3'},
-    {id:'ultrawide', label:'21:9'}, {id:'ultratall', label:'9:21'}, {id:'custom', label:'自定义'}
+    {id:'ultrawide', label:'21:9'}, {id:'source', label:'原图比例'}, {id:'custom', label:'自定义'}
 ]);
 const translationBatchSources = new Set();
 const translationQueuedOutputs = new Set();
@@ -3149,7 +3149,7 @@ function renderTranslationOutputBody(node){
         : (node.translationImageName && normalizeTranslationImages(source || {}).length > 1
             ? `${node.translationImageName} · ${node.translationLanguageLabel || node.translationLanguageId}`
             : (node.translationLanguageLabel || node.translationLanguageId));
-    return `<div class="translation-output-body" style="--translation-output-ratio:${escapeAttr(ratio)}"><div class="translation-output-language"><span>${escapeHtml(truncateTranslationTitle(outputTitle))}</span></div>${node.blocked ? '<div class="translation-output-state">已屏蔽</div>' : ''}<div class="translation-output-prompt">${escapeHtml(translationOutputPrompt(node))}</div>${!source ? '<div class="translation-error">未连接翻译上传节点</div>' : ''}${node.runError ? `<div class="translation-error">${escapeHtml(node.runError)}</div>` : ''}<div class="translation-output-images">${renderOutputGrid(node, pendingHtml)}</div><button type="button" class="gen-btn translation-rerun-btn" data-translation-rerun ${!source || node.blocked || running || queued ? 'disabled' : ''}><i data-lucide="refresh-cw" class="w-4 h-4"></i>${queued ? '等待生成' : running ? '生成中' : '重新生成'}</button></div>`;
+    return `<div class="translation-output-body" style="--translation-output-ratio:${escapeAttr(ratio)}"><div class="translation-output-language"><span>${escapeHtml(truncateTranslationTitle(outputTitle))}</span><small>${escapeHtml(size ? translationSizeLabel(size) : (node.translationSizeLabel || '翻译输出'))}</small></div>${node.blocked ? '<div class="translation-output-state">已屏蔽</div>' : ''}<div class="translation-output-prompt">${escapeHtml(translationOutputPrompt(node))}</div>${!source ? '<div class="translation-error">未连接翻译上传节点</div>' : ''}${node.runError ? `<div class="translation-error">${escapeHtml(node.runError)}</div>` : ''}<div class="translation-output-images">${renderOutputGrid(node, pendingHtml)}</div><button type="button" class="gen-btn translation-rerun-btn" data-translation-rerun ${!source || node.blocked || running || queued ? 'disabled' : ''}><i data-lucide="refresh-cw" class="w-4 h-4"></i>${queued ? '等待生成' : running ? '生成中' : '重新生成'}</button></div>`;
 }
 function bindTranslationInputBody(el, node){
     const uploadDroppedImages = files => {
@@ -10209,7 +10209,6 @@ function renderNode(node){
     };
     const title = node.type === 'image' ? 'Image' : node.type === 'prompt' ? 'Prompt' : node.type === 'translationInput' ? '改图/翻译节点' : node.type === 'translationOutput' ? (node.translationLanguageLabel || '翻译输出') : node.type === 'gameKvPopupPrompt' ? (node.title || '大弹窗 KV 提示词') : node.type === 'gameKvPrompt' ? '游戏 KV 提示词' : node.type === 'loop' ? tr('canvas.loopNode') : node.type === 'promptGroup' ? 'Prompts' : node.type === 'group' ? 'Group' : node.type === 'output' ? 'Output' : node.type === 'llm' ? 'LLM' : node.type === 'comfy' ? 'ComfyUI' : node.type === 'ltxDirector' ? tr('canvas.ltxDirector') : node.type === 'rh' ? 'RunningHub' : node.type === 'minimax' ? 'MiniMax H3' : node.type === 'midjourney' ? 'Midjourney' : node.type === 'msgen' ? tr('canvas.modelscopeGenerate') : node.type === 'video' ? tr('canvas.videoGenerateNode') : node.type === 'masterGenerator' ? '主控API' : 'API生成';
     const displayTitle = node.type === 'batchResize' ? '批量尺寸适配' : node.resizeSourceId ? escapeHtml(node.resizeName || '尺寸输出') : node.type === 'image' && node.url ? nodeTitleForMedia(node) : title;
-    const outputSizeLabel = node.type === 'translationOutput' ? (function(){ const _s = translationSourceNode(node); const _z = _s && translationOutputSize(_s, node); return _z ? escapeHtml(String(translationSizeLabel(_z))) : ''; })() : '';
     // 失败徽章只在一键运行模式中显示，单节点失败已通过 alert 提示
     const showStatus = ['generator','masterGenerator','midjourney','msgen','comfy','ltxDirector','llm','video','rh','minimax'].includes(node.type) && node.runStatus
         && (node.runStatus !== 'failed' || node._cascadeFailed);
@@ -10217,7 +10216,7 @@ function renderNode(node){
         const label = { queued:'排队中', running:'运行中', done:'完成', failed:'失败' }[node.runStatus] || '';
         return `<span class="node-run-status ${node.runStatus}"><span class="dot"></span>${escapeHtml(label)}${node._cascadeIdx?' '+node._cascadeIdx:''}</span>`;
     })() : '';
-    el.innerHTML = `<div class="node-head"><span class="node-title${node.type === 'translationOutput' ? ' translation-output-node-title' : ''}">${displayTitle}${outputSizeLabel ? ' · ' + outputSizeLabel : ''}</span><div style="display:flex;align-items:center;gap:8px">${statusHtml}<button onclick="deleteNodeFromButton('${node.id}', event)" class="text-gray-300 hover:text-red-500"><i data-lucide="x" class="w-4 h-4"></i></button></div></div>`;
+    el.innerHTML = `<div class="node-head"><span class="node-title${node.type === 'translationOutput' ? ' translation-output-node-title' : ''}">${displayTitle}</span><div style="display:flex;align-items:center;gap:8px">${statusHtml}<button onclick="deleteNodeFromButton('${node.id}', event)" class="text-gray-300 hover:text-red-500"><i data-lucide="x" class="w-4 h-4"></i></button></div></div>`;
     const body = document.createElement('div');
     body.className = 'node-body';
     if(node.type === 'batchResize') {

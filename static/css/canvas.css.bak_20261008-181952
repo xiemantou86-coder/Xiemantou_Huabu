@@ -219,7 +219,7 @@ body.canvas-board-pan * { cursor:grabbing !important; user-select:none !importan
 .node.selected { outline:2px solid var(--strong); outline-offset:2px; }
 .node-head { height:42px; flex:0 0 42px; display:flex; align-items:center; justify-content:space-between; gap:10px; padding:0 12px; border-bottom:1px solid var(--line); border-radius:21px 21px 0 0; overflow:hidden; cursor:move; }
 .node-title { font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
-.node-title.translation-output-node-title { font-size:16px; font-weight:800; letter-spacing:0; text-transform:none; color:var(--text); }
+.node-title.translation-output-node-title { font-size:16px; font-weight:800; letter-spacing:0; text-transform:none; color:#303e53; }
 /* 一键运行级联状态徽章 */
 .node-run-status { display:inline-flex; align-items:center; gap:4px; padding:2px 7px; border-radius:6px; font-size:10px; font-weight:800; letter-spacing:.04em; }
 .node-run-status.queued { background:#e5e7eb; color:#6b7280; }

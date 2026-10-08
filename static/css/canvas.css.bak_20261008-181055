@@ -2160,7 +2160,7 @@ html[data-studio-scale="off"].studio-scale-managed .toolbar.scale-expanded .tool
 .translation-output-toggle{flex-shrink:0}
 .translation-output-list:empty{display:none}
 .translation-output-toggle small{margin-left:auto;flex-shrink:0;color:var(--faint);font-size:10px;font-weight:400}
-.translation-output-language{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px;font-size:17px;font-weight:800;color:#303e53;padding:4px 0 2px}
+.translation-output-language{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px;font-size:18px;font-weight:800;color:var(--text);padding:4px 0 2px}
 .translation-output-language>span{min-width:0;overflow-wrap:anywhere}
 .translation-output-language>small{flex-shrink:0}
 .translation-output-language small{font-size:11px;font-weight:500;color:#64748b}

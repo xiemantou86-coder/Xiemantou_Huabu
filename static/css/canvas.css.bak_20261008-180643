@@ -219,7 +219,6 @@ body.canvas-board-pan * { cursor:grabbing !important; user-select:none !importan
 .node.selected { outline:2px solid var(--strong); outline-offset:2px; }
 .node-head { height:42px; flex:0 0 42px; display:flex; align-items:center; justify-content:space-between; gap:10px; padding:0 12px; border-bottom:1px solid var(--line); border-radius:21px 21px 0 0; overflow:hidden; cursor:move; }
 .node-title { font-size:11px; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
-.node-title.translation-output-node-title { font-size:16px; font-weight:800; letter-spacing:0; text-transform:none; color:var(--text); }
 /* 一键运行级联状态徽章 */
 .node-run-status { display:inline-flex; align-items:center; gap:4px; padding:2px 7px; border-radius:6px; font-size:10px; font-weight:800; letter-spacing:.04em; }
 .node-run-status.queued { background:#e5e7eb; color:#6b7280; }
@@ -2160,7 +2159,7 @@ html[data-studio-scale="off"].studio-scale-managed .toolbar.scale-expanded .tool
 .translation-output-toggle{flex-shrink:0}
 .translation-output-list:empty{display:none}
 .translation-output-toggle small{margin-left:auto;flex-shrink:0;color:var(--faint);font-size:10px;font-weight:400}
-.translation-output-language{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px;font-size:17px;font-weight:800;color:#303e53;padding:4px 0 2px}
+.translation-output-language{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px;font-size:18px;font-weight:800;color:var(--text);padding:4px 0 2px}
 .translation-output-language>span{min-width:0;overflow-wrap:anywhere}
 .translation-output-language>small{flex-shrink:0}
 .translation-output-language small{font-size:11px;font-weight:500;color:#64748b}

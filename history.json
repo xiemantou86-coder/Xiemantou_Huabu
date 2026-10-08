@@ -1,5 +1,905 @@
 [
     {
+        "prompt": "把原图图片中的广告文案，翻译成简体中文，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：9:21，请严格按此比例适配构图。",
+        "images": [
+            "/assets/output/online_ac0b480901.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_ac0b480901.png",
+                "kind": "image",
+                "name": "online_ac0b480901.png",
+                "natural_w": 821,
+                "natural_h": 1916,
+                "width": 821,
+                "height": 1916
+            }
+        ],
+        "timestamp": 1791455283.005007,
+        "type": "online",
+        "model": "gpt-image-2",
+        "provider_id": "custom-api",
+        "provider_name": "畅指",
+        "task_id": null,
+        "request_id": null,
+        "params": {
+            "provider_id": "custom-api",
+            "model": "gpt-image-2",
+            "size": "544x1280",
+            "requested_size": "544x1280",
+            "quality": "auto",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+                    "name": "16：9.jpg",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": {
+            "input_tokens": 2518,
+            "output_tokens": 1609,
+            "total_tokens": 4127,
+            "input_tokens_details": {
+                "text_tokens": 75,
+                "image_tokens": 2443,
+                "cached_tokens": 0
+            },
+            "output_tokens_details": {
+                "text_tokens": 0,
+                "image_tokens": 1609,
+                "reasoning_tokens": 0
+            }
+        }
+    },
+    {
+        "prompt": "把原图图片中的广告文案，翻译成泰文 ไทย，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：9:21，请严格按此比例适配构图。",
+        "images": [
+            "/assets/output/online_5006fb42e3.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_5006fb42e3.png",
+                "kind": "image",
+                "name": "online_5006fb42e3.png",
+                "natural_w": 821,
+                "natural_h": 1916,
+                "width": 821,
+                "height": 1916
+            }
+        ],
+        "timestamp": 1791455279.6194458,
+        "type": "online",
+        "model": "gpt-image-2",
+        "provider_id": "custom-api",
+        "provider_name": "畅指",
+        "task_id": null,
+        "request_id": null,
+        "params": {
+            "provider_id": "custom-api",
+            "model": "gpt-image-2",
+            "size": "544x1280",
+            "requested_size": "544x1280",
+            "quality": "auto",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+                    "name": "16：9.jpg",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": {
+            "input_tokens": 2518,
+            "output_tokens": 1609,
+            "total_tokens": 4127,
+            "input_tokens_details": {
+                "text_tokens": 75,
+                "image_tokens": 2443,
+                "cached_tokens": 0
+            },
+            "output_tokens_details": {
+                "text_tokens": 0,
+                "image_tokens": 1609,
+                "reasoning_tokens": 0
+            }
+        }
+    },
+    {
+        "prompt": "把原图图片中的广告文案，翻译成泰文 ไทย，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：9:16，请严格按此比例适配构图。",
+        "images": [
+            "/assets/output/online_05f6bdfe3f.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_05f6bdfe3f.png",
+                "kind": "image",
+                "name": "online_05f6bdfe3f.png",
+                "natural_w": 940,
+                "natural_h": 1672,
+                "width": 940,
+                "height": 1672
+            }
+        ],
+        "timestamp": 1791455264.758387,
+        "type": "online",
+        "model": "gpt-image-2",
+        "provider_id": "custom-api",
+        "provider_name": "畅指",
+        "task_id": null,
+        "request_id": null,
+        "params": {
+            "provider_id": "custom-api",
+            "model": "gpt-image-2",
+            "size": "720x1280",
+            "requested_size": "720x1280",
+            "quality": "auto",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+                    "name": "16：9.jpg",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": {
+            "input_tokens": 2518,
+            "output_tokens": 1640,
+            "total_tokens": 4158,
+            "input_tokens_details": {
+                "text_tokens": 75,
+                "image_tokens": 2443,
+                "cached_tokens": 0
+            },
+            "output_tokens_details": {
+                "text_tokens": 0,
+                "image_tokens": 1640,
+                "reasoning_tokens": 0
+            }
+        }
+    },
+    {
+        "prompt": "把原图图片中的广告文案，翻译成简体中文，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：9:16，请严格按此比例适配构图。",
+        "images": [
+            "/assets/output/online_06c805c03b.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_06c805c03b.png",
+                "kind": "image",
+                "name": "online_06c805c03b.png",
+                "natural_w": 941,
+                "natural_h": 1672,
+                "width": 941,
+                "height": 1672
+            }
+        ],
+        "timestamp": 1791455245.7434738,
+        "type": "online",
+        "model": "gpt-image-2",
+        "provider_id": "custom-api",
+        "provider_name": "畅指",
+        "task_id": null,
+        "request_id": null,
+        "params": {
+            "provider_id": "custom-api",
+            "model": "gpt-image-2",
+            "size": "720x1280",
+            "requested_size": "720x1280",
+            "quality": "auto",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+                    "name": "16：9.jpg",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": {
+            "input_tokens": 2518,
+            "output_tokens": 1640,
+            "total_tokens": 4158,
+            "input_tokens_details": {
+                "text_tokens": 75,
+                "image_tokens": 2443,
+                "cached_tokens": 0
+            },
+            "output_tokens_details": {
+                "text_tokens": 0,
+                "image_tokens": 1640,
+                "reasoning_tokens": 0
+            }
+        }
+    },
+    {
+        "prompt": "把原图图片中的广告文案，翻译成泰文 ไทย，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：9:16，请严格按此比例适配构图。",
+        "images": [
+            "/assets/output/online_da463d0d0b.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_da463d0d0b.png",
+                "kind": "image",
+                "name": "online_da463d0d0b.png",
+                "natural_w": 941,
+                "natural_h": 1672,
+                "width": 941,
+                "height": 1672
+            }
+        ],
+        "timestamp": 1791455238.6652124,
+        "type": "online",
+        "model": "gpt-image-2",
+        "provider_id": "custom-api",
+        "provider_name": "畅指",
+        "task_id": null,
+        "request_id": null,
+        "params": {
+            "provider_id": "custom-api",
+            "model": "gpt-image-2",
+            "size": "720x1280",
+            "requested_size": "720x1280",
+            "quality": "auto",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_d27eca18f271.png",
+                    "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": {
+            "input_tokens": 2518,
+            "output_tokens": 1640,
+            "total_tokens": 4158,
+            "input_tokens_details": {
+                "text_tokens": 75,
+                "image_tokens": 2443,
+                "cached_tokens": 0
+            },
+            "output_tokens_details": {
+                "text_tokens": 0,
+                "image_tokens": 1640,
+                "reasoning_tokens": 0
+            }
+        }
+    },
+    {
+        "prompt": "把原图图片中的广告文案，翻译成泰文 ไทย，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：9:21，请严格按此比例适配构图。",
+        "images": [
+            "/assets/output/online_ca645a825d.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_ca645a825d.png",
+                "kind": "image",
+                "name": "online_ca645a825d.png",
+                "natural_w": 821,
+                "natural_h": 1916,
+                "width": 821,
+                "height": 1916
+            }
+        ],
+        "timestamp": 1791455231.7249537,
+        "type": "online",
+        "model": "gpt-image-2",
+        "provider_id": "custom-api",
+        "provider_name": "畅指",
+        "task_id": null,
+        "request_id": null,
+        "params": {
+            "provider_id": "custom-api",
+            "model": "gpt-image-2",
+            "size": "544x1280",
+            "requested_size": "544x1280",
+            "quality": "auto",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_d27eca18f271.png",
+                    "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": {
+            "input_tokens": 2518,
+            "output_tokens": 1609,
+            "total_tokens": 4127,
+            "input_tokens_details": {
+                "text_tokens": 75,
+                "image_tokens": 2443,
+                "cached_tokens": 0
+            },
+            "output_tokens_details": {
+                "text_tokens": 0,
+                "image_tokens": 1609,
+                "reasoning_tokens": 0
+            }
+        }
+    },
+    {
+        "prompt": "把原图图片中的广告文案，翻译成简体中文，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：9:21，请严格按此比例适配构图。",
+        "images": [
+            "/assets/output/online_55195d7918.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_55195d7918.png",
+                "kind": "image",
+                "name": "online_55195d7918.png",
+                "natural_w": 821,
+                "natural_h": 1916,
+                "width": 821,
+                "height": 1916
+            }
+        ],
+        "timestamp": 1791455231.177433,
+        "type": "online",
+        "model": "gpt-image-2",
+        "provider_id": "custom-api",
+        "provider_name": "畅指",
+        "task_id": null,
+        "request_id": null,
+        "params": {
+            "provider_id": "custom-api",
+            "model": "gpt-image-2",
+            "size": "544x1280",
+            "requested_size": "544x1280",
+            "quality": "auto",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_d27eca18f271.png",
+                    "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": {
+            "input_tokens": 2518,
+            "output_tokens": 1609,
+            "total_tokens": 4127,
+            "input_tokens_details": {
+                "text_tokens": 75,
+                "image_tokens": 2443,
+                "cached_tokens": 0
+            },
+            "output_tokens_details": {
+                "text_tokens": 0,
+                "image_tokens": 1609,
+                "reasoning_tokens": 0
+            }
+        }
+    },
+    {
+        "prompt": "把原图图片中的广告文案，翻译成泰文 ไทย，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
+        "images": [
+            "/assets/output/online_774b109750.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_774b109750.png",
+                "kind": "image",
+                "name": "online_774b109750.png",
+                "natural_w": 1672,
+                "natural_h": 941,
+                "width": 1672,
+                "height": 941
+            }
+        ],
+        "timestamp": 1791455219.6601052,
+        "type": "online",
+        "model": "gpt-image-2",
+        "provider_id": "custom-api",
+        "provider_name": "畅指",
+        "task_id": null,
+        "request_id": null,
+        "params": {
+            "provider_id": "custom-api",
+            "model": "gpt-image-2",
+            "size": "1280x720",
+            "requested_size": "1280x720",
+            "quality": "auto",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+                    "name": "16：9.jpg",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": {
+            "input_tokens": 2518,
+            "output_tokens": 1640,
+            "total_tokens": 4158,
+            "input_tokens_details": {
+                "text_tokens": 75,
+                "image_tokens": 2443,
+                "cached_tokens": 0
+            },
+            "output_tokens_details": {
+                "text_tokens": 0,
+                "image_tokens": 1640,
+                "reasoning_tokens": 0
+            }
+        }
+    },
+    {
+        "prompt": "把原图图片中的广告文案，翻译成简体中文，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
+        "images": [
+            "/assets/output/online_5ba55a6e28.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_5ba55a6e28.png",
+                "kind": "image",
+                "name": "online_5ba55a6e28.png",
+                "natural_w": 1672,
+                "natural_h": 941,
+                "width": 1672,
+                "height": 941
+            }
+        ],
+        "timestamp": 1791455199.0285337,
+        "type": "online",
+        "model": "gpt-image-2",
+        "provider_id": "custom-api",
+        "provider_name": "畅指",
+        "task_id": null,
+        "request_id": null,
+        "params": {
+            "provider_id": "custom-api",
+            "model": "gpt-image-2",
+            "size": "1280x720",
+            "requested_size": "1280x720",
+            "quality": "auto",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+                    "name": "16：9.jpg",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": {
+            "input_tokens": 2518,
+            "output_tokens": 1640,
+            "total_tokens": 4158,
+            "input_tokens_details": {
+                "text_tokens": 75,
+                "image_tokens": 2443,
+                "cached_tokens": 0
+            },
+            "output_tokens_details": {
+                "text_tokens": 0,
+                "image_tokens": 1640,
+                "reasoning_tokens": 0
+            }
+        }
+    },
+    {
+        "prompt": "把原图图片中的广告文案，翻译成泰文 ไทย，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
+        "images": [
+            "/assets/output/online_fb6459f546.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_fb6459f546.png",
+                "kind": "image",
+                "name": "online_fb6459f546.png",
+                "natural_w": 1672,
+                "natural_h": 941,
+                "width": 1672,
+                "height": 941
+            }
+        ],
+        "timestamp": 1791453742.9232955,
+        "type": "online",
+        "model": "gpt-image-2",
+        "provider_id": "custom-api",
+        "provider_name": "畅指",
+        "task_id": null,
+        "request_id": null,
+        "params": {
+            "provider_id": "custom-api",
+            "model": "gpt-image-2",
+            "size": "1280x720",
+            "requested_size": "1280x720",
+            "quality": "auto",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_d27eca18f271.png",
+                    "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": {
+            "input_tokens": 2518,
+            "output_tokens": 1640,
+            "total_tokens": 4158,
+            "input_tokens_details": {
+                "text_tokens": 75,
+                "image_tokens": 2443,
+                "cached_tokens": 0
+            },
+            "output_tokens_details": {
+                "text_tokens": 0,
+                "image_tokens": 1640,
+                "reasoning_tokens": 0
+            }
+        }
+    },
+    {
+        "prompt": "把原图图片中的广告文案，翻译成简体中文，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
+        "images": [
+            "/assets/output/online_1d915757fe.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_1d915757fe.png",
+                "kind": "image",
+                "name": "online_1d915757fe.png",
+                "natural_w": 1672,
+                "natural_h": 941,
+                "width": 1672,
+                "height": 941
+            }
+        ],
+        "timestamp": 1791453718.822982,
+        "type": "online",
+        "model": "gpt-image-2",
+        "provider_id": "custom-api",
+        "provider_name": "畅指",
+        "task_id": null,
+        "request_id": null,
+        "params": {
+            "provider_id": "custom-api",
+            "model": "gpt-image-2",
+            "size": "1280x720",
+            "requested_size": "1280x720",
+            "quality": "auto",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_d27eca18f271.png",
+                    "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": {
+            "input_tokens": 2518,
+            "output_tokens": 1640,
+            "total_tokens": 4158,
+            "input_tokens_details": {
+                "text_tokens": 75,
+                "image_tokens": 2443,
+                "cached_tokens": 0
+            },
+            "output_tokens_details": {
+                "text_tokens": 0,
+                "image_tokens": 1640,
+                "reasoning_tokens": 0
+            }
+        }
+    },
+    {
+        "prompt": "把原图图片中的广告文案，翻译成简体中文，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
+        "images": [
+            "/assets/output/online_866be81266.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_866be81266.png",
+                "kind": "image",
+                "name": "online_866be81266.png",
+                "natural_w": 1672,
+                "natural_h": 941,
+                "width": 1672,
+                "height": 941
+            }
+        ],
+        "timestamp": 1791453706.8379247,
+        "type": "online",
+        "model": "gpt-image-2",
+        "provider_id": "custom-api",
+        "provider_name": "畅指",
+        "task_id": null,
+        "request_id": null,
+        "params": {
+            "provider_id": "custom-api",
+            "model": "gpt-image-2",
+            "size": "1280x720",
+            "requested_size": "1280x720",
+            "quality": "auto",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+                    "name": "16：9.jpg",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": {
+            "input_tokens": 2518,
+            "output_tokens": 1640,
+            "total_tokens": 4158,
+            "input_tokens_details": {
+                "text_tokens": 75,
+                "image_tokens": 2443,
+                "cached_tokens": 0
+            },
+            "output_tokens_details": {
+                "text_tokens": 0,
+                "image_tokens": 1640,
+                "reasoning_tokens": 0
+            }
+        }
+    },
+    {
+        "prompt": "把原图图片中的广告文案，翻译成泰文 ไทย，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
+        "images": [
+            "/assets/output/online_c1952da9d1.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_c1952da9d1.png",
+                "kind": "image",
+                "name": "online_c1952da9d1.png",
+                "natural_w": 1672,
+                "natural_h": 941,
+                "width": 1672,
+                "height": 941
+            }
+        ],
+        "timestamp": 1791453706.075029,
+        "type": "online",
+        "model": "gpt-image-2",
+        "provider_id": "custom-api",
+        "provider_name": "畅指",
+        "task_id": null,
+        "request_id": null,
+        "params": {
+            "provider_id": "custom-api",
+            "model": "gpt-image-2",
+            "size": "1280x720",
+            "requested_size": "1280x720",
+            "quality": "auto",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_58a51eaeef67.jpg",
+                    "name": "16：9.jpg",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": {
+            "input_tokens": 2518,
+            "output_tokens": 1640,
+            "total_tokens": 4158,
+            "input_tokens_details": {
+                "text_tokens": 75,
+                "image_tokens": 2443,
+                "cached_tokens": 0
+            },
+            "output_tokens_details": {
+                "text_tokens": 0,
+                "image_tokens": 1640,
+                "reasoning_tokens": 0
+            }
+        }
+    },
+    {
+        "prompt": "把原图图片中的广告文案，翻译成简体中文，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
+        "images": [
+            "/assets/output/online_7707212b46.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_7707212b46.png",
+                "kind": "image",
+                "name": "online_7707212b46.png",
+                "natural_w": 1672,
+                "natural_h": 941,
+                "width": 1672,
+                "height": 941
+            }
+        ],
+        "timestamp": 1791453616.4983227,
+        "type": "online",
+        "model": "gpt-image-2",
+        "provider_id": "custom-api",
+        "provider_name": "畅指",
+        "task_id": null,
+        "request_id": null,
+        "params": {
+            "provider_id": "custom-api",
+            "model": "gpt-image-2",
+            "size": "1280x720",
+            "requested_size": "1280x720",
+            "quality": "auto",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_d27eca18f271.png",
+                    "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": {
+            "input_tokens": 2518,
+            "output_tokens": 1640,
+            "total_tokens": 4158,
+            "input_tokens_details": {
+                "text_tokens": 75,
+                "image_tokens": 2443,
+                "cached_tokens": 0
+            },
+            "output_tokens_details": {
+                "text_tokens": 0,
+                "image_tokens": 1640,
+                "reasoning_tokens": 0
+            }
+        }
+    },
+    {
+        "prompt": "把原图图片中的广告文案，翻译成泰文 ไทย，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
+        "images": [
+            "/assets/output/online_47f9b32f55.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_47f9b32f55.png",
+                "kind": "image",
+                "name": "online_47f9b32f55.png",
+                "natural_w": 1672,
+                "natural_h": 941,
+                "width": 1672,
+                "height": 941
+            }
+        ],
+        "timestamp": 1791453614.966948,
+        "type": "online",
+        "model": "gpt-image-2",
+        "provider_id": "custom-api",
+        "provider_name": "畅指",
+        "task_id": null,
+        "request_id": null,
+        "params": {
+            "provider_id": "custom-api",
+            "model": "gpt-image-2",
+            "size": "1280x720",
+            "requested_size": "1280x720",
+            "quality": "auto",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_d27eca18f271.png",
+                    "name": "1gZGrGH_tkLDdPTFEpnFknJLnUR0iv4g_FPuv7D_haAR02FTzf7dvfrDeDtkjfAtal9tBuuZQRpD2Jn0Ardd774xrngg3hIgMr0cAY5CQTdYFv3DpbLD45JTk-Dy9rJfcdNeBmi9fJzMA1hgapfqQf9gQxo3M9Gqk9I7am7am-c_.png",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": {
+            "input_tokens": 2518,
+            "output_tokens": 1640,
+            "total_tokens": 4158,
+            "input_tokens_details": {
+                "text_tokens": 75,
+                "image_tokens": 2443,
+                "cached_tokens": 0
+            },
+            "output_tokens_details": {
+                "text_tokens": 0,
+                "image_tokens": 1640,
+                "reasoning_tokens": 0
+            }
+        }
+    },
+    {
         "prompt": "把图片高清化",
         "images": [
             "/assets/output/online_a3c4676250.png"

@@ -2704,15 +2704,13 @@ const TRANSLATION_SIZE_DEFAULTS = Object.freeze([
     {id:'wide', label:'16:9'}, {id:'story', label:'9:16'}, {id:'square', label:'1:1'},
     {id:'portrait', label:'2:3'}, {id:'landscape', label:'3:2'},
     {id:'portrait43', label:'3:4'}, {id:'landscape43', label:'4:3'},
-    {id:'ultrawide', label:'21:9'}, {id:'ultratall', label:'9:21'}, {id:'custom', label:'自定义'}
+    {id:'ultrawide', label:'21:9'}, {id:'source', label:'原图比例'}, {id:'custom', label:'自定义'}
 ]);
 const translationBatchSources = new Set();
 const translationQueuedOutputs = new Set();
 const translationOutputHeights = new WeakMap();
 const translationNewOutputs = new WeakSet();
 const TRANSLATION_RESIZE_LANGUAGE_ID = '__resize__';
-const TRANSLATION_AUTO_LANGUAGE_ID = '__auto__';
-const TRANSLATION_AUTO_LANGUAGE_LABEL = '自动识别（适用于多图修改）';
 function translationMode(node){ return node?.translationMode === 'resize' ? 'resize' : 'translate'; }
 function translationModeLanguageIds(node, mode=translationMode(node)){
     return mode === 'resize' ? [TRANSLATION_RESIZE_LANGUAGE_ID] : translationSelectedIds(node);
@@ -2825,14 +2823,11 @@ function translationPromptFor(node, languageId, size=null){
         if(supplementalPrompt) lines.push(`补充提示词：${supplementalPrompt}`);
         return lines.join('\n');
     }
-    const sourceId = String(node?.sourceLanguage || '');
-    const isAutoSource = sourceId === TRANSLATION_AUTO_LANGUAGE_ID;
-    const source = translationLanguage(node, sourceId) || TRANSLATION_LANGUAGE_DEFAULTS[1];
+    const source = translationLanguage(node, node?.sourceLanguage) || TRANSLATION_LANGUAGE_DEFAULTS[1];
     const target = translationLanguage(node, languageId) || translationLanguage(node, node?.targetLanguages?.[0]) || TRANSLATION_LANGUAGE_DEFAULTS[0];
-    const sourcePhrase = isAutoSource ? '把原图图片中的广告文案' : `把图片中的${source.prompt}文案`;
     const lines = [size && size.ratio !== 'source'
-        ? `${sourcePhrase}，翻译成${target.prompt}，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容`
-        : `${sourcePhrase}，翻译成${target.prompt}，不得改变除文案以外的画面，保留原logo不变`];
+        ? `把图片中的${source.prompt}文案，翻译成${target.prompt}，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容`
+        : `把图片中的${source.prompt}文案，翻译成${target.prompt}，不得改变除文案以外的画面，保留原logo不变`];
     if(size){
         const ratio = size.ratio === 'custom' ? size.customRatio : TRANSLATION_SIZE_DEFAULTS.find(item => item.id === size.ratio)?.label;
         if(size.resolution === 'custom' && size.customSize) lines.push(`目标输出尺寸：${size.customSize} 像素（宽×高），请按此尺寸适配构图。`);
@@ -2998,7 +2993,7 @@ function addTranslationInputNode(point){
     const p = point || defaultPoint(-220, 0);
     const providerId = imageApiProviders()[0]?.id || '';
     const model = allImageModels(providerId)[0] || '';
-    const node = {id:uid('translate-in'), type:'translationInput', x:p.x, y:p.y, w:820, h:0, translationLayoutVersion:1, translationMode:'translate', url:'', name:'改图/翻译节点', sourceLanguage:TRANSLATION_AUTO_LANGUAGE_ID, targetLanguages:[], customLanguages:[], sourceCopyDescription:'', supplementalPrompt:'', apiProvider:providerId, model, ratio:'wide', resolution:defaultApiImageResolution(model), quality:'auto', count:1, customRatio:'', customSize:''};
+    const node = {id:uid('translate-in'), type:'translationInput', x:p.x, y:p.y, w:820, h:0, translationLayoutVersion:1, translationMode:'translate', url:'', name:'改图/翻译节点', sourceLanguage:'zh-hant', targetLanguages:[], customLanguages:[], sourceCopyDescription:'', supplementalPrompt:'', apiProvider:providerId, model, ratio:'wide', resolution:defaultApiImageResolution(model), quality:'auto', count:1, customRatio:'', customSize:''};
     addNode(node);
     syncTranslationOutputNodes(node);
     render();
@@ -3121,7 +3116,7 @@ function renderTranslationInputBody(node){
         <div class="translation-source-column">
         ${imageHtml}
         <div class="translation-image-actions"><button type="button" class="secondary-btn" data-translation-pick><i data-lucide="upload" class="w-3.5 h-3.5"></i>上传原图</button><span>${images.length ? `${images.length} / 20 张原图` : '未上传'}</span></div>
-        ${mode === 'translate' ? `<label class="translation-field"><span>原图文案语言</span><select data-translation-source-language>${[{id:TRANSLATION_AUTO_LANGUAGE_ID, label:TRANSLATION_AUTO_LANGUAGE_LABEL}, ...languages].map(item => `<option value="${escapeAttr(item.id)}" ${item.id === node.sourceLanguage ? 'selected' : ''}>${escapeHtml(item.label)}</option>`).join('')}</select></label>
+        ${mode === 'translate' ? `<label class="translation-field"><span>原图文案语言</span><select data-translation-source-language>${languages.map(item => `<option value="${escapeAttr(item.id)}" ${item.id === node.sourceLanguage ? 'selected' : ''}>${escapeHtml(item.label)}</option>`).join('')}</select></label>
         <div class="translation-field"><span>目标语言</span><div class="translation-language-grid">${targetHtml}</div><button type="button" class="translation-add-language" data-translation-add-language><i data-lucide="plus" class="w-3.5 h-3.5"></i>添加自定义语言</button></div>` : `<div class="translation-mode-hint">改尺寸模式：保留原图元素，按下方比例生成。</div>`}
         <div class="translation-field"><span>输出尺寸</span><div class="translation-size-grid">${sizeHtml}</div></div>
         </div>
@@ -3134,7 +3129,6 @@ function renderTranslationInputBody(node){
         </div>
     </div>`;
 }
-function truncateTranslationTitle(text, max=10){ const chars = Array.from(String(text == null ? '' : text)); return chars.length > max ? chars.slice(0, max).join('') + '...' : chars.join(''); }
 function renderTranslationOutputBody(node){
     const pendingHtml = (node._pending || []).map(item => renderPendingOutput(item)).join('');
     const running = node.running || (node._pending || []).some(pending => !pending.failed);
@@ -3149,7 +3143,7 @@ function renderTranslationOutputBody(node){
         : (node.translationImageName && normalizeTranslationImages(source || {}).length > 1
             ? `${node.translationImageName} · ${node.translationLanguageLabel || node.translationLanguageId}`
             : (node.translationLanguageLabel || node.translationLanguageId));
-    return `<div class="translation-output-body" style="--translation-output-ratio:${escapeAttr(ratio)}"><div class="translation-output-language"><span>${escapeHtml(truncateTranslationTitle(outputTitle))}</span></div>${node.blocked ? '<div class="translation-output-state">已屏蔽</div>' : ''}<div class="translation-output-prompt">${escapeHtml(translationOutputPrompt(node))}</div>${!source ? '<div class="translation-error">未连接翻译上传节点</div>' : ''}${node.runError ? `<div class="translation-error">${escapeHtml(node.runError)}</div>` : ''}<div class="translation-output-images">${renderOutputGrid(node, pendingHtml)}</div><button type="button" class="gen-btn translation-rerun-btn" data-translation-rerun ${!source || node.blocked || running || queued ? 'disabled' : ''}><i data-lucide="refresh-cw" class="w-4 h-4"></i>${queued ? '等待生成' : running ? '生成中' : '重新生成'}</button></div>`;
+    return `<div class="translation-output-body" style="--translation-output-ratio:${escapeAttr(ratio)}"><div class="translation-output-language"><span>${escapeHtml(outputTitle)}</span><small>${escapeHtml(size ? translationSizeLabel(size) : (node.translationSizeLabel || '翻译输出'))}</small></div>${node.blocked ? '<div class="translation-output-state">已屏蔽</div>' : ''}<div class="translation-output-prompt">${escapeHtml(translationOutputPrompt(node))}</div>${!source ? '<div class="translation-error">未连接翻译上传节点</div>' : ''}${node.runError ? `<div class="translation-error">${escapeHtml(node.runError)}</div>` : ''}<div class="translation-output-images">${renderOutputGrid(node, pendingHtml)}</div><button type="button" class="gen-btn translation-rerun-btn" data-translation-rerun ${!source || node.blocked || running || queued ? 'disabled' : ''}><i data-lucide="refresh-cw" class="w-4 h-4"></i>${queued ? '等待生成' : running ? '生成中' : '重新生成'}</button></div>`;
 }
 function bindTranslationInputBody(el, node){
     const uploadDroppedImages = files => {
@@ -10209,7 +10203,6 @@ function renderNode(node){
     };
     const title = node.type === 'image' ? 'Image' : node.type === 'prompt' ? 'Prompt' : node.type === 'translationInput' ? '改图/翻译节点' : node.type === 'translationOutput' ? (node.translationLanguageLabel || '翻译输出') : node.type === 'gameKvPopupPrompt' ? (node.title || '大弹窗 KV 提示词') : node.type === 'gameKvPrompt' ? '游戏 KV 提示词' : node.type === 'loop' ? tr('canvas.loopNode') : node.type === 'promptGroup' ? 'Prompts' : node.type === 'group' ? 'Group' : node.type === 'output' ? 'Output' : node.type === 'llm' ? 'LLM' : node.type === 'comfy' ? 'ComfyUI' : node.type === 'ltxDirector' ? tr('canvas.ltxDirector') : node.type === 'rh' ? 'RunningHub' : node.type === 'minimax' ? 'MiniMax H3' : node.type === 'midjourney' ? 'Midjourney' : node.type === 'msgen' ? tr('canvas.modelscopeGenerate') : node.type === 'video' ? tr('canvas.videoGenerateNode') : node.type === 'masterGenerator' ? '主控API' : 'API生成';
     const displayTitle = node.type === 'batchResize' ? '批量尺寸适配' : node.resizeSourceId ? escapeHtml(node.resizeName || '尺寸输出') : node.type === 'image' && node.url ? nodeTitleForMedia(node) : title;
-    const outputSizeLabel = node.type === 'translationOutput' ? (function(){ const _s = translationSourceNode(node); const _z = _s && translationOutputSize(_s, node); return _z ? escapeHtml(String(translationSizeLabel(_z))) : ''; })() : '';
     // 失败徽章只在一键运行模式中显示，单节点失败已通过 alert 提示
     const showStatus = ['generator','masterGenerator','midjourney','msgen','comfy','ltxDirector','llm','video','rh','minimax'].includes(node.type) && node.runStatus
         && (node.runStatus !== 'failed' || node._cascadeFailed);
@@ -10217,7 +10210,7 @@ function renderNode(node){
         const label = { queued:'排队中', running:'运行中', done:'完成', failed:'失败' }[node.runStatus] || '';
         return `<span class="node-run-status ${node.runStatus}"><span class="dot"></span>${escapeHtml(label)}${node._cascadeIdx?' '+node._cascadeIdx:''}</span>`;
     })() : '';
-    el.innerHTML = `<div class="node-head"><span class="node-title${node.type === 'translationOutput' ? ' translation-output-node-title' : ''}">${displayTitle}${outputSizeLabel ? ' · ' + outputSizeLabel : ''}</span><div style="display:flex;align-items:center;gap:8px">${statusHtml}<button onclick="deleteNodeFromButton('${node.id}', event)" class="text-gray-300 hover:text-red-500"><i data-lucide="x" class="w-4 h-4"></i></button></div></div>`;
+    el.innerHTML = `<div class="node-head"><span class="node-title">${displayTitle}</span><div style="display:flex;align-items:center;gap:8px">${statusHtml}<button onclick="deleteNodeFromButton('${node.id}', event)" class="text-gray-300 hover:text-red-500"><i data-lucide="x" class="w-4 h-4"></i></button></div></div>`;
     const body = document.createElement('div');
     body.className = 'node-body';
     if(node.type === 'batchResize') {

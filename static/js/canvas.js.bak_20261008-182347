@@ -2704,7 +2704,7 @@ const TRANSLATION_SIZE_DEFAULTS = Object.freeze([
     {id:'wide', label:'16:9'}, {id:'story', label:'9:16'}, {id:'square', label:'1:1'},
     {id:'portrait', label:'2:3'}, {id:'landscape', label:'3:2'},
     {id:'portrait43', label:'3:4'}, {id:'landscape43', label:'4:3'},
-    {id:'ultrawide', label:'21:9'}, {id:'ultratall', label:'9:21'}, {id:'custom', label:'自定义'}
+    {id:'ultrawide', label:'21:9'}, {id:'source', label:'原图比例'}, {id:'custom', label:'自定义'}
 ]);
 const translationBatchSources = new Set();
 const translationQueuedOutputs = new Set();
