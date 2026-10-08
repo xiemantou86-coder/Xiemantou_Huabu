@@ -8,7 +8,7 @@
   "pinned": false,
   "project": "default",
   "created_at": 1790776890867,
-  "updated_at": 1791432957253,
+  "updated_at": 1791450407892,
   "nodes": [
     {
       "id": "img_1bd0474012244_1791275122369",
@@ -330,6 +330,374 @@
         }
       ],
       "_pending": []
+    },
+    {
+      "id": "cg_8d5cbee11d3918_1791445623898",
+      "type": "containerGroup",
+      "x": 329.59992071170666,
+      "y": 162.75781743099594,
+      "w": 1251.8421767650748,
+      "h": 667.0842442672804,
+      "title": "容器分组",
+      "color": "#3b82f6",
+      "members": [
+        "img_1bd0474012244_1791275122369",
+        "mgen_7e9166c1df716_1791275126521",
+        "out_7f469d9512e9c8_1791275129675",
+        "prompt_53fef5bcd01b3_1791275134766"
+      ]
+    },
+    {
+      "type": "gameKvPrompt",
+      "promptKind": "game-kv",
+      "kvVersion": 1,
+      "visualStyle": "custom-visualStyle-mty5du3k-9y4cy",
+      "composition": "journey-narrative",
+      "mainTitle": "強者之戰現在開始",
+      "copyEnabled": true,
+      "subtitleEnabled": true,
+      "subtitle": "集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。",
+      "image1Role": "主角色",
+      "image1Instruction": "保持角色身份、脸部、发型、服装和核心特征一致",
+      "image2Role": "字体设计与排版风格",
+      "image2Instruction": "不复制其中的人物、背景、Logo或其他内容",
+      "references": [
+        {
+          "id": "reference-1",
+          "value": "reference-1",
+          "label": "主角色",
+          "prompt": "图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。",
+          "enabled": true
+        },
+        {
+          "id": "reference-2",
+          "value": "reference-2",
+          "label": "字体设计与排版风格",
+          "prompt": "图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。",
+          "enabled": true
+        }
+      ],
+      "titleEffect": "match-scene-style",
+      "copyPlacement": "random-placement",
+      "useFontReference": true,
+      "showLogo": false,
+      "logoReference": "",
+      "downloadButtonEnabled": false,
+      "downloadButtonCustom": false,
+      "downloadButtonReference": "",
+      "noLogo": true,
+      "qualityEnabled": true,
+      "negativeEnabled": true,
+      "adLanguage": "zh-hans",
+      "adLanguageOptions": [
+        {
+          "value": "zh-hans",
+          "label": "简体中文",
+          "prompt": "简体中文",
+          "buttonText": "立即下载",
+          "custom": false
+        },
+        {
+          "value": "zh-hant",
+          "label": "繁体中文",
+          "prompt": "繁体中文",
+          "buttonText": "立即下載",
+          "custom": false
+        },
+        {
+          "value": "ko",
+          "label": "韩文",
+          "prompt": "韩文",
+          "buttonText": "지금 다운로드",
+          "custom": false
+        },
+        {
+          "value": "th",
+          "label": "泰文",
+          "prompt": "泰文",
+          "buttonText": "ดาวน์โหลดเลย",
+          "custom": false
+        },
+        {
+          "value": "ru",
+          "label": "俄文",
+          "prompt": "俄文",
+          "buttonText": "Скачать",
+          "custom": false
+        },
+        {
+          "value": "vi",
+          "label": "越南语",
+          "prompt": "越南语",
+          "buttonText": "Tải ngay",
+          "custom": false
+        },
+        {
+          "value": "id",
+          "label": "印尼语",
+          "prompt": "印尼语",
+          "buttonText": "Download",
+          "custom": false
+        },
+        {
+          "value": "en",
+          "label": "英文",
+          "prompt": "英文",
+          "buttonText": "Download",
+          "custom": false
+        }
+      ],
+      "extraPrompt": "",
+      "negativePrompt": "模糊，低清，噪点，脏污，灰蒙，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "text": "请生成一张简体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n\n画面设计：\n- 视觉风格：暗黑国风MMO：暗黑国风画风，厚涂风格游戏CG，游戏KV广告，黑神话，暗黑风格。\n- 构图：电影级叙事性大远景，角色以背影或侧身伫立在前景引导视线，眺望远方无垠云海、巨型浮空岛或古老宏伟奇观，多层次前景自然遮挡，晨曦薄雾或黄昏落日金辉，静谧深远，充满探索未知渴望。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「強者之戰現在開始」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：标题字体的风格、材质与光效与画面整体视觉自然统一，融入画面氛围，清晰可读，不喧宾夺主。\n- 排版位置：主标题位于画面合适位置，副标题紧随主标题下方，保证视觉平衡，不遮挡角色面部和关键动作。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 成图不要添加游戏Logo、品牌标识、水印或角标。\n\n负向提示词：\n模糊，低清，噪点，脏污，灰蒙，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "id": "game-kv_0f893d8199c948_1791445640593",
+      "x": 2293.9208221314107,
+      "y": 50.179815039154136,
+      "inheritedReferenceOverrides": {}
+    },
+    {
+      "id": "prompt_ccbf14dbbc2d6_1791445644473",
+      "type": "prompt",
+      "x": 2769.1073080308574,
+      "y": 11.389081496342158,
+      "text": "请生成一张简体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n\n画面设计：\n- 视觉风格：暗黑国风MMO：暗黑国风画风，厚涂风格游戏CG，游戏KV广告，黑神话，暗黑风格。\n- 构图：电影级叙事性大远景，角色以背影或侧身伫立在前景引导视线，眺望远方无垠云海、巨型浮空岛或古老宏伟奇观，多层次前景自然遮挡，晨曦薄雾或黄昏落日金辉，静谧深远，充满探索未知渴望。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「強者之戰現在開始」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：标题字体的风格、材质与光效与画面整体视觉自然统一，融入画面氛围，清晰可读，不喧宾夺主。\n- 排版位置：主标题位于画面合适位置，副标题紧随主标题下方，保证视觉平衡，不遮挡角色面部和关键动作。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 成图不要添加游戏Logo、品牌标识、水印或角标。\n\n负向提示词：\n模糊，低清，噪点，脏污，灰蒙，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "kvSourceText": "请生成一张简体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n\n画面设计：\n- 视觉风格：暗黑国风MMO：暗黑国风画风，厚涂风格游戏CG，游戏KV广告，黑神话，暗黑风格。\n- 构图：电影级叙事性大远景，角色以背影或侧身伫立在前景引导视线，眺望远方无垠云海、巨型浮空岛或古老宏伟奇观，多层次前景自然遮挡，晨曦薄雾或黄昏落日金辉，静谧深远，充满探索未知渴望。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「強者之戰現在開始」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：标题字体的风格、材质与光效与画面整体视觉自然统一，融入画面氛围，清晰可读，不喧宾夺主。\n- 排版位置：主标题位于画面合适位置，副标题紧随主标题下方，保证视觉平衡，不遮挡角色面部和关键动作。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 成图不要添加游戏Logo、品牌标识、水印或角标。\n\n负向提示词：\n模糊，低清，噪点，脏污，灰蒙，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "kvManualBaseText": "请生成一张简体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n\n画面设计：\n- 视觉风格：暗黑国风MMO：暗黑国风画风，厚涂风格游戏CG，游戏KV广告，黑神话，暗黑风格。\n- 构图：电影级叙事性大远景，角色以背影或侧身伫立在前景引导视线，眺望远方无垠云海、巨型浮空岛或古老宏伟奇观，多层次前景自然遮挡，晨曦薄雾或黄昏落日金辉，静谧深远，充满探索未知渴望。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「強者之戰現在開始」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：标题字体的风格、材质与光效与画面整体视觉自然统一，融入画面氛围，清晰可读，不喧宾夺主。\n- 排版位置：主标题位于画面合适位置，副标题紧随主标题下方，保证视觉平衡，不遮挡角色面部和关键动作。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 成图不要添加游戏Logo、品牌标识、水印或角标。\n\n负向提示词：\n模糊，低清，噪点，脏污，灰蒙，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "kvPendingUpdate": false,
+      "w": 716,
+      "h": 841
+    },
+    {
+      "id": "game-kv-popup_464fb708df4e1_1791450184321",
+      "type": "gameKvPopupPrompt",
+      "x": 2351.0773852093207,
+      "y": 891.281431350357,
+      "w": 430,
+      "h": 760,
+      "title": "大弹窗 KV 提示词",
+      "popupPromptVersion": 5,
+      "adLanguageOptions": [
+        {
+          "value": "zh-hans",
+          "label": "简体中文",
+          "prompt": "简体中文",
+          "buttonText": "立即下载"
+        },
+        {
+          "value": "zh-hant",
+          "label": "繁体中文",
+          "prompt": "繁体中文",
+          "buttonText": "立即下載"
+        },
+        {
+          "value": "ko",
+          "label": "韩文",
+          "prompt": "韩文",
+          "buttonText": "지금 다운로드"
+        },
+        {
+          "value": "th",
+          "label": "泰文",
+          "prompt": "泰文",
+          "buttonText": "ดาวน์โหลดเลย"
+        },
+        {
+          "value": "ru",
+          "label": "俄文",
+          "prompt": "俄文",
+          "buttonText": "Скачать"
+        },
+        {
+          "value": "vi",
+          "label": "越南语",
+          "prompt": "越南语",
+          "buttonText": "Tải ngay"
+        },
+        {
+          "value": "id",
+          "label": "印尼语",
+          "prompt": "印尼语",
+          "buttonText": "Download"
+        },
+        {
+          "value": "en",
+          "label": "英文",
+          "prompt": "英文",
+          "buttonText": "Download"
+        }
+      ],
+      "adLanguage": "zh-hans",
+      "references": [
+        {
+          "id": "reference-1",
+          "value": "reference-1",
+          "imageNumber": 3,
+          "label": "主角色参考",
+          "prompt": "图片3作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致",
+          "enabled": true
+        },
+        {
+          "id": "reference-2",
+          "value": "reference-2",
+          "imageNumber": 4,
+          "label": "字体设计参考",
+          "prompt": "字体参考图片4，参考字体设计与排版质感，不复制其中的人物、背景、Logo或其他内容",
+          "enabled": true
+        },
+        {
+          "id": "reference-3",
+          "value": "reference-3",
+          "imageNumber": 5,
+          "label": "下载按钮参考",
+          "prompt": "图片5作为下载按钮样式参考，仅参考按钮的形状、边框和视觉质感",
+          "enabled": true
+        }
+      ],
+      "copyEnabled": true,
+      "copyPlacement": "right",
+      "mainTitle": "強者之戰現在開始",
+      "subtitleEnabled": true,
+      "subtitle": "集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。",
+      "downloadButtonEnabled": true,
+      "downloadButtonCustom": true,
+      "downloadButtonReference": "game-kv-popup_464fb708df4e1_1791450184321::manual::reference-3",
+      "popupPromptManual": false,
+      "inheritedReferenceOverrides": {},
+      "logoReference": "",
+      "promptText": "修改构图，制作一张简体中文的游戏banner，左主图右广告的格式：\n1、去掉原图所有的广告和游戏logo。\n参考图说明：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致\n2、为全图增加广告文案：\n\n- 位于文字区最上方是游戏logo\n\n- 主标题：\n  強者之戰現在開始\n\n- 字体参考图片2，参考字体设计与排版质感，不复制其中的人物、背景、Logo或其他内容\n\n- 副标题：\n  集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。\n  副标题为小字，在主标题下方\n\n- 三分法则（Rule of Thirds）：画面采用了经典的“左图右文”布局。\n  组内居中对齐：右侧的所有文字模块（主标题、副标题、按钮）在自身所在的隐形文本框内，均采用了居中对齐。\n\n- 位于文字区域最下方，图片3的按钮包裹文字：立即下载",
+      "text": "修改构图，制作一张简体中文的游戏banner，左主图右广告的格式：\n1、去掉原图所有的广告和游戏logo。\n参考图说明：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致\n2、为全图增加广告文案：\n\n- 位于文字区最上方是游戏logo\n\n- 主标题：\n  強者之戰現在開始\n\n- 字体参考图片2，参考字体设计与排版质感，不复制其中的人物、背景、Logo或其他内容\n\n- 副标题：\n  集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。\n  副标题为小字，在主标题下方\n\n- 三分法则（Rule of Thirds）：画面采用了经典的“左图右文”布局。\n  组内居中对齐：右侧的所有文字模块（主标题、副标题、按钮）在自身所在的隐形文本框内，均采用了居中对齐。\n\n- 位于文字区域最下方，图片3的按钮包裹文字：立即下载",
+      "blockUpstreamPrompt": false,
+      "copyOverride": false
+    },
+    {
+      "id": "irregular-popup-kv_698db9e9a75d08_1791450192734",
+      "type": "irregularPopupKvPrompt",
+      "x": 2853.4191005603525,
+      "y": 894.844745959383,
+      "w": 440,
+      "h": 860,
+      "title": "异形弹窗 KV 提示词",
+      "irregularPromptVersion": 1,
+      "adLanguageOptions": [
+        {
+          "value": "zh-hans",
+          "label": "简体中文",
+          "prompt": "简体中文",
+          "buttonText": "立即下载"
+        },
+        {
+          "value": "zh-hant",
+          "label": "繁体中文",
+          "prompt": "繁体中文",
+          "buttonText": "立即下載"
+        },
+        {
+          "value": "ko",
+          "label": "韩文",
+          "prompt": "韩文",
+          "buttonText": "지금 다운로드"
+        },
+        {
+          "value": "th",
+          "label": "泰文",
+          "prompt": "泰文",
+          "buttonText": "ดาวน์โหลดเลย"
+        },
+        {
+          "value": "ru",
+          "label": "俄文",
+          "prompt": "俄文",
+          "buttonText": "Скачать"
+        },
+        {
+          "value": "vi",
+          "label": "越南语",
+          "prompt": "越南语",
+          "buttonText": "Tải ngay"
+        },
+        {
+          "value": "id",
+          "label": "印尼语",
+          "prompt": "印尼语",
+          "buttonText": "Download"
+        },
+        {
+          "value": "en",
+          "label": "英文",
+          "prompt": "英文",
+          "buttonText": "Download"
+        }
+      ],
+      "adLanguage": "ko",
+      "references": [
+        {
+          "id": "irregular-reference-character",
+          "value": "irregular-reference-character",
+          "imageNumber": 1,
+          "label": "主体角色",
+          "prompt": "图片1作为主体角色参考，保持角色身份、脸部、发型、服装和核心特征一致",
+          "enabled": true
+        },
+        {
+          "id": "irregular-reference-button",
+          "value": "irregular-reference-button",
+          "imageNumber": 2,
+          "label": "下载按钮",
+          "prompt": "图片2作为下载按钮设计参考，仅参考按钮的形状、边框和视觉质感",
+          "enabled": true
+        },
+        {
+          "id": "irregular-reference-boundary",
+          "value": "irregular-reference-boundary",
+          "imageNumber": 3,
+          "label": "画面限制",
+          "prompt": "图片3作为画面限制参考，绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围",
+          "enabled": true
+        },
+        {
+          "id": "irregular-reference-layout",
+          "value": "irregular-reference-layout",
+          "imageNumber": 4,
+          "label": "构图参考",
+          "prompt": "图片4作为异形弹窗构图参考，参考主体容器、倾斜方向、空间层次和破框方式",
+          "enabled": true
+        }
+      ],
+      "goalPrompt": "异形弹窗主体具有醒目的广告利益点，整体达到高品质游戏宣传KV水准。",
+      "characterPrompt": "以主体角色参考图中的一个人物为主角，放大置于C位，重新排布其他人物的动作与位置，形成欢乐温馨、主体明确的镜头。",
+      "compositionPreset": "comic",
+      "visualStylePreset": "anime",
+      "customCompositionPrompt": "",
+      "customStylePrompt": "",
+      "extraVisualPrompt": "",
+      "backgroundColor": "#000000",
+      "copyEnabled": true,
+      "mainTitle": "함께라서 더 즐거운 열혈강호",
+      "subtitleEnabled": true,
+      "subtitle": "새롭게 진화된 열혈강호 MMORPG",
+      "logoEnabled": false,
+      "logoReference": "irregular-popup-kv_698db9e9a75d08_1791450192734::manual::irregular-reference-character",
+      "downloadButtonEnabled": true,
+      "downloadButtonReference": "irregular-popup-kv_698db9e9a75d08_1791450192734::manual::irregular-reference-button",
+      "cutoutEnabled": true,
+      "noCrop": true,
+      "restrictedArea": true,
+      "canvasBoundary": true,
+      "breakoutCharacter": true,
+      "breakoutWeapon": true,
+      "topBreakout": true,
+      "zDepth": true,
+      "breakoutProps": false,
+      "breakoutTitle": false,
+      "bottomBreakout": false,
+      "negativeEnabled": true,
+      "negativePrompt": "模糊，低清，噪点，颗粒感\n脏污，灰蒙，雾感，低对比\n过曝，过暗，色彩失真\n多余物体，杂乱背景\n畸形，变形，手部错误\n主体被裁切，内容超出最终画布边界，在禁止作画区域出现内容",
+      "blockUpstreamPrompt": false,
+      "irregularPromptManual": false,
+      "copyOverride": false,
+      "inheritedReferenceOverrides": {},
+      "promptText": "异形弹窗广告补充提示词：\n\n一、生成目标\n制作一张韩文的高质量异形弹窗广告，要求符合拦截大弹窗的视觉形式。\n异形弹窗主体具有醒目的广告利益点，整体达到高品质游戏宣传KV水准。\n\n二、画面背景\n背景#000000。\n纯色背景干净统一，方便后期抠图与修改。\n所有主体必须完整呈现，不得裁切。\n\n三、参考图说明\n- 图片1作为主体角色参考，保持角色身份、脸部、发型、服装和核心特征一致\n- 图片3作为画面限制参考，绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围\n- 图片4作为异形弹窗构图参考，参考主体容器、倾斜方向、空间层次和破框方式\n\n四、广告文案\n- 主标题：\n  함께라서 더 즐거운 열혈강호\n\n- 副标题：\n  새롭게 진화된 열혈강호 MMORPG\n  副标题为小字，在主标题下方。\n\n- 不添加游戏Logo。\n\n- 在画面合适位置加入图片2的下载按钮，按钮内文字：지금 다운로드。\n\n五、构图设计\n- 以主体角色参考图中的一个人物为主角，放大置于C位，重新排布其他人物的动作与位置，形成欢乐温馨、主体明确的镜头。\n- 漫画式构图与破框表现：主体容器采用粗黑边框、整体倾斜的不规则多边形，形成动感分镜。角色群像是第一视觉落点，核心角色位于视觉中心，动作张扬、辨识度高。\n- 角色身体、武器可以突破异形弹窗主体容器的边框，形成明确的“破框”设计。\n- 顶部破框：角色头部、手臂或武器可突破主体容器上边框。\n- 构建清晰的Z轴景深，区分前景破框元素、中景角色主体和背景氛围。\n\n六、视觉风格\n- 高质量日系动漫游戏KV，细腻线条，顶级二次元立绘，强光影，电影感，醒目的广告利益点。\n\n七、边界约束\n- 绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围。\n- 角色、武器、标题和道具只允许突破异形弹窗主体容器边框，绝对不能突破最终画布边界。\n- **画面禁止超出最终画布与黑色绘画区域范围。**\n- **画面禁止超出最终画布与黑色绘画区域范围。**\n- 全部画面必须保持在视觉中心内，不得超出画幅，不得裁切。\n\n八、负向提示词\n模糊，低清，噪点，颗粒感\n脏污，灰蒙，雾感，低对比\n过曝，过暗，色彩失真\n多余物体，杂乱背景\n畸形，变形，手部错误\n主体被裁切，内容超出最终画布边界，在禁止作画区域出现内容",
+      "text": "异形弹窗广告补充提示词：\n\n一、生成目标\n制作一张韩文的高质量异形弹窗广告，要求符合拦截大弹窗的视觉形式。\n异形弹窗主体具有醒目的广告利益点，整体达到高品质游戏宣传KV水准。\n\n二、画面背景\n背景#000000。\n纯色背景干净统一，方便后期抠图与修改。\n所有主体必须完整呈现，不得裁切。\n\n三、参考图说明\n- 图片1作为主体角色参考，保持角色身份、脸部、发型、服装和核心特征一致\n- 图片3作为画面限制参考，绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围\n- 图片4作为异形弹窗构图参考，参考主体容器、倾斜方向、空间层次和破框方式\n\n四、广告文案\n- 主标题：\n  함께라서 더 즐거운 열혈강호\n\n- 副标题：\n  새롭게 진화된 열혈강호 MMORPG\n  副标题为小字，在主标题下方。\n\n- 不添加游戏Logo。\n\n- 在画面合适位置加入图片2的下载按钮，按钮内文字：지금 다운로드。\n\n五、构图设计\n- 以主体角色参考图中的一个人物为主角，放大置于C位，重新排布其他人物的动作与位置，形成欢乐温馨、主体明确的镜头。\n- 漫画式构图与破框表现：主体容器采用粗黑边框、整体倾斜的不规则多边形，形成动感分镜。角色群像是第一视觉落点，核心角色位于视觉中心，动作张扬、辨识度高。\n- 角色身体、武器可以突破异形弹窗主体容器的边框，形成明确的“破框”设计。\n- 顶部破框：角色头部、手臂或武器可突破主体容器上边框。\n- 构建清晰的Z轴景深，区分前景破框元素、中景角色主体和背景氛围。\n\n六、视觉风格\n- 高质量日系动漫游戏KV，细腻线条，顶级二次元立绘，强光影，电影感，醒目的广告利益点。\n\n七、边界约束\n- 绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围。\n- 角色、武器、标题和道具只允许突破异形弹窗主体容器边框，绝对不能突破最终画布边界。\n- **画面禁止超出最终画布与黑色绘画区域范围。**\n- **画面禁止超出最终画布与黑色绘画区域范围。**\n- 全部画面必须保持在视觉中心内，不得超出画幅，不得裁切。\n\n八、负向提示词\n模糊，低清，噪点，颗粒感\n脏污，灰蒙，雾感，低对比\n过曝，过暗，色彩失真\n多余物体，杂乱背景\n畸形，变形，手部错误\n主体被裁切，内容超出最终画布边界，在禁止作画区域出现内容"
     }
   ],
   "connections": [
@@ -379,6 +747,14 @@
       "from": "prompt_18b0f6d9b72f2_1791279017804",
       "to": "mgen_372145572b8378_1791279017817",
       "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_0c32e23bd02b8_1791445644490",
+      "kind": "promptFlow",
+      "from": "game-kv_0f893d8199c948_1791445640593",
+      "to": "prompt_ccbf14dbbc2d6_1791445644473",
+      "fromPort": "promptOut",
       "toPort": "in"
     }
   ],

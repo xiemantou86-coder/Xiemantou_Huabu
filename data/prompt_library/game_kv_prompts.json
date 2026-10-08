@@ -28,22 +28,8 @@
       "custom": true
     }
   ],
-  "titleEffect": [
-    {
-      "value": "custom-titleEffect-mu0yp534-mlw8l",
-      "label": "符合画面风格",
-      "prompt": ".",
-      "custom": true
-    }
-  ],
-  "copyPlacement": [
-    {
-      "value": "custom-copyPlacement-mu0yq5li-vy710",
-      "label": "随机",
-      "prompt": "- 在画面合适位置",
-      "custom": true
-    }
-  ],
+  "titleEffect": [],
+  "copyPlacement": [],
   "references": [],
   "irregularComposition": [
     {

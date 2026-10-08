@@ -3531,12 +3531,7 @@ const IRREGULAR_POPUP_BACKGROUND_PRESETS = Object.freeze([
     {value:'#ff0000', label:'红', color:'#ff0000'},
     {value:'#0000ff', label:'蓝', color:'#0000ff'}
 ]);
-const IRREGULAR_POPUP_NEGATIVE_DEFAULT = `模糊，低清，噪点，颗粒感
-脏污，灰蒙，雾感，低对比
-过曝，过暗，色彩失真
-多余物体，杂乱背景
-畸形，变形，手部错误
-主体被裁切，内容超出最终画布边界，在禁止作画区域出现内容`;
+const IRREGULAR_POPUP_NEGATIVE_DEFAULT = `模糊，低清，噪点，脏污，灰蒙，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字，主体被裁切，内容超出最终画布边界，在禁止作画区域出现内容`;
 function configuredIrregularPopupReferences(node){
     const raw = Array.isArray(node?.references) ? node.references : IRREGULAR_POPUP_REFERENCE_DEFAULTS;
     return raw.map((item, index) => {
