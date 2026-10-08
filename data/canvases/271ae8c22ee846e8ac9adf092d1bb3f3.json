@@ -8,7 +8,7 @@
   "pinned": false,
   "project": "default",
   "created_at": 1790776890867,
-  "updated_at": 1791429247233,
+  "updated_at": 1791429940332,
   "nodes": [
     {
       "id": "img_1bd0474012244_1791275122369",
@@ -25,8 +25,8 @@
       "y": 273,
       "apiProvider": "apimart",
       "model": "grok-imagine-image-2.0",
-      "ratio": "1:1",
-      "resolution": "1k",
+      "ratio": "4:3",
+      "resolution": "2k",
       "customRatio": "",
       "customSize": "",
       "customRatioWidth": "",
@@ -38,17 +38,17 @@
         "prompt_53fef5bcd01b3_1791275134766"
       ],
       "masterEnabled": false,
-      "_apiResolutionUserSet": false,
+      "_apiResolutionUserSet": true,
       "quality": "medium",
       "generatedOutputs": [
-        "/assets/output/online_f51f11f03e.jpg"
+        "/assets/output/online_5cd2438f2b.png"
       ]
     },
     {
       "id": "out_7f469d9512e9c8_1791275129675",
       "type": "output",
-      "x": 1099.4420974767816,
-      "y": 276.8421139146873,
+      "x": 1113.714375172447,
+      "y": 281.9393559488535,
       "images": [
         {
           "url": "/assets/output/online_0788d52823.png",
@@ -172,9 +172,95 @@
               "seed": ""
             }
           }
+        },
+        {
+          "url": "/assets/output/online_0903dadee5.jpg",
+          "viewed": false,
+          "runMs": 63403,
+          "run": {
+            "nodeType": "masterGenerator",
+            "node": {
+              "id": "mgen_7e9166c1df716_1791275126521",
+              "type": "masterGenerator",
+              "x": 687,
+              "y": 273,
+              "apiProvider": "apimart",
+              "model": "grok-imagine-image-2.0",
+              "ratio": "19.5:9",
+              "resolution": "1k",
+              "customRatio": "",
+              "customSize": "",
+              "customRatioWidth": "",
+              "customRatioHeight": "",
+              "customWidth": "",
+              "customHeight": "",
+              "transparentBackground": false,
+              "masterEnabled": false,
+              "_apiResolutionUserSet": false,
+              "quality": "medium",
+              "generatedOutputs": [
+                "/assets/output/online_f51f11f03e.jpg"
+              ]
+            },
+            "prompt": "生成一张可爱的小猫",
+            "refs": [],
+            "request": {
+              "task_id": "task_01M4CRGFVPDW088T452VDCMAS8",
+              "request_id": "",
+              "provider_id": "apimart",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        },
+        {
+          "url": "/assets/output/online_5cd2438f2b.png",
+          "viewed": false,
+          "runMs": 54227,
+          "run": {
+            "nodeType": "masterGenerator",
+            "node": {
+              "id": "mgen_7e9166c1df716_1791275126521",
+              "type": "masterGenerator",
+              "x": 687,
+              "y": 273,
+              "apiProvider": "apimart",
+              "model": "grok-imagine-image-2.0",
+              "ratio": "4:3",
+              "resolution": "2k",
+              "customRatio": "",
+              "customSize": "",
+              "customRatioWidth": "",
+              "customRatioHeight": "",
+              "customWidth": "",
+              "customHeight": "",
+              "transparentBackground": false,
+              "masterEnabled": false,
+              "_apiResolutionUserSet": true,
+              "quality": "medium",
+              "generatedOutputs": [
+                "/assets/output/online_0903dadee5.jpg"
+              ]
+            },
+            "prompt": "生成一张可爱的小猫",
+            "refs": [],
+            "request": {
+              "task_id": "task_01M4CRNGSZP59TMEF98QV99H2D",
+              "request_id": "",
+              "provider_id": "apimart",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
         }
       ],
-      "_pending": []
+      "_pending": [],
+      "w": 510,
+      "h": 451
     },
     {
       "id": "prompt_53fef5bcd01b3_1791275134766",
@@ -332,6 +418,54 @@
   "board_x": 138.0,
   "board_y": 144.0,
   "logs": [
+    {
+      "id": "log_59bbca4016f288_1791429939818",
+      "createdAt": 1791429939818,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M4CRNGSZP59TMEF98QV99H2D",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "生成一张可爱的小猫",
+      "outputs": [
+        "/assets/output/online_5cd2438f2b.png"
+      ],
+      "refs": [],
+      "runMs": 54227,
+      "error": ""
+    },
+    {
+      "id": "log_593439a01a1668_1791429784060",
+      "createdAt": 1791429784060,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M4CRGFVPDW088T452VDCMAS8",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "生成一张可爱的小猫",
+      "outputs": [
+        "/assets/output/online_0903dadee5.jpg"
+      ],
+      "refs": [],
+      "runMs": 63403,
+      "error": ""
+    },
     {
       "id": "log_c556975a58fe48_1791428560053",
       "createdAt": 1791428560053,

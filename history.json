@@ -2,6 +2,76 @@
     {
         "prompt": "生成一张可爱的小猫",
         "images": [
+            "/assets/output/online_5cd2438f2b.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_5cd2438f2b.png",
+                "kind": "image",
+                "name": "online_5cd2438f2b.png",
+                "natural_w": 2368,
+                "natural_h": 1776,
+                "width": 2368,
+                "height": 1776
+            }
+        ],
+        "timestamp": 1791429939.6516237,
+        "type": "online",
+        "model": "grok-imagine-image-2.0",
+        "provider_id": "apimart",
+        "provider_name": "APIMART",
+        "task_id": "task_01M4CRNGSZP59TMEF98QV99H2D",
+        "request_id": null,
+        "params": {
+            "provider_id": "apimart",
+            "model": "grok-imagine-image-2.0",
+            "size": "2048x2048",
+            "requested_size": "2048x2048",
+            "quality": "medium",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": []
+        },
+        "raw_usage": null
+    },
+    {
+        "prompt": "生成一张可爱的小猫",
+        "images": [
+            "/assets/output/online_0903dadee5.jpg"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_0903dadee5.jpg",
+                "kind": "image",
+                "name": "online_0903dadee5.jpg",
+                "natural_w": 1248,
+                "natural_h": 576,
+                "width": 1248,
+                "height": 576
+            }
+        ],
+        "timestamp": 1791429783.7343261,
+        "type": "online",
+        "model": "grok-imagine-image-2.0",
+        "provider_id": "apimart",
+        "provider_name": "APIMART",
+        "task_id": "task_01M4CRGFVPDW088T452VDCMAS8",
+        "request_id": null,
+        "params": {
+            "provider_id": "apimart",
+            "model": "grok-imagine-image-2.0",
+            "size": "1024x1024",
+            "requested_size": "1024x1024",
+            "quality": "medium",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": []
+        },
+        "raw_usage": null
+    },
+    {
+        "prompt": "生成一张可爱的小猫",
+        "images": [
             "/assets/output/online_f51f11f03e.jpg"
         ],
         "image_items": [
