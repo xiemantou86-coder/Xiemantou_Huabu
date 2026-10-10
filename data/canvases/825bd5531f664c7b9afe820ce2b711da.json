@@ -21,10 +21,10 @@
       "type": "generator",
       "x": 510,
       "y": 120,
-      "apiProvider": "",
+      "apiProvider": "apimart",
       "model": "",
       "ratio": "square",
-      "resolution": "1k",
+      "resolution": "4k",
       "customRatio": "",
       "customSize": "",
       "transparentBackground": false,
@@ -48,18 +48,74 @@
       ],
       "w": 420,
       "h": 280
+    },
+    {
+      "id": "prompt_9fec161aeb8d_1791478725122",
+      "type": "prompt",
+      "x": 95.08982851180401,
+      "y": 816.5137557931669,
+      "text": "生成一只可爱的小猫"
+    },
+    {
+      "id": "gen_9ceec8555ac008_1791478769599",
+      "type": "generator",
+      "x": 520.6991033803887,
+      "y": 811.8622883082644,
+      "apiProvider": "apimart",
+      "model": "gemini-3.1-flash-image-preview",
+      "ratio": "square",
+      "resolution": "1k",
+      "customRatio": "",
+      "customSize": "",
+      "customRatioWidth": "",
+      "customRatioHeight": "",
+      "customWidth": "",
+      "customHeight": "",
+      "transparentBackground": false,
+      "inputs": [
+        "prompt_9fec161aeb8d_1791478725122"
+      ]
+    },
+    {
+      "id": "out_23678d4c48eec_1791478806736",
+      "type": "output",
+      "x": 1095.1553377658552,
+      "y": 911.8688392336694,
+      "images": []
     }
   ],
   "connections": [
     {
       "id": "tutorial_link_prompt",
       "from": "tutorial_prompt",
-      "to": "tutorial_generator"
+      "to": "tutorial_generator",
+      "kind": "dataFlow",
+      "fromPort": "out",
+      "toPort": "in"
     },
     {
       "id": "tutorial_link_output",
       "from": "tutorial_generator",
-      "to": "tutorial_output"
+      "to": "tutorial_output",
+      "kind": "dataFlow",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_2915079d4d8bb8_1791478825456",
+      "kind": "dataFlow",
+      "from": "prompt_9fec161aeb8d_1791478725122",
+      "to": "gen_9ceec8555ac008_1791478769599",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_20d8d3de01dd68_1791478842326",
+      "kind": "dataFlow",
+      "from": "gen_9ceec8555ac008_1791478769599",
+      "to": "out_23678d4c48eec_1791478806736",
+      "fromPort": "out",
+      "toPort": "in"
     }
   ],
   "viewport": {
@@ -72,7 +128,7 @@
   "id": "825bd5531f664c7b9afe820ce2b711da",
   "tutorial_template": "kitten-v1",
   "created_at": 1790594019199,
-  "updated_at": 1791426587311,
+  "updated_at": 1791517865373,
   "board_x": 414.0,
   "board_y": 150.0
 }

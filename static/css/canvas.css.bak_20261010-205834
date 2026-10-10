@@ -395,7 +395,7 @@ body.theme-dark .node-retry-msg { color:#fca5a5; }
 .resize-handle::before { content:""; width:8px; height:8px; border-right:2px solid currentColor; border-bottom:2px solid currentColor; }
 .label-node { min-width:76px; min-height:42px; border:2px solid #b8860b; border-radius:12px; background:#fae887; color:#3c2b08; box-shadow:0 10px 24px rgba(126,95,0,.18); overflow:visible; }
 .label-node::after { content:""; position:absolute; inset:-5px; border-radius:16px; pointer-events:none; }
-.node.sized.label-node { display:flex; align-items:center; justify-content:center; }
+.node.sized.label-node { display:block; }
 .label-node::before { background:#fae887; border-radius:10px; }
 .label-node .label-textarea { display:block; width:100%; min-height:28px; height:34px; padding:7px 24px 7px 10px; border:0; border-radius:10px; outline:none; resize:none; overflow:hidden; white-space:pre-wrap; overflow-wrap:anywhere; word-break:break-word; background:transparent; color:inherit; font-family:inherit; font-weight:800; line-height:1.25; text-align:center; vertical-align:top; user-select:text; cursor:text; box-sizing:border-box; }
 .label-node .label-textarea::placeholder { color:rgba(60,43,8,.55); }

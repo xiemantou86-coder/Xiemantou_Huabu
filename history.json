@@ -1,5 +1,425 @@
 [
     {
+        "prompt": "把图片中的韩文 한글文案，翻译成简体中文，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
+        "images": [
+            "/assets/output/online_883964e2e0.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_883964e2e0.png",
+                "kind": "image",
+                "name": "online_883964e2e0.png",
+                "natural_w": 1672,
+                "natural_h": 941,
+                "width": 1672,
+                "height": 941
+            }
+        ],
+        "timestamp": 1791631828.4490314,
+        "type": "online",
+        "model": "gpt-image-2",
+        "provider_id": "custom-api",
+        "provider_name": "畅指",
+        "task_id": null,
+        "request_id": null,
+        "params": {
+            "provider_id": "custom-api",
+            "model": "gpt-image-2",
+            "size": "1280x720",
+            "requested_size": "1280x720",
+            "quality": "auto",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_dfb68fe3e6d5.png",
+                    "name": "canvas-output-1789789113058.png",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": {
+            "input_tokens": 2519,
+            "output_tokens": 1640,
+            "total_tokens": 4159,
+            "input_tokens_details": {
+                "text_tokens": 76,
+                "image_tokens": 2443,
+                "cached_tokens": 0
+            },
+            "output_tokens_details": {
+                "text_tokens": 0,
+                "image_tokens": 1640,
+                "reasoning_tokens": 0
+            }
+        }
+    },
+    {
+        "prompt": "把图片中的韩文 한글文案，翻译成繁体中文，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
+        "images": [
+            "/assets/output/online_06e3193354.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_06e3193354.png",
+                "kind": "image",
+                "name": "online_06e3193354.png",
+                "natural_w": 1672,
+                "natural_h": 941,
+                "width": 1672,
+                "height": 941
+            }
+        ],
+        "timestamp": 1791631828.383194,
+        "type": "online",
+        "model": "gpt-image-2",
+        "provider_id": "custom-api",
+        "provider_name": "畅指",
+        "task_id": null,
+        "request_id": null,
+        "params": {
+            "provider_id": "custom-api",
+            "model": "gpt-image-2",
+            "size": "1280x720",
+            "requested_size": "1280x720",
+            "quality": "auto",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_dfb68fe3e6d5.png",
+                    "name": "canvas-output-1789789113058.png",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": {
+            "input_tokens": 2519,
+            "output_tokens": 1640,
+            "total_tokens": 4159,
+            "input_tokens_details": {
+                "text_tokens": 76,
+                "image_tokens": 2443,
+                "cached_tokens": 0
+            },
+            "output_tokens_details": {
+                "text_tokens": 0,
+                "image_tokens": 1640,
+                "reasoning_tokens": 0
+            }
+        }
+    },
+    {
+        "prompt": "把图片中的韩文 한글文案，翻译成泰文 ไทย，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：9:16，请严格按此比例适配构图。",
+        "images": [
+            "/assets/output/online_5e0296eb13.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_5e0296eb13.png",
+                "kind": "image",
+                "name": "online_5e0296eb13.png",
+                "natural_w": 940,
+                "natural_h": 1672,
+                "width": 940,
+                "height": 1672
+            }
+        ],
+        "timestamp": 1791631809.6398587,
+        "type": "online",
+        "model": "gpt-image-2",
+        "provider_id": "custom-api",
+        "provider_name": "畅指",
+        "task_id": null,
+        "request_id": null,
+        "params": {
+            "provider_id": "custom-api",
+            "model": "gpt-image-2",
+            "size": "720x1280",
+            "requested_size": "720x1280",
+            "quality": "auto",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_dfb68fe3e6d5.png",
+                    "name": "canvas-output-1789789113058.png",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": {
+            "input_tokens": 2519,
+            "output_tokens": 1640,
+            "total_tokens": 4159,
+            "input_tokens_details": {
+                "text_tokens": 76,
+                "image_tokens": 2443,
+                "cached_tokens": 0
+            },
+            "output_tokens_details": {
+                "text_tokens": 0,
+                "image_tokens": 1640,
+                "reasoning_tokens": 0
+            }
+        }
+    },
+    {
+        "prompt": "把图片中的韩文 한글文案，翻译成简体中文，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：9:16，请严格按此比例适配构图。",
+        "images": [
+            "/assets/output/online_5eb6c31199.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_5eb6c31199.png",
+                "kind": "image",
+                "name": "online_5eb6c31199.png",
+                "natural_w": 941,
+                "natural_h": 1672,
+                "width": 941,
+                "height": 1672
+            }
+        ],
+        "timestamp": 1791631780.6153836,
+        "type": "online",
+        "model": "gpt-image-2",
+        "provider_id": "custom-api",
+        "provider_name": "畅指",
+        "task_id": null,
+        "request_id": null,
+        "params": {
+            "provider_id": "custom-api",
+            "model": "gpt-image-2",
+            "size": "720x1280",
+            "requested_size": "720x1280",
+            "quality": "auto",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_dfb68fe3e6d5.png",
+                    "name": "canvas-output-1789789113058.png",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": {
+            "input_tokens": 2519,
+            "output_tokens": 1640,
+            "total_tokens": 4159,
+            "input_tokens_details": {
+                "text_tokens": 76,
+                "image_tokens": 2443,
+                "cached_tokens": 0
+            },
+            "output_tokens_details": {
+                "text_tokens": 0,
+                "image_tokens": 1640,
+                "reasoning_tokens": 0
+            }
+        }
+    },
+    {
+        "prompt": "把图片中的韩文 한글文案，翻译成繁体中文，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：9:16，请严格按此比例适配构图。",
+        "images": [
+            "/assets/output/online_b5a9dce4d4.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_b5a9dce4d4.png",
+                "kind": "image",
+                "name": "online_b5a9dce4d4.png",
+                "natural_w": 940,
+                "natural_h": 1672,
+                "width": 940,
+                "height": 1672
+            }
+        ],
+        "timestamp": 1791631780.1075282,
+        "type": "online",
+        "model": "gpt-image-2",
+        "provider_id": "custom-api",
+        "provider_name": "畅指",
+        "task_id": null,
+        "request_id": null,
+        "params": {
+            "provider_id": "custom-api",
+            "model": "gpt-image-2",
+            "size": "720x1280",
+            "requested_size": "720x1280",
+            "quality": "auto",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_dfb68fe3e6d5.png",
+                    "name": "canvas-output-1789789113058.png",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": {
+            "input_tokens": 2519,
+            "output_tokens": 1640,
+            "total_tokens": 4159,
+            "input_tokens_details": {
+                "text_tokens": 76,
+                "image_tokens": 2443,
+                "cached_tokens": 0
+            },
+            "output_tokens_details": {
+                "text_tokens": 0,
+                "image_tokens": 1640,
+                "reasoning_tokens": 0
+            }
+        }
+    },
+    {
+        "prompt": "把图片中的韩文 한글文案，翻译成简体中文，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
+        "images": [
+            "/assets/output/online_3c0203e80d.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_3c0203e80d.png",
+                "kind": "image",
+                "name": "online_3c0203e80d.png",
+                "natural_w": 1672,
+                "natural_h": 941,
+                "width": 1672,
+                "height": 941
+            }
+        ],
+        "timestamp": 1791631777.7721307,
+        "type": "online",
+        "model": "gpt-image-2",
+        "provider_id": "custom-api",
+        "provider_name": "畅指",
+        "task_id": null,
+        "request_id": null,
+        "params": {
+            "provider_id": "custom-api",
+            "model": "gpt-image-2",
+            "size": "1280x720",
+            "requested_size": "1280x720",
+            "quality": "auto",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_dfb68fe3e6d5.png",
+                    "name": "canvas-output-1789789113058.png",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": {
+            "input_tokens": 2519,
+            "output_tokens": 1640,
+            "total_tokens": 4159,
+            "input_tokens_details": {
+                "text_tokens": 76,
+                "image_tokens": 2443,
+                "cached_tokens": 0
+            },
+            "output_tokens_details": {
+                "text_tokens": 0,
+                "image_tokens": 1640,
+                "reasoning_tokens": 0
+            }
+        }
+    },
+    {
+        "prompt": "把图片中的韩文 한글文案，翻译成泰文 ไทย，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
+        "images": [
+            "/assets/output/online_12c56d90a9.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_12c56d90a9.png",
+                "kind": "image",
+                "name": "online_12c56d90a9.png",
+                "natural_w": 1672,
+                "natural_h": 941,
+                "width": 1672,
+                "height": 941
+            }
+        ],
+        "timestamp": 1791631777.0240989,
+        "type": "online",
+        "model": "gpt-image-2",
+        "provider_id": "custom-api",
+        "provider_name": "畅指",
+        "task_id": null,
+        "request_id": null,
+        "params": {
+            "provider_id": "custom-api",
+            "model": "gpt-image-2",
+            "size": "1280x720",
+            "requested_size": "1280x720",
+            "quality": "auto",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_dfb68fe3e6d5.png",
+                    "name": "canvas-output-1789789113058.png",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": {
+            "input_tokens": 2519,
+            "output_tokens": 1640,
+            "total_tokens": 4159,
+            "input_tokens_details": {
+                "text_tokens": 76,
+                "image_tokens": 2443,
+                "cached_tokens": 0
+            },
+            "output_tokens_details": {
+                "text_tokens": 0,
+                "image_tokens": 1640,
+                "reasoning_tokens": 0
+            }
+        }
+    },
+    {
         "prompt": "高清化图片1\n\nlogo内字体为图片2的[畅]的样子，#38404b色圆角icon，中间镂空，透明底图\n\nsvg效果，其他地方透明效果\n干净边缘，矢量图效果\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
         "images": [
             "/assets/output/online_ae8b915f44.png"

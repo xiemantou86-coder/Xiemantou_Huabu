@@ -2950,7 +2950,7 @@ function syncTranslationOutputNodes(source, {confirmRemoval=false, layout=true}=
         let output = byCombination.get(key);
         if(!output){
             const point = translationOutputPosition(source, translationOutputColumn(source, {translationImageId:imageId, translationLanguageId:language.id, translationMode:mode}), Math.max(1, normalizeTranslationImages(source).length * Math.max(1, translationModeLanguageIds(source, mode).length)));
-            output = {id:uid('translate-out'), type:'translationOutput', x:point.x, y:point.y, w:383, translationSourceId:source.id, translationMode:mode, translationImageId:imageId, translationImageName:image.name, translationSizeId:size.id, translationLanguageId:language.id, translationLanguageLabel:language.label, translationLanguagePrompt:language.prompt, translationOrder:index, images:[], _pending:[], blocked:false};
+            output = {id:uid('translate-out'), type:'translationOutput', x:point.x, y:point.y, w:360, translationSourceId:source.id, translationMode:mode, translationImageId:imageId, translationImageName:image.name, translationSizeId:size.id, translationLanguageId:language.id, translationLanguageLabel:language.label, translationLanguagePrompt:language.prompt, translationOrder:index, images:[], _pending:[], blocked:false};
             nodes.push(output);
             translationNewOutputs.add(output);
         }
@@ -3017,8 +3017,7 @@ async function runTranslationOutputNode(outputId, options={}){
     const output = nodes.find(item => item.id === outputId && item.type === 'translationOutput');
     const source = translationSourceNode(output);
     if(!output || !source || output.blocked) return;
-    if(!nodes.includes(output)) return;
-    if(!options.fromBatch) translationQueuedOutputs.delete(outputId);
+    if(!nodes.includes(output) || (translationQueuedOutputs.has(outputId) && !options.fromBatch)) return;
     if(!normalizeTranslationImages(source).length){ if(!options.silent) alert('请先在改图/翻译节点放入原图'); return; }
     if(!source.apiProvider || !source.model){ if(!options.silent) alert('请先选择 API 平台和模型'); return; }
     if(output.running || (output._pending || []).some(pending => !pending.failed)) return;
@@ -3032,8 +3031,6 @@ async function runTranslationOutputNode(outputId, options={}){
     output.runStatus = 'running';
     output.runError = '';
     refreshNodes([output.id]);
-    // API 支持并发：2s 后即可再次点击，任务仍由 pending 卡片继续追踪
-    setTimeout(() => { output.running = false; refreshNodes([output.id]); }, 2000);
     const startedAt = nowMs();
     try {
         const payload = {prompt, provider_id:resolveImageProviderId(settings.apiProvider), model:resolveImageModel(settings.model),
@@ -3080,10 +3077,9 @@ async function runAllTranslationOutputs(sourceId){
     refreshNodes([sourceId, ...jobs.map(job => job.id)]);
     let next = 0;
     try {
-        await Promise.all(Array.from({length:Math.min(8, jobs.length)}, async () => {
+        await Promise.all(Array.from({length:Math.min(5, jobs.length)}, async () => {
             while(next < jobs.length){
                 const job = jobs[next++];
-                if(!translationQueuedOutputs.has(job.id)) continue;
                 translationQueuedOutputs.delete(job.id);
                 await runTranslationOutputNode(job.id, {silent:true, fromBatch:true, settings:job.settings, prompt:job.prompt});
             }
@@ -3141,7 +3137,7 @@ function renderTranslationInputBody(node){
 function truncateTranslationTitle(text, max=10){ const chars = Array.from(String(text == null ? '' : text)); return chars.length > max ? chars.slice(0, max).join('') + '...' : chars.join(''); }
 function renderTranslationOutputBody(node){
     const pendingHtml = (node._pending || []).map(item => renderPendingOutput(item)).join('');
-    const running = Boolean(node.running);
+    const running = node.running || (node._pending || []).some(pending => !pending.failed);
     const queued = translationQueuedOutputs.has(node.id);
     const source = translationSourceNode(node);
     const size = source && translationOutputSize(source, node);
@@ -3153,7 +3149,7 @@ function renderTranslationOutputBody(node){
         : (node.translationImageName && normalizeTranslationImages(source || {}).length > 1
             ? `${node.translationImageName} · ${node.translationLanguageLabel || node.translationLanguageId}`
             : (node.translationLanguageLabel || node.translationLanguageId));
-    return `<div class="translation-output-body" style="--translation-output-ratio:${escapeAttr(ratio)}"><div class="translation-output-language"><span>${escapeHtml(truncateTranslationTitle(outputTitle))}</span></div>${node.blocked ? '<div class="translation-output-state">已屏蔽</div>' : ''}<div class="translation-output-prompt">${escapeHtml(translationOutputPrompt(node))}</div>${!source ? '<div class="translation-error">未连接翻译上传节点</div>' : ''}${node.runError ? `<div class="translation-error">${escapeHtml(node.runError)}</div>` : ''}<div class="translation-output-images">${renderOutputGrid(node, pendingHtml)}</div><button type="button" class="gen-btn translation-rerun-btn" data-translation-rerun ${!source || node.blocked || running ? 'disabled' : ''}><i data-lucide="refresh-cw" class="w-4 h-4"></i>${queued ? '等待生成' : running ? '生成中' : '重新生成'}</button></div>`;
+    return `<div class="translation-output-body" style="--translation-output-ratio:${escapeAttr(ratio)}"><div class="translation-output-language"><span>${escapeHtml(truncateTranslationTitle(outputTitle))}</span></div>${node.blocked ? '<div class="translation-output-state">已屏蔽</div>' : ''}<div class="translation-output-prompt">${escapeHtml(translationOutputPrompt(node))}</div>${!source ? '<div class="translation-error">未连接翻译上传节点</div>' : ''}${node.runError ? `<div class="translation-error">${escapeHtml(node.runError)}</div>` : ''}<div class="translation-output-images">${renderOutputGrid(node, pendingHtml)}</div><button type="button" class="gen-btn translation-rerun-btn" data-translation-rerun ${!source || node.blocked || running || queued ? 'disabled' : ''}><i data-lucide="refresh-cw" class="w-4 h-4"></i>${queued ? '等待生成' : running ? '生成中' : '重新生成'}</button></div>`;
 }
 function bindTranslationInputBody(el, node){
     const uploadDroppedImages = files => {
@@ -4656,17 +4652,13 @@ async function runMasterGeneratorNode(nodeId, opts={}){
     visited.add(nodeId);
     const downstream = canvasDataConnections().filter(c => c.from === nodeId).map(c => nodes.find(n => n.id === c.to)).filter(n => n?.type === 'masterGenerator' && !n.detachMasterUpstream);
     const selfRun = runGenerator(nodeId, {...opts, cascade:true, _masterSync:true});
-    const runDownstream = next => {
+    const downstreamRuns = downstream.map(next => {
         if(!next) return Promise.resolve();
         next.masterControlled = true;
         next.masterEnabled = false;
         return runMasterGeneratorNode(next.id, {...opts, cascade:true, _masterVisited:visited, forceRun:true});
-    };
-    // 串联模式：开启了串联开关的下游主控，等本节点出图完成后再启动；其余下游照旧并行
-    const serialDownstreams = downstream.filter(next => next?.masterSerialChain);
-    const parallelDownstreams = downstream.filter(next => !next?.masterSerialChain);
-    await Promise.all([selfRun, ...parallelDownstreams.map(runDownstream)]);
-    await Promise.all(serialDownstreams.map(runDownstream));
+    });
+    await Promise.all([selfRun, ...downstreamRuns]);
 }
 function addMidjourneyNode(point){
     const p = point || defaultPoint(140, 0);
@@ -8273,13 +8265,7 @@ function compileGameKvPrompt(node){
     const language = kvEffectiveLanguage(node);
     const references = kvEffectiveReferences(node, configuredKvReferences(node));
     const galleryTakeover = galleryTakeoverForKv(node);
-    const effective = galleryTakeover ? {
-        ...node,
-        showLogo: galleryTakeover.logo ? true : node.showLogo,
-        downloadButtonEnabled: galleryTakeover.downloadButton ? true : node.downloadButtonEnabled,
-        downloadButtonCustom: galleryTakeover.downloadButton ? true : node.downloadButtonCustom
-    } : node;
-    const compiled = window.GameKvPrompt?.compile?.({...effective, references, galleryTakeover, adLanguage:language.value, adLanguageOptions:language.options}, gameKvPromptCatalog());
+    const compiled = window.GameKvPrompt?.compile?.({...node, references, galleryTakeover, adLanguage:language.value, adLanguageOptions:language.options}, gameKvPromptCatalog());
     return typeof compiled === 'string' ? compiled : String(node?.text || '');
 }
 function promptSyncSourceForPrompt(promptId){
@@ -8682,54 +8668,10 @@ function updateGameKvConditionalUi(root){
     const negative = negativeField?.querySelector('textarea');
     if(subtitle) subtitle.disabled = !copyEnabled || !subtitleEnabled;
     if(negative) negative.disabled = !negativeEnabled;
-    const kvTakeover = root.__kvTakeover || null;
-    if(kvTakeover){
-        const lock = field => { const c = root.querySelector(`[data-kv-field="${field}"]`); if(c) c.disabled = true; };
-        if(kvTakeover.logo){ lock('showLogo'); lock('logoReference'); }
-        if(kvTakeover.downloadButton){ lock('downloadButtonEnabled'); lock('downloadButtonCustom'); lock('downloadButtonReference'); }
-        if(kvTakeover.copyStyle) lock('titleEffect');
-    }
-}
-function applyGalleryTakeoverLock(wrap, node){
-    const takeover = (typeof galleryTakeoverForKv === 'function') ? galleryTakeoverForKv(node) : null;
-    wrap.__kvTakeover = takeover;
-    if(!takeover) return;
-    const mark = (field, note) => {
-        const control = wrap.querySelector(`[data-kv-field="${field}"]`);
-        if(!control) return;
-        control.disabled = true;
-        const holder = control.closest('label') || control.parentElement;
-        if(!holder) return;
-        holder.classList.add('is-takeover');
-        holder.title = note;
-        if(!holder.querySelector('.kv-takeover-badge')){
-            const badge = document.createElement('small');
-            badge.className = 'kv-takeover-badge';
-            badge.textContent = '由图库控制';
-            const span = holder.querySelector('span');
-            if(span) span.appendChild(badge); else holder.appendChild(badge);
-        }
-    };
-    if(takeover.logo){
-        const note = `由图库「游戏Logo」接管（图片${takeover.logo.imageNumber}）`;
-        mark('showLogo', note); mark('logoReference', note);
-    }
-    if(takeover.downloadButton){
-        const note = `由图库「下载按钮」接管（图片${takeover.downloadButton.imageNumber}）`;
-        mark('downloadButtonEnabled', note); mark('downloadButtonCustom', note); mark('downloadButtonReference', note);
-    }
-    if(takeover.copyStyle){
-        mark('titleEffect', `由图库「文案样式」接管（图片${takeover.copyStyle.imageNumber}）`);
-    }
 }
 function renderGameKvPromptBody(node){
     const api = window.GameKvPrompt || {};
     const state = normalizedGameKvPrompt(node);
-    const galleryTakeover = (typeof galleryTakeoverForKv === 'function') ? galleryTakeoverForKv(node) : null;
-    if(galleryTakeover){
-        if(galleryTakeover.logo) state.showLogo = true;
-        if(galleryTakeover.downloadButton){ state.downloadButtonEnabled = true; state.downloadButtonCustom = true; }
-    }
     const outputPrompt = compileGameKvPrompt(node);
     node.text = outputPrompt;
     const checked = value => value ? 'checked' : '';
@@ -8832,7 +8774,6 @@ function renderGameKvPromptBody(node){
         if(control.type === 'checkbox' || control.tagName === 'SELECT') control.onchange = updateOutput;
         else control.oninput = updateOutput;
     });
-    applyGalleryTakeoverLock(wrap, node);
     wrap.querySelectorAll('textarea').forEach(bindScrollableText);
     let activeReference = '';
     const referenceEditor = wrap.querySelector('[data-kv-reference-editor]');
@@ -9479,7 +9420,7 @@ function renderContainerGroupNode(node){
     const size = defaultNodeSize(node.type);
     const color = sanitizeContainerGroupColor(node.color);
     node.color = color;
-    el.className = `node containerGroup-node sized ${selected.has(node.id) ? 'selected' : ''} ${node.locked ? 'locked' : ''}`;
+    el.className = `node containerGroup-node sized ${selected.has(node.id) ? 'selected' : ''}`;
     el.style.left = `${node.x}px`;
     el.style.top = `${node.y}px`;
     el.style.width = `${node.w || size.w}px`;
@@ -9488,7 +9429,7 @@ function renderContainerGroupNode(node){
     el.dataset.id = node.id;
     const count = containerGroupMembers(node).length;
     const colorButtons = CONTAINER_GROUP_COLORS.map(item => `<button class="container-group-color ${item === color ? 'active' : ''}" type="button" data-container-color="${escapeAttr(item)}" style="--swatch:${escapeAttr(item)}" title="${escapeAttr(item)}"></button>`).join('');
-    el.innerHTML = `<div class="node-head"><span class="node-title container-group-title" title="双击改名">${escapeHtml(node.title || '容器分组')}</span><div style="display:flex;align-items:center;gap:8px"><button class="container-group-lock ${node.locked ? 'active' : ''}" type="button" title="${node.locked ? '已锁定：成员固定，不被其他容器吸走' : '点击锁定：成员不再被其他容器吸走'}"><i data-lucide="${node.locked ? 'lock' : 'unlock'}" class="w-3.5 h-3.5"></i></button><div class="container-group-colors">${colorButtons}</div><span class="container-group-count">${count}</span><button class="container-group-close text-gray-300 hover:text-red-500" type="button" title="解散容器"><i data-lucide="x" class="w-4 h-4"></i></button></div></div><div class="node-body"><div class="container-group-frame"></div></div><div class="resize-handle"></div>`;
+    el.innerHTML = `<div class="node-head"><span class="node-title container-group-title" title="双击改名">${escapeHtml(node.title || '容器分组')}</span><div style="display:flex;align-items:center;gap:8px"><div class="container-group-colors">${colorButtons}</div><span class="container-group-count">${count}</span><button class="container-group-close text-gray-300 hover:text-red-500" type="button" title="解散容器"><i data-lucide="x" class="w-4 h-4"></i></button></div></div><div class="node-body"><div class="container-group-frame"></div></div><div class="resize-handle"></div>`;
     el.onclick = e => {
         e.stopPropagation();
         if(isNodeControl(e.target)) return;
@@ -9497,7 +9438,7 @@ function renderContainerGroupNode(node){
         refreshSelectionVisuals();
     };
     el.onmousedown = e => {
-        if(e.target.closest('.container-group-close, .container-group-color, .container-group-lock')) return;
+        if(e.target.closest('.container-group-close, .container-group-color')) return;
         if(e.target.closest('.resize-handle')) return;
         startNodeDrag(e, node);
     };
@@ -9513,14 +9454,6 @@ function renderContainerGroupNode(node){
             e.stopPropagation();
             setContainerGroupColor(node.id, btn.dataset.containerColor || '');
         });
-    });
-    el.querySelector('.container-group-lock')?.addEventListener('mousedown', e => e.stopPropagation());
-    el.querySelector('.container-group-lock')?.addEventListener('click', e => {
-        e.preventDefault();
-        e.stopPropagation();
-        node.locked = !node.locked;
-        render();
-        scheduleSave();
     });
     el.querySelector('.container-group-close')?.addEventListener('click', e => {
         e.preventDefault();
@@ -9555,10 +9488,10 @@ function labelFontForSize(node){
     const w = Math.max(40, Number(node?.w) || LABEL_FONT_BASE_W);
     const h = Math.max(28, Number(node?.h) || LABEL_FONT_BASE_H);
     const grow = Math.sqrt((w / LABEL_FONT_BASE_W) * (h / LABEL_FONT_BASE_H));
-    let font = Math.max(10, Math.min(400, Math.round(LABEL_FONT_BASE * grow)));
+    let font = Math.max(10, Math.min(96, Math.round(LABEL_FONT_BASE * grow)));
     // 再按「文字实际占几行」收一次，避免多行文字字号太大撑破标签框。
     for(let i = 0; i < 2; i++){
-        const next = Math.max(6, Math.min(400, Math.min(font, Math.floor(h / (1.35 * labelEstimateLines(node, font))))));
+        const next = Math.max(10, Math.min(96, Math.min(font, Math.floor(h / (1.35 * labelEstimateLines(node, font))))));
         if(next === font) break;
         font = next;
     }
@@ -9566,7 +9499,7 @@ function labelFontForSize(node){
 }
 function labelScaleForFont(node, fontSize){
     const baseFontSize = Math.max(10, Math.min(96, Number(node?.baseFontSize) || LABEL_FONT_BASE));
-    return Math.max(.2, Math.min(20, Math.round((Number(fontSize) / baseFontSize) * 100) / 100));
+    return Math.max(.5, Math.min(4, Math.round((Number(fontSize) / baseFontSize) * 100) / 100));
 }
 function autoSizeLabelNode(node, textarea, el){
     if(!node || !textarea) return;
@@ -9579,9 +9512,7 @@ function autoSizeLabelNode(node, textarea, el){
     if(node._labelManualSize){
         node.w = Math.max(76, Math.min(4000, Math.round(Number(node.w) || 132)));
         node.h = Math.max(42, Math.min(4000, Math.round(Number(node.h) || 52)));
-        // 字号沿用：打字时不重算，修复「字越打越小」；仅当字号缺失/无效时才按框反推
-        const existingFont = Number(node.fontSize);
-        fontSize = (existingFont >= 6 && existingFont <= 400) ? existingFont : labelFontForSize(node);
+        fontSize = labelFontForSize(node);
         node.fontSize = fontSize;
         node.labelScale = labelScaleForFont(node, fontSize);
         if(el){
@@ -9591,15 +9522,7 @@ function autoSizeLabelNode(node, textarea, el){
         textarea.style.fontSize = `${fontSize}px`;
         textarea.style.width = '100%';
         textarea.style.boxSizing = 'border-box';
-        textarea.style.height = '0px';
-        void textarea.offsetHeight;
-        const contentH = Math.max(28, textarea.scrollHeight) + 10;
-        textarea.style.height = `${Math.max(28, textarea.scrollHeight)}px`;
-        // 内容高于框时自动增高框，避免文字溢出（bug3）
-        if(contentH > node.h){
-            node.h = Math.min(4000, contentH);
-            if(el) el.style.height = `${node.h}px`;
-        }
+        textarea.style.height = `${Math.max(28, node.h - 4)}px`;
         return;
     }
 
@@ -9632,15 +9555,9 @@ function renderLabelNode(node){
     node.w = Math.max(76, Number(node.w) || 132);
     node.h = Math.max(42, Number(node.h) || 52);
     if(node._labelManualSize){
-        // 手动缩放过：字号沿用已保存值（打字/渲染都不重算，避免「字越打越小」）；
-        // 仅当字号缺失/无效时按框反推一次。拖框时由 onNodeResize 重算字号。
-        const existingFont = Number(node.fontSize);
-        if(existingFont >= 6 && existingFont <= 400){
-            node.labelScale = labelScaleForFont(node, existingFont);
-        } else {
-            node.fontSize = labelFontForSize(node);
-            node.labelScale = labelScaleForFont(node, node.fontSize);
-        }
+        // 手动缩放过：字号按宽高反推，修复历史数据里「框大字号小」的卡住状态。
+        node.fontSize = labelFontForSize(node);
+        node.labelScale = labelScaleForFont(node, node.fontSize);
     } else {
         node.labelScale = Math.max(.5, Math.min(4, Number(node.labelScale) || ((Number(node.fontSize) || 20) / node.baseFontSize)));
         node.fontSize = Math.max(12, Math.min(96, Math.round(node.baseFontSize * node.labelScale)));
@@ -9695,16 +9612,6 @@ function renderLabelNode(node){
     el.querySelector('.label-delete')?.addEventListener('click', e => deleteNodeFromButton(node.id, e));
     el.querySelector('.label-delete')?.addEventListener('mousedown', e => e.stopPropagation());
     el.querySelector('.resize-handle')?.addEventListener('mousedown', e => startNodeResize(e, node));
-    // 双击缩放柄 = 取消手动尺寸，回到「随文字自适应」（修复 _labelManualSize 单向锁）
-    el.querySelector('.resize-handle')?.addEventListener('dblclick', e => {
-        e.preventDefault();
-        e.stopPropagation();
-        node._labelManualSize = false;
-        node.labelScale = 1;
-        node.fontSize = Math.max(10, Math.min(96, Number(node.baseFontSize) || 20));
-        render();
-        scheduleSave();
-    });
     el.onmousedown = e => {
         if(e.button !== 0 || e.target.closest('.label-textarea, .label-delete, .resize-handle, .port')) return;
         startNodeDrag(e, node);
@@ -10833,7 +10740,7 @@ function defaultNodeSize(type){
     if(type === 'containerGroup') return {w:300, h:220};
     if(type === 'image') return {w:260, h:336};
     if(type === 'translationInput') return {w:820, h:0};
-    if(type === 'translationOutput') return {w:383, h:0};
+    if(type === 'translationOutput') return {w:360, h:0};
     if(type === 'prompt') return {w:310, h:0};
     if(type === 'gameKvPrompt') return {w:410, h:760};
     if(type === 'kvReferenceGallery') return {w:420, h:560};
@@ -12644,7 +12551,7 @@ function renderGeneratorBody(node){
         <div class="prompt-list mb-3"></div>
         <div class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">${tr('canvas.images')}</div>
         <div class="input-list"></div>
-        ${isMaster ? `<div class="master-api-toggle-row"><button class="master-api-toggle ${(node.masterEnabled && !hasMasterUpstream) ? 'active' : ''} ${(hasMasterUpstream || masterControlled) ? 'controlled' : ''}" ${hasMasterUpstream ? 'disabled' : ''} type="button" data-master-toggle>${hasMasterUpstream ? '已被上游主控接管' : (node.masterEnabled ? '已开启主控API' : '开启主控API功能')}</button>${masterUpstreamLinked ? `<label class="game-kv-switch master-serial-switch" title="开启后，本节点等待上游主控出图完成后再开始生成"><span>串联模式（等上游出图）</span><input type="checkbox" data-master-serial ${node.masterSerialChain ? 'checked' : ''}><span class="game-kv-switch-ui"></span></label><button class="master-api-detach ${masterUpstreamDetached ? 'active' : ''}" type="button" data-master-detach title="${masterUpstreamDetached ? '恢复上游主控对本节点的接管' : '保留连线但不再受上游主控接管，可自行开启主控API'}"><i data-lucide="${masterUpstreamDetached ? 'zap' : 'zap-off'}"></i><span>${masterUpstreamDetached ? '已断开上游控制（点击恢复）' : '断开上游主控控制'}</span></button>` : ''}${downstreamMasterCount > 0 ? `<div class="master-link-tip">已连接${downstreamMasterCount}个下游主控节点</div>` : ''}</div>` : ''}
+        ${isMaster ? `<div class="master-api-toggle-row"><button class="master-api-toggle ${(node.masterEnabled && !hasMasterUpstream) ? 'active' : ''} ${(hasMasterUpstream || masterControlled) ? 'controlled' : ''}" ${hasMasterUpstream ? 'disabled' : ''} type="button" data-master-toggle>${hasMasterUpstream ? '已被上游主控接管' : (node.masterEnabled ? '已开启主控API' : '开启主控API功能')}</button>${masterUpstreamLinked ? `<button class="master-api-detach ${masterUpstreamDetached ? 'active' : ''}" type="button" data-master-detach title="${masterUpstreamDetached ? '恢复上游主控对本节点的接管' : '保留连线但不再受上游主控接管，可自行开启主控API'}"><i data-lucide="${masterUpstreamDetached ? 'zap' : 'zap-off'}"></i><span>${masterUpstreamDetached ? '已断开上游控制（点击恢复）' : '断开上游主控控制'}</span></button>` : ''}${downstreamMasterCount > 0 ? `<div class="master-link-tip">已连接${downstreamMasterCount}个下游主控节点</div>` : ''}</div>` : ''}
         <div class="gen-settings">
             <div class="gen-settings-row">
                 <select class="select-lite provider-select">${providerOptions(node.apiProvider)}</select>
@@ -13038,13 +12945,6 @@ function renderGeneratorBody(node){
         e.stopPropagation();
         if(node.type !== 'masterGenerator' || !node.masterEnabled) return;
         runMasterGeneratorNode(node.id);
-    });
-    wrap.querySelector('[data-master-serial]')?.addEventListener('mousedown', e => e.stopPropagation(), true);
-    wrap.querySelector('[data-master-serial]')?.addEventListener('change', e => {
-        e.stopPropagation();
-        if(node.type !== 'masterGenerator') return;
-        node.masterSerialChain = Boolean(e.target.checked);
-        scheduleSave();
     });
     bindCascadeButtons(wrap, node.id);
     return wrap;
@@ -18348,14 +18248,7 @@ async function pollCanvasImageTask(taskId, options={}){
     if(activeCanvasTaskPolls.has(taskId)) return 'running';
     activeCanvasTaskPolls.add(taskId);
     try {
-        // 轮询总时长上限：防止后端变砖时死循环，300s 后强制判失败解锁
-        const pollStartedAt = nowMs();
-        const pollTimeoutMs = 300000;
         while(true){
-            if(nowMs() - pollStartedAt > pollTimeoutMs){
-                failCanvasImageTask(taskId, tr('canvas.generationFailed') + ' (poll timeout 300s)');
-                return 'failed';
-            }
             const found = findPendingTask(taskId);
             if(!found) return 'missing';
             const cascadeTargetId = String(options?.cascadeTargetId || found?.pending?.cascadeTargetId || '');
@@ -20049,9 +19942,7 @@ function onNodeResize(e){
         }
         if(textarea){
             textarea.style.fontSize = `${node.fontSize}px`;
-            textarea.style.height = '0px';
-            void textarea.offsetHeight;
-            textarea.style.height = `${Math.max(28, textarea.scrollHeight)}px`;
+            textarea.style.height = `${Math.max(28, node.h - 4)}px`;
         }
         scheduleLinksRender();
         renderSelectionHub();
@@ -20660,11 +20551,7 @@ function updateContainerGroupMembership(movedNodes, options={}){
     let changed = false;
     candidates.forEach(child => {
         const childRect = nodeRect(child);
-        // 所属容器已锁定 → 成员冻结，既不被外部容器抢走也不重算归属
-        const currentOwner = groups.find(group => Array.isArray(group.members) && group.members.includes(child.id));
-        if(currentOwner && currentOwner.locked) return;
         const containing = groups.find(group => {
-            if(group.locked) return false; // 锁定的容器不接收新成员
             const groupRect = nodeRect(group);
             return childRect.cx >= groupRect.x && childRect.cx <= groupRect.x + groupRect.w
                 && childRect.cy >= groupRect.y && childRect.cy <= groupRect.y + groupRect.h;

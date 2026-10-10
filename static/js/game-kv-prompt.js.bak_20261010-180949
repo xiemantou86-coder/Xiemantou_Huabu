@@ -387,8 +387,7 @@
             adLanguage:textValue(source, ['adLanguage','language'], BASE_DEFAULTS.adLanguage),
             adLanguageOptions:normalizeLanguages(firstValue(source, ['adLanguageOptions','languageOptions'])),
             extraPrompt:textValue(source, ['extraPrompt','extraRequirements','extra'], BASE_DEFAULTS.extraPrompt),
-            negativePrompt:textValue(source, ['negativePrompt','negative'], BASE_DEFAULTS.negativePrompt),
-            galleryTakeover:(source && typeof source.galleryTakeover === 'object' && source.galleryTakeover) ? source.galleryTakeover : null
+            negativePrompt:textValue(source, ['negativePrompt','negative'], BASE_DEFAULTS.negativePrompt)
         };
     }
 
@@ -427,16 +426,12 @@
         const language = languages.find(item => item.value === node.adLanguage) || languages[0] || LANGUAGE_OPTIONS[0];
         const sections = [`请生成一张${language.prompt || language.label}的游戏广告KV。`];
 
-        const takeover = node.galleryTakeover || null;
-        const takeoverLogo = takeover && takeover.logo ? takeover.logo : null;
-        const takeoverButton = takeover && takeover.downloadButton ? takeover.downloadButton : null;
-        const takeoverStyle = takeover && takeover.copyStyle ? takeover.copyStyle : null;
         const references = Array.isArray(node.references) ? node.references : [];
         const logoReference = node.showLogo ? selectedReference(references, node.logoReference) : null;
         const buttonReference = node.copyEnabled && node.downloadButtonEnabled && node.downloadButtonCustom
             ? selectedReference(references, node.downloadButtonReference)
             : null;
-        const dedicatedKeys = new Set([takeoverLogo ? null : logoReference, takeoverButton ? null : buttonReference].filter(Boolean).map(item => String(item.sourceKey || item.id || item.value)));
+        const dedicatedKeys = new Set([logoReference, buttonReference].filter(Boolean).map(item => String(item.sourceKey || item.id || item.value)));
         const referenceRules = references
             .filter(item => item && item.enabled !== false)
             .filter(item => !dedicatedKeys.has(String(item.sourceKey || item.id || item.value)))
@@ -465,38 +460,25 @@
             const copyPlacement = placementOption?.custom && placementOption.label && !placementText.includes(placementOption.label)
                 ? `${placementOption.label}：${placementText}`
                 : placementText;
-            if(takeoverStyle) copy.push(`字体效果：参考图片${takeoverStyle.imageNumber}的字体设计效果。`);
-            else if(titleEffect) copy.push(`字体效果：${titleEffect}。`);
+            if(titleEffect) copy.push(`字体效果：${titleEffect}。`);
             if(copyPlacement) copy.push(`排版位置：${copyPlacement}。`);
             if(node.downloadButtonEnabled){
-                if(takeoverButton){
-                    copy.push(`在画面合适的位置，加入图片${takeoverButton.imageNumber}的按钮包裹文字：${language.buttonText || 'Download'}。`);
-                } else {
-                    const button = buttonReference ? `图片${buttonReference.imageNumber || references.indexOf(buttonReference) + 1}的按钮` : '按钮';
-                    copy.push(`位于文字区域最下方，${button}包裹文字：${language.buttonText || 'Download'}。`);
-                }
+                const button = buttonReference ? `图片${buttonReference.imageNumber || references.indexOf(buttonReference) + 1}的按钮` : '按钮';
+                copy.push(`位于文字区域最下方，${button}包裹文字：${language.buttonText || 'Download'}。`);
             }
             copy.push('除上述指定文案外，不添加其他文字。');
             sections.push(`文字排版：\n${copy.map(item => `- ${item}`).join('\n')}`);
         }else if(node.copyEnabled && node.downloadButtonEnabled){
-            if(takeoverButton){
-                sections.push(`下载按钮：\n- 在画面合适的位置，加入图片${takeoverButton.imageNumber}的按钮包裹文字：${language.buttonText || 'Download'}。`);
-            } else {
-                const button = buttonReference ? `图片${buttonReference.imageNumber || references.indexOf(buttonReference) + 1}的按钮` : '按钮';
-                sections.push(`下载按钮：\n- 位于文字区域最下方，${button}包裹文字：${language.buttonText || 'Download'}。`);
-            }
+            const button = buttonReference ? `图片${buttonReference.imageNumber || references.indexOf(buttonReference) + 1}的按钮` : '按钮';
+            sections.push(`下载按钮：\n- 位于文字区域最下方，${button}包裹文字：${language.buttonText || 'Download'}。`);
         }
 
         if(node.qualityEnabled){
             sections.push(`画质要求：\n- ${QUALITY_PROMPT}。`);
         }
         if(node.showLogo){
-            if(takeoverLogo){
-                sections.push(`限制：\n- 在画面四周角落放置图片${takeoverLogo.imageNumber}的游戏logo，确保logo不会变形，出错，严禁修改logo样式`);
-            } else {
-                const logo = logoReference ? `图片${logoReference.imageNumber || references.indexOf(logoReference) + 1}的游戏Logo，保持样式清晰完整` : '游戏logo';
-                sections.push(`限制：\n- 在画面四周角落放置${logo}，确保logo不会变形，出错`);
-            }
+            const logo = logoReference ? `图片${logoReference.imageNumber || references.indexOf(logoReference) + 1}的游戏Logo，保持样式清晰完整` : '游戏logo';
+            sections.push(`限制：\n- 在画面四周角落放置${logo}，确保logo不会变形，出错`);
         }else if(node.noLogo !== false){
             sections.push('限制：\n- 成图不要添加游戏Logo、品牌标识、水印或角标。');
         }

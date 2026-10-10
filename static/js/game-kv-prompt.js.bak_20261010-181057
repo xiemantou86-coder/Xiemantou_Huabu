@@ -387,8 +387,7 @@
             adLanguage:textValue(source, ['adLanguage','language'], BASE_DEFAULTS.adLanguage),
             adLanguageOptions:normalizeLanguages(firstValue(source, ['adLanguageOptions','languageOptions'])),
             extraPrompt:textValue(source, ['extraPrompt','extraRequirements','extra'], BASE_DEFAULTS.extraPrompt),
-            negativePrompt:textValue(source, ['negativePrompt','negative'], BASE_DEFAULTS.negativePrompt),
-            galleryTakeover:(source && typeof source.galleryTakeover === 'object' && source.galleryTakeover) ? source.galleryTakeover : null
+            negativePrompt:textValue(source, ['negativePrompt','negative'], BASE_DEFAULTS.negativePrompt)
         };
     }
 

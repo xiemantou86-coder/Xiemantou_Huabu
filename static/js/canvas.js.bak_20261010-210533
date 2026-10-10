@@ -9579,9 +9579,7 @@ function autoSizeLabelNode(node, textarea, el){
     if(node._labelManualSize){
         node.w = Math.max(76, Math.min(4000, Math.round(Number(node.w) || 132)));
         node.h = Math.max(42, Math.min(4000, Math.round(Number(node.h) || 52)));
-        // 字号沿用：打字时不重算，修复「字越打越小」；仅当字号缺失/无效时才按框反推
-        const existingFont = Number(node.fontSize);
-        fontSize = (existingFont >= 6 && existingFont <= 400) ? existingFont : labelFontForSize(node);
+        fontSize = labelFontForSize(node);
         node.fontSize = fontSize;
         node.labelScale = labelScaleForFont(node, fontSize);
         if(el){
@@ -9593,13 +9591,7 @@ function autoSizeLabelNode(node, textarea, el){
         textarea.style.boxSizing = 'border-box';
         textarea.style.height = '0px';
         void textarea.offsetHeight;
-        const contentH = Math.max(28, textarea.scrollHeight) + 10;
         textarea.style.height = `${Math.max(28, textarea.scrollHeight)}px`;
-        // 内容高于框时自动增高框，避免文字溢出（bug3）
-        if(contentH > node.h){
-            node.h = Math.min(4000, contentH);
-            if(el) el.style.height = `${node.h}px`;
-        }
         return;
     }
 
@@ -9632,15 +9624,9 @@ function renderLabelNode(node){
     node.w = Math.max(76, Number(node.w) || 132);
     node.h = Math.max(42, Number(node.h) || 52);
     if(node._labelManualSize){
-        // 手动缩放过：字号沿用已保存值（打字/渲染都不重算，避免「字越打越小」）；
-        // 仅当字号缺失/无效时按框反推一次。拖框时由 onNodeResize 重算字号。
-        const existingFont = Number(node.fontSize);
-        if(existingFont >= 6 && existingFont <= 400){
-            node.labelScale = labelScaleForFont(node, existingFont);
-        } else {
-            node.fontSize = labelFontForSize(node);
-            node.labelScale = labelScaleForFont(node, node.fontSize);
-        }
+        // 手动缩放过：字号按宽高反推，修复历史数据里「框大字号小」的卡住状态。
+        node.fontSize = labelFontForSize(node);
+        node.labelScale = labelScaleForFont(node, node.fontSize);
     } else {
         node.labelScale = Math.max(.5, Math.min(4, Number(node.labelScale) || ((Number(node.fontSize) || 20) / node.baseFontSize)));
         node.fontSize = Math.max(12, Math.min(96, Math.round(node.baseFontSize * node.labelScale)));
