@@ -8,7 +8,7 @@
   "pinned": false,
   "project": "default",
   "created_at": 1789034316892,
-  "updated_at": 1791638064413,
+  "updated_at": 1791727531667,
   "nodes": [
     {
       "id": "containerGroup_cdc65987d9fd3_1789034526143",
@@ -2589,8 +2589,8 @@
     {
       "id": "mgen_f05dbc770294c8_1791638049822",
       "type": "masterGenerator",
-      "x": 3566.0026099838606,
-      "y": 2410.964740185939,
+      "x": 3630.218687294511,
+      "y": 2273.5423347411474,
       "apiProvider": "apimart",
       "model": "gemini-3.1-flash-image-preview",
       "ratio": "square",
@@ -2608,8 +2608,8 @@
     {
       "id": "mgen_e2b3de4ff4dff8_1791638053440",
       "type": "masterGenerator",
-      "x": 4073.311426633624,
-      "y": 2391.2428892086164,
+      "x": 4043.772031070725,
+      "y": 2269.232342318381,
       "apiProvider": "apimart",
       "model": "gemini-3.1-flash-image-preview",
       "ratio": "square",
@@ -2624,6 +2624,413 @@
       "inputs": [],
       "masterEnabled": false,
       "masterSerialChain": true
+    },
+    {
+      "id": "img_9b799ae650a348_1791688611417",
+      "type": "image",
+      "x": 3671.9557947061703,
+      "y": 2831.5045639299747,
+      "url": "/assets/input/ai_ref_00193195c3c2.png",
+      "name": "image.png",
+      "mediaKind": "image",
+      "_naturalSizeLoading": false,
+      "natural_w": 2035,
+      "natural_h": 1192
+    },
+    {
+      "id": "gen_35a1c5469bf7c8_1791688617251",
+      "type": "generator",
+      "x": 3950.27724440003,
+      "y": 2836.0009873936615,
+      "apiProvider": "apimart",
+      "model": "gpt-image-2.5-flare",
+      "ratio": "landscape43",
+      "resolution": "2k",
+      "customRatio": "",
+      "customSize": "",
+      "customRatioWidth": "",
+      "customRatioHeight": "",
+      "customWidth": "",
+      "customHeight": "",
+      "transparentBackground": true,
+      "inputs": [
+        "prompt_e2ab5b037dc3b_1791688643641",
+        "img_9b799ae650a348_1791688611417",
+        "img_f13378b301c81_1791726591987"
+      ],
+      "_apiResolutionUserSet": true,
+      "quality": "medium",
+      "generatedOutputs": [
+        "/assets/output/online_eda746bff9.png"
+      ]
+    },
+    {
+      "id": "prompt_e2ab5b037dc3b_1791688643641",
+      "type": "prompt",
+      "x": 3488.2873772454095,
+      "y": 3184.6813583375297,
+      "text": "@图片1 为一个启动器的初稿版本\n名字为：无限画布.启动器\n左侧为书签式的工具栏目，帮我修改一下启动器的样式，修改背景配色，可以稍微亮一些，\n@图片2 为我找的侧边书签的样式，让启动器以一个书签抽屉的方式，允许左侧书签工具为不规则异形，\n\n输出透明背景\n",
+      "w": 439,
+      "h": 314
+    },
+    {
+      "id": "out_3860c04d955c78_1791721659754",
+      "type": "output",
+      "x": 4353.755505269595,
+      "y": 2838.17490043714,
+      "images": [
+        {
+          "url": "/assets/output/online_d429c556ec.png",
+          "viewed": true,
+          "runMs": 38808,
+          "run": {
+            "nodeType": "generator",
+            "node": {
+              "id": "gen_35a1c5469bf7c8_1791688617251",
+              "type": "generator",
+              "x": 3950.27724440003,
+              "y": 2836.0009873936615,
+              "apiProvider": "apimart",
+              "model": "gpt-image-2.5-flare",
+              "ratio": "landscape43",
+              "resolution": "2k",
+              "customRatio": "",
+              "customSize": "",
+              "customRatioWidth": "",
+              "customRatioHeight": "",
+              "customWidth": "",
+              "customHeight": "",
+              "transparentBackground": true,
+              "_apiResolutionUserSet": true,
+              "quality": "medium",
+              "generatedOutputs": [
+                "/assets/output/online_a2ecbd56a8.png"
+              ]
+            },
+            "prompt": "@图片1 为一个启动器的初稿版本\n名字为：无限画布.启动器\n左侧为书签式的工具栏目，帮我修改一下启动器的样式，让他简约的同时，不太那么条框死板\n@图片2 为我找的侧边书签的样式，让启动器以一个书签抽屉的方式，允许不规则异形，\n\n输出透明背景\n",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_00193195c3c2.png",
+                "name": "image.png"
+              },
+              {
+                "url": "/assets/input/ai_ref_98cb89e79bfa.png",
+                "name": "image.png"
+              }
+            ],
+            "request": {
+              "task_id": "task_01M4NKPS400S11Y90YTNB04700",
+              "request_id": "",
+              "provider_id": "apimart",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        },
+        {
+          "url": "/assets/output/online_eda746bff9.png",
+          "viewed": true,
+          "runMs": 36523,
+          "run": {
+            "nodeType": "generator",
+            "node": {
+              "id": "gen_35a1c5469bf7c8_1791688617251",
+              "type": "generator",
+              "x": 3950.27724440003,
+              "y": 2836.0009873936615,
+              "apiProvider": "apimart",
+              "model": "gpt-image-2.5-flare",
+              "ratio": "landscape43",
+              "resolution": "2k",
+              "customRatio": "",
+              "customSize": "",
+              "customRatioWidth": "",
+              "customRatioHeight": "",
+              "customWidth": "",
+              "customHeight": "",
+              "transparentBackground": true,
+              "_apiResolutionUserSet": true,
+              "quality": "medium",
+              "generatedOutputs": [
+                "/assets/output/online_d429c556ec.png"
+              ]
+            },
+            "prompt": "@图片1 为一个启动器的初稿版本\n名字为：无限画布.启动器\n左侧为书签式的工具栏目，帮我修改一下启动器的样式，修改背景配色，可以稍微亮一些，\n@图片2 为我找的侧边书签的样式，让启动器以一个书签抽屉的方式，允许左侧书签工具为不规则异形，\n\n输出透明背景\n",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_00193195c3c2.png",
+                "name": "image.png"
+              },
+              {
+                "url": "/assets/input/ai_ref_98cb89e79bfa.png",
+                "name": "image.png"
+              }
+            ],
+            "request": {
+              "task_id": "task_01M4NKSYGCK83X5CARX620C4BA",
+              "request_id": "",
+              "provider_id": "apimart",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        }
+      ],
+      "_pending": [],
+      "imageComparisons": {
+        "/assets/output/online_d429c556ec.png": {
+          "url": "/assets/input/ai_ref_00193195c3c2.png",
+          "name": "image.png"
+        },
+        "/assets/output/online_eda746bff9.png": {
+          "url": "/assets/input/ai_ref_00193195c3c2.png",
+          "name": "image.png"
+        }
+      }
+    },
+    {
+      "id": "img_f13378b301c81_1791726591987",
+      "type": "image",
+      "x": 3394.742958560886,
+      "y": 2829.2070199887726,
+      "url": "/assets/input/ai_ref_98cb89e79bfa.png",
+      "name": "image.png",
+      "mediaKind": "image",
+      "_naturalSizeLoading": false,
+      "natural_w": 598,
+      "natural_h": 465
+    },
+    {
+      "id": "img_41e6a745aa644_1791727126893",
+      "type": "image",
+      "x": 3564.488963368328,
+      "y": 3505.9261404088556,
+      "url": "/assets/input/ai_ref_34e44bf90ab8.png",
+      "name": "online_eda746bff9_paint.png",
+      "_naturalSizeLoading": false,
+      "natural_w": 2048,
+      "natural_h": 1536
+    },
+    {
+      "id": "gen_9511011af50c4_1791727131749",
+      "type": "generator",
+      "x": 3956.5141894859034,
+      "y": 3278.665846731761,
+      "apiProvider": "apimart",
+      "model": "gpt-image-2.5-sunburst",
+      "ratio": "landscape43",
+      "resolution": "2k",
+      "customRatio": "",
+      "customSize": "",
+      "customRatioWidth": "",
+      "customRatioHeight": "",
+      "customWidth": "",
+      "customHeight": "",
+      "transparentBackground": true,
+      "inputs": [
+        "img_41e6a745aa644_1791727126893",
+        "img_b0db86bb11981_1791727132818",
+        "prompt_8b3619e0689ab8_1791727161445"
+      ],
+      "_apiResolutionUserSet": true,
+      "quality": "medium",
+      "generatedOutputs": [
+        "/assets/output/online_ecc0c5782f.png"
+      ]
+    },
+    {
+      "id": "img_b0db86bb11981_1791727132818",
+      "type": "image",
+      "x": 4356.080465522378,
+      "y": 3104.85819533071,
+      "url": "/assets/output/online_d429c556ec.png",
+      "name": "online_d429c556ec.png",
+      "_naturalSizeLoading": false,
+      "natural_w": 2048,
+      "natural_h": 1536,
+      "w": 220,
+      "h": 254
+    },
+    {
+      "id": "prompt_8b3619e0689ab8_1791727161445",
+      "type": "prompt",
+      "x": 3946.097470443432,
+      "y": 3716.852849014642,
+      "text": "修改@图片1 的配色为@图片2 样式\n\n**但是注意不要修改 @图片1 左侧红色方框内工具**\n\n输出透明背景"
+    },
+    {
+      "id": "out_f49eb34e83b518_1791727210249",
+      "type": "output",
+      "x": 4359.894941524174,
+      "y": 3381.4875243478505,
+      "images": [
+        {
+          "url": "/assets/output/online_2c99e2ba2f.png",
+          "viewed": true,
+          "runMs": 70162,
+          "run": {
+            "nodeType": "generator",
+            "node": {
+              "id": "gen_9511011af50c4_1791727131749",
+              "type": "generator",
+              "x": 4319.725980910985,
+              "y": 3387.33166957615,
+              "apiProvider": "apimart",
+              "model": "gpt-image-2.5-sunburst",
+              "ratio": "landscape43",
+              "resolution": "2k",
+              "customRatio": "",
+              "customSize": "",
+              "customRatioWidth": "",
+              "customRatioHeight": "",
+              "customWidth": "",
+              "customHeight": "",
+              "transparentBackground": true,
+              "_apiResolutionUserSet": true,
+              "quality": "medium"
+            },
+            "prompt": "修改@图片1 的框内配色为@图片2 样式\n注意不要修改 @图片1 左侧工具栏的颜色\n\n输出透明背景",
+            "refs": [
+              {
+                "url": "/assets/output/online_eda746bff9.png",
+                "name": "online_eda746bff9.png"
+              },
+              {
+                "url": "/assets/output/online_d429c556ec.png",
+                "name": "online_d429c556ec.png"
+              }
+            ],
+            "request": {
+              "task_id": "task_01M4NM7GV8RNKRJ7AJZ7AAPDX8",
+              "request_id": "",
+              "provider_id": "apimart",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        },
+        {
+          "url": "/assets/output/online_220dd253a4.png",
+          "viewed": true,
+          "runMs": 67838,
+          "run": {
+            "nodeType": "generator",
+            "node": {
+              "id": "gen_9511011af50c4_1791727131749",
+              "type": "generator",
+              "x": 3956.5141894859034,
+              "y": 3278.665846731761,
+              "apiProvider": "apimart",
+              "model": "gpt-image-2.5-sunburst",
+              "ratio": "landscape43",
+              "resolution": "2k",
+              "customRatio": "",
+              "customSize": "",
+              "customRatioWidth": "",
+              "customRatioHeight": "",
+              "customWidth": "",
+              "customHeight": "",
+              "transparentBackground": true,
+              "_apiResolutionUserSet": true,
+              "quality": "medium",
+              "generatedOutputs": [
+                "/assets/output/online_2c99e2ba2f.png"
+              ]
+            },
+            "prompt": "修改@图片1 的框内配色为@图片2 样式\n注意不要修改 @图片1 左侧红色方框内工具栏的颜色\n\n输出透明背景",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_34e44bf90ab8.png",
+                "name": "online_eda746bff9_paint.png"
+              },
+              {
+                "url": "/assets/output/online_d429c556ec.png",
+                "name": "online_d429c556ec.png"
+              }
+            ],
+            "request": {
+              "task_id": "task_01M4NMBCYPQ6ZEXTBVEBF1W6A9",
+              "request_id": "",
+              "provider_id": "apimart",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        },
+        {
+          "url": "/assets/output/online_ecc0c5782f.png",
+          "viewed": true,
+          "runMs": 51473,
+          "run": {
+            "nodeType": "generator",
+            "node": {
+              "id": "gen_9511011af50c4_1791727131749",
+              "type": "generator",
+              "x": 3956.5141894859034,
+              "y": 3278.665846731761,
+              "apiProvider": "apimart",
+              "model": "gpt-image-2.5-sunburst",
+              "ratio": "landscape43",
+              "resolution": "2k",
+              "customRatio": "",
+              "customSize": "",
+              "customRatioWidth": "",
+              "customRatioHeight": "",
+              "customWidth": "",
+              "customHeight": "",
+              "transparentBackground": true,
+              "_apiResolutionUserSet": true,
+              "quality": "medium",
+              "generatedOutputs": [
+                "/assets/output/online_220dd253a4.png"
+              ]
+            },
+            "prompt": "修改@图片1 的配色为@图片2 样式\n\n**但是注意不要修改 @图片1 左侧红色方框内工具**\n\n输出透明背景",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_34e44bf90ab8.png",
+                "name": "online_eda746bff9_paint.png"
+              },
+              {
+                "url": "/assets/output/online_d429c556ec.png",
+                "name": "online_d429c556ec.png"
+              }
+            ],
+            "request": {
+              "task_id": "task_01M4NMF8RYY7DFPWE4G9DWB1NR",
+              "request_id": "",
+              "provider_id": "apimart",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        }
+      ],
+      "_pending": [],
+      "imageComparisons": {
+        "/assets/output/online_2c99e2ba2f.png": {
+          "url": "/assets/output/online_eda746bff9.png",
+          "name": "online_eda746bff9.png"
+        },
+        "/assets/output/online_220dd253a4.png": {
+          "url": "/assets/input/ai_ref_34e44bf90ab8.png",
+          "name": "online_eda746bff9_paint.png"
+        },
+        "/assets/output/online_ecc0c5782f.png": {
+          "url": "/assets/input/ai_ref_34e44bf90ab8.png",
+          "name": "online_eda746bff9_paint.png"
+        }
+      }
     }
   ],
   "connections": [
@@ -2972,6 +3379,70 @@
       "toPort": "in"
     },
     {
+      "id": "c_3c73919fd130d8_1791688617355",
+      "kind": "dataFlow",
+      "from": "img_9b799ae650a348_1791688611417",
+      "to": "gen_35a1c5469bf7c8_1791688617251",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_15fd4b3d23e2_1791688643742",
+      "kind": "dataFlow",
+      "from": "prompt_e2ab5b037dc3b_1791688643641",
+      "to": "gen_35a1c5469bf7c8_1791688617251",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_4daff4299d15e_1791721659754",
+      "from": "gen_35a1c5469bf7c8_1791688617251",
+      "to": "out_3860c04d955c78_1791721659754",
+      "kind": "dataFlow",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_2b9d275b658468_1791726594818",
+      "kind": "dataFlow",
+      "from": "img_f13378b301c81_1791726591987",
+      "to": "gen_35a1c5469bf7c8_1791688617251",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_b074fdc3906c88_1791727131869",
+      "kind": "dataFlow",
+      "from": "img_41e6a745aa644_1791727126893",
+      "to": "gen_9511011af50c4_1791727131749",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_de5e7bbd683b5_1791727134434",
+      "kind": "dataFlow",
+      "from": "img_b0db86bb11981_1791727132818",
+      "to": "gen_9511011af50c4_1791727131749",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_900f35676c5f7_1791727161566",
+      "kind": "dataFlow",
+      "from": "prompt_8b3619e0689ab8_1791727161445",
+      "to": "gen_9511011af50c4_1791727131749",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_9755dc0da0902_1791727210249",
+      "from": "gen_9511011af50c4_1791727131749",
+      "to": "out_f49eb34e83b518_1791727210249",
+      "kind": "dataFlow",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
       "id": "c_24124c7069d208_1789034526143",
       "kind": "labelBinding",
       "from": "label_021c534e3efe08_1789034526143",
@@ -3076,6 +3547,317 @@
   "board_x": 413.0,
   "board_y": 315.0,
   "logs": [
+    {
+      "id": "log_a2f1d76ab3f5e_1791727521499",
+      "createdAt": 1791727521499,
+      "status": "success",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {
+        "task_id": "task_01M4NMF8RYY7DFPWE4G9DWB1NR",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "修改@图片1 的配色为@图片2 样式\n\n**但是注意不要修改 @图片1 左侧红色方框内工具**\n\n输出透明背景",
+      "outputs": [
+        "/assets/output/online_ecc0c5782f.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_34e44bf90ab8.png",
+          "name": "online_eda746bff9_paint.png"
+        },
+        {
+          "url": "/assets/output/online_d429c556ec.png",
+          "name": "online_d429c556ec.png"
+        }
+      ],
+      "runMs": 51473,
+      "error": ""
+    },
+    {
+      "id": "log_b078715d08383_1791727410492",
+      "createdAt": 1791727410492,
+      "status": "success",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {
+        "task_id": "task_01M4NMBCYPQ6ZEXTBVEBF1W6A9",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "修改@图片1 的框内配色为@图片2 样式\n注意不要修改 @图片1 左侧红色方框内工具栏的颜色\n\n输出透明背景",
+      "outputs": [
+        "/assets/output/online_220dd253a4.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_34e44bf90ab8.png",
+          "name": "online_eda746bff9_paint.png"
+        },
+        {
+          "url": "/assets/output/online_d429c556ec.png",
+          "name": "online_d429c556ec.png"
+        }
+      ],
+      "runMs": 67838,
+      "error": ""
+    },
+    {
+      "id": "log_da7fc1637c61_1791727285901",
+      "createdAt": 1791727285901,
+      "status": "success",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {
+        "task_id": "task_01M4NM7GV8RNKRJ7AJZ7AAPDX8",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "修改@图片1 的框内配色为@图片2 样式\n注意不要修改 @图片1 左侧工具栏的颜色\n\n输出透明背景",
+      "outputs": [
+        "/assets/output/online_2c99e2ba2f.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/output/online_eda746bff9.png",
+          "name": "online_eda746bff9.png"
+        },
+        {
+          "url": "/assets/output/online_d429c556ec.png",
+          "name": "online_d429c556ec.png"
+        }
+      ],
+      "runMs": 70162,
+      "error": ""
+    },
+    {
+      "id": "log_163986f0f76b7_1791727231378",
+      "createdAt": 1791727231378,
+      "status": "failed",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {},
+      "prompt": "修改@图片1 的框内配色为@图片2 样式\n注意不要修改 @图片1 左侧工具栏的颜色\n\n输出透明背景",
+      "outputs": [],
+      "refs": [
+        {
+          "url": "/assets/output/online_eda746bff9.png",
+          "name": "online_eda746bff9.png"
+        },
+        {
+          "url": "/assets/output/online_d429c556ec.png",
+          "name": "online_d429c556ec.png"
+        }
+      ],
+      "runMs": 20717,
+      "error": "请求上游生图接口失败："
+    },
+    {
+      "id": "log_bd9322f61795a8_1791726814237",
+      "createdAt": 1791726814237,
+      "status": "success",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-flare",
+      "request": {
+        "task_id": "task_01M4NKSYGCK83X5CARX620C4BA",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "@图片1 为一个启动器的初稿版本\n名字为：无限画布.启动器\n左侧为书签式的工具栏目，帮我修改一下启动器的样式，修改背景配色，可以稍微亮一些，\n@图片2 为我找的侧边书签的样式，让启动器以一个书签抽屉的方式，允许左侧书签工具为不规则异形，\n\n输出透明背景\n",
+      "outputs": [
+        "/assets/output/online_eda746bff9.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_00193195c3c2.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_98cb89e79bfa.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 36523,
+      "error": ""
+    },
+    {
+      "id": "log_6fe4a0ea17c9d8_1791726712514",
+      "createdAt": 1791726712514,
+      "status": "success",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-flare",
+      "request": {
+        "task_id": "task_01M4NKPS400S11Y90YTNB04700",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "@图片1 为一个启动器的初稿版本\n名字为：无限画布.启动器\n左侧为书签式的工具栏目，帮我修改一下启动器的样式，让他简约的同时，不太那么条框死板\n@图片2 为我找的侧边书签的样式，让启动器以一个书签抽屉的方式，允许不规则异形，\n\n输出透明背景\n",
+      "outputs": [
+        "/assets/output/online_d429c556ec.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_00193195c3c2.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_98cb89e79bfa.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 38808,
+      "error": ""
+    },
+    {
+      "id": "log_5628225de81248_1791726687188",
+      "createdAt": 1791726687188,
+      "status": "failed",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-flare",
+      "request": {},
+      "prompt": "@图片1 为一个启动器的初稿版本\n名字为：无限画布.启动器\n左侧为书签式的工具栏目，帮我修改一下启动器的样式，让他简约的同时，不太那么条框死板\n@图片2 为我找的侧边书签的样式，让启动器以一个书签抽屉的方式，允许不规则异形，\n\n输出透明背景\n",
+      "outputs": [],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_00193195c3c2.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_98cb89e79bfa.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 21414,
+      "error": "请求上游生图接口失败："
+    },
+    {
+      "id": "log_26226a0a6e2f2_1791726668946",
+      "createdAt": 1791726668946,
+      "status": "failed",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-flare",
+      "request": {},
+      "prompt": "@图片1 为一个启动器的初稿版本\n名字为：无限画布.启动器\n左侧为书签式的工具栏目，帮我修改一下启动器的样式，让他简约的同时，不太那么条框死板\n@图片2 为我找的侧边书签的样式，让启动器以一个书签抽屉的方式，允许不规则异形，\n\n输出透明背景\n",
+      "outputs": [],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_00193195c3c2.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_98cb89e79bfa.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 20179,
+      "error": "请求上游生图接口失败："
+    },
+    {
+      "id": "log_1fc2735d1de4e_1791721834181",
+      "createdAt": 1791721834181,
+      "status": "success",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-flare",
+      "request": {
+        "task_id": "task_01M4NF249W2Z7P1R5S99GYSV9P",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "帮我用@图片1 的meme图，制作一个圆角的icon，简约笔画，潦草但是线条浑厚清晰，边框笔直清晰\n，圆角外透明底",
+      "outputs": [
+        "/assets/output/online_a2ecbd56a8.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/output/online_6d91f2777c.png",
+          "name": "online_6d91f2777c.png"
+        }
+      ],
+      "runMs": 31470,
+      "error": ""
+    },
+    {
+      "id": "log_14b8bf97be1cb8_1791721718242",
+      "createdAt": 1791721718242,
+      "status": "success",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-ext",
+      "request": {
+        "task_id": "task_01M4NEYEXQKETG1MW8KT6Y2S13",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "帮我用@图片1 的meme图，制作一个圆角的icon，简约笔画，潦草但是线条浑厚清晰",
+      "outputs": [
+        "/assets/output/online_6d91f2777c.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_70ff3dbe42d5.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 35407,
+      "error": ""
+    },
+    {
+      "id": "log_feb8133f3a561_1791721680276",
+      "createdAt": 1791721680276,
+      "status": "failed",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-ext",
+      "request": {},
+      "prompt": "帮我用@图片1 的meme图，制作一个圆角的icon，简约笔画，潦草但是线条浑厚清晰",
+      "outputs": [],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_70ff3dbe42d5.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 20167,
+      "error": "请求上游生图接口失败："
+    },
     {
       "id": "log_b2f3eba6030318_1791631828994",
       "createdAt": 1791631828994,

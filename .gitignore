@@ -8,3 +8,8 @@ output/
 *.env
 .env
 _backup*/
+
+# --- 启动器 ---
+*.exe.WebView2/
+/launcher/target/
+build_log*.txt
