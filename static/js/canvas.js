@@ -485,6 +485,7 @@ const activeCanvasTaskPolls = new Set();
 let hoveredConnectionId = '';
 let lastMouseBoard = {x: 0, y: 0};
 let undoStack = [];
+let redoStack = [];
 const UNDO_MAX = 30;
 const cascadeRunningIds = new Set();
 const cascadeStopIds = new Set();
@@ -19545,14 +19546,10 @@ function connectSelectionToGenerator(kind, genId){
     syncGeneratorInputs();
 }
 
-function pushUndo(){
-    if(!canvas) return;
-    undoStack.push({nodes:JSON.parse(JSON.stringify(serializableCanvasNodes())), connections:JSON.parse(JSON.stringify(connections))});
-    if(undoStack.length > UNDO_MAX) undoStack.shift();
+function snapshotState(){
+    return {nodes:JSON.parse(JSON.stringify(serializableCanvasNodes())), connections:JSON.parse(JSON.stringify(connections))};
 }
-function performUndo(){
-    if(!canvas || !undoStack.length) return;
-    const state = undoStack.pop();
+function restoreState(state){
     nodes = state.nodes;
     connections = state.connections;
     selected.clear();
@@ -19560,6 +19557,24 @@ function performUndo(){
     syncGeneratorInputs();
     render();
     scheduleSave();
+}
+function pushUndo(){
+    if(!canvas) return;
+    undoStack.push(snapshotState());
+    redoStack = [];
+    if(undoStack.length > UNDO_MAX) undoStack.shift();
+}
+function performUndo(){
+    if(!canvas || !undoStack.length) return;
+    redoStack.push(snapshotState());
+    if(redoStack.length > UNDO_MAX) redoStack.shift();
+    restoreState(undoStack.pop());
+}
+function performRedo(){
+    if(!canvas || !redoStack.length) return;
+    undoStack.push(snapshotState());
+    if(undoStack.length > UNDO_MAX) undoStack.shift();
+    restoreState(redoStack.pop());
 }
 function cloneNode(n, dx, dy){
     const copy = JSON.parse(JSON.stringify(serializableCanvasNode(n)));
@@ -21208,7 +21223,8 @@ window.addEventListener('keydown', e => {
     if((e.ctrlKey || e.metaKey) && key === 'z') {
         const tag = document.activeElement?.tagName;
         if(tag === 'INPUT' || tag === 'TEXTAREA' || document.activeElement?.isContentEditable) return;
-        e.preventDefault(); performUndo();
+        e.preventDefault();
+        if(e.shiftKey) performRedo(); else performUndo();
     }
     if(e.key === 'Delete' || e.key === 'Backspace') {
         const tag = document.activeElement?.tagName;
