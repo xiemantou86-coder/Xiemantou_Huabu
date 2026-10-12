@@ -2650,15 +2650,28 @@ def update_from_github(req: UpdateRequest = UpdateRequest()):
         updated.extend(static_files)
 
         replaced_root_files = []
+        pending_replace_files = []  # 因占用而延迟的文件（如运行中的 exe）
         try:
             for rel in root_files:
                 target = safe_update_target(rel)
                 os.makedirs(os.path.dirname(target), exist_ok=True)
                 temp_path = f"{target}.update_tmp"
                 shutil.copy2(os.path.join(staging_root, *rel.split("/")), temp_path)
-                os.replace(temp_path, target)
-                replaced_root_files.append(rel)
-                updated.append(rel)
+                try:
+                    os.replace(temp_path, target)
+                    replaced_root_files.append(rel)
+                    updated.append(rel)
+                except PermissionError:
+                    # 目标被占用（典型：启动器 exe 正在运行）。
+                    pending_path = f"{target}.new"
+                    try:
+                        if os.path.exists(pending_path):
+                            os.remove(pending_path)
+                        os.replace(temp_path, pending_path)
+                    except Exception:
+                        pending_path = temp_path
+                    pending_replace_files.append(rel)
+                    updated.append(rel + " (待重启生效)")
         except Exception:
             for rel in reversed(replaced_root_files):
                 backup_path = os.path.join(backup_root, *rel.split("/"))
@@ -2695,6 +2708,7 @@ def update_from_github(req: UpdateRequest = UpdateRequest()):
             "pruned_backups": pruned_backups,
             "restart_required": True,
             "restart_scheduled": restart_scheduled,
+            "pending_replacements": pending_replace_files,
         }
     except HTTPException:
         raise
@@ -20375,8 +20389,31 @@ def run_workflow(name: str, payload: WorkflowRunRequest):
     )
     return generate(req)
 
+def apply_pending_replacements() -> None:
+    """启动时应用上次因占用而延迟的更新文件（如运行中的 exe）。"""
+    try:
+        from pathlib import Path
+        base = Path(__file__).resolve().parent
+        for new_file in sorted(base.glob("*.new")):
+            name = new_file.name
+            if not name.endswith(".new"):
+                continue
+            target = base / name[:-4]
+            try:
+                if target.exists():
+                    target.unlink()
+                new_file.rename(target)
+                print(f"[launcher] 已应用待替换文件：{name} → {target.name}")
+            except PermissionError:
+                print(f"[launcher] {target.name} 仍被占用，下次启动重试")
+            except Exception as e:
+                print(f"[launcher] 应用待替换失败：{target.name} ({e})")
+    except Exception as _e:
+        print(f"[launcher] apply_pending_replacements 异常：{_e}")
+
 if __name__ == "__main__":
     import uvicorn
+    apply_pending_replacements()
     # 关闭服务端协议级 WebSocket ping：部分客户端（如 PS UXP 面板）不会自动回 pong，
     # 默认 20s ping/20s 超时会把这些连接每隔一会儿就踢掉造成"频繁断连"。
     # 客户端有自己的应用层心跳 + 断线重连兜底，这里禁用协议 ping 更稳。
