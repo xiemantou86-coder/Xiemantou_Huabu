@@ -13,3 +13,6 @@ _backup*/
 *.exe.WebView2/
 /launcher/target/
 build_log*.txt
+
+# --- 开发补丁备份 ---
+*.bak_*
