@@ -888,7 +888,7 @@ function isXinglianVideoProvider(providerId){
     return provider.id === 'xinglian' || String(provider.base_url || '').toLowerCase().includes('vjimeng.vip');
 }
 function videoDurationRange(providerId){
-    return isXinglianVideoProvider(providerId) ? {min:4, max:15, fallback:4} : {min:1, max:60, fallback:5};
+    return isXinglianVideoProvider(providerId) ? {min:4, max:30, fallback:4} : {min:1, max:60, fallback:5};
 }
 function xinglianAspectOptions(selected){
     const value = ['16:9', '9:16', '1:1'].includes(String(selected || '')) ? selected : '16:9';
@@ -3022,7 +3022,8 @@ async function runTranslationOutputNode(outputId, options={}){
     if(!options.fromBatch) translationQueuedOutputs.delete(outputId);
     if(!normalizeTranslationImages(source).length){ if(!options.silent) alert('请先在改图/翻译节点放入原图'); return; }
     if(!source.apiProvider || !source.model){ if(!options.silent) alert('请先选择 API 平台和模型'); return; }
-    if(output.running || (output._pending || []).some(pending => !pending.failed)) return;
+    // 仅用 running 防抖（2s 自动解锁）；不再被 _pending 静默拦截（与「2s 后可再次并发点击」设计一致）。
+    if(output.running) return;
     const settings = options.settings || translationOutputSettings(source, output);
     if(!settings) return;
     const prompt = options.prompt || translationOutputPrompt(output);
@@ -3904,6 +3905,7 @@ function generatorReferenceGallery(gen){
     if(!gen) return null;
     const direct = canvasDataConnections().find(connection => connection.to === gen.id
         && nodes.some(node => node.id === connection.from && node.type === 'kvReferenceGallery')
+        && !String(connection.fromPort || '').startsWith('gallerySlotOut:')
         && !isKvGalleryConnection(connection));
     if(direct) return nodes.find(node => node.id === direct.from) || null;
     if(gen.type !== 'masterGenerator') return null;
@@ -13230,7 +13232,7 @@ function renderVideoBody(node){
         node.apiProvider = e.target.value;
         const models = providerVideoModels(node.apiProvider);
         if(!models.includes(node.model)) node.model = models[0] || node.model;
-        // 切到星链云时把不适配的旧设置收拾干净：分辨率由模型名决定、比例只认三档、时长 4~15
+        // 切到星链云时把不适配的旧设置收拾干净：分辨率由模型名决定、比例只认三档、时长 4~30
         if(isXinglianVideoProvider(node.apiProvider)){
             node.resolution = '';
             if(!['16:9', '9:16', '1:1'].includes(String(node.aspectRatio || ''))) node.aspectRatio = '16:9';

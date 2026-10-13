@@ -73,6 +73,7 @@ app.add_middleware(
     allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
+    allow_private_network=True,
 )
 
 # --- WebSocket 状态管理器 ---
@@ -15670,12 +15671,12 @@ def xinglian_video_ratio(value):
     return ""
 
 def xinglian_video_duration(value):
-    """星链云时长范围 4~15 秒，默认 4 秒（参考 MT_SD2.0 的滑块下限就是 4）。"""
+    """星链云时长范围 4~30 秒，默认 4 秒（参考 MT_SD2.0 的滑块下限就是 4）。"""
     try:
         seconds = int(round(float(value)))
     except (TypeError, ValueError):
         return 4
-    return max(4, min(15, seconds))
+    return max(4, min(30, seconds))
 
 def xinglian_progress_to_bar(value):
     """把上游返回的生成进度映射到 25~95 的进度条区间（与 MT_SD2.0 脚本一致：
@@ -20417,5 +20418,5 @@ if __name__ == "__main__":
     # 关闭服务端协议级 WebSocket ping：部分客户端（如 PS UXP 面板）不会自动回 pong，
     # 默认 20s ping/20s 超时会把这些连接每隔一会儿就踢掉造成"频繁断连"。
     # 客户端有自己的应用层心跳 + 断线重连兜底，这里禁用协议 ping 更稳。
-    uvicorn.run(app, host="0.0.0.0", port=3001,
+    uvicorn.run(app, host="0.0.0.0", port=int(os.getenv("CANVAS_PORT", "3001")),
                 ws_ping_interval=None, ws_ping_timeout=None)

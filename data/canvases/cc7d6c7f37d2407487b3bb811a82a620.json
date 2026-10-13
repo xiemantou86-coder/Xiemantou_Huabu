@@ -8,13 +8,13 @@
   "pinned": false,
   "project": "default",
   "created_at": 1789034316892,
-  "updated_at": 1791747965097,
+  "updated_at": 1791860473744,
   "nodes": [
     {
       "id": "containerGroup_cdc65987d9fd3_1789034526143",
       "type": "containerGroup",
-      "x": 5044.724403430415,
-      "y": 2298.7238349696927,
+      "x": 5051.989372770536,
+      "y": 2293.2751079646023,
       "w": 3987,
       "h": 1683,
       "title": "容器分组",
@@ -363,8 +363,8 @@
     {
       "id": "output_37547e1d121128_1789034526143",
       "type": "output",
-      "x": 7398.547985479643,
-      "y": 2366.4864750570996,
+      "x": 7405.812954819764,
+      "y": 2361.037748052009,
       "images": [
         {
           "url": "/assets/output/online_3a570f7dc4.png",
@@ -497,8 +497,8 @@
     {
       "id": "output_4240b6c56b399_1789034526143",
       "type": "output",
-      "x": 8389.491785813561,
-      "y": 2370.9881401279913,
+      "x": 8396.756755153681,
+      "y": 2365.539413122901,
       "images": [
         {
           "url": "/assets/output/online_14e1a0c56d.png",
@@ -629,8 +629,8 @@
     {
       "id": "output_f863152329d02_1789034526143",
       "type": "output",
-      "x": 8375.832918191289,
-      "y": 3264.105323378855,
+      "x": 8383.097887531409,
+      "y": 3258.6565963737644,
       "images": [
         {
           "url": "/assets/output/online_85657f87e7.png",
@@ -746,8 +746,8 @@
     {
       "id": "group_e5037feeecb26_1789034526143",
       "type": "group",
-      "x": 5089.23132032327,
-      "y": 3189.7928030715943,
+      "x": 5096.496289663391,
+      "y": 3184.344076066504,
       "w": 718,
       "h": 765,
       "items": [
@@ -758,8 +758,8 @@
     {
       "id": "output_7862c2242836b_1789034526143",
       "type": "output",
-      "x": 7413.4601719421225,
-      "y": 3249.7985659570036,
+      "x": 7420.725141282243,
+      "y": 3244.349838951913,
       "images": [
         {
           "url": "/assets/output/online_eb3338b3c1.png",
@@ -881,8 +881,8 @@
     {
       "id": "prompt_9219bfed4963a_1789034526143",
       "type": "prompt",
-      "x": 8000.264854813851,
-      "y": 2907.7131597028456,
+      "x": 8007.529824153972,
+      "y": 2902.264432697755,
       "text": "竖版广告，以广告为主，广告可适当放大",
       "w": 362,
       "h": 172
@@ -890,8 +890,8 @@
     {
       "id": "prompt_8b60063960d3d_1789034526143",
       "type": "prompt",
-      "x": 7986.855739273071,
-      "y": 3747.6409752308414,
+      "x": 7994.120708613192,
+      "y": 3742.192248225751,
       "text": "去掉原图的广告，和文字,\n竖版广告，以广告为主，广告可适当放大,",
       "w": 373,
       "h": 186
@@ -899,8 +899,8 @@
     {
       "id": "masterGenerator_f0e134cf699058_1789034526143",
       "type": "masterGenerator",
-      "x": 7021.8543274260865,
-      "y": 2361.888964620519,
+      "x": 7029.119296766207,
+      "y": 2356.4402376154285,
       "apiProvider": "apimart",
       "model": "gpt-image-2",
       "ratio": "wide",
@@ -936,8 +936,8 @@
     {
       "id": "masterGenerator_480df06d2eb5e_1789034526143",
       "type": "masterGenerator",
-      "x": 7996.469908133929,
-      "y": 2342.143331644825,
+      "x": 8003.734877474049,
+      "y": 2336.6946046397347,
       "apiProvider": "apimart",
       "model": "gpt-image-2",
       "ratio": "story",
@@ -980,8 +980,8 @@
     {
       "id": "masterGenerator_bf743f822a89d_1789034526143",
       "type": "masterGenerator",
-      "x": 7985.49749361284,
-      "y": 3211.593938256286,
+      "x": 7992.762462952961,
+      "y": 3206.1452112511956,
       "apiProvider": "apimart",
       "model": "gpt-image-2",
       "ratio": "portrait43",
@@ -1008,8 +1008,8 @@
     {
       "id": "masterGenerator_c0beeac1822538_1789034526143",
       "type": "masterGenerator",
-      "x": 6278.8806528699915,
-      "y": 3176.439125674585,
+      "x": 6286.145622210112,
+      "y": 3170.9903986694944,
       "apiProvider": "apimart",
       "model": "gpt-image-2",
       "ratio": "wide",
@@ -1051,8 +1051,8 @@
     {
       "id": "prompt_c237e38bf0133_1789034526143",
       "type": "prompt",
-      "x": 6274.778267601394,
-      "y": 3668.8379308708077,
+      "x": 6282.043236941515,
+      "y": 3663.3892038657173,
       "text": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主要画面/角色参考，保持角色身份、脸部、发型、服装和核心特征一致\n- 图片2作为游戏 Logo 参考，仅参考 Logo 的形状、字形和品牌识别，不复制其他画面内容\n- 图片3作为下载按钮样式参考，仅参考按钮的形状、边框和视觉质感\n- 图片4作为文案样式参考，参考字体、排版层级和文字质感，不复制其中的具体文字\n\n画面设计：\n- 视觉风格：日系高品质动漫游戏KV，主推角色插画，王道热血奇幻冒险风格，官方授权RPG海报风，细腻精致线条，顶级二次元立绘，电影级光影与粒子光效，游戏宣传主视觉。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「熱血魔法點燃戰場」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：参考图片4的字体设计效果。\n- 排版位置：custom-copyPlacement-mu0yq5li-vy710。\n- 在画面合适的位置，加入图片3的按钮包裹文字：立即下載。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 在画面四周角落放置图片2的游戏logo，确保logo不会变形，出错，严禁修改logo样式\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字\n\n修改构图，制作一张繁体中文的游戏banner，左广告右主图的格式：\n1、去掉原图所有的广告和游戏logo。\n参考图说明：\n- 图片1作为主要画面/角色参考，保持角色身份、脸部、发型、服装和核心特征一致\n- 图片2作为游戏 Logo 参考，仅参考 Logo 的形状、字形和品牌识别，不复制其他画面内容\n2、为全图增加广告文案：\n\n- 位于文字区最上方是游戏logo\n\n- 主标题：\n  熱血魔法點燃戰場\n\n- 图片4作为文案样式参考，参考字体、排版层级和文字质感，不复制其中的具体文字\n\n- 副标题：\n  集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。\n  副标题为小字，在主标题下方\n\n- 三分法则（Rule of Thirds）：画面采用了经典的“左文右图”布局。\n  组内居中对齐：左侧的所有文字模块（主标题、副标题、按钮）在自身所在的隐形文本框内，均采用了居中对齐。\n\n- 位于文字区域最下方，按钮包裹文字：立即下載",
       "w": 516,
       "h": 284,
@@ -1079,8 +1079,8 @@
       "negativePrompt": "模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
       "text": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主要画面/角色参考，保持角色身份、脸部、发型、服装和核心特征一致\n- 图片2作为游戏 Logo 参考，仅参考 Logo 的形状、字形和品牌识别，不复制其他画面内容\n- 图片3作为下载按钮样式参考，仅参考按钮的形状、边框和视觉质感\n- 图片4作为文案样式参考，参考字体、排版层级和文字质感，不复制其中的具体文字\n\n画面设计：\n- 视觉风格：日系高品质动漫游戏KV，主推角色插画，王道热血奇幻冒险风格，官方授权RPG海报风，细腻精致线条，顶级二次元立绘，电影级光影与粒子光效，游戏宣传主视觉。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「熱血魔法點燃戰場」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：参考图片4的字体设计效果。\n- 排版位置：custom-copyPlacement-mu0yq5li-vy710。\n- 在画面合适的位置，加入图片3的按钮包裹文字：立即下載。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 在画面四周角落放置图片2的游戏logo，确保logo不会变形，出错，严禁修改logo样式\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
       "id": "gameKvPrompt_2138440b47d_1789034526143",
-      "x": 6237.520844778195,
-      "y": 2362.0542604449047,
+      "x": 6240.46006793501,
+      "y": 2353.7217026509434,
       "references": [
         {
           "id": "reference-1",
@@ -1125,8 +1125,8 @@
     {
       "id": "prompt_18f84d33375318_1789034526143",
       "type": "prompt",
-      "x": 6675.851683803067,
-      "y": 2347.987970227093,
+      "x": 6667.255583804398,
+      "y": 2352.6326509830506,
       "text": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主要画面/角色参考，保持角色身份、脸部、发型、服装和核心特征一致\n- 图片2作为游戏 Logo 参考，仅参考 Logo 的形状、字形和品牌识别，不复制其他画面内容\n- 图片3作为下载按钮样式参考，仅参考按钮的形状、边框和视觉质感\n- 图片4作为文案样式参考，参考字体、排版层级和文字质感，不复制其中的具体文字\n\n画面设计：\n- 视觉风格：日系高品质动漫游戏KV，主推角色插画，王道热血奇幻冒险风格，官方授权RPG海报风，细腻精致线条，顶级二次元立绘，电影级光影与粒子光效，游戏宣传主视觉。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「熱血魔法點燃戰場」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：参考图片4的字体设计效果。\n- 排版位置：custom-copyPlacement-mu0yq5li-vy710。\n- 在画面合适的位置，加入图片3的按钮包裹文字：立即下載。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 在画面四周角落放置图片2的游戏logo，确保logo不会变形，出错，严禁修改logo样式\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
       "w": 340,
       "h": 758,
@@ -1137,8 +1137,8 @@
     {
       "id": "label_021c534e3efe08_1789034526143",
       "type": "label",
-      "x": 8401.379782602005,
-      "y": 2989.440314109295,
+      "x": 8408.644751942125,
+      "y": 2983.9915871042044,
       "w": 156,
       "h": 96,
       "text": "9：6竖版",
@@ -1150,8 +1150,8 @@
     {
       "id": "label_4ad0378a3ef968_1789034526143",
       "type": "label",
-      "x": 7422.32130186524,
-      "y": 3827.801633396852,
+      "x": 7429.58627120536,
+      "y": 3822.3529063917617,
       "w": 242,
       "h": 62,
       "text": "16：9大弹窗",
@@ -1163,8 +1163,8 @@
     {
       "id": "label_139482fbeab548_1789034526143",
       "type": "label",
-      "x": 8384.634306668004,
-      "y": 3814.6716638284056,
+      "x": 8391.899276008124,
+      "y": 3809.222936823315,
       "w": 209,
       "h": 111,
       "text": "5：7小弹窗",
@@ -1176,8 +1176,8 @@
     {
       "id": "label_0ba3d2280a065_1789034526143",
       "type": "label",
-      "x": 7402.627953032681,
-      "y": 3100.785526120739,
+      "x": 7409.892922372802,
+      "y": 3095.336799115649,
       "w": 237,
       "h": 75,
       "text": "16：9横板",
@@ -1202,8 +1202,8 @@
     {
       "id": "image_ba7d39ae64281_1789034526143",
       "type": "image",
-      "x": 5145.851381824694,
-      "y": 3590.0783848803057,
+      "x": 5153.116351164815,
+      "y": 3584.6296578752153,
       "url": "",
       "name": "上传节点",
       "mediaKind": "image",
@@ -1260,8 +1260,8 @@
     {
       "id": "gameKvPopupPrompt_564e61ecfa777_1789034526143",
       "type": "gameKvPopupPrompt",
-      "x": 5827.690839091635,
-      "y": 3186.0684658556443,
+      "x": 5834.955808431756,
+      "y": 3180.619738850554,
       "w": 430,
       "h": 760,
       "title": "大弹窗 KV 提示词",
@@ -1545,8 +1545,8 @@
     {
       "id": "image_5294ceea286758_1789034526143",
       "type": "image",
-      "x": 5447.702468559434,
-      "y": 3597.11272316419,
+      "x": 5454.967437899555,
+      "y": 3591.6639961590995,
       "url": "",
       "name": "上传节点",
       "mediaKind": "image",
@@ -1557,8 +1557,8 @@
     {
       "id": "label_3defad1248c0e_1789034526143",
       "type": "label",
-      "x": 6830.828502906268,
-      "y": 3371.5303941757584,
+      "x": 6838.093472246389,
+      "y": 3366.081667170668,
       "w": 537,
       "h": 231,
       "text": "广告出图\n工作流",
@@ -1570,8 +1570,8 @@
     {
       "id": "label_76478d980a62b8_1789034526143",
       "type": "label",
-      "x": 7035.982416295954,
-      "y": 2973.2496670453274,
+      "x": 7043.247385636075,
+      "y": 2967.800940040237,
       "w": 330,
       "h": 87,
       "text": "点击一键出图",
@@ -1583,8 +1583,8 @@
     {
       "id": "label_bf24a290897ae8_1789034526143",
       "type": "label",
-      "x": 6238.3588595402725,
-      "y": 2343.6300028957226,
+      "x": 6241.298082697087,
+      "y": 2335.2974451017612,
       "w": 198,
       "h": 60,
       "text": "主要提示词",
@@ -1596,8 +1596,8 @@
     {
       "id": "label_fccfe1c2f0c7d8_1789034526143",
       "type": "label",
-      "x": 5835.808716496699,
-      "y": 3187.3078625125836,
+      "x": 5843.07368583682,
+      "y": 3181.859135507493,
       "w": 142,
       "h": 43,
       "text": "大弹窗设置",
@@ -2008,8 +2008,8 @@
     {
       "id": "kv-gallery_d155fbed5a97f8_1791621479683",
       "type": "kvReferenceGallery",
-      "x": 5074.121717385931,
-      "y": 2347.8419498048916,
+      "x": 5081.386686726052,
+      "y": 2342.393222799801,
       "w": 1138,
       "h": 809,
       "title": "KV 参考图库",
@@ -2074,8 +2074,8 @@
     {
       "id": "label_a2a4e58b5761d8_1791621512730",
       "type": "label",
-      "x": 5094.022282626623,
-      "y": 2298.563614992819,
+      "x": 5101.2872519667435,
+      "y": 2293.1148879877287,
       "w": 190,
       "h": 85,
       "text": "参考图",
@@ -2394,7 +2394,7 @@
       "id": "translate-out_353736bbe7e3e8_1791631711369",
       "type": "translationOutput",
       "x": 9325.476940018305,
-      "y": 3391.300326254206,
+      "y": 3404.300326254206,
       "w": 383,
       "translationSourceId": "translate-in_6615524e6fd6e_1791623983514",
       "translationMode": "translate",
@@ -2508,7 +2508,7 @@
       "id": "translate-out_07e3f232cae26_1791631711369",
       "type": "translationOutput",
       "x": 9745.476940018305,
-      "y": 3391.300326254206,
+      "y": 3404.300326254206,
       "w": 383,
       "translationSourceId": "translate-in_6615524e6fd6e_1791623983514",
       "translationMode": "translate",
@@ -2532,7 +2532,7 @@
       "id": "translate-out_0ee27b54c21cd_1791631711369",
       "type": "translationOutput",
       "x": 10165.476940018305,
-      "y": 3391.300326254206,
+      "y": 3404.300326254206,
       "w": 383,
       "translationSourceId": "translate-in_6615524e6fd6e_1791623983514",
       "translationMode": "translate",
@@ -2589,8 +2589,101 @@
     {
       "id": "mgen_f05dbc770294c8_1791638049822",
       "type": "masterGenerator",
-      "x": 3630.218687294511,
-      "y": 2273.5423347411474,
+      "x": 3799.7487332686965,
+      "y": 2247.8897619950535,
+      "apiProvider": "apimart",
+      "model": "gpt-image-2.5-ext",
+      "ratio": "wide",
+      "resolution": "2k",
+      "customRatio": "",
+      "customSize": "",
+      "customRatioWidth": "",
+      "customRatioHeight": "",
+      "customWidth": "",
+      "customHeight": "",
+      "transparentBackground": false,
+      "inputs": [
+        "prompt_55f8a39b957c88_1791808720618"
+      ],
+      "masterEnabled": false,
+      "_apiResolutionUserSet": true,
+      "transparentCheckWarning": "",
+      "generatedOutputs": [
+        "/assets/output/online_7a1bb3a5e7.png"
+      ]
+    },
+    {
+      "id": "mgen_e2b3de4ff4dff8_1791638053440",
+      "type": "masterGenerator",
+      "x": 3958.1489598821854,
+      "y": 2883.1674928801194,
+      "apiProvider": "apimart",
+      "model": "gemini-3.1-flash-image-preview",
+      "ratio": "square",
+      "resolution": "1k",
+      "customRatio": "",
+      "customSize": "",
+      "customRatioWidth": "",
+      "customRatioHeight": "",
+      "customWidth": "",
+      "customHeight": "",
+      "transparentBackground": false,
+      "inputs": [],
+      "masterEnabled": false,
+      "masterSerialChain": true
+    },
+    {
+      "id": "prompt_55f8a39b957c88_1791808720618",
+      "type": "prompt",
+      "x": 3458.4023517214932,
+      "y": 2278.0944575134763,
+      "text": "(纯粹中国书法标题设计:1.3), 极简孤绝风格, 纯黑纯色平整背景 (pure black solid background #000000), 无任何场景, 无渐变, 无纹理, 无烟雾。\n【文字主体与错落章法】：\n核心大字为“司牧”，书法，纯白色厚重矿物颜料排笔笔触，北魏魏碑行草混溶体，笔笔斩金截铁，方笔折角锐利如刀斧劈砍，字骨极其坚硬挺拔，粗壮笃实，字画边缘光滑结实，完全没有毛刺和干枯飞白（no dry brush, minimal feibai），笔划粗壮沉重，气势沉稳磅礴。不要规整对齐！“司”字位偏高微向左倾斜，“牧”字位偏低向右下沉\n【附带小字与印章】：\n小字“落凡尘”不居中，体纵向错落排列在“司牧”大字左上角，宛如题跋；画面右下方留白处点缀一枚斑驳古拙的暗红色朱砂小方印。\n【视觉纯度约束】：\n白字黑底，高对比度，黑白分明，纯平面手书墨迹质感，绝对不要任何3D浮雕，不要厚度阴影，不要金色发光，不要石头纹理，不要多余英文字母，干净纯粹的电影级书法Logo。\n\n\n",
+      "w": 347,
+      "h": 525
+    },
+    {
+      "id": "out_ed175225c825a8_1791808815263",
+      "type": "output",
+      "x": 4192.673743129115,
+      "y": 2254.5718050727182,
+      "images": [],
+      "w": 423,
+      "h": 504,
+      "_pending": [],
+      "imageComparisons": {}
+    },
+    {
+      "id": "prompt_3b234ba083d808_1791810017479",
+      "type": "prompt",
+      "x": 3066.2966824593404,
+      "y": 2310.26502974785,
+      "text": "(纯粹中国书法大标题标志设计:1.3), 极简黑白艺术, 纯黑纯色平整背景 (solid pure black #000000), 无渐变, 无任何杂质。\n【字体风格与笔触】：盛唐浓墨狂草大字，浑厚圆劲，墨肉丰盈，极其饱满温润的浓稠白墨笔画，笔锋转折如折钗股，圆浑有力，饱墨顿挫，字画边缘光滑结实，完全没有毛刺和干枯飞白（no dry brush, minimal feibai），笔划粗壮沉重，气势沉稳磅礴。\n【错落构图】：主字“司牧”并列居中但故意错开重心，打破规整网格。“司”字高昂微倾，“牧”字沉稳居下右方，两字笔势勾连相咬；小字“落凡尘”纤细纵排于左侧空白处作题跋。右下角压一枚极小的深红朱砂方印。\n【负向控制】：无枯笔，无毛刺，无碎裂纹，无飞白，无3D，纯平面饱满黑白书道。",
+      "w": 332,
+      "h": 519
+    },
+    {
+      "id": "gen_9bb13587ff9e_1791858395146",
+      "type": "generator",
+      "x": 4645.703155195079,
+      "y": 2843.060397594265,
+      "apiProvider": "apimart",
+      "model": "gemini-3.1-flash-image-preview",
+      "ratio": "square",
+      "resolution": "1k",
+      "customRatio": "",
+      "customSize": "",
+      "customRatioWidth": "",
+      "customRatioHeight": "",
+      "customWidth": "",
+      "customHeight": "",
+      "transparentBackground": false,
+      "inputs": []
+    },
+    {
+      "id": "mgen_7418feeceb849_1791858406906",
+      "type": "masterGenerator",
+      "x": 4658.784769114609,
+      "y": 3250.060024395668,
       "apiProvider": "apimart",
       "model": "gemini-3.1-flash-image-preview",
       "ratio": "square",
@@ -2606,10 +2699,10 @@
       "masterEnabled": false
     },
     {
-      "id": "mgen_e2b3de4ff4dff8_1791638053440",
-      "type": "masterGenerator",
-      "x": 4043.772031070725,
-      "y": 2269.232342318381,
+      "id": "gen_838a15ed327b38_1791858741256",
+      "type": "generator",
+      "x": 4675.309664798205,
+      "y": 2435.578947221395,
       "apiProvider": "apimart",
       "model": "gemini-3.1-flash-image-preview",
       "ratio": "square",
@@ -2621,9 +2714,30 @@
       "customWidth": "",
       "customHeight": "",
       "transparentBackground": false,
-      "inputs": [],
-      "masterEnabled": false,
-      "masterSerialChain": true
+      "inputs": []
+    },
+    {
+      "id": "gen_ed7b9ba5ded4b_1791858754724",
+      "type": "generator",
+      "x": 6715.129923982594,
+      "y": 1964.4396271695268,
+      "apiProvider": "apimart",
+      "model": "gemini-3.1-flash-image-preview",
+      "ratio": "square",
+      "resolution": "1k",
+      "customRatio": "",
+      "customSize": "",
+      "customRatioWidth": "",
+      "customRatioHeight": "",
+      "customWidth": "",
+      "customHeight": "",
+      "transparentBackground": false,
+      "inputs": [
+        "slot-img:kv-gallery_d155fbed5a97f8_1791621479683:main",
+        "slot-img:kv-gallery_d155fbed5a97f8_1791621479683:logo",
+        "slot-img:kv-gallery_d155fbed5a97f8_1791621479683:downloadButton",
+        "slot-img:kv-gallery_d155fbed5a97f8_1791621479683:copyStyle"
+      ]
     }
   ],
   "connections": [
@@ -2900,22 +3014,6 @@
       "toPort": "in"
     },
     {
-      "id": "c_ae9527d91e3fd_1791629615758",
-      "kind": "kvReferenceGallery",
-      "from": "kv-gallery_d155fbed5a97f8_1791621479683",
-      "to": "gameKvPrompt_2138440b47d_1789034526143",
-      "fromPort": "galleryOut",
-      "toPort": "galleryIn"
-    },
-    {
-      "id": "c_5348a29339c9d8_1791629626663",
-      "kind": "dataFlow",
-      "from": "kv-gallery_d155fbed5a97f8_1791621479683",
-      "to": "masterGenerator_f0e134cf699058_1789034526143",
-      "fromPort": "out",
-      "toPort": "in"
-    },
-    {
       "id": "c_8e4e2d949564f8_1791631701330",
       "kind": "translationFlow",
       "from": "translate-in_6615524e6fd6e_1791623983514",
@@ -2968,6 +3066,46 @@
       "kind": "dataFlow",
       "from": "mgen_f05dbc770294c8_1791638049822",
       "to": "mgen_e2b3de4ff4dff8_1791638053440",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_c4570accc4a02_1791808720725",
+      "kind": "dataFlow",
+      "from": "prompt_55f8a39b957c88_1791808720618",
+      "to": "mgen_f05dbc770294c8_1791638049822",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_ae88fb003bf958_1791808815384",
+      "kind": "dataFlow",
+      "from": "mgen_f05dbc770294c8_1791638049822",
+      "to": "out_ed175225c825a8_1791808815263",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_1f105d5af20228_1791858810425",
+      "kind": "kvReferenceGallery",
+      "from": "kv-gallery_d155fbed5a97f8_1791621479683",
+      "to": "gameKvPrompt_2138440b47d_1789034526143",
+      "fromPort": "galleryOut",
+      "toPort": "galleryIn"
+    },
+    {
+      "id": "c_9f75edf09b961_1791858811999",
+      "kind": "dataFlow",
+      "from": "kv-gallery_d155fbed5a97f8_1791621479683",
+      "to": "masterGenerator_f0e134cf699058_1789034526143",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_bc76f3d60188e8_1791859066490",
+      "kind": "dataFlow",
+      "from": "kv-gallery_d155fbed5a97f8_1791621479683",
+      "to": "gen_ed7b9ba5ded4b_1791858754724",
       "fromPort": "out",
       "toPort": "in"
     },
@@ -3076,6 +3214,509 @@
   "board_x": 413.0,
   "board_y": 315.0,
   "logs": [
+    {
+      "id": "log_268de7c562867_1791859592489",
+      "createdAt": 1791859592489,
+      "status": "failed",
+      "platform": "translationOutput",
+      "nodeType": "translationOutput",
+      "model": "翻译：繁体中文 · 16:9 · 1K",
+      "request": {},
+      "prompt": "把图片中的韩文 한글文案，翻译成繁体中文，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
+      "outputs": [],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_dfb68fe3e6d5.png",
+          "name": "canvas-output-1789789113058.png"
+        }
+      ],
+      "runMs": 265,
+      "error": "未配置 畅指 的 API Key，请在 API 平台管理中填写。"
+    },
+    {
+      "id": "log_50a5ea25fd0bd8_1791810445174",
+      "createdAt": 1791810445174,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M4R3JK5HA0E9D1JNK3X82A20",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "(纯粹中国书法标题设计:1.3), 极简孤绝风格, 纯黑纯色平整背景 (pure black solid background #000000), 无任何场景, 无渐变, 无纹理, 无烟雾。\n【文字主体与错落章法】：\n核心大字为“司牧”，书法，纯白色厚重矿物颜料排笔笔触，北魏魏碑行草混溶体，笔笔斩金截铁，方笔折角锐利如刀斧劈砍，字骨极其坚硬挺拔，粗壮笃实，字画边缘光滑结实，完全没有毛刺和干枯飞白（no dry brush, minimal feibai），笔划粗壮沉重，气势沉稳磅礴。不要规整对齐！“司”字位偏高微向左倾斜，“牧”字位偏低向右下沉\n【附带小字与印章】：\n小字“落凡尘”不居中，体纵向错落排列在“司牧”大字左上角，宛如题跋；画面右下方留白处点缀一枚斑驳古拙的暗红色朱砂小方印。\n【视觉纯度约束】：\n白字黑底，高对比度，黑白分明，纯平面手书墨迹质感，绝对不要任何3D浮雕，不要厚度阴影，不要金色发光，不要石头纹理，不要多余英文字母，干净纯粹的电影级书法Logo。\n\n\n",
+      "outputs": [
+        "/assets/output/online_7a1bb3a5e7.png"
+      ],
+      "refs": [],
+      "runMs": 23986,
+      "error": ""
+    },
+    {
+      "id": "log_58e9231b58397_1791810308188",
+      "createdAt": 1791810308188,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M4R3EEGGFWKY3PZA7PCXNGNJ",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "(纯粹中国书法标题设计:1.3), 极简孤绝风格, 纯黑纯色平整背景 (pure black solid background #000000), 无任何场景, 无渐变, 无纹理, 无烟雾。\n【文字主体与错落章法】：\n核心大字为“司牧”，书法，纯白色厚重矿物颜料排笔笔触，盛唐浓墨狂草大字，浑厚圆劲，墨肉丰盈，极其饱满温润的浓稠白墨笔画，笔锋转折如折钗股，圆浑有力，饱墨顿挫，字画边缘光滑结实，完全没有毛刺和干枯飞白（no dry brush, minimal feibai），笔划粗壮沉重，气势沉稳磅礴。不要规整对齐！“司”字位偏高微向左倾斜，“牧”字位偏低向右下沉\n【附带小字与印章】：\n小字“落凡尘”不居中，体纵向错落排列在“司牧”大字左上角，宛如题跋；画面右下方留白处点缀一枚斑驳古拙的暗红色朱砂小方印。\n【视觉纯度约束】：\n白字黑底，高对比度，黑白分明，纯平面手书墨迹质感，绝对不要任何3D浮雕，不要厚度阴影，不要金色发光，不要石头纹理，不要多余英文字母，干净纯粹的电影级书法Logo。\n\n\n",
+      "outputs": [
+        "/assets/output/online_594cb463a0.png"
+      ],
+      "refs": [],
+      "runMs": 23233,
+      "error": ""
+    },
+    {
+      "id": "log_5602c7ba13746_1791810225534",
+      "createdAt": 1791810225534,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M4R3BVDRWVMCTBXMZWCMN54P",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "(纯粹中国书法标题设计:1.3), 极简孤绝风格, 纯黑纯色平整背景 (pure black solid background #000000), 无任何场景, 无渐变, 无纹理, 无烟雾。\n【文字主体与错落章法】：\n核心大字为“司牧”，书法，纯白色厚重矿物颜料排笔笔触，盛唐浓墨狂草大字，浑厚圆劲，墨肉丰盈，极其饱满温润的浓稠白墨笔画，笔锋转折如折钗股，圆浑有力，饱墨顿挫，字画边缘光滑结实，完全没有毛刺和干枯飞白（no dry brush, minimal feibai），笔划粗壮沉重，气势沉稳磅礴。\n【附带小字与印章】：\n小字“落凡尘”不居中，以细巧行草书体纵向错落排列在“司牧”大字左上角，宛如题跋；画面右下方留白处点缀一枚斑驳古拙的暗红色朱砂小方印。\n【视觉纯度约束】：\n白字黑底，高对比度，黑白分明，纯平面手书墨迹质感，绝对不要任何3D浮雕，不要厚度阴影，不要金色发光，不要石头纹理，不要多余英文字母，干净纯粹的电影级书法Logo。\n\n\n",
+      "outputs": [
+        "/assets/output/online_b777318d07.png"
+      ],
+      "refs": [],
+      "runMs": 25569,
+      "error": ""
+    },
+    {
+      "id": "log_112fb741d9616_1791810150889",
+      "createdAt": 1791810150889,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M4R39JEN7V1AW8D3HSAM9E0E",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "(纯粹中国书法标题设计:1.3), 极简孤绝风格, 纯黑纯色平整背景 (pure black solid background #000000), 无任何场景, 无渐变, 无纹理, 无烟雾。\n【文字主体与错落章法】：\n核心大字为“司牧”，书法，纯白色厚重矿物颜料排笔笔触，盛唐浓墨狂草大字，浑厚圆劲，墨肉丰盈，极其饱满温润的浓稠白墨笔画，笔锋转折如折钗股，圆浑有力，饱墨顿挫，字画边缘光滑结实，不要规整对齐！“司”字位偏高微向左倾斜，“牧”字位偏低向右下沉坠且两字笔势紧凑咬合相互呼应，笔触极其粗重有力量。\n【附带小字与印章】：\n小字“落凡尘”不居中，以细巧行草书体纵向错落排列在“司牧”大字左上角，宛如题跋；画面右下方留白处点缀一枚斑驳古拙的暗红色朱砂小方印。\n【视觉纯度约束】：\n白字黑底，高对比度，黑白分明，纯平面手书墨迹质感，绝对不要任何3D浮雕，不要厚度阴影，不要金色发光，不要石头纹理，不要多余英文字母，干净纯粹的电影级书法Logo。\n\n\n",
+      "outputs": [
+        "/assets/output/online_24d6f02c0c.png"
+      ],
+      "refs": [],
+      "runMs": 25511,
+      "error": ""
+    },
+    {
+      "id": "log_8b2a8e1dbd9ee_1791810097688",
+      "createdAt": 1791810097689,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M4R37NNR9GBTTQNGXXN60Z8Y",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "(纯粹中国书法标题设计:1.3), 极简孤绝风格, 纯黑纯色平整背景 (pure black solid background #000000), 无任何场景, 无渐变, 无纹理, 无烟雾。\n【文字主体与错落章法】：\n核心大字为“司牧”，书法，纯白色厚重矿物颜料排笔笔触，盛唐浓墨狂草大字，浑厚圆劲，墨肉丰盈，极其饱满温润的浓稠白墨笔画，笔锋转折如折钗股，圆浑有力，饱墨顿挫，字画边缘光滑结实，不要规整对齐！“司”字位偏高微向左倾斜，“牧”字位偏低向右下沉坠且两字笔势紧凑咬合相互呼应，“牧”字最后一捺大开大合甩出粗粝狂放的干笔飞白和散开的刷毛丝缕（bristle texture），笔触极其粗重有力量。\n【附带小字与印章】：\n小字“落凡尘”不居中，以细巧行草书体纵向错落排列在“司牧”大字左上角，宛如题跋；画面右下方留白处点缀一枚斑驳古拙的暗红色朱砂小方印。\n【视觉纯度约束】：\n白字黑底，高对比度，黑白分明，纯平面手书墨迹质感，绝对不要任何3D浮雕，不要厚度阴影，不要金色发光，不要石头纹理，不要多余英文字母，干净纯粹的电影级书法Logo。\n\n\n",
+      "outputs": [
+        "/assets/output/online_febab8633e.png"
+      ],
+      "refs": [],
+      "runMs": 34681,
+      "error": ""
+    },
+    {
+      "id": "log_1d3d618d44e43_1791809870814",
+      "createdAt": 1791809870814,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M4R312H3N7SR3PWYRX5ZE2FJ",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "(纯粹中国书法标题设计:1.3), 极简孤绝风格, 纯黑纯色平整背景 (pure black solid background #000000), 无任何场景, 无渐变, 无纹理, 无烟雾。\n【文字主体与错落章法】：\n核心大字为“司牧”，书法，纯白色厚重矿物颜料排笔笔触，字体结构险绝，不要规整对齐！“司”字位偏高微向左倾斜，“牧”字位偏低向右下沉坠且两字笔势紧凑咬合相互呼应，“牧”字最后一捺大开大合甩出粗粝狂放的干笔飞白和散开的刷毛丝缕（bristle texture），笔触极其粗重有力量。\n【附带小字与印章】：\n小字“落凡尘”不居中，以细巧行草书体纵向错落排列在“司牧”大字左上角，宛如题跋；画面右下方留白处点缀一枚斑驳古拙的暗红色朱砂小方印。\n【视觉纯度约束】：\n白字黑底，高对比度，黑白分明，纯平面手书墨迹质感，绝对不要任何3D浮雕，不要厚度阴影，不要金色发光，不要石头纹理，不要多余英文字母，干净纯粹的电影级书法Logo。\n\n",
+      "outputs": [
+        "/assets/output/online_eb1f170ccf.png"
+      ],
+      "refs": [],
+      "runMs": 23827,
+      "error": ""
+    },
+    {
+      "id": "log_95745e22d4a29_1791809805700",
+      "createdAt": 1791809805700,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M4R2Z0QMPRF77DE0MKPQ33TH",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "(纯粹中国书法标题设计:1.3), 极简孤绝风格, 纯黑纯色平整背景 (pure black solid background #000000), 无任何场景, 无渐变, 无纹理, 无烟雾。\n【文字主体与错落章法】：\n核心大字为“司牧”，狂草书法，纯白色厚重矿物颜料排笔笔触，字体结构险绝，不要规整对齐！“司”字位偏高微向左倾斜，“牧”字位偏低向右下沉坠且两字笔势紧凑咬合相互呼应，“牧”字最后一捺大开大合甩出粗粝狂放的干笔飞白和散开的刷毛丝缕（bristle texture），笔触极其粗重有力量。\n【附带小字与印章】：\n小字“落凡尘”不居中，以细巧行草书体纵向错落排列在“司牧”大字左上角，宛如题跋；画面右下方留白处点缀一枚斑驳古拙的暗红色朱砂小方印。\n【视觉纯度约束】：\n白字黑底，高对比度，黑白分明，纯平面手书墨迹质感，绝对不要任何3D浮雕，不要厚度阴影，不要金色发光，不要石头纹理，不要多余英文字母，干净纯粹的电影级书法Logo。",
+      "outputs": [
+        "/assets/output/online_2fde26f2d8.png"
+      ],
+      "refs": [],
+      "runMs": 25829,
+      "error": ""
+    },
+    {
+      "id": "log_181d18861c087_1791809368265",
+      "createdAt": 1791809368265,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M4R2HB7WMSSEAX9WTHNGT5H6",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "(masterpiece, best quality, typography design:1.2), movie title logo, Black Myth Wukong style Chinese calligraphy, dark fantasy epic Chinese title design on pure black background.\nMain large Hanzi characters \"司牧\" (Si Mu) positioned in the center, wild cursive script combined with fierce Wei tablet stele strokes, heavy flying white (kabi) dry brush effects, sharp carved stone edges, explosive ink splatters.\nSub-title small characters \"落凡尘\" placed delicately centered above \"司牧\", fine elegant Songti font with a tiny vermilion red seal stamp.\nMaterial & lighting: deep obsidian ink with subtle weathered golden veins and bronze chisel scratches, cinematic dark aesthetic, stark contrast, sharp vectors, isolated on dark graphite background.",
+      "outputs": [
+        "/assets/output/online_4d4e538bf7.png"
+      ],
+      "refs": [],
+      "runMs": 36549,
+      "error": ""
+    },
+    {
+      "id": "log_5fabaf5ed32fd_1791809350023",
+      "createdAt": 1791809350023,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M4R2H5JKBPFWA38GXGGYEXMN",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "(杰作, 最高画质:1.2), 电影标题标志设计, 《黑神话悟空》同款东方玄幻史诗书法大标题, 黑色背景上的中国书法艺术。\n核心文字排版：“司牧”作为巨大主标题横向并排居中，狂草魏碑笔法，枯笔飞白，苍劲有力，笔画带有刀砍斧劈的金石质感与飞溅墨星；\n副标题：“落凡尘”以极小字号紧密排列在“司牧”正上方中央，纤细典雅的金石宋体排版，中间带一枚微小暗红色朱砂方印；\n质感与细节：深玄铁墨色中透出微弱暗金微光，字形边缘有岩石风化断裂细节，泼墨飞白撕裂感，8k分辨率，纯净暗黑背景，电影海报级平面设计。",
+      "outputs": [
+        "/assets/output/online_1d6bcb3fab.png"
+      ],
+      "refs": [],
+      "runMs": 24072,
+      "error": ""
+    },
+    {
+      "id": "log_ccd2471fa90e58_1791809326356",
+      "createdAt": 1791809326356,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M4R2GD3EQN5Y9ZC52WYPFQNN",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "(杰作, 最高画质:1.2), 电影标题标志设计, 《黑神话悟空》同款东方玄幻史诗书法大标题, 黑色背景上的中国书法艺术。\n核心文字排版：“司牧”作为巨大主标题横向并排居中，狂草魏碑笔法，枯笔飞白，苍劲有力，笔画带有刀砍斧劈的金石质感与飞溅墨星；\n副标题：“落凡尘”以极小字号紧密排列在“司牧”正上方中央，纤细典雅的金石宋体排版，中间带一枚微小暗红色朱砂方印；\n质感与细节：深玄铁墨色中透出微弱暗金微光，字形边缘有岩石风化断裂细节，泼墨飞白撕裂感，8k分辨率，纯净暗黑背景，电影海报级平面设计。",
+      "outputs": [
+        "/assets/output/online_fc0f7d375a.jpg"
+      ],
+      "refs": [],
+      "runMs": 25679,
+      "error": ""
+    },
+    {
+      "id": "log_c856cf7b69039_1791809287213",
+      "createdAt": 1791809287213,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M4R2F8W04EDZJQ5V94YV9MJA",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "(杰作, 最高画质:1.2), 电影标题标志设计, 《黑神话悟空》同款东方玄幻史诗书法大标题, 黑色背景上的中国书法艺术。\n核心文字排版：“司牧”作为巨大主标题横向并排居中，狂草魏碑笔法，枯笔飞白，苍劲有力，笔画带有刀砍斧劈的金石质感与飞溅墨星；\n副标题：“落凡尘”以极小字号紧密排列在“司牧”正上方中央，纤细典雅的金石宋体排版，中间带一枚微小暗红色朱砂方印；\n质感与细节：深玄铁墨色中透出微弱暗金微光，字形边缘有岩石风化断裂细节，泼墨飞白撕裂感，8k分辨率，纯净暗黑背景，电影海报级平面设计。",
+      "outputs": [
+        "/assets/output/online_29427c0042.jpg"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_62bfc5bbeca1.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 23731,
+      "error": ""
+    },
+    {
+      "id": "log_d26539fee58a2_1791809221008",
+      "createdAt": 1791809221008,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M4R2D6MCGETM0KJA0D7FST34",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "参考@图片1 的毛笔字书法\n设计一个新的毛笔大标题：\n落凡尘 · 司牧\n\n以\"司牧\"为重点大字，落凡尘为小字\n\n风格可以参考黑神话悟空的风格",
+      "outputs": [
+        "/assets/output/online_f18eb4ac08.jpg"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_36a345d03d4e.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_62bfc5bbeca1.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 25584,
+      "error": ""
+    },
+    {
+      "id": "log_b88927824bbc4_1791809182128",
+      "createdAt": 1791809182128,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M4R2BNT6A0CKDPZS6CR0SSNW",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "参考@图片1 的毛笔字书法\n设计一个新的毛笔大标题：\n落凡尘 · 司牧\n\n以\"司牧\"为重点大字，落凡尘为小字\n\n风格可以参考黑神话悟空的风格",
+      "outputs": [
+        "/assets/output/online_0bcf633447.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_36a345d03d4e.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_62bfc5bbeca1.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 36421,
+      "error": ""
+    },
+    {
+      "id": "log_518ec00f4ef79_1791809122798",
+      "createdAt": 1791809122798,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M4R29FQD76256TRMQ9WCNG86",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "参考@图片1 的毛笔字书法\n设计一个新的毛笔大标题：\n落凡尘 · 司牧\n\n以\"司牧\"为重点大字，落凡尘为小字\n\n风格可以参考黑神话悟空的风格",
+      "outputs": [
+        "/assets/output/online_fc81848130.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_36a345d03d4e.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_62bfc5bbeca1.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 49120,
+      "error": ""
+    },
+    {
+      "id": "log_eb828f51184b8_1791808971228",
+      "createdAt": 1791808971228,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M4R256V3HD9A5PBZFYGN80A3",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "参考@图片1 的毛笔字书法\n设计一个新的毛笔大标题：\n落凡尘 · 司牧\n\n以中国传统毛笔书法为核心，采用苍枯笔\n\n落凡尘左上，司牧在右下\n\n风格可以参考黑神话悟空的风格",
+      "outputs": [
+        "/assets/output/online_653bcdb529.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_36a345d03d4e.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 37550,
+      "error": ""
+    },
+    {
+      "id": "log_cd679417365_1791808963989",
+      "createdAt": 1791808963989,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M4R24ZVDRCGWRBE9EK5AGH86",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "参考@图片1 的毛笔字书法\n设计一个新的毛笔大标题：\n落凡尘 · 司牧\n\n以中国传统毛笔书法为核心，采用苍枯笔\n\n落凡尘左上，司牧在右下\n\n风格可以参考黑神话悟空的风格",
+      "outputs": [
+        "/assets/output/online_404b260acf.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_36a345d03d4e.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 37534,
+      "error": ""
+    },
+    {
+      "id": "log_a9f64b68a73ad8_1791808864322",
+      "createdAt": 1791808864322,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M4R21XXWQ3TAJQ5F7R09T2HZ",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "参考@图片1 的毛笔字书法\n设计一个新的毛笔大标题：\n落凡尘 · 司牧\n\n以中国传统毛笔书法为核心，采用苍劲狂放的行草风格，强调飞白、枯笔、破锋、泼墨、笔锋拖尾和挥毫瞬间的力量感。整体气质凌厉、飘逸、肃穆、神秘，具有东方神话电影预告片的高级质感。\n\n落凡尘",
+      "outputs": [
+        "/assets/output/online_7e5e69f2ab.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_36a345d03d4e.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 38370,
+      "error": ""
+    },
+    {
+      "id": "log_1e2a23d8e929e8_1791808852269",
+      "createdAt": 1791808852269,
+      "status": "success",
+      "platform": "masterGenerator",
+      "nodeType": "masterGenerator",
+      "model": "masterGenerator",
+      "request": {
+        "task_id": "task_01M4R21FS2VZV08VXA3259RPX9",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "参考@图片1 的毛笔字书法\n设计一个新的毛笔大标题：\n落凡尘 · 司牧\n\n以中国传统毛笔书法为核心，采用苍劲狂放的行草风格，强调飞白、枯笔、破锋、泼墨、笔锋拖尾和挥毫瞬间的力量感。整体气质凌厉、飘逸、肃穆、神秘，具有东方神话电影预告片的高级质感。\n\n落凡尘",
+      "outputs": [
+        "/assets/output/online_49a69e7b44.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_36a345d03d4e.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 40765,
+      "error": ""
+    },
     {
       "id": "log_a2f1d76ab3f5e_1791727521499",
       "createdAt": 1791727521499,
