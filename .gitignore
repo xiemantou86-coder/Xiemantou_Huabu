@@ -19,3 +19,6 @@ build_log*.txt
 
 # --- 更新流程临时文件 ---
 *.new
+
+# --- OCR 临时结果 ---
+ocr_res.json
