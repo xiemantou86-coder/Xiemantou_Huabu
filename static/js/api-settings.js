@@ -3829,8 +3829,10 @@ async function saveProviders(){
             item.chat_models = unique(item.chat_models || []);
             item.video_models = unique(item.video_models || []);
         }
-        item.image_generation_endpoint = '';
-        item.image_edit_endpoint = '';
+        item.image_generation_endpoint = item.image_generation_endpoint || '';
+        item.image_edit_endpoint = item.image_edit_endpoint || '';
+        item.image_task_endpoint = item.image_task_endpoint || '';
+        item.ref_image_mode = item.ref_image_mode || 'auto';
         item.image_models = unique(item.image_models || []);
         item.chat_models = unique(item.chat_models || []);
         item.video_models = unique(item.video_models || []);
@@ -3871,6 +3873,8 @@ async function saveProviders(){
                 image_edit_route:item.image_edit_route || 'general',
                 image_generation_endpoint:item.image_generation_endpoint || '',
                 image_edit_endpoint:item.image_edit_endpoint || '',
+                image_task_endpoint:item.image_task_endpoint || '',
+                ref_image_mode:item.ref_image_mode || 'auto',
                 enabled:item.enabled !== false,
                 primary:false,
                 image_models:item.image_models || [],

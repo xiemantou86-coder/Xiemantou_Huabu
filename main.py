@@ -3078,6 +3078,8 @@ class ApiProviderPayload(BaseModel):
     image_request_mode: str = "openai"
     image_generation_endpoint: str = ""
     image_edit_endpoint: str = ""
+    image_task_endpoint: str = ""
+    ref_image_mode: str = "auto"
     enabled: bool = True
     primary: bool = False
     image_models: List[str] = []
