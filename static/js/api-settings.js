@@ -824,8 +824,14 @@ function syncEditor(){
             ? 'general'
             : (imageEditRouteInput?.value || item.image_edit_route)
     );
-    item.image_generation_endpoint = '';
-    item.image_edit_endpoint = '';
+    const genEpInput = document.getElementById('imageGenEndpointInput');
+    const editEpInput = document.getElementById('imageEditEndpointInput');
+    const taskEpInput = document.getElementById('imageTaskEndpointInput');
+    const refModeInput = document.getElementById('refImageModeInput');
+    item.image_generation_endpoint = (genEpInput?.value || '').trim();
+    item.image_edit_endpoint = (editEpInput?.value || '').trim();
+    item.image_task_endpoint = (taskEpInput?.value || '').trim();
+    item.ref_image_mode = refModeInput?.value || 'auto';
     // 透明背景 PNG 平台白名单（仅对 gpt-image-2.5-flare / sunburst 生效）
     item.transparent_png = Boolean(transparentPngInput?.checked);
     item.rh_apps = normalizeRhEntries(item.rh_apps || [], 'app');
@@ -2530,6 +2536,19 @@ function renderEditor(){
         imageEditRouteInput.disabled = item.id === 'modelscope' || item.id === 'runninghub' || item.id === 'volcengine' || CLI_PROTOCOLS.has(String(protocolInput?.value || item.protocol || '').toLowerCase());
     }
     if(transparentPngInput) transparentPngInput.checked = item.transparent_png === true;
+    const genEpInput = document.getElementById('imageGenEndpointInput');
+    const editEpInput = document.getElementById('imageEditEndpointInput');
+    const taskEpInput = document.getElementById('imageTaskEndpointInput');
+    const refModeInput = document.getElementById('refImageModeInput');
+    if(genEpInput) genEpInput.value = item.image_generation_endpoint || '';
+    if(editEpInput) editEpInput.value = item.image_edit_endpoint || '';
+    if(taskEpInput) taskEpInput.value = item.image_task_endpoint || '';
+    if(refModeInput) refModeInput.value = item.ref_image_mode || 'auto';
+    const hasAdvancedValues = Boolean(item.image_generation_endpoint || item.image_edit_endpoint || item.image_task_endpoint || (item.ref_image_mode && item.ref_image_mode !== 'auto'));
+    const advPanel = document.getElementById('advancedConfigPanel');
+    const advText = document.getElementById('toggleAdvancedText');
+    if(advPanel) advPanel.style.display = hasAdvancedValues ? 'block' : 'none';
+    if(advText) advText.textContent = hasAdvancedValues ? '收起高级模式' : '⚙️ 高级模式';
     keyInput.value = '';
     keyInput.placeholder = item.has_key ? `${tr('api.keepCurrentKey')} ${item.key_preview || ''}` : tr('api.enterKey');
     keyHint.textContent = item.has_key ? `${tr('api.keySaved')}${item.key_env || 'API/.env'}` : tr('api.noKey');
@@ -3965,3 +3984,46 @@ window.onload = () => {
         });
     });
 };
+
+
+// 高级模式展开收起与 AI 提示词复制
+function toggleAdvancedMode(){
+    const panel = document.getElementById('advancedConfigPanel');
+    const text = document.getElementById('toggleAdvancedText');
+    if(!panel) return;
+    const isHidden = panel.style.display === 'none' || !panel.style.display;
+    panel.style.display = isHidden ? 'block' : 'none';
+    if(text) text.textContent = isHidden ? '收起高级模式' : '⚙️ 高级模式';
+    if(isHidden && typeof refreshIcons === 'function') refreshIcons();
+}
+
+function copyAiExtractionPrompt(){
+    const prompt = `你现在是一个专业的生图 API 架构分析助手。我正在使用一款本地 AI 无限画布客户端，需要配置第三方中转站/私有 API 的生图服务。
+
+我会为你提供该平台的【API 文档内容 / cURL 示例 / 接口描述】。
+请仔细阅读文档，提取出在无限画布「API 专家设置」面板中必须填写的核心参数。
+
+⚠️ 严格输出约束：
+1. 严禁编写任何代码，严禁讲原理，不要长篇大论！
+2. 必须且只能输出一个干净的【参数填空对照表】。
+3. Base URL 只能是站点根域名（例如 https://api.seedance.nz），具体接口必须写相对路径。
+
+请根据我提供的文档内容，按如下格式直接回答：
+
+### 🎨 画布 API 专家配置填空表
+- **平台基础地址 (Base URL)**：\`...\`
+- **文生图相对路径**：\`...\` (例如 /v1/images/generations 或 /v1/image/generations)
+- **图生图/编辑相对路径**：\`...\` (例如 /v1/images/edits 或与文生图同端点)
+- **异步轮询相对路径**：\`...\` (例如 /v1/tasks/{task_id} 或 /v1/image/generations/{task_id})
+- **参考图传递方式**：\`[请在 auto / upload-first / multipart / json-base64 / json-urls 中选择]\`
+
+💡 避坑要点提示：[1~2句话简述注意事项]
+--------------------------------------------
+【我的 API 接口文档 / 示例内容如下】：`;
+
+    navigator.clipboard.writeText(prompt).then(() => {
+        alert('已成功复制 AI 提取提示词！可以直接粘贴发给 DeepSeek 或豆包分析中转站文档。');
+    }).catch(() => {
+        prompt('请手动全选复制以下提示词：', prompt);
+    });
+}

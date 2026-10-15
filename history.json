@@ -1,5 +1,173 @@
 [
     {
+        "prompt": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主要画面/角色参考，保持角色身份、脸部、发型、服装和核心特征一致\n\n画面设计：\n- 视觉风格：萌系二次元游戏广告KV，轻快冒险氛围，清透色彩，精致角色插画，富有亲和力与活力，夕阳温馨画面。\n- 构图：插图故事类：角色在画面中，氛围温馨，欢乐。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n- 暖光夕阳，可以不大改@图片1 构图\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「經典正版，全新江湖」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「熟悉的江湖味，卻是巔峰級的視覺進化」\n- 字体效果：符合画面风格：.。\n- 排版位置：随机：- 在画面合适位置。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 在画面四周角落放置@图片2 图片2的游戏Logo，保持样式清晰完整，确保logo不会变形，出错\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+        "images": [
+            "/assets/output/online_bdb3acfe4d.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_bdb3acfe4d.png",
+                "kind": "image",
+                "name": "online_bdb3acfe4d.png",
+                "natural_w": 1536,
+                "natural_h": 864,
+                "width": 1536,
+                "height": 864
+            }
+        ],
+        "timestamp": 1792035206.3883648,
+        "type": "online",
+        "model": "zhenzhen-image-g-v2.5-flare",
+        "provider_id": "custom-api-4",
+        "provider_name": "zhenzhen-api",
+        "task_id": "task_n64HolSSqBUQdAm49IPDVGKEdSnKU5BT",
+        "request_id": null,
+        "params": {
+            "provider_id": "custom-api-4",
+            "model": "zhenzhen-image-g-v2.5-flare",
+            "size": "1280x720",
+            "requested_size": "1280x720",
+            "quality": "medium",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_96076686c022.jpeg",
+                    "name": "新熱血江湖：世界-1080 X 1080-2026-09-29-ba91e561982db4c7d1d20509c46dc66c.jpeg",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                },
+                {
+                    "url": "/assets/input/ai_ref_55d4f1544d64.png",
+                    "name": "logo-蓝.png",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": null
+    },
+    {
+        "prompt": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主要画面/角色参考，保持角色身份、脸部、发型、服装和核心特征一致\n\n画面设计：\n- 视觉风格：萌系二次元游戏广告KV，轻快冒险氛围，清透色彩，精致角色插画，富有亲和力与活力，夕阳温馨画面。\n- 构图：插图故事类：角色在画面中，氛围温馨，欢乐。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n- 暖光夕阳，可以不大改@图片1 构图\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「經典正版，全新江湖」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「熟悉的江湖味，卻是巔峰級的視覺進化」\n- 字体效果：符合画面风格：.。\n- 排版位置：随机：- 在画面合适位置。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 在画面四周角落放置@图片2 图片2的游戏Logo，保持样式清晰完整，确保logo不会变形，出错\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+        "images": [
+            "/assets/output/online_58397581c1.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_58397581c1.png",
+                "kind": "image",
+                "name": "online_58397581c1.png",
+                "natural_w": 2048,
+                "natural_h": 1152,
+                "width": 2048,
+                "height": 1152
+            }
+        ],
+        "timestamp": 1792035104.4209523,
+        "type": "online",
+        "model": "zhenzhen-image-g-v2.5-lowprice",
+        "provider_id": "custom-api-4",
+        "provider_name": "zhenzhen-api",
+        "task_id": "task_vsIyYP1427WWmqMJeHhldTKOUOuiN761",
+        "request_id": null,
+        "params": {
+            "provider_id": "custom-api-4",
+            "model": "zhenzhen-image-g-v2.5-lowprice",
+            "size": "2048x1152",
+            "requested_size": "2048x1152",
+            "quality": "medium",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_96076686c022.jpeg",
+                    "name": "新熱血江湖：世界-1080 X 1080-2026-09-29-ba91e561982db4c7d1d20509c46dc66c.jpeg",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                },
+                {
+                    "url": "/assets/input/ai_ref_55d4f1544d64.png",
+                    "name": "logo-蓝.png",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": null
+    },
+    {
+        "prompt": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主要画面/角色参考，保持角色身份、脸部、发型、服装和核心特征一致\n\n画面设计：\n- 视觉风格：萌系二次元游戏广告KV，轻快冒险氛围，清透色彩，精致角色插画，富有亲和力与活力，夕阳温馨画面。\n- 构图：插图故事类：角色在画面中，氛围温馨，欢乐。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n- 暖光夕阳，可以不大改@图片1 构图\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「經典正版，全新江湖」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「熟悉的江湖味，卻是巔峰級的視覺進化」\n- 字体效果：符合画面风格：.。\n- 排版位置：随机：- 在画面合适位置。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 在画面四周角落放置@图片2 图片2的游戏Logo，保持样式清晰完整，确保logo不会变形，出错\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+        "images": [
+            "/assets/output/online_db3bd0618a.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_db3bd0618a.png",
+                "kind": "image",
+                "name": "online_db3bd0618a.png",
+                "natural_w": 2048,
+                "natural_h": 1152,
+                "width": 2048,
+                "height": 1152
+            }
+        ],
+        "timestamp": 1792034876.6518178,
+        "type": "online",
+        "model": "zhenzhen-image-g-v2.5-flare",
+        "provider_id": "custom-api-4",
+        "provider_name": "zhenzhen-api",
+        "task_id": "task_hUADKrzp2Hfzl1rF97f1tkeLJ0J1clu9",
+        "request_id": null,
+        "params": {
+            "provider_id": "custom-api-4",
+            "model": "zhenzhen-image-g-v2.5-flare",
+            "size": "2048x1152",
+            "requested_size": "2048x1152",
+            "quality": "medium",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_96076686c022.jpeg",
+                    "name": "新熱血江湖：世界-1080 X 1080-2026-09-29-ba91e561982db4c7d1d20509c46dc66c.jpeg",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                },
+                {
+                    "url": "/assets/input/ai_ref_55d4f1544d64.png",
+                    "name": "logo-蓝.png",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": null
+    },
+    {
         "prompt": "(纯粹中国书法标题设计:1.3), 极简孤绝风格, 纯黑纯色平整背景 (pure black solid background #000000), 无任何场景, 无渐变, 无纹理, 无烟雾。\n【文字主体与错落章法】：\n核心大字为“司牧”，书法，纯白色厚重矿物颜料排笔笔触，北魏魏碑行草混溶体，笔笔斩金截铁，方笔折角锐利如刀斧劈砍，字骨极其坚硬挺拔，粗壮笃实，字画边缘光滑结实，完全没有毛刺和干枯飞白（no dry brush, minimal feibai），笔划粗壮沉重，气势沉稳磅礴。不要规整对齐！“司”字位偏高微向左倾斜，“牧”字位偏低向右下沉\n【附带小字与印章】：\n小字“落凡尘”不居中，体纵向错落排列在“司牧”大字左上角，宛如题跋；画面右下方留白处点缀一枚斑驳古拙的暗红色朱砂小方印。\n【视觉纯度约束】：\n白字黑底，高对比度，黑白分明，纯平面手书墨迹质感，绝对不要任何3D浮雕，不要厚度阴影，不要金色发光，不要石头纹理，不要多余英文字母，干净纯粹的电影级书法Logo。\n\n\n",
         "images": [
             "/assets/output/online_7a1bb3a5e7.png"

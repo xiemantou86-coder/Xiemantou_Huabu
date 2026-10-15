@@ -1383,6 +1383,8 @@ def normalize_provider(item):
         "image_request_mode": image_request_mode,
         "image_generation_endpoint": image_generation_endpoint,
         "image_edit_endpoint": image_edit_endpoint,
+        "image_task_endpoint": normalize_endpoint_override(item.get("image_task_endpoint"), "异步查询端口"),
+        "ref_image_mode": str(item.get("ref_image_mode") or "auto").strip().lower(),
         "enabled": bool(item.get("enabled", True)),
         "primary": bool(item.get("primary", False)),
         "image_models": model_list_from_values(item.get("image_models") or []),
@@ -4225,7 +4227,7 @@ IMAGE_OUTPUT_KEY_HINTS = (
     "result_url", "resultUrl", "download_url", "downloadUrl", "asset_url", "assetUrl",
 )
 IMAGE_CONTAINER_KEY_HINTS = (
-    "images", "image", "output", "outputs", "result", "results", "data", "items", "files",
+    "images", "image", "image_urls", "content", "output", "outputs", "result", "results", "data", "items", "files",
 )
 IMAGE_BASE64_KEY_HINTS = ("b64_json", "base64", "image_base64", "imageBase64")
 
@@ -5033,6 +5035,114 @@ async def generate_tudou_async_image(prompt, size, quality, model, reference_ima
                 return extract_image(raw), raw
             except HTTPException as exc:
                 raise HTTPException(status_code=502, detail=f"土豆异步生图未返回 task_id：{str(raw)[:500]}") from exc
+        result = await wait_for_image_task(client, task_id, provider)
+        return extract_image(result), result
+
+def is_zhenzhen_provider(provider, model=""):
+    base_url = str((provider or {}).get("base_url") or "").strip().lower()
+    name = str((provider or {}).get("name") or "").strip().lower()
+    pid = str((provider or {}).get("id") or "").strip().lower()
+    m = str(model or "").strip().lower()
+    return (
+        "seedance.nz" in base_url
+        or "zhenzhen" in name
+        or "zhenzhen" in pid
+        or m.startswith("zhenzhen-image-")
+    )
+
+async def upload_image_for_zhenzhen(client, provider, ref):
+    value = str((ref or {}).get("url") or "").strip() if isinstance(ref, dict) else str(ref or "").strip()
+    if not value:
+        return ""
+    if value.startswith(("http://", "https://")) and "127.0.0.1" not in value and "localhost" not in value:
+        return value
+    base_url = str((provider or {}).get("base_url") or AI_BASE_URL).strip().rstrip("/")
+    upload_url = f"{base_url}/files/upload" if base_url.endswith("/v1") else f"{base_url}/v1/files/upload"
+    file_bytes = None
+    filename = "reference.png"
+    mime = "image/png"
+    local_path = output_file_from_url(value)
+    if local_path and os.path.exists(local_path):
+        filename = os.path.basename(local_path)
+        mime = content_type_for_path(local_path)
+        with open(local_path, "rb") as fh:
+            file_bytes = fh.read()
+    else:
+        data_url = value if value.startswith("data:image/") else reference_to_data_url(ref, max_size=2048)
+        if data_url and ";base64," in data_url:
+            header, encoded = data_url.split(";base64,", 1)
+            mime = header.replace("data:", "", 1) or "image/png"
+            ext = "jpg" if "jpeg" in mime or "jpg" in mime else "webp" if "webp" in mime else "png"
+            filename = f"reference.{ext}"
+            file_bytes = base64.b64decode(encoded)
+    if not file_bytes:
+        return ""
+    headers = api_headers(json_body=False, provider=provider)
+    resp = await client.post(upload_url, headers=headers, files={"file": (filename, file_bytes, mime)})
+    resp.raise_for_status()
+    rj = resp.json()
+    return str(rj.get("url") or (rj.get("data") or {}).get("url") or "").strip()
+
+def zhenzhen_image_size(size, aspect_ratio=""):
+    ratio = str(aspect_ratio or "").strip()
+    if re.fullmatch(r"\d+\s*:\s*\d+", ratio):
+        return ratio.replace(" ", "")
+    raw = str(size or "").strip().lower().replace("*", "x")
+    if re.fullmatch(r"\d+\s*:\s*\d+", raw):
+        return raw.replace(" ", "")
+    if raw == "auto":
+        return "auto"
+    if re.fullmatch(r"\d{2,5}x\d{2,5}", raw):
+        w, h = parse_size_pair(raw)
+        if w and h:
+            from math import gcd
+            g = gcd(w, h)
+            rw, rh = w // g, h // g
+            if f"{rw}:{rh}" in {"1:1", "3:2", "2:3", "4:3", "3:4", "5:4", "4:5", "16:9", "9:16", "2:1", "1:2", "21:9", "9:21", "3:1", "1:3"}:
+                return f"{rw}:{rh}"
+        return raw
+    return "1:1"
+
+async def generate_zhenzhen_async_image(prompt, size, quality, model, reference_images, provider, aspect_ratio="", resolution="", transparent_background=False):
+    base_url = str((provider or {}).get("base_url") or AI_BASE_URL).strip().rstrip("/")
+    if not base_url:
+        raise HTTPException(status_code=400, detail="zhenzhen-api 未配置 Base URL")
+    endpoint = provider_endpoint_url(provider, "image_generation_endpoint", "/v1/image/generations")
+    m_lower = str(model or "").strip().lower()
+    res = tudou_async_resolution(model, resolution, size)
+    sz = zhenzhen_image_size(size, aspect_ratio)
+    refs = [ref for ref in (reference_images or []) if isinstance(ref, dict) and ref.get("url")]
+    async with httpx.AsyncClient(timeout=httpx.Timeout(connect=20.0, read=300.0, write=120.0, pool=20.0)) as client:
+        uploaded_images = []
+        for ref in refs[:ONLINE_IMAGE_REFERENCE_MAX]:
+            u = await upload_image_for_zhenzhen(client, provider, ref)
+            if u:
+                uploaded_images.append(u)
+        body = {
+            "model": model,
+            "prompt": str(prompt or "").strip(),
+            "n": 1,
+            "size": "auto" if (uploaded_images and not aspect_ratio and str(size or "").strip().lower() in {"", "auto"}) else sz,
+            "resolution": res,
+        }
+        if uploaded_images:
+            body["images"] = uploaded_images
+        if "lowprice" in m_lower and "v2.5" in m_lower:
+            body["nsfw_check"] = False
+        elif "v2.5-flare" in m_lower or "v2.5-sunburst" in m_lower:
+            q = str(quality or "").strip().lower()
+            body["quality"] = q if q in {"auto", "low", "medium", "high", "xhigh", "max"} else "auto"
+            if transparent_background:
+                body["background"] = "transparent"
+                body["output_format"] = "png"
+        else:
+            body["metadata"] = {"resolution": res}
+        response = await client.post(endpoint, headers=api_headers(provider=provider, model=model), json=body)
+        response.raise_for_status()
+        raw = response.json()
+        task_id = extract_task_id(raw) if isinstance(raw, dict) else None
+        if not task_id:
+            return extract_image(raw), raw
         result = await wait_for_image_task(client, task_id, provider)
         return extract_image(result), result
 
@@ -6959,6 +7069,13 @@ IMAGE_TASK_FAILED_STATUSES = {"FAILURE", "FAILED", "FAIL", "ERROR", "ERRORED", "
 
 def image_task_url_for_provider(provider, task_id):
     base_url = (provider.get("base_url") if provider else AI_BASE_URL).rstrip("/")
+    custom_task_ep = str((provider or {}).get("image_task_endpoint") or "").strip()
+    if custom_task_ep:
+        if "{task_id}" in custom_task_ep:
+            return provider_endpoint_url(provider, "image_task_endpoint", custom_task_ep).replace("{task_id}", str(task_id))
+        return f"{provider_endpoint_url(provider, 'image_task_endpoint', custom_task_ep).rstrip('/')}/{task_id}"
+    if is_zhenzhen_provider(provider):
+        return f"{base_url}/image/generations/{task_id}" if base_url.endswith("/v1") else f"{base_url}/v1/image/generations/{task_id}"
     if is_tudou_async_image_mode(provider):
         return f"{base_url}/tasks/{task_id}" if base_url.endswith("/v1") else f"{base_url}/v1/tasks/{task_id}"
     # 异步生图（openai-video-proxy）模式优先于 apimart 协议判断：
@@ -10391,10 +10508,13 @@ def is_gpt_image_2_model(model):
     )
 
 # 透明背景 PNG 仅对这两个模型开放（APIMart 与畅指共用同一套模型名）。
-TRANSPARENT_PNG_MODELS = {"gpt-image-2.5-flare", "gpt-image-2.5-sunburst"}
+TRANSPARENT_PNG_MODELS = {"gpt-image-2.5-flare", "gpt-image-2.5-sunburst", "zhenzhen-image-g-v2.5-flare", "zhenzhen-image-g-v2.5-sunburst"}
 
 def supports_transparent_png_model(model):
-    return str(model or "").strip().lower() in TRANSPARENT_PNG_MODELS
+    m = str(model or "").strip().lower()
+    if m in TRANSPARENT_PNG_MODELS:
+        return True
+    return ("2.5-flare" in m or "2.5-sunburst" in m) and "lowprice" not in m
 
 def transparent_png_provider_allowed(provider, model):
     """硬门禁：只有当链路真的会下发 background/output_format 时才自动放行；
@@ -10407,9 +10527,13 @@ def transparent_png_provider_allowed(provider, model):
     return True
 
 def transparent_png_enabled(provider, model, transparent_background):
-    if not transparent_background or not supports_transparent_png_model(model):
+    if not transparent_background:
         return False
-    return transparent_png_provider_allowed(provider, model) or bool(provider.get("transparent_png"))
+    if bool((provider or {}).get("transparent_png")):
+        return True
+    if not supports_transparent_png_model(model):
+        return False
+    return transparent_png_provider_allowed(provider, model)
 
 def normalize_gpt_image_2_size(size):
     width, height = parse_size_pair(size)
@@ -11966,6 +12090,8 @@ async def generate_ai_image(prompt, size, quality, model, reference_images=None,
         return await generate_gemini_provider_image(prompt, size, model, reference_images, provider)
     if is_volcengine_provider(provider):
         return await generate_volcengine_provider_image(prompt, size, model, reference_images, provider)
+    if is_zhenzhen_provider(provider, model):
+        return await generate_zhenzhen_async_image(prompt, size, quality, model, reference_images, provider, aspect_ratio, resolution, transparent_background)
     if is_tudou_async_image_mode(provider, model):
         return await generate_tudou_async_image(prompt, size, quality, model, reference_images, provider, aspect_ratio, resolution)
     if is_tudou_provider(provider) and is_tudou_grok_image_model(model):

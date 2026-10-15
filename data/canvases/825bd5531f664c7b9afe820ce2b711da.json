@@ -10,44 +10,163 @@
     {
       "id": "tutorial_prompt",
       "type": "prompt",
-      "x": 100,
-      "y": 120,
+      "x": 189.25984286493008,
+      "y": 122.07581029918443,
       "w": 320,
       "h": 255,
-      "text": "生成一只可爱的小猫"
+      "text": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主要画面/角色参考，保持角色身份、脸部、发型、服装和核心特征一致\n\n画面设计：\n- 视觉风格：萌系二次元游戏广告KV，轻快冒险氛围，清透色彩，精致角色插画，富有亲和力与活力，夕阳温馨画面。\n- 构图：插图故事类：角色在画面中，氛围温馨，欢乐。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n- 暖光夕阳，可以不大改@图片1 构图\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「經典正版，全新江湖」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「熟悉的江湖味，卻是巔峰級的視覺進化」\n- 字体效果：符合画面风格：.。\n- 排版位置：随机：- 在画面合适位置。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 在画面四周角落放置@图片2 图片2的游戏Logo，保持样式清晰完整，确保logo不会变形，出错\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字"
     },
     {
       "id": "tutorial_generator",
       "type": "generator",
       "x": 510,
       "y": 120,
-      "apiProvider": "apimart",
-      "model": "",
-      "ratio": "square",
-      "resolution": "4k",
+      "apiProvider": "custom-api-4",
+      "model": "zhenzhen-image-g-v2.5-flare",
+      "ratio": "wide",
+      "resolution": "1k",
       "customRatio": "",
       "customSize": "",
       "transparentBackground": false,
       "inputs": [
-        "tutorial_prompt"
+        "tutorial_prompt",
+        "img_b5f2bc01b7d29_1792034656053",
+        "img_a5780695b7bf_1792034658514"
       ],
       "generatedOutputs": [
-        "/static/tutorial/kitten-example.jpg"
-      ]
+        "/assets/output/online_bdb3acfe4d.png"
+      ],
+      "_apiResolutionUserSet": true,
+      "customWidth": "",
+      "customHeight": "",
+      "customRatioWidth": "",
+      "customRatioHeight": "",
+      "quality": "medium"
     },
     {
       "id": "tutorial_output",
       "type": "output",
-      "x": 1030,
-      "y": 120,
+      "x": 916.8683386944491,
+      "y": 117.92418970081557,
       "images": [
         {
           "url": "/static/tutorial/kitten-example.jpg",
           "viewed": true
+        },
+        {
+          "url": "/assets/output/online_db3bd0618a.png",
+          "viewed": true,
+          "runMs": 28987,
+          "run": {
+            "nodeType": "generator",
+            "node": {
+              "id": "tutorial_generator",
+              "type": "generator",
+              "x": 510,
+              "y": 120,
+              "apiProvider": "custom-api-4",
+              "model": "zhenzhen-image-g-v2.5-flare",
+              "ratio": "wide",
+              "resolution": "2k",
+              "customRatio": "",
+              "customSize": "",
+              "transparentBackground": false,
+              "generatedOutputs": [
+                "/static/tutorial/kitten-example.jpg"
+              ],
+              "_apiResolutionUserSet": true,
+              "customWidth": "",
+              "customHeight": "",
+              "customRatioWidth": "",
+              "customRatioHeight": "",
+              "quality": "medium"
+            },
+            "prompt": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主要画面/角色参考，保持角色身份、脸部、发型、服装和核心特征一致\n\n画面设计：\n- 视觉风格：萌系二次元游戏广告KV，轻快冒险氛围，清透色彩，精致角色插画，富有亲和力与活力，夕阳温馨画面。\n- 构图：插图故事类：角色在画面中，氛围温馨，欢乐。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n- 暖光夕阳，可以不大改@图片1 构图\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「經典正版，全新江湖」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「熟悉的江湖味，卻是巔峰級的視覺進化」\n- 字体效果：符合画面风格：.。\n- 排版位置：随机：- 在画面合适位置。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 在画面四周角落放置@图片2 图片2的游戏Logo，保持样式清晰完整，确保logo不会变形，出错\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_96076686c022.jpeg",
+                "name": "新熱血江湖：世界-1080 X 1080-2026-09-29-ba91e561982db4c7d1d20509c46dc66c.jpeg"
+              },
+              {
+                "url": "/assets/input/ai_ref_55d4f1544d64.png",
+                "name": "logo-蓝.png"
+              }
+            ],
+            "request": {
+              "task_id": "task_hUADKrzp2Hfzl1rF97f1tkeLJ0J1clu9",
+              "request_id": "",
+              "provider_id": "custom-api-4",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        },
+        {
+          "url": "/assets/output/online_bdb3acfe4d.png",
+          "viewed": true,
+          "runMs": 27153,
+          "run": {
+            "nodeType": "generator",
+            "node": {
+              "id": "tutorial_generator",
+              "type": "generator",
+              "x": 510,
+              "y": 120,
+              "apiProvider": "custom-api-4",
+              "model": "zhenzhen-image-g-v2.5-flare",
+              "ratio": "wide",
+              "resolution": "1k",
+              "customRatio": "",
+              "customSize": "",
+              "transparentBackground": false,
+              "generatedOutputs": [
+                "/assets/output/online_db3bd0618a.png"
+              ],
+              "_apiResolutionUserSet": true,
+              "customWidth": "",
+              "customHeight": "",
+              "customRatioWidth": "",
+              "customRatioHeight": "",
+              "quality": "medium"
+            },
+            "prompt": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主要画面/角色参考，保持角色身份、脸部、发型、服装和核心特征一致\n\n画面设计：\n- 视觉风格：萌系二次元游戏广告KV，轻快冒险氛围，清透色彩，精致角色插画，富有亲和力与活力，夕阳温馨画面。\n- 构图：插图故事类：角色在画面中，氛围温馨，欢乐。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n- 暖光夕阳，可以不大改@图片1 构图\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「經典正版，全新江湖」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「熟悉的江湖味，卻是巔峰級的視覺進化」\n- 字体效果：符合画面风格：.。\n- 排版位置：随机：- 在画面合适位置。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 在画面四周角落放置@图片2 图片2的游戏Logo，保持样式清晰完整，确保logo不会变形，出错\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_96076686c022.jpeg",
+                "name": "新熱血江湖：世界-1080 X 1080-2026-09-29-ba91e561982db4c7d1d20509c46dc66c.jpeg"
+              },
+              {
+                "url": "/assets/input/ai_ref_55d4f1544d64.png",
+                "name": "logo-蓝.png"
+              }
+            ],
+            "request": {
+              "task_id": "task_n64HolSSqBUQdAm49IPDVGKEdSnKU5BT",
+              "request_id": "",
+              "provider_id": "custom-api-4",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
         }
       ],
-      "w": 420,
-      "h": 280
+      "w": 450,
+      "h": 451,
+      "_pending": [],
+      "imageComparisons": {
+        "/assets/output/online_db3bd0618a.png": {
+          "url": "/assets/input/ai_ref_96076686c022.jpeg",
+          "name": "新熱血江湖：世界-1080 X 1080-2026-09-29-ba91e561982db4c7d1d20509c46dc66c.jpeg"
+        },
+        "/assets/output/online_bdb3acfe4d.png": {
+          "url": "/assets/input/ai_ref_96076686c022.jpeg",
+          "name": "新熱血江湖：世界-1080 X 1080-2026-09-29-ba91e561982db4c7d1d20509c46dc66c.jpeg"
+        }
+      }
     },
     {
       "id": "prompt_9fec161aeb8d_1791478725122",
@@ -82,6 +201,30 @@
       "x": 1095.1553377658552,
       "y": 911.8688392336694,
       "images": []
+    },
+    {
+      "id": "img_b5f2bc01b7d29_1792034656053",
+      "type": "image",
+      "x": 246.85658100557342,
+      "y": 379.29429549013105,
+      "url": "/assets/input/ai_ref_96076686c022.jpeg",
+      "name": "新熱血江湖：世界-1080 X 1080-2026-09-29-ba91e561982db4c7d1d20509c46dc66c.jpeg",
+      "mediaKind": "image",
+      "_naturalSizeLoading": false,
+      "natural_w": 1080,
+      "natural_h": 1080
+    },
+    {
+      "id": "img_a5780695b7bf_1792034658514",
+      "type": "image",
+      "x": -18.511863946130873,
+      "y": 376.4334545090722,
+      "url": "/assets/input/ai_ref_55d4f1544d64.png",
+      "name": "logo-蓝.png",
+      "mediaKind": "image",
+      "_naturalSizeLoading": false,
+      "natural_w": 1048,
+      "natural_h": 508
     }
   ],
   "connections": [
@@ -116,6 +259,22 @@
       "to": "out_23678d4c48eec_1791478806736",
       "fromPort": "out",
       "toPort": "in"
+    },
+    {
+      "id": "c_41f7c08b3b642_1792034661890",
+      "kind": "dataFlow",
+      "from": "img_b5f2bc01b7d29_1792034656053",
+      "to": "tutorial_generator",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_bcb035f0fa616_1792034663249",
+      "kind": "dataFlow",
+      "from": "img_a5780695b7bf_1792034658514",
+      "to": "tutorial_generator",
+      "fromPort": "out",
+      "toPort": "in"
     }
   ],
   "viewport": {
@@ -124,11 +283,129 @@
     "scale": 0.8
   },
   "settings": {},
-  "logs": [],
+  "logs": [
+    {
+      "id": "log_478faac7ffb3e8_1792035206776",
+      "createdAt": 1792035206776,
+      "status": "success",
+      "platform": "zhenzhen-api",
+      "nodeType": "generator",
+      "model": "zhenzhen-image-g-v2.5-flare",
+      "request": {
+        "task_id": "task_n64HolSSqBUQdAm49IPDVGKEdSnKU5BT",
+        "request_id": "",
+        "provider_id": "custom-api-4",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主要画面/角色参考，保持角色身份、脸部、发型、服装和核心特征一致\n\n画面设计：\n- 视觉风格：萌系二次元游戏广告KV，轻快冒险氛围，清透色彩，精致角色插画，富有亲和力与活力，夕阳温馨画面。\n- 构图：插图故事类：角色在画面中，氛围温馨，欢乐。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n- 暖光夕阳，可以不大改@图片1 构图\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「經典正版，全新江湖」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「熟悉的江湖味，卻是巔峰級的視覺進化」\n- 字体效果：符合画面风格：.。\n- 排版位置：随机：- 在画面合适位置。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 在画面四周角落放置@图片2 图片2的游戏Logo，保持样式清晰完整，确保logo不会变形，出错\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "outputs": [
+        "/assets/output/online_bdb3acfe4d.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_96076686c022.jpeg",
+          "name": "新熱血江湖：世界-1080 X 1080-2026-09-29-ba91e561982db4c7d1d20509c46dc66c.jpeg"
+        },
+        {
+          "url": "/assets/input/ai_ref_55d4f1544d64.png",
+          "name": "logo-蓝.png"
+        }
+      ],
+      "runMs": 27153,
+      "error": ""
+    },
+    {
+      "id": "log_f4a7e2547682a_1792034982068",
+      "createdAt": 1792034982068,
+      "status": "failed",
+      "platform": "zhenzhen-api",
+      "nodeType": "generator",
+      "model": "zhenzhen-image-g-v2.5-lowprice",
+      "request": {},
+      "prompt": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主要画面/角色参考，保持角色身份、脸部、发型、服装和核心特征一致\n\n画面设计：\n- 视觉风格：萌系二次元游戏广告KV，轻快冒险氛围，清透色彩，精致角色插画，富有亲和力与活力，夕阳温馨画面。\n- 构图：插图故事类：角色在画面中，氛围温馨，欢乐。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n- 暖光夕阳，可以不大改@图片1 构图\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「經典正版，全新江湖」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「熟悉的江湖味，卻是巔峰級的視覺進化」\n- 字体效果：符合画面风格：.。\n- 排版位置：随机：- 在画面合适位置。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 在画面四周角落放置@图片2 图片2的游戏Logo，保持样式清晰完整，确保logo不会变形，出错\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "outputs": [],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_96076686c022.jpeg",
+          "name": "新熱血江湖：世界-1080 X 1080-2026-09-29-ba91e561982db4c7d1d20509c46dc66c.jpeg"
+        },
+        {
+          "url": "/assets/input/ai_ref_55d4f1544d64.png",
+          "name": "logo-蓝.png"
+        }
+      ],
+      "runMs": 301682,
+      "error": "生成失败 (poll timeout 300s)"
+    },
+    {
+      "id": "log_24d443d1fdade_1792034876693",
+      "createdAt": 1792034876693,
+      "status": "success",
+      "platform": "zhenzhen-api",
+      "nodeType": "generator",
+      "model": "zhenzhen-image-g-v2.5-flare",
+      "request": {
+        "task_id": "task_hUADKrzp2Hfzl1rF97f1tkeLJ0J1clu9",
+        "request_id": "",
+        "provider_id": "custom-api-4",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主要画面/角色参考，保持角色身份、脸部、发型、服装和核心特征一致\n\n画面设计：\n- 视觉风格：萌系二次元游戏广告KV，轻快冒险氛围，清透色彩，精致角色插画，富有亲和力与活力，夕阳温馨画面。\n- 构图：插图故事类：角色在画面中，氛围温馨，欢乐。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n- 暖光夕阳，可以不大改@图片1 构图\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「經典正版，全新江湖」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「熟悉的江湖味，卻是巔峰級的視覺進化」\n- 字体效果：符合画面风格：.。\n- 排版位置：随机：- 在画面合适位置。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 在画面四周角落放置@图片2 图片2的游戏Logo，保持样式清晰完整，确保logo不会变形，出错\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+      "outputs": [
+        "/assets/output/online_db3bd0618a.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_96076686c022.jpeg",
+          "name": "新熱血江湖：世界-1080 X 1080-2026-09-29-ba91e561982db4c7d1d20509c46dc66c.jpeg"
+        },
+        {
+          "url": "/assets/input/ai_ref_55d4f1544d64.png",
+          "name": "logo-蓝.png"
+        }
+      ],
+      "runMs": 28987,
+      "error": ""
+    },
+    {
+      "id": "log_afc3f55343ddb_1792029828202",
+      "createdAt": 1792029828202,
+      "status": "failed",
+      "platform": "zhenzhen-api",
+      "nodeType": "generator",
+      "model": "zhenzhen-image-g-v2.5-lowprice",
+      "request": {},
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [],
+      "refs": [],
+      "runMs": 1868,
+      "error": "上游生图接口错误：{\"error\":{\"message\":\"Not Found\",\"type\":\"bad_response_status_code\",\"param\":\"\",\"code\":\"bad_response_status_code\"}}"
+    },
+    {
+      "id": "log_4c2f143e05614_1792029805200",
+      "createdAt": 1792029805200,
+      "status": "failed",
+      "platform": "zhenzhen-api",
+      "nodeType": "generator",
+      "model": "zhenzhen-image-g-v2.5-lowprice",
+      "request": {},
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [],
+      "refs": [],
+      "runMs": 1867,
+      "error": "上游生图接口错误：{\"error\":{\"message\":\"Not Found\",\"type\":\"bad_response_status_code\",\"param\":\"\",\"code\":\"bad_response_status_code\"}}"
+    }
+  ],
   "id": "825bd5531f664c7b9afe820ce2b711da",
   "tutorial_template": "kitten-v1",
   "created_at": 1790594019199,
-  "updated_at": 1791777239647,
+  "updated_at": 1792035222224,
   "board_x": 414.0,
   "board_y": 150.0
 }

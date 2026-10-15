@@ -16,12 +16,12 @@
             } catch(e) {}
         })();
     </script>
-    <script src="/static/vendor/js/tailwindcss-cdn.js?v=%EF%BB%BF2026.10.14_1.1787819840"></script>
-    <script src="/static/vendor/js/lucide.js?v=%EF%BB%BF2026.10.14_1.1787819840"></script>
-    <script src="/static/js/theme.js?v=%EF%BB%BF2026.10.14_1.1787819836"></script>
-    <script src="/static/js/i18n.js?v=%EF%BB%BF2026.10.14_1.1787819831"></script>
-    <link rel="stylesheet" href="/static/css/theme.css?v=%EF%BB%BF2026.10.14_1.1787819824">
-    <link rel="stylesheet" href="/static/css/api-settings.css?v=%EF%BB%BF2026.10.14_1.1787819820">
+    <script src="/static/vendor/js/tailwindcss-cdn.js?v=2026.10.14_12.1791960842"></script>
+    <script src="/static/vendor/js/lucide.js?v=2026.10.14_12.1791960842"></script>
+    <script src="/static/js/theme.js?v=2026.10.14_12.1791960804"></script>
+    <script src="/static/js/i18n.js?v=2026.10.14_12.1791960792"></script>
+    <link rel="stylesheet" href="/static/css/theme.css?v=2026.10.14_12.1791960773">
+    <link rel="stylesheet" href="/static/css/api-settings.css?v=2026.10.14_12.1791960765">
 </head>
 <body>
     <div class="page">
@@ -285,11 +285,58 @@
                                 </div>
                             </div>
                             <!-- 透明背景 PNG 平台白名单：仅对 gpt-image-2.5-flare / sunburst 生效 -->
-                            <label class="transparent-png-toggle" for="transparentPngInput" style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;grid-column:1/-1;margin-top:8px;cursor:pointer;font-size:12px;font-weight:700">
-                                <input id="transparentPngInput" type="checkbox" style="width:14px;height:14px;margin:0;cursor:pointer">
-                                <span>该平台支持透明背景 PNG</span>
-                                <span class="transparent-png-desc" style="font-weight:500;color:var(--muted)">仅 gpt-image-2.5-flare / sunburst 生效；未自动识别的中转可在此手动开启</span>
-                            </label>
+                            <div style="display:flex;justify-content:space-between;align-items:center;grid-column:1/-1;margin-top:8px;gap:12px;flex-wrap:wrap;">
+                                <label class="transparent-png-toggle" for="transparentPngInput" style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;font-weight:700;margin:0;">
+                                    <input id="transparentPngInput" type="checkbox" style="width:14px;height:14px;margin:0;cursor:pointer">
+                                    <span>该平台支持透明背景 PNG</span>
+                                    <span class="transparent-png-desc" style="font-weight:500;color:var(--muted)">仅 2.5 系列生效，手动后门一票放行</span>
+                                </label>
+                                <button id="toggleAdvancedBtn" class="action-btn" type="button" onclick="toggleAdvancedMode()" style="padding:4px 10px;font-size:11.5px;display:flex;align-items:center;gap:5px;border-color:rgba(56,139,253,0.4);color:var(--text);">
+                                    <i data-lucide="sliders" class="w-3.5 h-3.5" style="color:#79c0ff;"></i>
+                                    <span id="toggleAdvancedText">⚙️ 高级模式</span>
+                                </button>
+                            </div>
+
+                            <!-- 高级模式折叠面板 -->
+                            <div id="advancedConfigPanel" style="display:none;grid-column:1/-1;margin-top:10px;padding:14px;background:rgba(255,255,255,0.03);border:1px dashed rgba(56,139,253,0.35);border-radius:10px;">
+                                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                                    <span style="font-size:12.5px;font-weight:700;color:#79c0ff;display:flex;align-items:center;gap:6px;">
+                                        ⚙️ 特殊接口端点与参考图覆盖 (非标中转站专用)
+                                    </span>
+                                    <button class="action-btn" type="button" onclick="copyAiExtractionPrompt()" style="padding:3px 9px;font-size:11px;background:rgba(137,87,229,0.15);border-color:#bc8cff;color:#d2a8ff;">
+                                        📋 复制 AI 提取提示词
+                                    </button>
+                                </div>
+                                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                                    <div>
+                                        <div style="font-size:11.5px;font-weight:600;color:var(--muted);margin-bottom:4px;">文生图相对路径 (留空默认)</div>
+                                        <div class="field-frame"><input id="imageGenEndpointInput" type="text" placeholder="/v1/images/generations 或 /v1/image/generations" style="font-size:12px;"></div>
+                                    </div>
+                                    <div>
+                                        <div style="font-size:11.5px;font-weight:600;color:var(--muted);margin-bottom:4px;">图生图/编辑相对路径 (留空默认)</div>
+                                        <div class="field-frame"><input id="imageEditEndpointInput" type="text" placeholder="/v1/images/edits 或与文生图同端点" style="font-size:12px;"></div>
+                                    </div>
+                                    <div>
+                                        <div style="font-size:11.5px;font-weight:600;color:var(--muted);margin-bottom:4px;">异步轮询相对路径 (支持 {task_id} 占位)</div>
+                                        <div class="field-frame"><input id="imageTaskEndpointInput" type="text" placeholder="/v1/tasks/{task_id} 或 /v1/image/generations/{task_id}" style="font-size:12px;"></div>
+                                    </div>
+                                    <div>
+                                        <div style="font-size:11.5px;font-weight:600;color:var(--muted);margin-bottom:4px;">参考图传递方式</div>
+                                        <div class="field-frame">
+                                            <select id="refImageModeInput" style="font-size:12px;">
+                                                <option value="auto">默认自动判断</option>
+                                                <option value="upload-first">[D] 先调用 /v1/files/upload 换取公网直链 (ZhenZhen等)</option>
+                                                <option value="multipart">[A] 标准表单文件上传 (Multipart /images/edits)</option>
+                                                <option value="json-base64">[B] JSON 内嵌 Base64 Data URL (images 数组)</option>
+                                                <option value="json-urls">[C] 纯公网 URL 数组 (image_urls)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="font-size:11px;color:var(--muted);margin-top:8px;line-height:1.5;">
+                                    💡 提示：普通中转站无需填写以上内容。遇到 404 或参考图报错的特殊中转站时，点击右上角【复制 AI 提取提示词】发给 DeepSeek / 豆包，将分析结果粘贴填入即可直接生效。
+                                </div>
+                            </div>
                             <div id="verifyResult" style="display:none;padding:2px 0;grid-column:1/-1"></div>
                         </div>
                     </section>
@@ -572,6 +619,6 @@
         </div>
     </div>
 
-    <script src="/static/js/api-settings.js?v=%EF%BB%BF2026.10.14_1.1790651039"></script>
+    <script src="/static/js/api-settings.js?v=2026.10.14_12.1792044732"></script>
 </body>
 </html>

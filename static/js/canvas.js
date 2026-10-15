@@ -759,9 +759,11 @@ function isApimartImageProvider(providerId){
         || /(^|\.)apimart\.ai(?:\/|$)/i.test(String(provider?.base_url || ''));
 }
 // 透明背景 PNG 只有这两个模型支持。
-const TRANSPARENT_PNG_MODELS = ['gpt-image-2.5-flare', 'gpt-image-2.5-sunburst'];
+const TRANSPARENT_PNG_MODELS = ['gpt-image-2.5-flare', 'gpt-image-2.5-sunburst', 'zhenzhen-image-g-v2.5-flare', 'zhenzhen-image-g-v2.5-sunburst'];
 function supportsTransparentPngModel(model){
-    return TRANSPARENT_PNG_MODELS.includes(String(model || '').trim().toLowerCase());
+    const m = String(model || '').trim().toLowerCase();
+    if(TRANSPARENT_PNG_MODELS.includes(m)) return true;
+    return (m.includes('2.5-flare') || m.includes('2.5-sunburst')) && !m.includes('lowprice');
 }
 // A 门禁：只有真正会下发 background/output_format 的中转链路才算「自动识别通过」。
 // 与后端 detect_image_request_mode / effective_image_request_mode 保持一致。
@@ -787,9 +789,11 @@ function transparentPngProviderWhitelisted(providerId){
 }
 // supported=自动识别通过；whitelisted=手动标记；model/provider-unsupported=不可开启。
 function transparentPngState(node){
+    const m = String(node?.model || '').trim().toLowerCase();
+    if(m.includes('lowprice')) return 'model-unsupported';
+    if(transparentPngProviderWhitelisted(node?.apiProvider)) return 'whitelisted';
     if(!supportsTransparentPngModel(node?.model)) return 'model-unsupported';
     if(transparentPngLinkSupported(node)) return 'supported';
-    if(transparentPngProviderWhitelisted(node?.apiProvider)) return 'whitelisted';
     return 'provider-unsupported';
 }
 function transparentPngUnlocked(node){
