@@ -1,39 +1,39 @@
 [
     {
-        "prompt": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主要画面/角色参考，保持角色身份、脸部、发型、服装和核心特征一致\n\n画面设计：\n- 视觉风格：萌系二次元游戏广告KV，轻快冒险氛围，清透色彩，精致角色插画，富有亲和力与活力，夕阳温馨画面。\n- 构图：插图故事类：角色在画面中，氛围温馨，欢乐。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n- 暖光夕阳，可以不大改@图片1 构图\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「經典正版，全新江湖」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「熟悉的江湖味，卻是巔峰級的視覺進化」\n- 字体效果：符合画面风格：.。\n- 排版位置：随机：- 在画面合适位置。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 在画面四周角落放置@图片2 图片2的游戏Logo，保持样式清晰完整，确保logo不会变形，出错\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+        "prompt": " @图片1 保留广告文案，去掉原图logo，\n制作一张简易的不规则的，透明背景的异形弹窗广告，不大改人物构图，去掉黑色背景\n\n边缘干净清晰，\n\n在左上角添加@图片2  游戏logo",
         "images": [
-            "/assets/output/online_bdb3acfe4d.png"
+            "/assets/output/online_2fd779b92f.png"
         ],
         "image_items": [
             {
-                "url": "/assets/output/online_bdb3acfe4d.png",
+                "url": "/assets/output/online_2fd779b92f.png",
                 "kind": "image",
-                "name": "online_bdb3acfe4d.png",
-                "natural_w": 1536,
-                "natural_h": 864,
-                "width": 1536,
-                "height": 864
+                "name": "online_2fd779b92f.png",
+                "natural_w": 3840,
+                "natural_h": 2160,
+                "width": 3840,
+                "height": 2160
             }
         ],
-        "timestamp": 1792035206.3883648,
+        "timestamp": 1792120637.1741138,
         "type": "online",
-        "model": "zhenzhen-image-g-v2.5-flare",
-        "provider_id": "custom-api-4",
-        "provider_name": "zhenzhen-api",
-        "task_id": "task_n64HolSSqBUQdAm49IPDVGKEdSnKU5BT",
+        "model": "gpt-image-2.5-flare",
+        "provider_id": "apimart",
+        "provider_name": "APIMART",
+        "task_id": "task_01M51BATB2S23XGQN1FKM26JA4",
         "request_id": null,
         "params": {
-            "provider_id": "custom-api-4",
-            "model": "zhenzhen-image-g-v2.5-flare",
-            "size": "1280x720",
-            "requested_size": "1280x720",
-            "quality": "medium",
-            "transparent_background": false,
+            "provider_id": "apimart",
+            "model": "gpt-image-2.5-flare",
+            "size": "3840x2160",
+            "requested_size": "3840x2160",
+            "quality": "max",
+            "transparent_background": true,
             "n": 1,
             "reference_images": [
                 {
-                    "url": "/assets/input/ai_ref_96076686c022.jpeg",
-                    "name": "新熱血江湖：世界-1080 X 1080-2026-09-29-ba91e561982db4c7d1d20509c46dc66c.jpeg",
+                    "url": "/assets/input/ai_ref_23fa5942748c.jpg",
+                    "name": "3.jpg",
                     "role": "",
                     "kind": "image",
                     "mime": "",
@@ -42,8 +42,8 @@
                     "originalLocalUrl": ""
                 },
                 {
-                    "url": "/assets/input/ai_ref_55d4f1544d64.png",
-                    "name": "logo-蓝.png",
+                    "url": "/assets/input/ai_ref_d6624641a0d4.png",
+                    "name": "logo.png",
                     "role": "",
                     "kind": "image",
                     "mime": "",
@@ -53,43 +53,45 @@
                 }
             ]
         },
-        "raw_usage": null
+        "raw_usage": null,
+        "transparent_check": {
+            "requested": true,
+            "checked": true,
+            "ok": true,
+            "message": ""
+        }
     },
     {
-        "prompt": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主要画面/角色参考，保持角色身份、脸部、发型、服装和核心特征一致\n\n画面设计：\n- 视觉风格：萌系二次元游戏广告KV，轻快冒险氛围，清透色彩，精致角色插画，富有亲和力与活力，夕阳温馨画面。\n- 构图：插图故事类：角色在画面中，氛围温馨，欢乐。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n- 暖光夕阳，可以不大改@图片1 构图\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「經典正版，全新江湖」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「熟悉的江湖味，卻是巔峰級的視覺進化」\n- 字体效果：符合画面风格：.。\n- 排版位置：随机：- 在画面合适位置。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 在画面四周角落放置@图片2 图片2的游戏Logo，保持样式清晰完整，确保logo不会变形，出错\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
+        "prompt": " @图片1 保留广告文案，去掉原图logo，\n制作一张简易的不规则的，透明背景的异形弹窗广告，不大改人物构图，去掉黑色背景\n\n边缘干净清晰，\n\n在左上角添加@图片2  游戏logo",
         "images": [
-            "/assets/output/online_58397581c1.png"
+            "https://sub2api.07b8fef090a4290405b3f0c29be027d4.r2.cloudflarestorage.com/images/imgtask_397a61e1f12040ada501e153e927d595-0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Checksum-Mode=ENABLED&X-Amz-Credential=0c31e83d958af4238a1da7ad1465f4e2%2F20261015%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20261015T164004Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=f68235ac3c4e484828bf75bcbe679a06c8cb32fa14ed1055a1bfebe9290c72cf"
         ],
         "image_items": [
             {
-                "url": "/assets/output/online_58397581c1.png",
+                "url": "https://sub2api.07b8fef090a4290405b3f0c29be027d4.r2.cloudflarestorage.com/images/imgtask_397a61e1f12040ada501e153e927d595-0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Checksum-Mode=ENABLED&X-Amz-Credential=0c31e83d958af4238a1da7ad1465f4e2%2F20261015%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20261015T164004Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=f68235ac3c4e484828bf75bcbe679a06c8cb32fa14ed1055a1bfebe9290c72cf",
                 "kind": "image",
-                "name": "online_58397581c1.png",
-                "natural_w": 2048,
-                "natural_h": 1152,
-                "width": 2048,
-                "height": 1152
+                "name": "imgtask_397a61e1f12040ada501e153e927d595-0.png"
             }
         ],
-        "timestamp": 1792035104.4209523,
+        "timestamp": 1792082423.3522887,
         "type": "online",
-        "model": "zhenzhen-image-g-v2.5-lowprice",
-        "provider_id": "custom-api-4",
-        "provider_name": "zhenzhen-api",
-        "task_id": "task_vsIyYP1427WWmqMJeHhldTKOUOuiN761",
-        "request_id": null,
+        "model": "gpt-image-2.5-sunburst",
+        "provider_id": "custom-api-5",
+        "provider_name": "OPEN1-CODE",
+        "task_id": "imgtask_397a61e1f12040ada501e153e927d595",
+        "request_id": "imgtask_397a61e1f12040ada501e153e927d595",
         "params": {
-            "provider_id": "custom-api-4",
-            "model": "zhenzhen-image-g-v2.5-lowprice",
-            "size": "2048x1152",
-            "requested_size": "2048x1152",
-            "quality": "medium",
-            "transparent_background": false,
+            "provider_id": "custom-api-5",
+            "model": "gpt-image-2.5-sunburst",
+            "size": "3840x2160",
+            "requested_size": "3840x2160",
+            "quality": "xhigh",
+            "transparent_background": true,
             "n": 1,
             "reference_images": [
                 {
-                    "url": "/assets/input/ai_ref_96076686c022.jpeg",
-                    "name": "新熱血江湖：世界-1080 X 1080-2026-09-29-ba91e561982db4c7d1d20509c46dc66c.jpeg",
+                    "url": "/assets/input/ai_ref_23fa5942748c.jpg",
+                    "name": "3.jpg",
                     "role": "",
                     "kind": "image",
                     "mime": "",
@@ -98,8 +100,8 @@
                     "originalLocalUrl": ""
                 },
                 {
-                    "url": "/assets/input/ai_ref_55d4f1544d64.png",
-                    "name": "logo-蓝.png",
+                    "url": "/assets/input/ai_ref_d6624641a0d4.png",
+                    "name": "logo.png",
                     "role": "",
                     "kind": "image",
                     "mime": "",
@@ -109,811 +111,13 @@
                 }
             ]
         },
-        "raw_usage": null
-    },
-    {
-        "prompt": "请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主要画面/角色参考，保持角色身份、脸部、发型、服装和核心特征一致\n\n画面设计：\n- 视觉风格：萌系二次元游戏广告KV，轻快冒险氛围，清透色彩，精致角色插画，富有亲和力与活力，夕阳温馨画面。\n- 构图：插图故事类：角色在画面中，氛围温馨，欢乐。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n- 暖光夕阳，可以不大改@图片1 构图\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「經典正版，全新江湖」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「熟悉的江湖味，卻是巔峰級的視覺進化」\n- 字体效果：符合画面风格：.。\n- 排版位置：随机：- 在画面合适位置。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 在画面四周角落放置@图片2 图片2的游戏Logo，保持样式清晰完整，确保logo不会变形，出错\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",
-        "images": [
-            "/assets/output/online_db3bd0618a.png"
-        ],
-        "image_items": [
-            {
-                "url": "/assets/output/online_db3bd0618a.png",
-                "kind": "image",
-                "name": "online_db3bd0618a.png",
-                "natural_w": 2048,
-                "natural_h": 1152,
-                "width": 2048,
-                "height": 1152
-            }
-        ],
-        "timestamp": 1792034876.6518178,
-        "type": "online",
-        "model": "zhenzhen-image-g-v2.5-flare",
-        "provider_id": "custom-api-4",
-        "provider_name": "zhenzhen-api",
-        "task_id": "task_hUADKrzp2Hfzl1rF97f1tkeLJ0J1clu9",
-        "request_id": null,
-        "params": {
-            "provider_id": "custom-api-4",
-            "model": "zhenzhen-image-g-v2.5-flare",
-            "size": "2048x1152",
-            "requested_size": "2048x1152",
-            "quality": "medium",
-            "transparent_background": false,
-            "n": 1,
-            "reference_images": [
-                {
-                    "url": "/assets/input/ai_ref_96076686c022.jpeg",
-                    "name": "新熱血江湖：世界-1080 X 1080-2026-09-29-ba91e561982db4c7d1d20509c46dc66c.jpeg",
-                    "role": "",
-                    "kind": "image",
-                    "mime": "",
-                    "original_url": "",
-                    "source_url": "",
-                    "originalLocalUrl": ""
-                },
-                {
-                    "url": "/assets/input/ai_ref_55d4f1544d64.png",
-                    "name": "logo-蓝.png",
-                    "role": "",
-                    "kind": "image",
-                    "mime": "",
-                    "original_url": "",
-                    "source_url": "",
-                    "originalLocalUrl": ""
-                }
-            ]
-        },
-        "raw_usage": null
-    },
-    {
-        "prompt": "(纯粹中国书法标题设计:1.3), 极简孤绝风格, 纯黑纯色平整背景 (pure black solid background #000000), 无任何场景, 无渐变, 无纹理, 无烟雾。\n【文字主体与错落章法】：\n核心大字为“司牧”，书法，纯白色厚重矿物颜料排笔笔触，北魏魏碑行草混溶体，笔笔斩金截铁，方笔折角锐利如刀斧劈砍，字骨极其坚硬挺拔，粗壮笃实，字画边缘光滑结实，完全没有毛刺和干枯飞白（no dry brush, minimal feibai），笔划粗壮沉重，气势沉稳磅礴。不要规整对齐！“司”字位偏高微向左倾斜，“牧”字位偏低向右下沉\n【附带小字与印章】：\n小字“落凡尘”不居中，体纵向错落排列在“司牧”大字左上角，宛如题跋；画面右下方留白处点缀一枚斑驳古拙的暗红色朱砂小方印。\n【视觉纯度约束】：\n白字黑底，高对比度，黑白分明，纯平面手书墨迹质感，绝对不要任何3D浮雕，不要厚度阴影，不要金色发光，不要石头纹理，不要多余英文字母，干净纯粹的电影级书法Logo。\n\n\n",
-        "images": [
-            "/assets/output/online_7a1bb3a5e7.png"
-        ],
-        "image_items": [
-            {
-                "url": "/assets/output/online_7a1bb3a5e7.png",
-                "kind": "image",
-                "name": "online_7a1bb3a5e7.png",
-                "natural_w": 2048,
-                "natural_h": 1152,
-                "width": 2048,
-                "height": 1152
-            }
-        ],
-        "timestamp": 1791810444.7006383,
-        "type": "online",
-        "model": "gpt-image-2.5-ext",
-        "provider_id": "apimart",
-        "provider_name": "APIMART",
-        "task_id": "task_01M4R3JK5HA0E9D1JNK3X82A20",
-        "request_id": null,
-        "params": {
-            "provider_id": "apimart",
-            "model": "gpt-image-2.5-ext",
-            "size": "2048x1152",
-            "requested_size": "2048x1152",
-            "quality": "auto",
-            "transparent_background": false,
-            "n": 1,
-            "reference_images": []
-        },
-        "raw_usage": null
-    },
-    {
-        "prompt": "(纯粹中国书法标题设计:1.3), 极简孤绝风格, 纯黑纯色平整背景 (pure black solid background #000000), 无任何场景, 无渐变, 无纹理, 无烟雾。\n【文字主体与错落章法】：\n核心大字为“司牧”，书法，纯白色厚重矿物颜料排笔笔触，盛唐浓墨狂草大字，浑厚圆劲，墨肉丰盈，极其饱满温润的浓稠白墨笔画，笔锋转折如折钗股，圆浑有力，饱墨顿挫，字画边缘光滑结实，完全没有毛刺和干枯飞白（no dry brush, minimal feibai），笔划粗壮沉重，气势沉稳磅礴。不要规整对齐！“司”字位偏高微向左倾斜，“牧”字位偏低向右下沉\n【附带小字与印章】：\n小字“落凡尘”不居中，体纵向错落排列在“司牧”大字左上角，宛如题跋；画面右下方留白处点缀一枚斑驳古拙的暗红色朱砂小方印。\n【视觉纯度约束】：\n白字黑底，高对比度，黑白分明，纯平面手书墨迹质感，绝对不要任何3D浮雕，不要厚度阴影，不要金色发光，不要石头纹理，不要多余英文字母，干净纯粹的电影级书法Logo。\n\n\n",
-        "images": [
-            "/assets/output/online_594cb463a0.png"
-        ],
-        "image_items": [
-            {
-                "url": "/assets/output/online_594cb463a0.png",
-                "kind": "image",
-                "name": "online_594cb463a0.png",
-                "natural_w": 2048,
-                "natural_h": 1152,
-                "width": 2048,
-                "height": 1152
-            }
-        ],
-        "timestamp": 1791810308.0381892,
-        "type": "online",
-        "model": "gpt-image-2.5-ext",
-        "provider_id": "apimart",
-        "provider_name": "APIMART",
-        "task_id": "task_01M4R3EEGGFWKY3PZA7PCXNGNJ",
-        "request_id": null,
-        "params": {
-            "provider_id": "apimart",
-            "model": "gpt-image-2.5-ext",
-            "size": "2048x1152",
-            "requested_size": "2048x1152",
-            "quality": "auto",
-            "transparent_background": false,
-            "n": 1,
-            "reference_images": []
-        },
-        "raw_usage": null
-    },
-    {
-        "prompt": "(纯粹中国书法标题设计:1.3), 极简孤绝风格, 纯黑纯色平整背景 (pure black solid background #000000), 无任何场景, 无渐变, 无纹理, 无烟雾。\n【文字主体与错落章法】：\n核心大字为“司牧”，书法，纯白色厚重矿物颜料排笔笔触，盛唐浓墨狂草大字，浑厚圆劲，墨肉丰盈，极其饱满温润的浓稠白墨笔画，笔锋转折如折钗股，圆浑有力，饱墨顿挫，字画边缘光滑结实，完全没有毛刺和干枯飞白（no dry brush, minimal feibai），笔划粗壮沉重，气势沉稳磅礴。\n【附带小字与印章】：\n小字“落凡尘”不居中，以细巧行草书体纵向错落排列在“司牧”大字左上角，宛如题跋；画面右下方留白处点缀一枚斑驳古拙的暗红色朱砂小方印。\n【视觉纯度约束】：\n白字黑底，高对比度，黑白分明，纯平面手书墨迹质感，绝对不要任何3D浮雕，不要厚度阴影，不要金色发光，不要石头纹理，不要多余英文字母，干净纯粹的电影级书法Logo。\n\n\n",
-        "images": [
-            "/assets/output/online_b777318d07.png"
-        ],
-        "image_items": [
-            {
-                "url": "/assets/output/online_b777318d07.png",
-                "kind": "image",
-                "name": "online_b777318d07.png",
-                "natural_w": 2048,
-                "natural_h": 1152,
-                "width": 2048,
-                "height": 1152
-            }
-        ],
-        "timestamp": 1791810224.2962954,
-        "type": "online",
-        "model": "gpt-image-2.5-ext",
-        "provider_id": "apimart",
-        "provider_name": "APIMART",
-        "task_id": "task_01M4R3BVDRWVMCTBXMZWCMN54P",
-        "request_id": null,
-        "params": {
-            "provider_id": "apimart",
-            "model": "gpt-image-2.5-ext",
-            "size": "2048x1152",
-            "requested_size": "2048x1152",
-            "quality": "auto",
-            "transparent_background": false,
-            "n": 1,
-            "reference_images": []
-        },
-        "raw_usage": null
-    },
-    {
-        "prompt": "(纯粹中国书法标题设计:1.3), 极简孤绝风格, 纯黑纯色平整背景 (pure black solid background #000000), 无任何场景, 无渐变, 无纹理, 无烟雾。\n【文字主体与错落章法】：\n核心大字为“司牧”，书法，纯白色厚重矿物颜料排笔笔触，盛唐浓墨狂草大字，浑厚圆劲，墨肉丰盈，极其饱满温润的浓稠白墨笔画，笔锋转折如折钗股，圆浑有力，饱墨顿挫，字画边缘光滑结实，不要规整对齐！“司”字位偏高微向左倾斜，“牧”字位偏低向右下沉坠且两字笔势紧凑咬合相互呼应，笔触极其粗重有力量。\n【附带小字与印章】：\n小字“落凡尘”不居中，以细巧行草书体纵向错落排列在“司牧”大字左上角，宛如题跋；画面右下方留白处点缀一枚斑驳古拙的暗红色朱砂小方印。\n【视觉纯度约束】：\n白字黑底，高对比度，黑白分明，纯平面手书墨迹质感，绝对不要任何3D浮雕，不要厚度阴影，不要金色发光，不要石头纹理，不要多余英文字母，干净纯粹的电影级书法Logo。\n\n\n",
-        "images": [
-            "/assets/output/online_24d6f02c0c.png"
-        ],
-        "image_items": [
-            {
-                "url": "/assets/output/online_24d6f02c0c.png",
-                "kind": "image",
-                "name": "online_24d6f02c0c.png",
-                "natural_w": 2048,
-                "natural_h": 1152,
-                "width": 2048,
-                "height": 1152
-            }
-        ],
-        "timestamp": 1791810150.0409217,
-        "type": "online",
-        "model": "gpt-image-2.5-ext",
-        "provider_id": "apimart",
-        "provider_name": "APIMART",
-        "task_id": "task_01M4R39JEN7V1AW8D3HSAM9E0E",
-        "request_id": null,
-        "params": {
-            "provider_id": "apimart",
-            "model": "gpt-image-2.5-ext",
-            "size": "2048x1152",
-            "requested_size": "2048x1152",
-            "quality": "auto",
-            "transparent_background": false,
-            "n": 1,
-            "reference_images": []
-        },
-        "raw_usage": null
-    },
-    {
-        "prompt": "(纯粹中国书法标题设计:1.3), 极简孤绝风格, 纯黑纯色平整背景 (pure black solid background #000000), 无任何场景, 无渐变, 无纹理, 无烟雾。\n【文字主体与错落章法】：\n核心大字为“司牧”，书法，纯白色厚重矿物颜料排笔笔触，盛唐浓墨狂草大字，浑厚圆劲，墨肉丰盈，极其饱满温润的浓稠白墨笔画，笔锋转折如折钗股，圆浑有力，饱墨顿挫，字画边缘光滑结实，不要规整对齐！“司”字位偏高微向左倾斜，“牧”字位偏低向右下沉坠且两字笔势紧凑咬合相互呼应，“牧”字最后一捺大开大合甩出粗粝狂放的干笔飞白和散开的刷毛丝缕（bristle texture），笔触极其粗重有力量。\n【附带小字与印章】：\n小字“落凡尘”不居中，以细巧行草书体纵向错落排列在“司牧”大字左上角，宛如题跋；画面右下方留白处点缀一枚斑驳古拙的暗红色朱砂小方印。\n【视觉纯度约束】：\n白字黑底，高对比度，黑白分明，纯平面手书墨迹质感，绝对不要任何3D浮雕，不要厚度阴影，不要金色发光，不要石头纹理，不要多余英文字母，干净纯粹的电影级书法Logo。\n\n\n",
-        "images": [
-            "/assets/output/online_febab8633e.png"
-        ],
-        "image_items": [
-            {
-                "url": "/assets/output/online_febab8633e.png",
-                "kind": "image",
-                "name": "online_febab8633e.png",
-                "natural_w": 2048,
-                "natural_h": 1152,
-                "width": 2048,
-                "height": 1152
-            }
-        ],
-        "timestamp": 1791810097.3164299,
-        "type": "online",
-        "model": "gpt-image-2.5-ext",
-        "provider_id": "apimart",
-        "provider_name": "APIMART",
-        "task_id": "task_01M4R37NNR9GBTTQNGXXN60Z8Y",
-        "request_id": null,
-        "params": {
-            "provider_id": "apimart",
-            "model": "gpt-image-2.5-ext",
-            "size": "2048x1152",
-            "requested_size": "2048x1152",
-            "quality": "auto",
-            "transparent_background": false,
-            "n": 1,
-            "reference_images": []
-        },
-        "raw_usage": null
-    },
-    {
-        "prompt": "(纯粹中国书法标题设计:1.3), 极简孤绝风格, 纯黑纯色平整背景 (pure black solid background #000000), 无任何场景, 无渐变, 无纹理, 无烟雾。\n【文字主体与错落章法】：\n核心大字为“司牧”，书法，纯白色厚重矿物颜料排笔笔触，字体结构险绝，不要规整对齐！“司”字位偏高微向左倾斜，“牧”字位偏低向右下沉坠且两字笔势紧凑咬合相互呼应，“牧”字最后一捺大开大合甩出粗粝狂放的干笔飞白和散开的刷毛丝缕（bristle texture），笔触极其粗重有力量。\n【附带小字与印章】：\n小字“落凡尘”不居中，以细巧行草书体纵向错落排列在“司牧”大字左上角，宛如题跋；画面右下方留白处点缀一枚斑驳古拙的暗红色朱砂小方印。\n【视觉纯度约束】：\n白字黑底，高对比度，黑白分明，纯平面手书墨迹质感，绝对不要任何3D浮雕，不要厚度阴影，不要金色发光，不要石头纹理，不要多余英文字母，干净纯粹的电影级书法Logo。\n\n",
-        "images": [
-            "/assets/output/online_eb1f170ccf.png"
-        ],
-        "image_items": [
-            {
-                "url": "/assets/output/online_eb1f170ccf.png",
-                "kind": "image",
-                "name": "online_eb1f170ccf.png",
-                "natural_w": 2048,
-                "natural_h": 1152,
-                "width": 2048,
-                "height": 1152
-            }
-        ],
-        "timestamp": 1791809870.482595,
-        "type": "online",
-        "model": "gpt-image-2.5-ext",
-        "provider_id": "apimart",
-        "provider_name": "APIMART",
-        "task_id": "task_01M4R312H3N7SR3PWYRX5ZE2FJ",
-        "request_id": null,
-        "params": {
-            "provider_id": "apimart",
-            "model": "gpt-image-2.5-ext",
-            "size": "2048x1152",
-            "requested_size": "2048x1152",
-            "quality": "auto",
-            "transparent_background": false,
-            "n": 1,
-            "reference_images": []
-        },
-        "raw_usage": null
-    },
-    {
-        "prompt": "(纯粹中国书法标题设计:1.3), 极简孤绝风格, 纯黑纯色平整背景 (pure black solid background #000000), 无任何场景, 无渐变, 无纹理, 无烟雾。\n【文字主体与错落章法】：\n核心大字为“司牧”，狂草书法，纯白色厚重矿物颜料排笔笔触，字体结构险绝，不要规整对齐！“司”字位偏高微向左倾斜，“牧”字位偏低向右下沉坠且两字笔势紧凑咬合相互呼应，“牧”字最后一捺大开大合甩出粗粝狂放的干笔飞白和散开的刷毛丝缕（bristle texture），笔触极其粗重有力量。\n【附带小字与印章】：\n小字“落凡尘”不居中，以细巧行草书体纵向错落排列在“司牧”大字左上角，宛如题跋；画面右下方留白处点缀一枚斑驳古拙的暗红色朱砂小方印。\n【视觉纯度约束】：\n白字黑底，高对比度，黑白分明，纯平面手书墨迹质感，绝对不要任何3D浮雕，不要厚度阴影，不要金色发光，不要石头纹理，不要多余英文字母，干净纯粹的电影级书法Logo。",
-        "images": [
-            "/assets/output/online_2fde26f2d8.png"
-        ],
-        "image_items": [
-            {
-                "url": "/assets/output/online_2fde26f2d8.png",
-                "kind": "image",
-                "name": "online_2fde26f2d8.png",
-                "natural_w": 2048,
-                "natural_h": 1152,
-                "width": 2048,
-                "height": 1152
-            }
-        ],
-        "timestamp": 1791809804.0492654,
-        "type": "online",
-        "model": "gpt-image-2.5-ext",
-        "provider_id": "apimart",
-        "provider_name": "APIMART",
-        "task_id": "task_01M4R2Z0QMPRF77DE0MKPQ33TH",
-        "request_id": null,
-        "params": {
-            "provider_id": "apimart",
-            "model": "gpt-image-2.5-ext",
-            "size": "2048x1152",
-            "requested_size": "2048x1152",
-            "quality": "auto",
-            "transparent_background": false,
-            "n": 1,
-            "reference_images": []
-        },
-        "raw_usage": null
-    },
-    {
-        "prompt": "(masterpiece, best quality, typography design:1.2), movie title logo, Black Myth Wukong style Chinese calligraphy, dark fantasy epic Chinese title design on pure black background.\nMain large Hanzi characters \"司牧\" (Si Mu) positioned in the center, wild cursive script combined with fierce Wei tablet stele strokes, heavy flying white (kabi) dry brush effects, sharp carved stone edges, explosive ink splatters.\nSub-title small characters \"落凡尘\" placed delicately centered above \"司牧\", fine elegant Songti font with a tiny vermilion red seal stamp.\nMaterial & lighting: deep obsidian ink with subtle weathered golden veins and bronze chisel scratches, cinematic dark aesthetic, stark contrast, sharp vectors, isolated on dark graphite background.",
-        "images": [
-            "/assets/output/online_4d4e538bf7.png"
-        ],
-        "image_items": [
-            {
-                "url": "/assets/output/online_4d4e538bf7.png",
-                "kind": "image",
-                "name": "online_4d4e538bf7.png",
-                "natural_w": 2048,
-                "natural_h": 1360,
-                "width": 2048,
-                "height": 1360
-            }
-        ],
-        "timestamp": 1791809366.6193671,
-        "type": "online",
-        "model": "gpt-image-2.5-ext",
-        "provider_id": "apimart",
-        "provider_name": "APIMART",
-        "task_id": "task_01M4R2HB7WMSSEAX9WTHNGT5H6",
-        "request_id": null,
-        "params": {
-            "provider_id": "apimart",
-            "model": "gpt-image-2.5-ext",
-            "size": "2048x1360",
-            "requested_size": "2048x1360",
-            "quality": "auto",
-            "transparent_background": false,
-            "n": 1,
-            "reference_images": []
-        },
-        "raw_usage": null
-    },
-    {
-        "prompt": "(杰作, 最高画质:1.2), 电影标题标志设计, 《黑神话悟空》同款东方玄幻史诗书法大标题, 黑色背景上的中国书法艺术。\n核心文字排版：“司牧”作为巨大主标题横向并排居中，狂草魏碑笔法，枯笔飞白，苍劲有力，笔画带有刀砍斧劈的金石质感与飞溅墨星；\n副标题：“落凡尘”以极小字号紧密排列在“司牧”正上方中央，纤细典雅的金石宋体排版，中间带一枚微小暗红色朱砂方印；\n质感与细节：深玄铁墨色中透出微弱暗金微光，字形边缘有岩石风化断裂细节，泼墨飞白撕裂感，8k分辨率，纯净暗黑背景，电影海报级平面设计。",
-        "images": [
-            "/assets/output/online_1d6bcb3fab.png"
-        ],
-        "image_items": [
-            {
-                "url": "/assets/output/online_1d6bcb3fab.png",
-                "kind": "image",
-                "name": "online_1d6bcb3fab.png",
-                "natural_w": 2048,
-                "natural_h": 1360,
-                "width": 2048,
-                "height": 1360
-            }
-        ],
-        "timestamp": 1791809349.698719,
-        "type": "online",
-        "model": "gpt-image-2.5-ext",
-        "provider_id": "apimart",
-        "provider_name": "APIMART",
-        "task_id": "task_01M4R2H5JKBPFWA38GXGGYEXMN",
-        "request_id": null,
-        "params": {
-            "provider_id": "apimart",
-            "model": "gpt-image-2.5-ext",
-            "size": "2048x1360",
-            "requested_size": "2048x1360",
-            "quality": "auto",
-            "transparent_background": false,
-            "n": 1,
-            "reference_images": []
-        },
-        "raw_usage": null
-    },
-    {
-        "prompt": "(杰作, 最高画质:1.2), 电影标题标志设计, 《黑神话悟空》同款东方玄幻史诗书法大标题, 黑色背景上的中国书法艺术。\n核心文字排版：“司牧”作为巨大主标题横向并排居中，狂草魏碑笔法，枯笔飞白，苍劲有力，笔画带有刀砍斧劈的金石质感与飞溅墨星；\n副标题：“落凡尘”以极小字号紧密排列在“司牧”正上方中央，纤细典雅的金石宋体排版，中间带一枚微小暗红色朱砂方印；\n质感与细节：深玄铁墨色中透出微弱暗金微光，字形边缘有岩石风化断裂细节，泼墨飞白撕裂感，8k分辨率，纯净暗黑背景，电影海报级平面设计。",
-        "images": [
-            "/assets/output/online_fc0f7d375a.jpg"
-        ],
-        "image_items": [
-            {
-                "url": "/assets/output/online_fc0f7d375a.jpg",
-                "kind": "image",
-                "name": "online_fc0f7d375a.jpg",
-                "natural_w": 1264,
-                "natural_h": 848,
-                "width": 1264,
-                "height": 848
-            }
-        ],
-        "timestamp": 1791809324.6643677,
-        "type": "online",
-        "model": "gemini-3.1-flash-image-preview",
-        "provider_id": "apimart",
-        "provider_name": "APIMART",
-        "task_id": "task_01M4R2GD3EQN5Y9ZC52WYPFQNN",
-        "request_id": null,
-        "params": {
-            "provider_id": "apimart",
-            "model": "gemini-3.1-flash-image-preview",
-            "size": "1536x1024",
-            "requested_size": "1536x1024",
-            "quality": "auto",
-            "transparent_background": false,
-            "n": 1,
-            "reference_images": []
-        },
-        "raw_usage": null
-    },
-    {
-        "prompt": "(杰作, 最高画质:1.2), 电影标题标志设计, 《黑神话悟空》同款东方玄幻史诗书法大标题, 黑色背景上的中国书法艺术。\n核心文字排版：“司牧”作为巨大主标题横向并排居中，狂草魏碑笔法，枯笔飞白，苍劲有力，笔画带有刀砍斧劈的金石质感与飞溅墨星；\n副标题：“落凡尘”以极小字号紧密排列在“司牧”正上方中央，纤细典雅的金石宋体排版，中间带一枚微小暗红色朱砂方印；\n质感与细节：深玄铁墨色中透出微弱暗金微光，字形边缘有岩石风化断裂细节，泼墨飞白撕裂感，8k分辨率，纯净暗黑背景，电影海报级平面设计。",
-        "images": [
-            "/assets/output/online_29427c0042.jpg"
-        ],
-        "image_items": [
-            {
-                "url": "/assets/output/online_29427c0042.jpg",
-                "kind": "image",
-                "name": "online_29427c0042.jpg",
-                "natural_w": 1264,
-                "natural_h": 848,
-                "width": 1264,
-                "height": 848
-            }
-        ],
-        "timestamp": 1791809286.4204566,
-        "type": "online",
-        "model": "gemini-3.1-flash-image-preview",
-        "provider_id": "apimart",
-        "provider_name": "APIMART",
-        "task_id": "task_01M4R2F8W04EDZJQ5V94YV9MJA",
-        "request_id": null,
-        "params": {
-            "provider_id": "apimart",
-            "model": "gemini-3.1-flash-image-preview",
-            "size": "1536x1024",
-            "requested_size": "1536x1024",
-            "quality": "auto",
-            "transparent_background": false,
-            "n": 1,
-            "reference_images": [
-                {
-                    "url": "/assets/input/ai_ref_62bfc5bbeca1.png",
-                    "name": "image.png",
-                    "role": "",
-                    "kind": "image",
-                    "mime": "",
-                    "original_url": "",
-                    "source_url": "",
-                    "originalLocalUrl": ""
-                }
-            ]
-        },
-        "raw_usage": null
-    },
-    {
-        "prompt": "参考@图片1 的毛笔字书法\n设计一个新的毛笔大标题：\n落凡尘 · 司牧\n\n以\"司牧\"为重点大字，落凡尘为小字\n\n风格可以参考黑神话悟空的风格",
-        "images": [
-            "/assets/output/online_f18eb4ac08.jpg"
-        ],
-        "image_items": [
-            {
-                "url": "/assets/output/online_f18eb4ac08.jpg",
-                "kind": "image",
-                "name": "online_f18eb4ac08.jpg",
-                "natural_w": 1264,
-                "natural_h": 848,
-                "width": 1264,
-                "height": 848
-            }
-        ],
-        "timestamp": 1791809220.6748817,
-        "type": "online",
-        "model": "gemini-3.1-flash-image-preview",
-        "provider_id": "apimart",
-        "provider_name": "APIMART",
-        "task_id": "task_01M4R2D6MCGETM0KJA0D7FST34",
-        "request_id": null,
-        "params": {
-            "provider_id": "apimart",
-            "model": "gemini-3.1-flash-image-preview",
-            "size": "1536x1024",
-            "requested_size": "1536x1024",
-            "quality": "auto",
-            "transparent_background": false,
-            "n": 1,
-            "reference_images": [
-                {
-                    "url": "/assets/input/ai_ref_36a345d03d4e.png",
-                    "name": "image.png",
-                    "role": "",
-                    "kind": "image",
-                    "mime": "",
-                    "original_url": "",
-                    "source_url": "",
-                    "originalLocalUrl": ""
-                },
-                {
-                    "url": "/assets/input/ai_ref_62bfc5bbeca1.png",
-                    "name": "image.png",
-                    "role": "",
-                    "kind": "image",
-                    "mime": "",
-                    "original_url": "",
-                    "source_url": "",
-                    "originalLocalUrl": ""
-                }
-            ]
-        },
-        "raw_usage": null
-    },
-    {
-        "prompt": "参考@图片1 的毛笔字书法\n设计一个新的毛笔大标题：\n落凡尘 · 司牧\n\n以\"司牧\"为重点大字，落凡尘为小字\n\n风格可以参考黑神话悟空的风格",
-        "images": [
-            "/assets/output/online_0bcf633447.png"
-        ],
-        "image_items": [
-            {
-                "url": "/assets/output/online_0bcf633447.png",
-                "kind": "image",
-                "name": "online_0bcf633447.png",
-                "natural_w": 2048,
-                "natural_h": 1360,
-                "width": 2048,
-                "height": 1360
-            }
-        ],
-        "timestamp": 1791809181.7256613,
-        "type": "online",
-        "model": "gpt-image-2.5-ext",
-        "provider_id": "apimart",
-        "provider_name": "APIMART",
-        "task_id": "task_01M4R2BNT6A0CKDPZS6CR0SSNW",
-        "request_id": null,
-        "params": {
-            "provider_id": "apimart",
-            "model": "gpt-image-2.5-ext",
-            "size": "2048x1360",
-            "requested_size": "2048x1360",
-            "quality": "auto",
-            "transparent_background": false,
-            "n": 1,
-            "reference_images": [
-                {
-                    "url": "/assets/input/ai_ref_36a345d03d4e.png",
-                    "name": "image.png",
-                    "role": "",
-                    "kind": "image",
-                    "mime": "",
-                    "original_url": "",
-                    "source_url": "",
-                    "originalLocalUrl": ""
-                },
-                {
-                    "url": "/assets/input/ai_ref_62bfc5bbeca1.png",
-                    "name": "image.png",
-                    "role": "",
-                    "kind": "image",
-                    "mime": "",
-                    "original_url": "",
-                    "source_url": "",
-                    "originalLocalUrl": ""
-                }
-            ]
-        },
-        "raw_usage": null
-    },
-    {
-        "prompt": "参考@图片1 的毛笔字书法\n设计一个新的毛笔大标题：\n落凡尘 · 司牧\n\n以\"司牧\"为重点大字，落凡尘为小字\n\n风格可以参考黑神话悟空的风格",
-        "images": [
-            "/assets/output/online_fc81848130.png"
-        ],
-        "image_items": [
-            {
-                "url": "/assets/output/online_fc81848130.png",
-                "kind": "image",
-                "name": "online_fc81848130.png",
-                "natural_w": 1536,
-                "natural_h": 2048,
-                "width": 1536,
-                "height": 2048
-            }
-        ],
-        "timestamp": 1791809121.539003,
-        "type": "online",
-        "model": "gpt-image-2.5-ext",
-        "provider_id": "apimart",
-        "provider_name": "APIMART",
-        "task_id": "task_01M4R29FQD76256TRMQ9WCNG86",
-        "request_id": null,
-        "params": {
-            "provider_id": "apimart",
-            "model": "gpt-image-2.5-ext",
-            "size": "1536x2048",
-            "requested_size": "1536x2048",
-            "quality": "auto",
-            "transparent_background": false,
-            "n": 1,
-            "reference_images": [
-                {
-                    "url": "/assets/input/ai_ref_36a345d03d4e.png",
-                    "name": "image.png",
-                    "role": "",
-                    "kind": "image",
-                    "mime": "",
-                    "original_url": "",
-                    "source_url": "",
-                    "originalLocalUrl": ""
-                },
-                {
-                    "url": "/assets/input/ai_ref_62bfc5bbeca1.png",
-                    "name": "image.png",
-                    "role": "",
-                    "kind": "image",
-                    "mime": "",
-                    "original_url": "",
-                    "source_url": "",
-                    "originalLocalUrl": ""
-                }
-            ]
-        },
-        "raw_usage": null
-    },
-    {
-        "prompt": "参考@图片1 的毛笔字书法\n设计一个新的毛笔大标题：\n落凡尘 · 司牧\n\n以中国传统毛笔书法为核心，采用苍枯笔\n\n落凡尘左上，司牧在右下\n\n风格可以参考黑神话悟空的风格",
-        "images": [
-            "/assets/output/online_653bcdb529.png"
-        ],
-        "image_items": [
-            {
-                "url": "/assets/output/online_653bcdb529.png",
-                "kind": "image",
-                "name": "online_653bcdb529.png",
-                "natural_w": 1536,
-                "natural_h": 2048,
-                "width": 1536,
-                "height": 2048
-            }
-        ],
-        "timestamp": 1791808969.784657,
-        "type": "online",
-        "model": "gpt-image-2.5-ext",
-        "provider_id": "apimart",
-        "provider_name": "APIMART",
-        "task_id": "task_01M4R256V3HD9A5PBZFYGN80A3",
-        "request_id": null,
-        "params": {
-            "provider_id": "apimart",
-            "model": "gpt-image-2.5-ext",
-            "size": "1536x2048",
-            "requested_size": "1536x2048",
-            "quality": "auto",
-            "transparent_background": false,
-            "n": 1,
-            "reference_images": [
-                {
-                    "url": "/assets/input/ai_ref_36a345d03d4e.png",
-                    "name": "image.png",
-                    "role": "",
-                    "kind": "image",
-                    "mime": "",
-                    "original_url": "",
-                    "source_url": "",
-                    "originalLocalUrl": ""
-                }
-            ]
-        },
-        "raw_usage": null
-    },
-    {
-        "prompt": "参考@图片1 的毛笔字书法\n设计一个新的毛笔大标题：\n落凡尘 · 司牧\n\n以中国传统毛笔书法为核心，采用苍枯笔\n\n落凡尘左上，司牧在右下\n\n风格可以参考黑神话悟空的风格",
-        "images": [
-            "/assets/output/online_404b260acf.png"
-        ],
-        "image_items": [
-            {
-                "url": "/assets/output/online_404b260acf.png",
-                "kind": "image",
-                "name": "online_404b260acf.png",
-                "natural_w": 2048,
-                "natural_h": 1360,
-                "width": 2048,
-                "height": 1360
-            }
-        ],
-        "timestamp": 1791808962.186361,
-        "type": "online",
-        "model": "gpt-image-2.5-ext",
-        "provider_id": "apimart",
-        "provider_name": "APIMART",
-        "task_id": "task_01M4R24ZVDRCGWRBE9EK5AGH86",
-        "request_id": null,
-        "params": {
-            "provider_id": "apimart",
-            "model": "gpt-image-2.5-ext",
-            "size": "2048x1360",
-            "requested_size": "2048x1360",
-            "quality": "auto",
-            "transparent_background": false,
-            "n": 1,
-            "reference_images": [
-                {
-                    "url": "/assets/input/ai_ref_36a345d03d4e.png",
-                    "name": "image.png",
-                    "role": "",
-                    "kind": "image",
-                    "mime": "",
-                    "original_url": "",
-                    "source_url": "",
-                    "originalLocalUrl": ""
-                }
-            ]
-        },
-        "raw_usage": null
-    },
-    {
-        "prompt": "参考@图片1 的毛笔字书法\n设计一个新的毛笔大标题：\n落凡尘 · 司牧\n\n以中国传统毛笔书法为核心，采用苍劲狂放的行草风格，强调飞白、枯笔、破锋、泼墨、笔锋拖尾和挥毫瞬间的力量感。整体气质凌厉、飘逸、肃穆、神秘，具有东方神话电影预告片的高级质感。\n\n落凡尘",
-        "images": [
-            "/assets/output/online_7e5e69f2ab.png"
-        ],
-        "image_items": [
-            {
-                "url": "/assets/output/online_7e5e69f2ab.png",
-                "kind": "image",
-                "name": "online_7e5e69f2ab.png",
-                "natural_w": 2048,
-                "natural_h": 1360,
-                "width": 2048,
-                "height": 1360
-            }
-        ],
-        "timestamp": 1791808862.577642,
-        "type": "online",
-        "model": "gpt-image-2.5-ext",
-        "provider_id": "apimart",
-        "provider_name": "APIMART",
-        "task_id": "task_01M4R21XXWQ3TAJQ5F7R09T2HZ",
-        "request_id": null,
-        "params": {
-            "provider_id": "apimart",
-            "model": "gpt-image-2.5-ext",
-            "size": "2048x1360",
-            "requested_size": "2048x1360",
-            "quality": "auto",
-            "transparent_background": false,
-            "n": 1,
-            "reference_images": [
-                {
-                    "url": "/assets/input/ai_ref_36a345d03d4e.png",
-                    "name": "image.png",
-                    "role": "",
-                    "kind": "image",
-                    "mime": "",
-                    "original_url": "",
-                    "source_url": "",
-                    "originalLocalUrl": ""
-                }
-            ]
-        },
-        "raw_usage": null
-    },
-    {
-        "prompt": "参考@图片1 的毛笔字书法\n设计一个新的毛笔大标题：\n落凡尘 · 司牧\n\n以中国传统毛笔书法为核心，采用苍劲狂放的行草风格，强调飞白、枯笔、破锋、泼墨、笔锋拖尾和挥毫瞬间的力量感。整体气质凌厉、飘逸、肃穆、神秘，具有东方神话电影预告片的高级质感。\n\n落凡尘",
-        "images": [
-            "/assets/output/online_49a69e7b44.png"
-        ],
-        "image_items": [
-            {
-                "url": "/assets/output/online_49a69e7b44.png",
-                "kind": "image",
-                "name": "online_49a69e7b44.png",
-                "natural_w": 1536,
-                "natural_h": 2048,
-                "width": 1536,
-                "height": 2048
-            }
-        ],
-        "timestamp": 1791808851.1858687,
-        "type": "online",
-        "model": "gpt-image-2.5-ext",
-        "provider_id": "apimart",
-        "provider_name": "APIMART",
-        "task_id": "task_01M4R21FS2VZV08VXA3259RPX9",
-        "request_id": null,
-        "params": {
-            "provider_id": "apimart",
-            "model": "gpt-image-2.5-ext",
-            "size": "1536x2048",
-            "requested_size": "1536x2048",
-            "quality": "auto",
-            "transparent_background": false,
-            "n": 1,
-            "reference_images": [
-                {
-                    "url": "/assets/input/ai_ref_36a345d03d4e.png",
-                    "name": "image.png",
-                    "role": "",
-                    "kind": "image",
-                    "mime": "",
-                    "original_url": "",
-                    "source_url": "",
-                    "originalLocalUrl": ""
-                }
-            ]
-        },
-        "raw_usage": null
+        "raw_usage": null,
+        "transparent_check": {
+            "requested": true,
+            "checked": false,
+            "ok": null,
+            "message": "无法校验透明通道：上游返回的不是 PNG，可能未真正支持透明背景"
+        }
     },
     {
         "prompt": "把图片中的韩文 한글文案，翻译成简体中文，保留原logo、主体、画面风格和信息内容；根据目标尺寸调整文案与元素布局，必要时自然扩展背景，不得拉伸主体或裁掉重要内容\n目标输出比例：16:9，请严格按此比例适配构图。",
@@ -2310,98 +1514,6 @@
             ]
         },
         "raw_usage": null
-    },
-    {
-        "prompt": "异形弹窗广告补充提示词：\n\n一、生成目标\n制作一张繁体中文的高质量异形弹窗广告，要求符合拦截大弹窗的视觉形式。\n异形弹窗主体具有醒目的广告利益点，整体达到高品质游戏宣传KV水准。\n\n二、画面背景\n透明背景，输出PNG格式。\n保留真实透明通道，方便后期抠图与修改。\n所有主体必须完整呈现，不得裁切。\n\n三、参考图说明\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片4作为画面限制参考，绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围\n\n四、广告文案\n- 主标题：\n  強者之戰現在開始\n\n- 副标题：\n  集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。\n  副标题为小字，在主标题下方。\n\n- 使用图片3中的游戏Logo，保持Logo清晰完整。\n\n- 在画面合适位置加入图片5的下载按钮，按钮内文字：立即下載。\n\n五、构图设计\n- 以主体角色参考图中的一个人物为主角，放大置于C位，重新排布其他人物的动作与位置，形成欢乐温馨、主体明确的镜头。\n- 以主角在前的夸张广角动作为主，其他角色群像在主角后方的建议构图。\n- 角色身体、标志性道具可以突破异形弹窗主体容器的边框，形成明确的“破框”设计。\n- 顶部破框：角色头部、手臂或武器可突破主体容器上边框。\n- 构建清晰的Z轴景深，区分前景破框元素、中景角色主体和背景氛围。\n\n六、视觉风格\n- 高质量日系动漫游戏KV，细腻线条，顶级二次元立绘，强光影，电影感，醒目的广告利益点。\n\n七、边界约束\n- 绿色标记区域禁止作画，黑色绘画区域为唯一允许作画范围。\n- 角色、武器、标题和道具只允许突破异形弹窗主体容器边框，绝对不能突破最终画布边界。\n- **画面禁止超出最终画布与黑色绘画区域范围。**\n- **画面禁止超出最终画布与黑色绘画区域范围。**\n- 全部画面必须保持在视觉中心内，不得超出画幅，不得裁切。\n\n八、负向提示词\n模糊，低清，噪点，颗粒感\n脏污，灰蒙，雾感，低对比\n过曝，过暗，色彩失真\n多余物体，杂乱背景\n畸形，变形，手部错误\n主体被裁切，内容超出最终画布边界，在禁止作画区域出现内容",
-        "images": [
-            "/assets/output/online_8607fe3851.png"
-        ],
-        "image_items": [
-            {
-                "url": "/assets/output/online_8607fe3851.png",
-                "kind": "image",
-                "name": "online_8607fe3851.png",
-                "natural_w": 2048,
-                "natural_h": 1152,
-                "width": 2048,
-                "height": 1152
-            }
-        ],
-        "timestamp": 1789523693.7935956,
-        "type": "online",
-        "model": "gpt-image-2.5-flare",
-        "provider_id": "apimart",
-        "provider_name": "APIMART",
-        "task_id": "task_01M2KYR5BZZD5J7F21F8DHTJCW",
-        "request_id": null,
-        "params": {
-            "provider_id": "apimart",
-            "model": "gpt-image-2.5-flare",
-            "size": "2048x1152",
-            "requested_size": "2048x1152",
-            "quality": "medium",
-            "transparent_background": true,
-            "n": 1,
-            "reference_images": [
-                {
-                    "url": "/assets/input/ai_ref_b24be406877f.jpg",
-                    "name": "启动页横.jpg",
-                    "role": "",
-                    "kind": "image",
-                    "mime": "",
-                    "original_url": "",
-                    "source_url": "",
-                    "originalLocalUrl": ""
-                },
-                {
-                    "url": "/assets/input/workflow_import_20260910-180205_e2de3f/88006854_f2f66496_73d9eade_ce9adf77_ai_ref_32b04d278f21.png",
-                    "name": "image.png",
-                    "role": "",
-                    "kind": "image",
-                    "mime": "",
-                    "original_url": "",
-                    "source_url": "",
-                    "originalLocalUrl": ""
-                },
-                {
-                    "url": "/assets/input/ai_ref_9ac46b66bd96.png",
-                    "name": "黑色五叶草logo-白.png",
-                    "role": "",
-                    "kind": "image",
-                    "mime": "",
-                    "original_url": "",
-                    "source_url": "",
-                    "originalLocalUrl": ""
-                },
-                {
-                    "url": "/assets/input/workflow_import_20260910-180205_e2de3f/5185b75c_7ab16a7a_619d6d72_ai_ref_0c45a638baa8.png",
-                    "name": "异形弹窗，原分辨率.png",
-                    "role": "",
-                    "kind": "image",
-                    "mime": "",
-                    "original_url": "",
-                    "source_url": "",
-                    "originalLocalUrl": ""
-                },
-                {
-                    "url": "/assets/input/workflow_import_20260910-180205_e2de3f/902d2135_faf1ae3a_d08f5808_751b1bd7_ai_ref_460126d55727.png",
-                    "name": "image.png",
-                    "role": "",
-                    "kind": "image",
-                    "mime": "",
-                    "original_url": "",
-                    "source_url": "",
-                    "originalLocalUrl": ""
-                }
-            ]
-        },
-        "raw_usage": null,
-        "transparent_check": {
-            "requested": true,
-            "checked": true,
-            "ok": true,
-            "message": ""
-        }
     },
     {
         "prompt": "竖版广告，以广告为主，广告可适当放大\n\n请生成一张繁体中文的游戏广告KV。\n\n参考图规则：\n- 图片1作为主角色参考，保持角色身份、脸部、发型、服装和核心特征一致。\n- 图片2仅作为字体设计与排版风格参考，不复制其中的人物、背景、Logo或其他内容。\n\n画面设计：\n- 视觉风格：暗黑史诗游戏广告KV，写实与二次元融合，强烈明暗反差，厚重材质，压迫感与英雄气质并存。\n- 构图：角色中心構圖，主体占据视觉核心，动态姿态，強對比、強光效、強主角感，背景层次清晰，并预留文案排版空间。\n- 强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。\n\n文字排版：\n- 主标题（必须准确呈现，不得改写）：「強者之戰現在開始」\n- 副标题（必须准确呈现，字号明显小于主标题，不得改写）：「集結魔法騎士，征服四葉草王國！黑色五葉草官方授權 RPG。」\n- 字体效果：醒目的奇幻游戏标题字，亮金色金属质感，立体描边、柔和投影与轻微发光，角落有闪耀反光，清晰可读。\n- 排版位置：主标题位于画面下部中央，副标题紧随主标题下方，保持明确的视觉层级。\n- 除上述指定文案外，不添加其他文字。\n\n画质要求：\n- 4K超清，精致的高精度画风，画面干净、平滑、统一，不要细碎噪点，不要高频纹理，不要脏污颗粒，商业广告级完成度。\n\n限制：\n- 成图不要添加游戏Logo、品牌标识、水印或角标。\n\n负向提示词：\n模糊，低清，噪点，颗粒感，脏污，灰蒙，雾感，低对比，过曝，过暗，色彩失真，多余物体，杂乱背景，畸形，变形，手部错误，乱码，错别字，重复文字",

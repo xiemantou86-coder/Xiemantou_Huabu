@@ -1,0 +1,183 @@
+E:\学习\简历作品集\AI应用\Infinite-Canvas画布\用户版\无限画布\main.py:181: DeprecationWarning: 
+        on_event is deprecated, use lifespan event handlers instead.
+
+        Read more about it in the
+        [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+        
+  @app.on_event("startup")
+INFO:     Started server process [27888]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:3001 (Press CTRL+C to quit)
+INFO:     127.0.0.1:52405 - "GET /api/providers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60738 - "GET /api/providers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62185 - "GET /static/canvas.html?id=825bd5531f664c7b9afe820ce2b711da HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62185 - "GET /static/vendor/js/tailwindcss-cdn.js?v=%EF%BB%BF2026.10.15_2.1791960842 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51817 - "GET /static/vendor/js/lucide.js?v=%EF%BB%BF2026.10.15_2.1791960842 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56911 - "GET /static/js/theme.js?v=%EF%BB%BF2026.10.15_2.1791960804 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56911 - "GET /static/css/canvas.css?v=%EF%BB%BF2026.10.15_2.1792136365 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62185 - "GET /static/js/touch-mouse.js?v=%EF%BB%BF2026.10.15_2.1791960805 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51817 - "GET /static/css/theme.css?v=%EF%BB%BF2026.10.15_2.1791960773 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56911 - "GET /static/css/batch-resize.css?v=%EF%BB%BF2026.10.15_2.1791960767 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:62185 - "GET /static/js/ltx-director-timeline.js?v=%EF%BB%BF2026.10.15_2.1791960798 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56911 - "GET /static/js/i18n.js?v=%EF%BB%BF2026.10.15_2.1791960792 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51817 - "GET /static/assets/changzhi-workflow-logo.svg HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51817 - "GET /static/js/game-kv-prompt.js?v=%EF%BB%BF2026.10.15_2.1791960790 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56911 - "GET /static/js/i18n-core.js?v=2026.07.04.rec-ui.1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:62185 - "GET /static/js/i18n/common.js?v=2026.07.04.rec-ui.1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56911 - "GET /static/js/i18n/api-settings.js?v=2026.07.04.rec-ui.1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:62185 - "GET /static/js/i18n/studio.js?v=2026.07.04.rec-ui.1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51817 - "GET /static/js/i18n/canvas.js?v=2026.07.04.rec-ui.1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:60938 - "GET /static/js/batch-resize.js?v=%EF%BB%BF2026.10.15_2.1791960786 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:56911 - "GET /static/js/i18n/comfyui-settings.js?v=2026.07.04.rec-ui.1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51817 - "GET /static/js/i18n/smart-canvas.js?v=2026.07.04.rec-ui.1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:62185 - "GET /static/js/canvas.js?v=%EF%BB%BF2026.10.15_2.1792136463 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51817 - "GET /static/vendor/css/fonts.css?v=2026.05.22.1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:62185 - "GET /static/vendor/fonts/inter-1.ttf HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:62185 - "GET /api/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62185 - "GET /api/workflows HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62185 - "GET /api/runninghub/workflows/2058554058318897153 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51817 - "GET /api/runninghub/workflows/2058541134623891458 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56911 - "GET /api/runninghub/workflows/2058824859437850625 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60938 - "GET /api/runninghub/workflows/2058818588181622785 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64211 - "GET /api/runninghub/workflows/2064542485938008065 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62496 - "GET /api/runninghub/workflows/2084608321469898754 HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:62496 - "POST /api/canvases/825bd5531f664c7b9afe820ce2b711da/touch HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62496 - "POST /api/canvas-assets/check HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62496 - "GET /api/game-kv-prompts HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62496 - "GET /static/vendor/fonts/inter-4.ttf HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:62496 - "GET /static/vendor/fonts/inter-2.ttf HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:62496 - "GET /api/media-preview?w=1536&url=%2Fassets%2Finput%2Fai_ref_96076686c022.jpeg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63554 - "GET /api/providers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54719 - "GET /api/providers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:65131 - "GET /api/providers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51480 - "GET /api/providers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62496 - "POST /api/ai/upload HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61302 - "GET /api/providers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59487 - "GET /api/providers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57146 - "GET /api/providers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62496 - "POST /api/ai/upload HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62496 - "POST /api/ai/upload HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62496 - "POST /api/ai/upload HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53678 - "GET /api/providers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58914 - "GET /api/providers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51987 - "GET /api/providers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49963 - "GET /api/media-preview?w=220&url=%2Fassets%2Finput%2Fai_ref_1c46299c7f23.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52611 - "GET /api/media-preview?w=220&url=%2Fassets%2Finput%2Fai_ref_71aff387b5c0.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63316 - "GET /api/media-preview?w=256&url=%2Fassets%2Finput%2Fai_ref_c653c3fc1d74.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53083 - "GET /api/media-preview?w=256&url=%2Fassets%2Finput%2Fai_ref_a012d9dccd62.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64810 - "GET /api/media-preview?w=192&url=%2Fassets%2Finput%2Fai_ref_c653c3fc1d74.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56979 - "GET /api/media-preview?w=192&url=%2Fassets%2Finput%2Fai_ref_1c46299c7f23.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49963 - "GET /api/media-preview?w=192&url=%2Fassets%2Finput%2Fai_ref_a012d9dccd62.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63316 - "GET /api/media-preview?w=256&url=%2Fassets%2Finput%2Fai_ref_1c46299c7f23.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54144 - "GET /api/providers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63316 - "GET /static/canvas-list.html?project=default HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63316 - "GET /static/vendor/js/tailwindcss-cdn.js?v=%EF%BB%BF2026.10.15_2.1791960842 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:63217 - "GET /static/vendor/js/lucide.js?v=%EF%BB%BF2026.10.15_2.1791960842 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:53055 - "GET /static/js/theme.js?v=%EF%BB%BF2026.10.15_2.1791960804 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:58570 - "GET /static/js/touch-mouse.js?v=%EF%BB%BF2026.10.15_2.1791960805 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:58896 - "GET /static/css/canvas-list.css?v=%EF%BB%BF2026.10.15_2.1791960768 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51143 - "GET /static/js/i18n.js?v=%EF%BB%BF2026.10.15_2.1791960792 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:63316 - "GET /static/css/theme.css?v=%EF%BB%BF2026.10.15_2.1791960773 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:63217 - "GET /static/js/canvas-list.js?v=%EF%BB%BF2026.10.15_2.1791960786 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:63217 - "GET /static/js/i18n-core.js?v=2026.07.04.rec-ui.1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:63316 - "GET /static/js/i18n/common.js?v=2026.07.04.rec-ui.1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:58896 - "GET /static/js/i18n/api-settings.js?v=2026.07.04.rec-ui.1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:58570 - "GET /static/js/i18n/canvas.js?v=2026.07.04.rec-ui.1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:53055 - "GET /static/js/i18n/smart-canvas.js?v=2026.07.04.rec-ui.1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51143 - "GET /static/js/i18n/studio.js?v=2026.07.04.rec-ui.1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:63217 - "GET /static/js/i18n/comfyui-settings.js?v=2026.07.04.rec-ui.1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:63217 - "GET /static/vendor/css/fonts.css?v=2026.05.22.1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51143 - "GET /api/projects HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63217 - "GET /static/vendor/fonts/inter-1.ttf HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:63217 - "GET /static/canvas.html?id=cc7d6c7f37d2407487b3bb811a82a620&project=default&v=2026.07.03.4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63217 - "GET /static/vendor/js/tailwindcss-cdn.js?v=%EF%BB%BF2026.10.15_2.1791960842 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:58570 - "GET /static/js/theme.js?v=%EF%BB%BF2026.10.15_2.1791960804 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:58896 - "GET /static/js/touch-mouse.js?v=%EF%BB%BF2026.10.15_2.1791960805 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:53055 - "GET /static/css/canvas.css?v=%EF%BB%BF2026.10.15_2.1792136365 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63316 - "GET /static/js/i18n.js?v=%EF%BB%BF2026.10.15_2.1791960792 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51143 - "GET /static/vendor/js/lucide.js?v=%EF%BB%BF2026.10.15_2.1791960842 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:63217 - "GET /static/css/batch-resize.css?v=%EF%BB%BF2026.10.15_2.1791960767 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:58570 - "GET /static/css/theme.css?v=%EF%BB%BF2026.10.15_2.1791960773 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:58896 - "GET /static/assets/changzhi-workflow-logo.svg HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51143 - "GET /static/js/ltx-director-timeline.js?v=%EF%BB%BF2026.10.15_2.1791960798 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51143 - "GET /static/js/game-kv-prompt.js?v=%EF%BB%BF2026.10.15_2.1791960790 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51143 - "GET /static/js/batch-resize.js?v=%EF%BB%BF2026.10.15_2.1791960786 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51143 - "GET /static/js/i18n-core.js?v=2026.07.04.rec-ui.1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:63316 - "GET /static/js/i18n/smart-canvas.js?v=2026.07.04.rec-ui.1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:63217 - "GET /static/js/i18n/canvas.js?v=2026.07.04.rec-ui.1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:58570 - "GET /static/js/i18n/api-settings.js?v=2026.07.04.rec-ui.1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:53055 - "GET /static/js/i18n/common.js?v=2026.07.04.rec-ui.1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:58896 - "GET /static/js/i18n/studio.js?v=2026.07.04.rec-ui.1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51143 - "GET /static/js/i18n/comfyui-settings.js?v=2026.07.04.rec-ui.1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:63316 - "GET /static/js/canvas.js?v=%EF%BB%BF2026.10.15_2.1792136463 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51143 - "GET /static/vendor/css/fonts.css?v=2026.05.22.1 HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:63316 - "GET /static/vendor/fonts/inter-1.ttf HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:63316 - "GET /api/config HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63316 - "GET /api/workflows HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63316 - "GET /api/runninghub/workflows/2058554058318897153 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53055 - "GET /api/runninghub/workflows/2058818588181622785 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51143 - "GET /api/runninghub/workflows/2058541134623891458 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58896 - "GET /api/runninghub/workflows/2058824859437850625 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58570 - "GET /api/runninghub/workflows/2064542485938008065 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63217 - "GET /api/runninghub/workflows/2084608321469898754 HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63217 - "POST /api/canvases/cc7d6c7f37d2407487b3bb811a82a620/touch HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63217 - "POST /api/canvas-assets/check HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63217 - "GET /api/game-kv-prompts HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63217 - "GET /static/vendor/fonts/inter-4.ttf HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:63217 - "GET /static/vendor/fonts/inter-2.ttf HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:63217 - "GET /static/vendor/fonts/inter-3.ttf HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:63217 - "GET /api/media-preview?w=768&url=%2Fassets%2Finput%2Fworkflow_import_20260910-180205_e2de3f%2F5185b75c_7ab16a7a_619d6d72_ai_ref_0c45a638baa8.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58570 - "GET /api/media-preview?w=256&url=%2Fassets%2Finput%2Fai_ref_385b8caf7dd8.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53055 - "GET /api/media-preview?w=192&url=%2Fassets%2Finput%2Fai_ref_385b8caf7dd8.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58896 - "GET /api/media-preview?w=256&url=%2Fassets%2Finput%2Fai_ref_92cee6ca8584.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51143 - "GET /api/media-preview?w=256&url=%2Fassets%2Finput%2Fai_ref_f82f5e2a10aa.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63316 - "GET /api/media-preview?w=192&url=%2Fassets%2Finput%2Fai_ref_92cee6ca8584.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63217 - "GET /api/media-preview?w=192&url=%2Fassets%2Finput%2Fai_ref_f82f5e2a10aa.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63316 - "GET /api/media-preview?w=192&url=%2Fassets%2Finput%2Fai_ref_cfac6ae92b5c.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58896 - "GET /api/media-preview?w=256&url=%2Fassets%2Finput%2Fworkflow_import_20260910-180205_e2de3f%2F5185b75c_7ab16a7a_619d6d72_ai_ref_0c45a638baa8.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51143 - "GET /api/media-preview?w=192&url=%2Fassets%2Finput%2Fworkflow_import_20260910-180205_e2de3f%2F5185b75c_7ab16a7a_619d6d72_ai_ref_0c45a638baa8.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53055 - "GET /api/media-preview?w=192&url=%2Fassets%2Finput%2Fworkflow_import_20260910-180205_e2de3f%2F902d2135_faf1ae3a_d08f5808_751b1bd7_ai_ref_460126d55727.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58570 - "GET /api/media-preview?w=256&url=%2Fassets%2Finput%2Fai_ref_a7fc16ecc8f4.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63217 - "GET /api/media-preview?w=256&url=%2Fassets%2Finput%2Fai_ref_018463c953fa.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58896 - "GET /api/media-preview?w=768&url=%2Fassets%2Foutput%2Fonline_ae8b915f44.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51143 - "GET /api/media-preview?w=768&url=%2Fassets%2Finput%2Fai_ref_018463c953fa.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63316 - "GET /api/media-preview?w=768&url=%2Fassets%2Finput%2Fworkflow_import_20260910-180205_e2de3f%2F902d2135_faf1ae3a_d08f5808_751b1bd7_ai_ref_460126d55727.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53055 - "GET /api/media-preview?w=256&url=%2Fassets%2Finput%2Fai_ref_71eb7ae0ecd8.jpg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58570 - "GET /api/media-preview?w=768&url=%2Fassets%2Finput%2Fai_ref_71eb7ae0ecd8.jpg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63316 - "GET /api/media-preview?w=768&url=%2Fassets%2Finput%2Fai_ref_a7fc16ecc8f4.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51143 - "GET /api/media-preview?w=220&url=%2Fassets%2Finput%2Fai_ref_385b8caf7dd8.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58896 - "GET /api/media-preview?w=220&url=%2Fassets%2Finput%2Fai_ref_92cee6ca8584.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53055 - "GET /api/media-preview?w=220&url=%2Fassets%2Finput%2Fai_ref_cfac6ae92b5c.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63217 - "GET /api/media-preview?w=256&url=%2Fassets%2Finput%2Fai_ref_cfac6ae92b5c.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58570 - "GET /api/media-preview?w=220&url=%2Fassets%2Finput%2Fai_ref_f82f5e2a10aa.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63217 - "GET /assets/input/ai_ref_92cee6ca8584.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51143 - "GET /assets/input/ai_ref_cfac6ae92b5c.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63316 - "GET /assets/input/ai_ref_f82f5e2a10aa.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53055 - "GET /assets/input/ai_ref_385b8caf7dd8.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58570 - "GET /assets/input/ai_ref_a7fc16ecc8f4.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63316 - "GET /api/media-preview?w=768&url=%2Fassets%2Foutput%2Fonline_eb3338b3c1.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63217 - "GET /api/media-preview?w=256&url=%2Fassets%2Finput%2Fworkflow_import_20260910-180205_e2de3f%2F902d2135_faf1ae3a_d08f5808_751b1bd7_ai_ref_460126d55727.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51143 - "GET /api/media-preview?w=768&url=%2Fassets%2Foutput%2Fonline_3a570f7dc4.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53055 - "GET /api/media-preview?w=768&url=%2Fassets%2Finput%2Fworkflow_import_20260923-161647_115981%2F50cba418_ai_ref_b95c87be5be0.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58570 - "GET /api/media-preview?w=256&url=%2Fassets%2Finput%2Fworkflow_import_20260923-161647_115981%2F50cba418_ai_ref_b95c87be5be0.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58570 - "GET /api/media-preview?w=768&url=%2Fassets%2Foutput%2Fonline_8607fe3851.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58570 - "GET /api/media-preview?w=768&url=%2Fassets%2Foutput%2Fonline_dae1c33574.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58570 - "GET /api/media-preview?w=768&url=%2Fassets%2Finput%2Fworkflow_import_20260923-161647_115981%2Fdb406939_video_06f928bbe4.mp4 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58570 - "GET /api/media-preview?w=768&url=%2Fassets%2Foutput%2Fonline_14e1a0c56d.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53055 - "GET /api/media-preview?w=768&url=%2Fassets%2Foutput%2Fonline_85657f87e7.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58570 - "GET /api/media-preview?w=768&url=%2Fassets%2Foutput%2Fonline_3c0203e80d.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53055 - "GET /api/media-preview?w=768&url=%2Fassets%2Foutput%2Fonline_5eb6c31199.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58570 - "GET /api/media-preview?w=768&url=%2Fassets%2Foutput%2Fonline_883964e2e0.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53055 - "GET /api/media-preview?w=768&url=%2Fassets%2Finput%2Fai_ref_dfb68fe3e6d5.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60046 - "GET /api/providers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58683 - "GET /api/providers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55413 - "GET /assets/output/online_eb3338b3c1.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53055 - "GET /assets/output/online_3a570f7dc4.png HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53055 - "PUT /api/canvases/cc7d6c7f37d2407487b3bb811a82a620 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53055 - "PUT /api/canvases/cc7d6c7f37d2407487b3bb811a82a620 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53055 - "PUT /api/canvases/cc7d6c7f37d2407487b3bb811a82a620 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61737 - "GET /api/providers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53055 - "PUT /api/canvases/cc7d6c7f37d2407487b3bb811a82a620 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53433 - "GET /api/providers HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57257 - "GET /api/providers HTTP/1.1" 200 OK

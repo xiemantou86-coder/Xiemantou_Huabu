@@ -1,0 +1,16 @@
+{
+  "id": "affe14c96adc4df3b39eaaa5856e0e4c",
+  "title": "你好呀，简单介绍一下你自己",
+  "created_at": 1792063880041,
+  "updated_at": 1792063880044,
+  "messages": [
+    {
+      "id": "e38f8a41e016418aa2c0ab88d1ec4aa7",
+      "role": "user",
+      "content": "你好呀，简单介绍一下你自己",
+      "created_at": 1792063880044,
+      "attachments": [],
+      "mode": "agent"
+    }
+  ]
+}

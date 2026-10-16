@@ -1,0 +1,16 @@
+{
+  "id": "a572eda060e4403dafc78d9b5ec58096",
+  "title": "以二次元光影厚涂猫咪的风格，生成一条小猫玩耍图 ",
+  "created_at": 1792066133166,
+  "updated_at": 1792066133168,
+  "messages": [
+    {
+      "id": "f02896275ee0450baa2de99f18d12387",
+      "role": "user",
+      "content": "以二次元光影厚涂猫咪的风格，生成一条小猫玩耍图 16:9 4k超高清",
+      "created_at": 1792066133168,
+      "attachments": [],
+      "mode": "agent"
+    }
+  ]
+}

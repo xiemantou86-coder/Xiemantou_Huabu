@@ -1,0 +1,56 @@
+{
+  "id": "ff5a88d4418f47aba3f8daca0a5a926b",
+  "title": "画一只可爱的橘猫",
+  "created_at": 1792065200445,
+  "updated_at": 1792065224084,
+  "messages": [
+    {
+      "id": "0ee63fd4349542d3b3b1fc2acb17d756",
+      "role": "user",
+      "content": "画一只可爱的橘猫",
+      "created_at": 1792065200448,
+      "attachments": [],
+      "mode": "agent"
+    },
+    {
+      "id": "497108903adb4c14b64ec2b8fbd97a28",
+      "role": "assistant",
+      "type": "image",
+      "content": "一只可爱的橘猫，毛茸茸，圆圆的大眼睛，坐在温馨的室内，柔和的光线，卡通插画风格，高质量，细节丰富",
+      "image_url": "/assets/output/chat_69719cefbd.png",
+      "image_urls": [
+        "/assets/output/chat_69719cefbd.png"
+      ],
+      "created_at": 1792065224084,
+      "model": "gpt-image-2.5-sunburst",
+      "provider": "custom-api",
+      "size": "1024x1024",
+      "image_count": 1,
+      "prompts": [
+        "一只可爱的橘猫，毛茸茸，圆圆的大眼睛，坐在温馨的室内，柔和的光线，卡通插画风格，高质量，细节丰富"
+      ],
+      "agent_action": "generate_image",
+      "agent_reply": "正在为你画一只可爱的橘猫～",
+      "used_references": [],
+      "raw_usage": {
+        "prompt_tokens": 50,
+        "completion_tokens": 196,
+        "total_tokens": 246,
+        "cost": 0.00613,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.00613,
+          "upstream_inference_prompt_cost": 0.00025,
+          "upstream_inference_completions_cost": 0.00588
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 196
+        }
+      }
+    }
+  ]
+}

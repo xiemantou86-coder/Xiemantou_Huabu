@@ -1,0 +1,29 @@
+{
+  "id": "470db5baefd542b6b55574b3f9a78ae8",
+  "title": "你好呀",
+  "created_at": 1792067126535,
+  "updated_at": 1792067168450,
+  "messages": [
+    {
+      "id": "19216ee6a4a74104991b46df1ab7eba7",
+      "role": "user",
+      "content": "你好呀",
+      "created_at": 1792067126537,
+      "attachments": [],
+      "mode": "agent"
+    },
+    {
+      "id": "24e43a571d064d69828b31ec0d018b0c",
+      "role": "assistant",
+      "content": "你好呀！很高兴见到你 😊 有什么我可以帮你的吗？",
+      "created_at": 1792067168450,
+      "model": "gpt-5.6-sol",
+      "raw_usage": {
+        "prompt_tokens": 18,
+        "completion_tokens": 22,
+        "total_tokens": 40
+      },
+      "agent_action": "chat"
+    }
+  ]
+}

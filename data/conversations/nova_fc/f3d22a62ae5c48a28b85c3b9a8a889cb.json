@@ -1,0 +1,56 @@
+{
+  "id": "f3d22a62ae5c48a28b85c3b9a8a889cb",
+  "title": "以二次元光影厚涂猫咪的风格，生成一条小猫玩耍图 ",
+  "created_at": 1792066710954,
+  "updated_at": 1792066759773,
+  "messages": [
+    {
+      "id": "c3c7a6026d8d457580a4821ca05c9607",
+      "role": "user",
+      "content": "以二次元光影厚涂猫咪的风格，生成一条小猫玩耍图 16:9 4k超高清",
+      "created_at": 1792066710955,
+      "attachments": [],
+      "mode": "agent"
+    },
+    {
+      "id": "4b3ebfc5699644a8861e5f9c26a7cbd6",
+      "role": "assistant",
+      "type": "image",
+      "content": "生成一张16:9构图、4K超高清的二次元光影厚涂风格插画：一只可爱的小猫正在明亮温馨的室内空间里欢快玩耍，充满动态感，猫咪姿态灵动，毛发细腻蓬松，眼睛清澈有神，搭配柔和而富有层次的光影、厚重细腻的笔触、丰富的色彩和精致的环境细节，营造活泼治愈的氛围。高质量角色设计，电影感构图，细节丰富，画面干净，无文字，无水印。",
+      "image_url": "/assets/output/chat_b7a078d6a8.png",
+      "image_urls": [
+        "/assets/output/chat_b7a078d6a8.png"
+      ],
+      "created_at": 1792066759773,
+      "model": "gpt-image-2.5-sunburst",
+      "provider": "custom-api",
+      "size": "2560x1440",
+      "image_count": 1,
+      "prompts": [
+        "生成一张16:9构图、4K超高清的二次元光影厚涂风格插画：一只可爱的小猫正在明亮温馨的室内空间里欢快玩耍，充满动态感，猫咪姿态灵动，毛发细腻蓬松，眼睛清澈有神，搭配柔和而富有层次的光影、厚重细腻的笔触、丰富的色彩和精致的环境细节，营造活泼治愈的氛围。高质量角色设计，电影感构图，细节丰富，画面干净，无文字，无水印。"
+      ],
+      "agent_action": "generate_image",
+      "agent_reply": "正在生成一张4K超高清的二次元光影厚涂风格小猫玩耍图。",
+      "used_references": [],
+      "raw_usage": {
+        "prompt_tokens": 155,
+        "completion_tokens": 343,
+        "total_tokens": 498,
+        "cost": 0.011065,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.011065,
+          "upstream_inference_prompt_cost": 0.000775,
+          "upstream_inference_completions_cost": 0.01029
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 343
+        }
+      }
+    }
+  ]
+}

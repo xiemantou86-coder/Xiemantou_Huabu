@@ -1,0 +1,78 @@
+{
+  "id": "4751233d224347b5a52facd1203f3083",
+  "title": "女孩在林间散步 丁达尔光 扬尘 强对比 上半身特",
+  "created_at": 1792075560884,
+  "updated_at": 1792075616538,
+  "messages": [
+    {
+      "id": "107157fc6a9849a4bf285f372aeffa44",
+      "role": "user",
+      "content": "女孩在林间散步 丁达尔光 扬尘 强对比 上半身特写照 9:16",
+      "created_at": 1792075560884,
+      "attachments": [
+        {
+          "url": "/assets/input/miku_ref.png",
+          "name": "miku_ref.png",
+          "role": "source",
+          "kind": "",
+          "mime": "",
+          "original_url": "",
+          "source_url": "",
+          "originalLocalUrl": ""
+        }
+      ],
+      "mode": "agent"
+    },
+    {
+      "id": "2231ac106f654bf088ca1f107927c5be",
+      "role": "assistant",
+      "type": "image",
+      "content": "以用户上传的参考图为基础进行改图：保留原角色的标志性外貌特征——青绿色双马尾长发、青绿色眼睛、未来感少女服装与整体二次元插画风格；将场景改为女孩在茂密林间散步，画面采用上半身特写构图，女孩自然侧身或回眸，表情清澈宁静，背景为深邃森林与虚化树木。阳光穿过树冠形成明显的丁达尔光束，空气中漂浮细小扬尘与金色颗粒，营造梦幻而有层次的氛围；使用强烈明暗对比、边缘光和局部高光，突出人物脸部、发丝与肩部轮廓，电影感摄影，细腻高质量日系动漫插画，纵向9:16构图。避免全身照、避免室内背景、避免文字水印、避免多余人物和畸形五官。",
+      "image_url": "/assets/output/chat_43e5fe7e88.png",
+      "image_urls": [
+        "/assets/output/chat_43e5fe7e88.png"
+      ],
+      "created_at": 1792075616538,
+      "model": "gpt-image-2.5-sunburst",
+      "provider": "custom-api",
+      "size": "720x1280",
+      "image_count": 1,
+      "prompts": [
+        "以用户上传的参考图为基础进行改图：保留原角色的标志性外貌特征——青绿色双马尾长发、青绿色眼睛、未来感少女服装与整体二次元插画风格；将场景改为女孩在茂密林间散步，画面采用上半身特写构图，女孩自然侧身或回眸，表情清澈宁静，背景为深邃森林与虚化树木。阳光穿过树冠形成明显的丁达尔光束，空气中漂浮细小扬尘与金色颗粒，营造梦幻而有层次的氛围；使用强烈明暗对比、边缘光和局部高光，突出人物脸部、发丝与肩部轮廓，电影感摄影，细腻高质量日系动漫插画，纵向9:16构图。避免全身照、避免室内背景、避免文字水印、避免多余人物和畸形五官。"
+      ],
+      "agent_action": "edit_image",
+      "agent_reply": "正在基于参考图调整为森林散步的丁达尔光上半身特写。",
+      "used_references": [
+        {
+          "url": "/assets/input/miku_ref.png",
+          "name": "miku_ref.png",
+          "role": "source",
+          "kind": "",
+          "mime": "",
+          "original_url": "",
+          "source_url": "",
+          "originalLocalUrl": ""
+        }
+      ],
+      "raw_usage": {
+        "prompt_tokens": 256,
+        "completion_tokens": 129,
+        "total_tokens": 385,
+        "cost": 0.00515,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.00515,
+          "upstream_inference_prompt_cost": 0.00128,
+          "upstream_inference_completions_cost": 0.00387
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 129
+        }
+      }
+    }
+  ]
+}

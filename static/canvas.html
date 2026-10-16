@@ -16,14 +16,14 @@
             } catch(e) {}
         })();
     </script>
-    <script src="/static/vendor/js/tailwindcss-cdn.js?v=%EF%BB%BF2026.10.15_1.1791960842"></script>
-    <script src="/static/vendor/js/lucide.js?v=%EF%BB%BF2026.10.15_1.1791960842"></script>
-    <script src="/static/js/theme.js?v=%EF%BB%BF2026.10.15_1.1791960804"></script>
-    <script src="/static/js/touch-mouse.js?v=%EF%BB%BF2026.10.15_1.1791960805"></script>
-    <script src="/static/js/i18n.js?v=%EF%BB%BF2026.10.15_1.1791960792"></script>
-    <link rel="stylesheet" href="/static/css/canvas.css?v=%EF%BB%BF2026.10.15_1.1791960768">
-    <link rel="stylesheet" href="/static/css/batch-resize.css?v=%EF%BB%BF2026.10.15_1.1791960767">
-    <link rel="stylesheet" href="/static/css/theme.css?v=%EF%BB%BF2026.10.15_1.1791960773">
+    <script src="/static/vendor/js/tailwindcss-cdn.js?v=%EF%BB%BF2026.10.15_2.1791960842"></script>
+    <script src="/static/vendor/js/lucide.js?v=%EF%BB%BF2026.10.15_2.1791960842"></script>
+    <script src="/static/js/theme.js?v=%EF%BB%BF2026.10.15_2.1791960804"></script>
+    <script src="/static/js/touch-mouse.js?v=%EF%BB%BF2026.10.15_2.1791960805"></script>
+    <script src="/static/js/i18n.js?v=%EF%BB%BF2026.10.15_2.1791960792"></script>
+    <link rel="stylesheet" href="/static/css/canvas.css?v=%EF%BB%BF2026.10.16_2.1792136653">
+    <link rel="stylesheet" href="/static/css/batch-resize.css?v=%EF%BB%BF2026.10.15_2.1791960767">
+    <link rel="stylesheet" href="/static/css/theme.css?v=%EF%BB%BF2026.10.15_2.1791960773">
 </head>
 <body>
     <div id="shell" class="shell no-canvas">
@@ -267,6 +267,7 @@
                         <button type="button" data-image-edit-mode="grid"><i data-lucide="grid-3x3" class="w-3.5 h-3.5"></i><span data-i18n="canvas.modeGrid">宫格切分</span></button>
                     </div>
                     <div class="image-edit-head-end">
+                        <button id="imageEditDownloadBtn" class="preview-icon-btn" type="button" onclick="downloadCurrentEditorImage()" title="下载原图" aria-label="下载原图"><i data-lucide="download" class="w-4 h-4"></i></button>
                         <button class="preview-icon-btn" type="button" onclick="closeImageEditor()" title="关闭" data-i18n-title="common.close"><i data-lucide="x" class="w-4 h-4"></i></button>
                     </div>
                 </div>
@@ -330,33 +331,140 @@
                     <label class="grid-gap-control"><span data-i18n="canvas.gridGap">间隔(px)</span> <input id="gridGapSize" type="range" min="0" max="240" step="1" value="0"><span id="gridGapValue" class="grid-gap-value">0</span></label>
                     <span id="gridSplitCount" class="image-edit-sub"></span>
                 </div>
-                <div id="imageEditStage" class="image-edit-stage">
-                    <div class="image-edit-stage-inner">
-                        <div id="cropCanvas" class="crop-canvas">
-                            <img id="cropImage" alt="crop source">
-                            <canvas id="editDrawCanvas" class="edit-draw-canvas"></canvas>
-                            <canvas id="editTextCanvas" class="edit-text-canvas"></canvas>
-                            <div id="cropBox" class="crop-box">
-                                <div class="crop-handle" data-crop-handle="nw"></div>
-                                <div class="crop-handle" data-crop-handle="n"></div>
-                                <div class="crop-handle" data-crop-handle="ne"></div>
-                                <div class="crop-handle" data-crop-handle="e"></div>
-                                <div id="cropHandle" class="crop-handle" data-crop-handle="se"></div>
-                                <div class="crop-handle" data-crop-handle="s"></div>
-                                <div class="crop-handle" data-crop-handle="sw"></div>
-                                <div class="crop-handle" data-crop-handle="w"></div>
+                <div class="image-edit-layout">
+                    <div class="image-edit-main-stage">
+                        <div id="imageEditStage" class="image-edit-stage">
+                            <div class="image-edit-stage-inner">
+                                <div id="cropCanvas" class="crop-canvas">
+                                    <img id="cropImage" alt="crop source">
+                                    <canvas id="editDrawCanvas" class="edit-draw-canvas"></canvas>
+                                    <canvas id="editTextCanvas" class="edit-text-canvas"></canvas>
+                                    <div id="cropBox" class="crop-box">
+                                        <div class="crop-handle" data-crop-handle="nw"></div>
+                                        <div class="crop-handle" data-crop-handle="n"></div>
+                                        <div class="crop-handle" data-crop-handle="ne"></div>
+                                        <div class="crop-handle" data-crop-handle="e"></div>
+                                        <div id="cropHandle" class="crop-handle" data-crop-handle="se"></div>
+                                        <div class="crop-handle" data-crop-handle="s"></div>
+                                        <div class="crop-handle" data-crop-handle="sw"></div>
+                                        <div class="crop-handle" data-crop-handle="w"></div>
+                                    </div>
+                                    <div id="outpaintFrame" class="outpaint-frame">
+                                        <div class="outpaint-handle" data-outpaint-handle="top"></div>
+                                        <div class="outpaint-handle" data-outpaint-handle="right"></div>
+                                        <div class="outpaint-handle" data-outpaint-handle="bottom"></div>
+                                        <div class="outpaint-handle" data-outpaint-handle="left"></div>
+                                        <div class="outpaint-handle" data-outpaint-handle="corner"></div>
+                                    </div>
+                                    <div id="outpaintResolution" class="outpaint-resolution"></div>
+                                    <div id="resizeResolutionOverlay" class="resize-resolution-overlay"></div>
+                                </div>
                             </div>
-                            <div id="outpaintFrame" class="outpaint-frame">
-                                <div class="outpaint-handle" data-outpaint-handle="top"></div>
-                                <div class="outpaint-handle" data-outpaint-handle="right"></div>
-                                <div class="outpaint-handle" data-outpaint-handle="bottom"></div>
-                                <div class="outpaint-handle" data-outpaint-handle="left"></div>
-                                <div class="outpaint-handle" data-outpaint-handle="corner"></div>
-                            </div>
-                            <div id="outpaintResolution" class="outpaint-resolution"></div>
-                            <div id="resizeResolutionOverlay" class="resize-resolution-overlay"></div>
                         </div>
                     </div>
+                    <aside id="imageEditSidebar" class="image-edit-sidebar">
+                        <div class="image-edit-sidebar-head">
+                            <div class="sidebar-title"><i data-lucide="sparkles" class="w-4 h-4 text-sky-400"></i><span>AI 单图修改</span></div>
+                            <span id="imageEditApiStatus" class="sidebar-status-tag">就绪</span>
+                        </div>
+                        <div class="image-edit-sidebar-body">
+                            <div class="sidebar-field">
+                                <label class="sidebar-label">
+                                    <span>修图提示词 (Prompt)</span>
+                                    <span id="editorPromptHelperBtn" class="sidebar-link-btn" onclick="openPromptTemplateModal()">+ 词库</span>
+                                </label>
+                                <textarea id="editorAiPrompt" class="sidebar-textarea" placeholder="描述想要如何基于当前图修改/重绘..." rows="3"></textarea>
+                            </div>
+                            <div class="sidebar-row">
+                                <div class="sidebar-field" style="flex:1;">
+                                    <label class="sidebar-label">平台渠道</label>
+                                    <select id="editorAiProviderSelect" class="sidebar-select"></select>
+                                </div>
+                                <div class="sidebar-field" style="flex:1;">
+                                    <label class="sidebar-label">模型</label>
+                                    <select id="editorAiModelSelect" class="sidebar-select"></select>
+                                </div>
+                            </div>
+                            <div class="sidebar-row">
+                                <div class="sidebar-field" style="flex:1;">
+                                    <label class="sidebar-label">分辨率</label>
+                                    <select id="editorAiResolutionSelect" class="sidebar-select">
+                                        <option value="auto">自适应</option>
+                                        <option value="1k">1K (标准)</option>
+                                        <option value="2k" selected>2K (高清)</option>
+                                        <option value="4k">4K (超清)</option>
+                                    </select>
+                                </div>
+                                <div class="sidebar-field" style="flex:1;">
+                                    <label class="sidebar-label">画质</label>
+                                    <select id="editorAiQualitySelect" class="sidebar-select">
+                                        <option value="auto" selected>自动</option>
+                                        <option value="low">低</option>
+                                        <option value="medium">中</option>
+                                        <option value="high">高</option>
+                                        <option value="xhigh">超高</option>
+                                        <option value="max">极高</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="sidebar-field">
+                                <label class="sidebar-label">宽高比</label>
+                                <select id="editorAiAspectSelect" class="sidebar-select">
+                                    <option value="source" selected>适配当前图比例</option>
+                                    <option value="square">1:1</option>
+                                    <option value="portrait">2:3</option>
+                                    <option value="landscape">3:2</option>
+                                    <option value="portrait43">3:4</option>
+                                    <option value="landscape43">4:3</option>
+                                    <option value="story">9:16</option>
+                                    <option value="wide">16:9</option>
+                                    <option value="ultrawide">21:9</option>
+                                    <option value="ultratall">9:21</option>
+                                    <option value="custom">自定义</option>
+                                </select>
+                            </div>
+                            <div class="sidebar-field">
+                                <label class="sidebar-label">保真度</label>
+                                <select id="editorAiFidelitySelect" class="sidebar-select">
+                                    <option value="high" selected>高保真（贴近原图）</option>
+                                    <option value="low">高自由（允许大改）</option>
+                                </select>
+                                <div id="editorAiFidelityHint" class="sidebar-field-hint">仅 gpt-image 系列生效</div>
+                            </div>
+                            <div class="sidebar-field">
+                                <label class="sidebar-checkbox-label sidebar-switch-row">
+                                    <input id="editorAiTransparentPng" type="checkbox" disabled>
+                                    <span>透明背景 PNG</span>
+                                </label>
+                                <div id="editorAiTransparentHint" class="sidebar-field-hint">检测中…</div>
+                            </div>
+                            <div id="editorAiSourceBadge" class="sidebar-info-box">
+                                <i data-lucide="info" class="w-3.5 h-3.5 text-sky-400"></i>
+                                <span id="editorAiSourceText">生图将自动附带当前修改图层（含画笔/裁剪/遮罩）</span>
+                            </div>
+                            <div id="editorAiJobPanel" class="editor-ai-job-panel" hidden>
+                                <div class="editor-ai-job-spinner" id="editorAiJobSpinner"></div>
+                                <img id="editorAiJobThumb" class="editor-ai-job-thumb" alt="" hidden>
+                                <div class="editor-ai-job-info">
+                                    <div id="editorAiJobText" class="editor-ai-job-text">AI 正在生成…</div>
+                                    <div id="editorAiJobSub" class="editor-ai-job-sub"></div>
+                                </div>
+                                <button type="button" id="editorAiJobOkBtn" class="editor-ai-job-ok-btn" onclick="dismissEditorAiJob()" hidden>确认</button>
+                            </div>
+                        </div>
+                        <div class="image-edit-sidebar-foot">
+                            <div class="sidebar-mode-toggles">
+                                <label class="sidebar-checkbox-label">
+                                    <input id="editorAiCreateBranch" type="checkbox" checked>
+                                    <span>生成后创建新节点连线</span>
+                                </label>
+                            </div>
+                            <button id="editorAiGenerateBtn" type="button" class="sidebar-generate-btn" onclick="runImageEditorAiGenerate()">
+                                <i data-lucide="sparkles" class="w-4 h-4"></i>
+                                <span id="editorAiBtnText">以当前修改图生成</span>
+                            </button>
+                        </div>
+                    </aside>
                 </div>
                 <div class="image-edit-actions">
                     <span id="imageEditZoomLabel" style="color:#94a3b8;font-size:11px;font-weight:800;padding:0 4px;margin-right:auto;cursor:pointer;user-select:none" title="双击重置缩放" ondblclick="resetImageEditZoom()">100%</span>
@@ -381,9 +489,9 @@
         </div>
     </div>
 
-    <script src="/static/js/ltx-director-timeline.js?v=%EF%BB%BF2026.10.15_1.1791960798"></script>
-    <script src="/static/js/game-kv-prompt.js?v=%EF%BB%BF2026.10.15_1.1791960790"></script>
-<script src="/static/js/batch-resize.js?v=%EF%BB%BF2026.10.15_1.1791960786"></script>
-<script src="/static/js/canvas.js?v=%EF%BB%BF2026.10.15_1.1792038330"></script>
+    <script src="/static/js/ltx-director-timeline.js?v=%EF%BB%BF2026.10.15_2.1791960798"></script>
+    <script src="/static/js/game-kv-prompt.js?v=%EF%BB%BF2026.10.15_2.1791960790"></script>
+<script src="/static/js/batch-resize.js?v=%EF%BB%BF2026.10.15_2.1791960786"></script>
+<script src="/static/js/canvas.js?v=%EF%BB%BF2026.10.16_2.1792136653"></script>
 </body>
 </html>

@@ -1600,7 +1600,46 @@ def env_quote(value):
         return '"' + text.replace("\\", "\\\\").replace('"', '\\"') + '"'
     return text
 
+def _atomic_write_text(path, text, retries=8, base_delay=0.3):
+    """原子写入：临时文件 + os.replace，带指数退避重试。
+
+    Nova 2026-10-16：用于 API/.env 落盘。规避间歇性文件占用（安全软件
+    实时扫描等）导致的 PermissionError，避免"内存有、磁盘无"的静默失败。
+    """
+    import time as _time
+    directory = os.path.dirname(path) or "."
+    last_err = None
+    for attempt in range(retries):
+        tmp = os.path.join(directory, ".%s.nova%d.tmp" % (os.path.basename(path), os.getpid()))
+        try:
+            with open(tmp, "w", encoding="utf-8", newline="\n") as f:
+                f.write(text)
+                f.flush()
+                try:
+                    os.fsync(f.fileno())
+                except Exception:
+                    pass
+            os.replace(tmp, path)
+            return True, None
+        except Exception as e:
+            last_err = e
+            try:
+                if os.path.exists(tmp):
+                    os.remove(tmp)
+            except Exception:
+                pass
+            _time.sleep(base_delay * (attempt + 1))
+    return False, last_err
+
+
 def update_env_values(updates):
+    """保存 API 设置后写回 API/.env。
+
+    Nova 2026-10-16 加固：
+    1. 内存（os.environ）与磁盘解耦，磁盘失败不再影响已更新的内存值。
+    2. 磁盘写入改为原子替换 + 重试，规避间歇性占用。
+    3. 最终失败时打印详细错误，避免静默不一致。
+    """
     os.makedirs(os.path.dirname(API_ENV_FILE), exist_ok=True)
     lines = []
     if os.path.exists(API_ENV_FILE):
@@ -1624,21 +1663,11 @@ def update_env_values(updates):
         if key not in seen:
             next_lines.append(f"{key}={env_quote(value)}")
             os.environ[key] = str(value or "")
-    with open(API_ENV_FILE, "w", encoding="utf-8") as f:
-        f.write("\n".join(next_lines).rstrip() + "\n")
-
-BACKEND_LOCAL_LOAD = {addr: 0 for addr in COMFYUI_INSTANCES}
-
-os.makedirs(OUTPUT_DIR, exist_ok=True)
-os.makedirs(ASSETS_DIR, exist_ok=True)
-os.makedirs(OUTPUT_INPUT_DIR, exist_ok=True)
-os.makedirs(OUTPUT_OUTPUT_DIR, exist_ok=True)
-os.makedirs(ASSET_LIBRARY_DIR, exist_ok=True)
-os.makedirs(LOCAL_UPLOAD_DIR, exist_ok=True)
-os.makedirs(STATIC_DIR, exist_ok=True)
-os.makedirs(WORKFLOW_DIR, exist_ok=True)
-os.makedirs(CONVERSATION_DIR, exist_ok=True)
-os.makedirs(CANVAS_DIR, exist_ok=True)
+    text = "\n".join(next_lines).rstrip() + "\n"
+    ok, err = _atomic_write_text(API_ENV_FILE, text)
+    if not ok:
+        print("[update_env_values] 写入 API/.env 失败（已重试）: %r" % (err,))
+    return ok
 
 class NoCacheStaticFiles(StaticFiles):
     """静态资源统一声明 no-cache，并且 HTML 每次请求都重算 ?v= 版本号。
@@ -2921,6 +2950,7 @@ class OnlineImageRequest(BaseModel):
     aspect_ratio: str = ""
     resolution: str = ""
     quality: str = "auto"
+    input_fidelity: str = ""
     transparent_background: bool = False
     n: int = 1
     reference_images: List[AIReference] = []
@@ -12074,7 +12104,38 @@ async def generate_runninghub_video(payload, provider):
         local_urls = [await save_remote_video_to_output(url, prefix="rh_video_") for url in urls]
         return {"videos": local_urls, "task_id": task_id, "raw": result}
 
-async def generate_ai_image(prompt, size, quality, model, reference_images=None, provider_id="comfly", aspect_ratio="", resolution="", transparent_background=False):
+CHANGZHI_SUPPORTED_SIZES = {"1024x1024", "1024x1536", "1536x1024"}
+
+CHANGZHI_NATIVE_SIZES = {"1024x1024", "1536x1024", "1024x1536"}
+
+def changzhi_size_and_hint(size):
+    """畅指尺寸策略：
+    - 三档官方推荐尺寸直传，精确可控；
+    - 其它尺寸(16:9/4K/自定义等)改走 size=auto，并返回英文比例提示词注入 prompt，
+      让模型自行生成对应构图（实测 16:9 提示 -> 输出 1672x941，与 Cherry Studio 同源）。
+    - 直接传非三档 size 会被上游 400 "请求格式非法"，故必须降级为 auto+提示。
+    返回 (最终size, prompt附加提示)。"""
+    value = str(size or "").strip().lower()
+    if not value or value == "auto":
+        return "auto", ""
+    if value in CHANGZHI_NATIVE_SIZES:
+        return value, ""
+    m = re.match(r"^\s*(\d+)\s*[x×*]\s*(\d+)\s*$", value)
+    if not m:
+        return "auto", ""
+    w, h = int(m.group(1)), int(m.group(2))
+    if w <= 0 or h <= 0:
+        return "auto", ""
+    from fractions import Fraction
+    ratio = Fraction(w, h).limit_denominator(32)
+    rw, rh = ratio.numerator, ratio.denominator
+    if w == h:
+        return "auto", "Output a SQUARE image (aspect ratio 1:1)."
+    if w > h:
+        return "auto", f"Output a WIDE LANDSCAPE image with aspect ratio {rw}:{rh} (horizontal orientation)."
+    return "auto", f"Output a TALL PORTRAIT image with aspect ratio {rw}:{rh} (vertical orientation)."
+
+async def generate_ai_image(prompt, size, quality, model, reference_images=None, provider_id="comfly", aspect_ratio="", resolution="", transparent_background=False, input_fidelity=""):
     provider = get_api_provider(provider_id)
     if is_tudou_provider(provider):
         model = tudou_image_model_for_request(model)
@@ -12105,13 +12166,22 @@ async def generate_ai_image(prompt, size, quality, model, reference_images=None,
     # 不对 GPT 尺寸做任何缩小/拦截：用户选什么尺寸就原样发给上游；
     # 若超过 GPT 的最大像素限制被上游拒绝，再由 friendly_image_error_detail 给出友好的像素上限提示。
     quality = str(quality or "").strip().lower()
-    if quality not in {"low", "medium", "high"}:
+    if quality not in {"low", "medium", "high", "xhigh", "max"}:
         quality = ""
+    input_fidelity = str(input_fidelity or "").strip().lower()
+    if input_fidelity not in {"high", "low"}:
+        input_fidelity = ""
     base_url = (provider.get("base_url") or AI_BASE_URL).rstrip("/")
     if not base_url:
         raise HTTPException(status_code=400, detail=f"{provider.get('name') or provider['id']} 未配置 Base URL")
     gen_url = provider_endpoint_url(provider, "image_generation_endpoint", "/v1/images/generations")
     edit_url = provider_endpoint_url(provider, "image_edit_endpoint", "/v1/images/edits")
+    # 畅指尺寸策略：三档推荐尺寸直传；非标尺寸走 auto + 比例提示词注入 prompt。
+    is_changzhi_provider = "changzhi.top" in base_url or str((provider or {}).get("id") or "").lower() == "custom-api"
+    if is_changzhi_provider:
+        size, _cz_ratio_hint = changzhi_size_and_hint(size)
+        if _cz_ratio_hint:
+            prompt = f"{prompt}\n\n{_cz_ratio_hint}"
     refs = [ref for ref in (reference_images or []) if ref.get("url")]
     mask_refs = [ref for ref in refs if str(ref.get("role") or "").strip().lower() == "mask" or str(ref.get("name") or "").lower().endswith("_mask.png")]
     image_refs = [ref for ref in refs if ref not in mask_refs]
@@ -12123,6 +12193,8 @@ async def generate_ai_image(prompt, size, quality, model, reference_images=None,
             data = {"model": model, "prompt": prompt, "size": size}
             if quality:
                 data["quality"] = quality
+            if input_fidelity:
+                data["input_fidelity"] = input_fidelity
             if transparent_png:
                 data["background"] = "transparent"
                 data["output_format"] = "png"
@@ -12277,40 +12349,56 @@ async def generate_ai_image(prompt, size, quality, model, reference_images=None,
             if response.status_code >= 400 and images_api_unsupported(response):
                 response = await post_openai_edits()
         elif image_refs:
-            # 1) OpenAI 协议的图生图/编辑用 multipart 提交到 /images/edits；
-            # GPT-Image-2 参考图不能走 /images/generations JSON，否则部分平台会忽略原图或报 Images API unsupported。
-            files = []
-            opened = []
-            edit_failed_status = None
-            edit_failed_text = ""
-            try:
-                for ref in image_refs[:ONLINE_IMAGE_REFERENCE_MAX]:
-                    path = output_file_from_url(ref.get("url", ""))
-                    if not path:
-                        continue
-                    fh = open(path, "rb")
-                    opened.append(fh)
-                    files.append(("image", (os.path.basename(path), fh, content_type_for_path(path))))
-                if mask_refs:
-                    mask_path = output_file_from_url(mask_refs[0].get("url", ""))
-                    if mask_path:
-                        fh = open(mask_path, "rb")
-                        opened.append(fh)
-                        files.append(("mask", (os.path.basename(mask_path), fh, content_type_for_path(mask_path))))
+            # 特判：畅指(changzhi)或配置了 openai 协议的平台，如果上游走 images/generations + image 字段
+            is_changzhi = "changzhi.top" in base_url or str((provider or {}).get("id") or "").lower() == "custom-api"
+            if is_changzhi:
+                image_payload = [reference_to_data_url(ref, max_size=1536) for ref in image_refs[:ONLINE_IMAGE_REFERENCE_MAX]]
+                body = {
+                    "model": model, "prompt": prompt, "size": size,
+                    "response_format": "url", "n": 1,
+                    "image": image_payload,
+                }
+                if quality:
+                    body["quality"] = quality
+                if transparent_png:
+                    body["background"] = "transparent"
+                    body["output_format"] = "png"
+                response = await client.post(gen_url, headers=api_headers(provider=provider, model=model), json=body)
+            else:
+                    # 1) OpenAI 协议的图生图/编辑用 multipart 提交到 /images/edits；
+                # GPT-Image-2 参考图不能走 /images/generations JSON，否则部分平台会忽略原图或报 Images API unsupported。
+                files = []
+                opened = []
+                edit_failed_status = None
+                edit_failed_text = ""
                 try:
-                    response = await post_openai_edits(files)
-                    if response.status_code >= 400:
-                        edit_failed_status = response.status_code
-                        edit_failed_text = response.text[:500]
+                    for ref in image_refs[:ONLINE_IMAGE_REFERENCE_MAX]:
+                        path = output_file_from_url(ref.get("url", ""))
+                        if not path:
+                            continue
+                        fh = open(path, "rb")
+                        opened.append(fh)
+                        files.append(("image", (os.path.basename(path), fh, content_type_for_path(path))))
+                    if mask_refs:
+                        mask_path = output_file_from_url(mask_refs[0].get("url", ""))
+                        if mask_path:
+                            fh = open(mask_path, "rb")
+                            opened.append(fh)
+                            files.append(("mask", (os.path.basename(mask_path), fh, content_type_for_path(mask_path))))
+                    try:
+                        response = await post_openai_edits(files)
+                        if response.status_code >= 400:
+                            edit_failed_status = response.status_code
+                            edit_failed_text = response.text[:500]
+                            response = None
+                    except httpx.HTTPError as e:
+                        edit_failed_status = -1
+                        edit_failed_text = str(e)
                         response = None
-                except httpx.HTTPError as e:
-                    edit_failed_status = -1
-                    edit_failed_text = str(e)
-                    response = None
-            finally:
-                for fh in opened:
-                    fh.close()
-            # 2) edits 失败 → 非 GPT-Image-2 可回退到 /images/generations + JSON image:[urls/base64]（grsai 风格）
+                finally:
+                    for fh in opened:
+                        fh.close()
+                # 2) edits 失败 → 非 GPT-Image-2 可回退到 /images/generations + JSON image:[urls/base64]（grsai 风格）
             if response is None:
                 if is_gpt2:
                     raise HTTPException(
@@ -12514,7 +12602,6 @@ async def decide_chat_agent_action(payload, conversation, refs):
     if is_gemini_cli_provider(provider_cfg):
         fallback["router_model"] = selected_model(payload.model, (provider_cfg.get("chat_models") or GEMINI_CLI_DEFAULT_CHAT_MODELS)[0])
         return fallback
-    chat_base, chat_hdrs, model = resolve_chat_provider(payload.provider, payload.model, payload.ms_model)
     history = conversation["messages"][-MAX_HISTORY_MESSAGES:]
     custom_system_prompt = str(getattr(payload, "system_prompt", "") or "").strip()
     system = (
@@ -12542,6 +12629,7 @@ async def decide_chat_agent_action(payload, conversation, refs):
         )
     })
     try:
+        chat_base, chat_hdrs, model = resolve_chat_provider(payload.provider, payload.model, payload.ms_model)
         async with httpx.AsyncClient(timeout=AI_REQUEST_TIMEOUT) as client:
             req_body = {"model": model, "messages": upstream_messages}
             if is_apimart_provider(provider_cfg):
@@ -12558,7 +12646,7 @@ async def decide_chat_agent_action(payload, conversation, refs):
             return decision
     except Exception as exc:
         print(f"[chat-agent] intent router fallback: {exc}")
-        fallback["router_model"] = model
+        fallback["router_model"] = str(getattr(payload, "model", "") or "router-fallback")
         return fallback
 
 async def build_chat_text_reply(payload, conversation):
@@ -14946,7 +15034,7 @@ async def build_online_image_result(payload: OnlineImageRequest):
         else:
             image_data, raw_item = await generate_ai_image(
                 payload.prompt, request_size, payload.quality, model, image_refs, provider["id"],
-                payload.aspect_ratio, payload.resolution, payload.transparent_background,
+                payload.aspect_ratio, payload.resolution, payload.transparent_background, payload.input_fidelity,
             )
         try:
             image_items = extract_images(raw_item) if isinstance(raw_item, dict) else [image_data]

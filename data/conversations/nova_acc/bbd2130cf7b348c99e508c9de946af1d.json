@@ -1,0 +1,56 @@
+{
+  "id": "bbd2130cf7b348c99e508c9de946af1d",
+  "title": "画一只橘猫 16:9 4k超高清",
+  "created_at": 1792067168455,
+  "updated_at": 1792067211504,
+  "messages": [
+    {
+      "id": "f531d5ac5b8149d9b05437e22dbe0b1c",
+      "role": "user",
+      "content": "画一只橘猫 16:9 4k超高清",
+      "created_at": 1792067168459,
+      "attachments": [],
+      "mode": "agent"
+    },
+    {
+      "id": "94977f8a0dcd4ce0ae003c84a6c1fb04",
+      "role": "assistant",
+      "type": "image",
+      "content": "一只可爱的橘猫，毛发蓬松细腻，明亮有神的眼睛，温暖自然的光线，电影感构图，背景简洁柔和，画面细节丰富，超写实风格，16:9宽屏构图，4K超高清，高清晰度，高质量，无文字，无水印",
+      "image_url": "/assets/output/chat_c3b190b8a2.png",
+      "image_urls": [
+        "/assets/output/chat_c3b190b8a2.png"
+      ],
+      "created_at": 1792067211504,
+      "model": "gpt-image-2.5-sunburst",
+      "provider": "custom-api",
+      "size": "2560x1440",
+      "image_count": 1,
+      "prompts": [
+        "一只可爱的橘猫，毛发蓬松细腻，明亮有神的眼睛，温暖自然的光线，电影感构图，背景简洁柔和，画面细节丰富，超写实风格，16:9宽屏构图，4K超高清，高清晰度，高质量，无文字，无水印"
+      ],
+      "agent_action": "generate_image",
+      "agent_reply": "正在生成一只橘猫。",
+      "used_references": [],
+      "raw_usage": {
+        "prompt_tokens": 84,
+        "completion_tokens": 158,
+        "total_tokens": 242,
+        "cost": 0.00516,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.00516,
+          "upstream_inference_prompt_cost": 0.00042,
+          "upstream_inference_completions_cost": 0.00474
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 158
+        }
+      }
+    }
+  ]
+}

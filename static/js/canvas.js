@@ -982,7 +982,7 @@ function defaultApiImageResolution(model){
 }
 function normalizedImageQuality(value){
     const quality = String(value || 'auto').trim().toLowerCase();
-    return ['low','medium','high'].includes(quality) ? quality : '';
+    return ['low','medium','high','xhigh','max'].includes(quality) ? quality : '';
 }
 function resolveChatModel(value, providerId=''){
     const providerModels = providerId ? providerChatModels(providerId) : [];
@@ -3138,7 +3138,7 @@ function renderTranslationInputBody(node){
         <div class="translation-settings-column">
         ${mode === 'translate' ? `<label class="translation-field"><span>原图文案描述（可选）</span><textarea data-translation-description placeholder="例如：立即下载、开始游戏">${escapeHtml(node.sourceCopyDescription || '')}</textarea></label>` : ''}
         <label class="translation-field"><span>补充提示词（可选）</span><textarea data-translation-supplemental-prompt placeholder="例如：保留 Logo 原文，保持角色外观和画面风格">${escapeHtml(node.supplementalPrompt || '')}</textarea></label>
-        <div class="translation-field"><span>生图参数</span><div class="translation-settings-grid"><label>API 平台<select data-translation-provider>${providerOptions || '<option value="">暂无 API 平台</option>'}</select></label><label>模型<select data-translation-model>${modelOptions}</select></label><label>画质<select data-translation-quality><option value="auto">自动</option><option value="low">低</option><option value="medium">中</option><option value="high">高</option></select></label><label>生成数量<input type="number" min="1" max="8" step="1" data-translation-count value="${translationGenerationCount(node)}" title="每个语言和尺寸组合生成的图片数量"></label><label class="translation-resolution-settings"><span>分辨率</span>${sizeSettingsHtml}</label></div></div>
+        <div class="translation-field"><span>生图参数</span><div class="translation-settings-grid"><label>API 平台<select data-translation-provider>${providerOptions || '<option value="">暂无 API 平台</option>'}</select></label><label>模型<select data-translation-model>${modelOptions}</select></label><label>画质<select data-translation-quality><option value="auto">自动</option><option value="low">低</option><option value="medium">中</option><option value="high">高</option><option value="xhigh">超高</option><option value="max">极高</option></select></label><label>生成数量<input type="number" min="1" max="8" step="1" data-translation-count value="${translationGenerationCount(node)}" title="每个语言和尺寸组合生成的图片数量"></label><label class="translation-resolution-settings"><span>分辨率</span>${sizeSettingsHtml}</label></div></div>
         <div class="translation-output-controls"><button type="button" class="gen-btn" data-translation-run-all ${batchRunning ? 'disabled' : ''}><i data-lucide="${batchRunning ? 'loader-circle' : 'zap'}" class="w-4 h-4"></i>${batchRunning ? '生成中' : '全部生成'}</button><span>下游输出<strong>${outputByKey.size} 个</strong></span></div>
         <div class="translation-output-list">${outputHtml}</div>
         </div>
@@ -3922,7 +3922,7 @@ function kvGalleryGenerator(node){
     const gallery = kvGallerySource(node);
     if(!gallery) return null;
     const connection = canvasDataConnections().find(item => item.from === gallery.id
-        && nodes.some(target => target.id === item.to && ['generator', 'masterGenerator'].includes(target.type)));
+        && nodes.some(target => target.id === item.to && target.type === 'masterGenerator'));
     return connection ? nodes.find(target => target.id === connection.to) || null : null;
 }
 function kvGalleryImageSources(gallery){
@@ -7693,8 +7693,11 @@ function openImageEditor(nodeId, initialMode='crop'){
     }
     setImageEditMode(initialMode);
     refreshIcons();
+    syncImageEditorAiSidebar(nodeId);
 }
 function closeImageEditor(){
+    try { showEditorAiJob('hide'); } catch(e){}
+    activeEditorAiTaskId = null;
     document.getElementById('imageEditModal').classList.remove('open');
     const img = document.getElementById('cropImage');
     img.onload = null;
@@ -10260,7 +10263,7 @@ function renderKvReferenceGalleryNode(node){
         const fixed = fixedIds.includes(slot.slotId);
         const number = activeReferences.find(reference => reference.slotId === slot.slotId)?.imageNumber || '-';
         return `<div class="kv-gallery-slot ${slot.enabled !== false ? '' : 'disabled'} ${fixed ? 'kv-gallery-slot-fixed' : 'movable'}" draggable="false" data-gallery-slot="${escapeAttr(slot.slotId)}">
-            <div class="kv-gallery-slot-out-anchor"><div class="port out kv-gallery-slot-out-port" data-port="gallerySlotOut:${escapeAttr(slot.slotId)}" title="Image output"></div></div>
+            <div class="kv-gallery-slot-out-anchor"><div class="port out kv-gallery-slot-out-port" data-port="gallerySlotOut:${escapeAttr(slot.slotId)}" title="图片输出"></div></div>
             <div class="kv-gallery-slot-head"><span class="kv-gallery-slot-index">${number}</span><span class="kv-gallery-slot-handle" title="${fixed ? '固定顺序' : '拖动排序'}"><i data-lucide="${fixed ? 'lock' : 'grip-vertical'}"></i></span><input class="kv-gallery-slot-label" data-gallery-label="${escapeAttr(slot.slotId)}" value="${escapeAttr(slot.label)}" aria-label="参考图职责"><label class="game-kv-switch kv-gallery-slot-switch" title="启用此参考图"><input data-gallery-enabled="${escapeAttr(slot.slotId)}" type="checkbox" ${slot.enabled !== false ? 'checked' : ''}><span class="game-kv-switch-ui"></span></label>${builtin ? '' : `<button type="button" class="kv-gallery-slot-delete" data-gallery-delete="${escapeAttr(slot.slotId)}" title="删除参考图"><i data-lucide="trash-2"></i></button>`}</div>
             <div class="kv-gallery-slot-body">${preview}<textarea data-gallery-prompt="${escapeAttr(slot.slotId)}" aria-label="参考图提示词">${escapeHtml(slot.prompt || '')}</textarea></div>
         </div>`;
@@ -12679,10 +12682,12 @@ function renderGeneratorBody(node){
                     <option value="custom">${tr('canvas.custom')}</option>
                 </select>
                 <select class="select-lite quality-select">
-                    <option value="auto">Q auto</option>
-                    <option value="low">Q low</option>
-                    <option value="medium">Q med</option>
-                    <option value="high">Q high</option>
+                    <option value="auto">画质 自动</option>
+                    <option value="low">画质 低</option>
+                    <option value="medium">画质 中</option>
+                    <option value="high">画质 高</option>
+                    <option value="xhigh">画质 超高</option>
+                    <option value="max">画质 极高</option>
                 </select>
                 <div class="gen-count-row">
                     <div class="gen-stepper">
@@ -12777,7 +12782,7 @@ function renderGeneratorBody(node){
     const referenceImages = ordered.flatMap(src => src.refs || []);
     const syncQualityControls = () => {
         qualitySelect.disabled = false;
-        if(!['auto','low','medium','high'].includes(String(node.quality || 'auto'))) node.quality = 'auto';
+        if(!['auto','low','medium','high','xhigh','max'].includes(String(node.quality || 'auto'))) node.quality = 'auto';
         qualitySelect.value = node.quality || 'auto';
     };
     let transparentWarningTimer = 0;
@@ -14788,10 +14793,12 @@ function rhModelSettingsHtml(node){
                     <option value="custom">${tr('canvas.custom')}</option>
                 </select>
                 <select class="select-lite quality-select" data-rh-model-field="quality">
-                    <option value="auto">Q auto</option>
-                    <option value="low">Q low</option>
-                    <option value="medium">Q med</option>
-                    <option value="high">Q high</option>
+                    <option value="auto">画质 自动</option>
+                    <option value="low">画质 低</option>
+                    <option value="medium">画质 中</option>
+                    <option value="high">画质 高</option>
+                    <option value="xhigh">画质 超高</option>
+                    <option value="max">画质 极高</option>
                 </select>
                 <input class="setting-input rh-model-count-input" data-rh-model-field="count" type="number" min="1" max="8" step="1" value="${count}" style="width:64px">
             </div>
@@ -21324,3 +21331,482 @@ window.onload = async () => {
         window.location.replace(canvasListUrlForProject(rememberedCanvasListProject()));
     }
 };
+
+
+/* ==========================================================================
+   AI Image Editor Sidebar Integration (Nova 2026-10-16)
+   在图片双击编辑/预览界面集成 AI 侧栏，并实时捕获当前编辑层（裁剪/画笔/遮罩/原图）直接一键生图
+   ========================================================================== */
+let activeEditorAiTaskId = null;
+
+function downloadCurrentEditorImage(){
+    if(!cropState || !cropState.nodeId) return;
+    const node = nodes.find(n => n.id === cropState.nodeId);
+    if(!node?.url){ alert('当前图片无法下载'); return; }
+    const name = (typeof safeDownloadFileName === 'function')
+        ? safeDownloadFileName(node.name || ('image-' + Date.now() + '.png'))
+        : (node.name || 'image.png');
+    try {
+        if(typeof downloadUrl === 'function'){ downloadUrl(node.url, name); }
+        else {
+            const a = document.createElement('a');
+            a.href = node.url; a.download = name;
+            document.body.appendChild(a); a.click(); a.remove();
+        }
+    } catch(e){ alert('下载失败：' + (e.message || e)); }
+}
+
+function showEditorAiJob(status, text, sub, thumbUrl){
+    const p = document.getElementById('editorAiJobPanel');
+    const badge = document.getElementById('editorAiSourceBadge');
+    if(!p) return;
+    if(status === 'hide'){
+        p.hidden = true;
+        p.dataset.status = '';
+        if(badge) badge.hidden = false;
+        return;
+    }
+    if(badge) badge.hidden = true;
+    p.hidden = false;
+    p.dataset.status = status || 'running';
+    const sp = document.getElementById('editorAiJobSpinner');
+    const th = document.getElementById('editorAiJobThumb');
+    const tx = document.getElementById('editorAiJobText');
+    const sb = document.getElementById('editorAiJobSub');
+    const okBtn = document.getElementById('editorAiJobOkBtn');
+    if(sp) sp.hidden = status !== 'running';
+    if(th){
+        if(thumbUrl){ th.hidden = false; th.src = thumbUrl; }
+        else { th.hidden = true; th.removeAttribute('src'); }
+    }
+    if(tx) tx.textContent = text || '';
+    if(sb) sb.textContent = sub || '';
+    if(okBtn) okBtn.hidden = (status === 'running');
+}
+
+function dismissEditorAiJob(){
+    showEditorAiJob('hide');
+    closeImageEditor();
+}
+
+const EDITOR_AI_PREFS_KEY = 'canvas_image_editor_ai_prefs_v1';
+
+function loadEditorAiPrefs(){
+    try {
+        const raw = localStorage.getItem(EDITOR_AI_PREFS_KEY);
+        return raw ? (JSON.parse(raw) || {}) : {};
+    } catch(e){
+        return {};
+    }
+}
+
+function saveEditorAiPrefs(patch){
+    try {
+        const cur = loadEditorAiPrefs();
+        const next = Object.assign({}, cur, patch || {});
+        localStorage.setItem(EDITOR_AI_PREFS_KEY, JSON.stringify(next));
+    } catch(e){}
+}
+
+function syncImageEditorAiSidebar(nodeId){
+    const node = nodes.find(n => n.id === nodeId);
+    const pSelect = document.getElementById('editorAiProviderSelect');
+    const mSelect = document.getElementById('editorAiModelSelect');
+    const resSelect = document.getElementById('editorAiResolutionSelect');
+    const qSelect = document.getElementById('editorAiQualitySelect');
+    const aspSelect = document.getElementById('editorAiAspectSelect');
+    const fidSelect = document.getElementById('editorAiFidelitySelect');
+    const transPng = document.getElementById('editorAiTransparentPng');
+    const branchBox = document.getElementById('editorAiCreateBranch');
+    const promptInput = document.getElementById('editorAiPrompt');
+    const btn = document.getElementById('editorAiGenerateBtn');
+    const btnText = document.getElementById('editorAiBtnText');
+    const statusTag = document.getElementById('imageEditApiStatus');
+    if(!pSelect || !mSelect) return;
+
+    if(btn) btn.disabled = false;
+    if(btnText) btnText.textContent = '以当前修改图生成';
+    if(statusTag){
+        statusTag.textContent = '就绪';
+        statusTag.style.background = '';
+        statusTag.style.color = '';
+    }
+
+    const prefs = loadEditorAiPrefs();
+
+    // 1. 每张图片节点独立记忆自己的修图提示词
+    if(promptInput){
+        promptInput.value = (node && typeof node.editorAiPrompt === 'string') ? node.editorAiPrompt : '';
+        promptInput.oninput = () => {
+            const curNode = (cropState && cropState.nodeId) ? nodes.find(n => n.id === cropState.nodeId) : node;
+            if(curNode){
+                curNode.editorAiPrompt = promptInput.value;
+                if(typeof scheduleSave === 'function') scheduleSave();
+            }
+        };
+    }
+
+    // 2. 平台与模型全局记忆（按平台分别记忆上次选中的模型）
+    const providers = (typeof imageApiProviders === 'function') ? imageApiProviders() : (apiProviders || []);
+    pSelect.innerHTML = providers.map(p => `<option value="${escapeHtml(p.id)}">${escapeHtml(p.name || p.id)}</option>`).join('');
+    if(providers.length > 0){
+        const savedPid = prefs.providerId;
+        const hasSaved = savedPid && providers.some(p => p.id === savedPid);
+        pSelect.value = hasSaved ? savedPid : providers[0].id;
+    }
+
+    const updateModels = () => {
+        const pId = pSelect.value;
+        let models = [];
+        try {
+            if(typeof providerImageModels === 'function') models = providerImageModels(pId) || [];
+        } catch(e){ models = []; }
+        if(!models.length){
+            const cp = providers.find(p => p.id === pId);
+            if(cp && Array.isArray(cp.image_models)) models = cp.image_models.slice();
+        }
+        if(!models.length) models = ['gpt-image-2.5-flare', 'gpt-image-2', 'dall-e-3', 'qwen-image-edit'];
+        const modelVals = models.map(m => typeof m === 'string' ? m : (m.id || m.name));
+        mSelect.innerHTML = models.map(m => {
+            const val = typeof m === 'string' ? m : (m.id || m.name);
+            const label = typeof m === 'string' ? m : (m.name || m.label || m.id);
+            return `<option value="${escapeHtml(val)}">${escapeHtml(label)}</option>`;
+        }).join('');
+        const latestPrefs = loadEditorAiPrefs();
+        const byProv = (latestPrefs.modelsByProvider && latestPrefs.modelsByProvider[pId]) || latestPrefs.model;
+        if(byProv && modelVals.includes(byProv)){
+            mSelect.value = byProv;
+        }
+        syncEditorFidelityGate();
+        syncEditorTransparentGate();
+        // 门禁解锁后恢复透明 PNG 偏好
+        if(transPng && !transPng.disabled && typeof latestPrefs.transparentPng === 'boolean'){
+            transPng.checked = latestPrefs.transparentPng;
+        }
+    };
+
+    // 3. 恢复分辨率、画质、宽高比、保真度、创建分支开关
+    if(resSelect && prefs.resolution && Array.from(resSelect.options).some(o => o.value === prefs.resolution)){
+        resSelect.value = prefs.resolution;
+    }
+    if(qSelect && prefs.quality && Array.from(qSelect.options).some(o => o.value === prefs.quality)){
+        qSelect.value = prefs.quality;
+    }
+    if(aspSelect && prefs.aspectRatio && Array.from(aspSelect.options).some(o => o.value === prefs.aspectRatio)){
+        aspSelect.value = prefs.aspectRatio;
+    }
+    if(fidSelect && prefs.fidelity && Array.from(fidSelect.options).some(o => o.value === prefs.fidelity)){
+        fidSelect.value = prefs.fidelity;
+    }
+    if(branchBox && typeof prefs.createBranch === 'boolean'){
+        branchBox.checked = prefs.createBranch;
+    }
+
+    pSelect.onchange = () => {
+        saveEditorAiPrefs({providerId: pSelect.value});
+        updateModels();
+        const curMap = Object.assign({}, loadEditorAiPrefs().modelsByProvider || {});
+        curMap[pSelect.value] = mSelect.value;
+        saveEditorAiPrefs({model: mSelect.value, modelsByProvider: curMap});
+    };
+    mSelect.onchange = () => {
+        const curMap = Object.assign({}, loadEditorAiPrefs().modelsByProvider || {});
+        curMap[pSelect.value] = mSelect.value;
+        saveEditorAiPrefs({model: mSelect.value, modelsByProvider: curMap});
+        syncEditorFidelityGate();
+        syncEditorTransparentGate();
+    };
+    if(resSelect) resSelect.onchange = () => saveEditorAiPrefs({resolution: resSelect.value});
+    if(qSelect) qSelect.onchange = () => saveEditorAiPrefs({quality: qSelect.value});
+    if(aspSelect) aspSelect.onchange = () => saveEditorAiPrefs({aspectRatio: aspSelect.value});
+    if(fidSelect) fidSelect.onchange = () => saveEditorAiPrefs({fidelity: fidSelect.value});
+    if(transPng) transPng.onchange = () => saveEditorAiPrefs({transparentPng: Boolean(transPng.checked)});
+    if(branchBox) branchBox.onchange = () => saveEditorAiPrefs({createBranch: Boolean(branchBox.checked)});
+
+    updateModels();
+    syncImageEditorAiSourceIndicator();
+}
+
+function editorSupportsFidelity(model){
+    const m = String(model || '').trim().toLowerCase();
+    if(!m) return false;
+    return m.includes('gpt-image') || m.includes('2.5-flare') || m.includes('2.5-sunburst');
+}
+
+function syncEditorFidelityGate(){
+    const box = document.getElementById('editorAiFidelitySelect');
+    const hint = document.getElementById('editorAiFidelityHint');
+    if(!box) return;
+    const model = document.getElementById('editorAiModelSelect')?.value || '';
+    const ok = editorSupportsFidelity(model);
+    box.disabled = !ok;
+    box.style.opacity = ok ? '' : '.45';
+    if(hint) hint.textContent = ok ? '仅 gpt-image / 2.5 系列生效' : '当前模型不支持该参数';
+}
+
+function syncEditorTransparentGate(){
+    const box = document.getElementById('editorAiTransparentPng');
+    const hint = document.getElementById('editorAiTransparentHint');
+    if(!box) return;
+    const pId = document.getElementById('editorAiProviderSelect')?.value || '';
+    const model = document.getElementById('editorAiModelSelect')?.value || '';
+    let state = 'model-unsupported';
+    try {
+        if(typeof transparentPngState === 'function') state = transparentPngState({apiProvider: pId, model: model});
+    } catch(e){ state = 'provider-unsupported'; }
+    const unlocked = state === 'supported' || state === 'whitelisted';
+    box.disabled = !unlocked;
+    if(!unlocked) box.checked = false;
+    box.style.opacity = unlocked ? '' : '.45';
+    if(hint){
+        if(state === 'supported') hint.textContent = '输出真实透明通道 PNG';
+        else if(state === 'whitelisted') hint.textContent = '平台已手动标记支持';
+        else if(state === 'provider-unsupported') hint.textContent = '平台未识别，可在 API 设置手动开启';
+        else hint.textContent = '当前模型不支持透明 PNG';
+    }
+}
+
+function syncImageEditorAiSourceIndicator(){
+    const textEl = document.getElementById('editorAiSourceText');
+    const btnText = document.getElementById('editorAiBtnText');
+    if(!textEl) return;
+
+    const hasDrawing = (typeof editCanvasHasPixels === 'function') && editCanvasHasPixels();
+    const isCropping = cropState && (cropState.w > 0 && cropState.h > 0);
+
+    if(imageEditMode === 'mask' && hasDrawing){
+        textEl.textContent = '检测到遮罩区域：将自动启动局部重绘 (Inpaint)，仅重绘选定涂抹区！';
+        if(btnText) btnText.textContent = '✨ 执行局部重绘 (Inpaint)';
+    } else if(imageEditMode === 'brush' && hasDrawing){
+        textEl.textContent = '检测到画笔/标注图层：将合成涂鸦层作为垫图参考图进行生成。';
+        if(btnText) btnText.textContent = '✨ 携带画笔标记生成';
+    } else if(imageEditMode === 'crop' && isCropping){
+        textEl.textContent = '检测到裁剪框选：将仅提取框选区域的高清画面作为生图源。';
+        if(btnText) btnText.textContent = '✨ 以裁剪范围生成';
+    } else {
+        textEl.textContent = '生图将自动附带当前修改图层（含画笔/裁剪/遮罩）';
+        if(btnText) btnText.textContent = '以当前修改图生成';
+    }
+}
+
+async function captureCurrentEditorComposedImage(node){
+    const img = document.getElementById('cropImage');
+    if(!node || !img || !img.naturalWidth || !img.naturalHeight) return null;
+
+    const scaleX = img.naturalWidth / (img.clientWidth || 1);
+    const scaleY = img.naturalHeight / (img.clientHeight || 1);
+
+    const isCropping = (imageEditMode === 'crop' || imageEditMode === 'outpaint') && cropState && cropState.w > 0 && cropState.h > 0;
+    const sx = isCropping ? Math.max(0, Math.round(cropState.x * scaleX)) : 0;
+    const sy = isCropping ? Math.max(0, Math.round(cropState.y * scaleY)) : 0;
+    const sw = isCropping ? Math.max(1, Math.round(cropState.w * scaleX)) : img.naturalWidth;
+    const sh = isCropping ? Math.max(1, Math.round(cropState.h * scaleY)) : img.naturalHeight;
+
+    const canvasEl = document.createElement('canvas');
+    canvasEl.width = sw;
+    canvasEl.height = sh;
+    const ctx = canvasEl.getContext('2d');
+
+    // 1. 绘制底层图片
+    ctx.drawImage(img, sx, sy, sw, sh, 0, 0, sw, sh);
+
+    // 2. 如果包含画笔层或文字层，且不是单纯裁剪模式，合成涂画
+    const hasDrawing = (typeof editCanvasHasPixels === 'function') && editCanvasHasPixels();
+    if(hasDrawing && imageEditMode !== 'mask'){
+        const drawCanvas = (typeof editDrawCanvas === 'function') ? editDrawCanvas() : null;
+        const txtCanvas = (typeof editTextCanvas === 'function') ? editTextCanvas() : null;
+        if(drawCanvas){
+            ctx.drawImage(drawCanvas, sx, sy, sw, sh, 0, 0, sw, sh);
+        }
+        if(txtCanvas){
+            ctx.drawImage(txtCanvas, sx, sy, sw, sh, 0, 0, sw, sh);
+        }
+    }
+
+    const blob = await new Promise(resolve => canvasEl.toBlob(resolve, 'image/png'));
+    if(!blob) return null;
+
+    // 上传换取 URL（复用已有上传函数）
+    const base = (node.name || 'image').replace(/\.[^.]+$/, '');
+    const file = await uploadCroppedBlob(blob, `${base}_ai_composed.png`);
+    return file ? {url: file.url, width: sw, height: sh} : null;
+}
+
+async function captureCurrentEditorMask(node){
+    if(imageEditMode !== 'mask' || !(typeof editCanvasHasPixels === 'function') || !editCanvasHasPixels()) return null;
+    const mask = maskCanvasFromDrawCanvas(editDrawCanvas());
+    const blob = await new Promise(resolve => mask.toBlob(resolve, 'image/png'));
+    if(!blob) return null;
+    const base = (node.name || 'image').replace(/\.[^.]+$/, '');
+    const file = await uploadCroppedBlob(blob, `${base}_mask.png`);
+    return file ? file.url : null;
+}
+
+async function runImageEditorAiGenerate(){
+    if(!cropState || !cropState.nodeId) return;
+    const node = nodes.find(n => n.id === cropState.nodeId);
+    if(!node) return;
+
+    const btn = document.getElementById('editorAiGenerateBtn');
+    const btnText = document.getElementById('editorAiBtnText');
+    const statusTag = document.getElementById('imageEditApiStatus');
+    const promptInput = document.getElementById('editorAiPrompt');
+    const pSelect = document.getElementById('editorAiProviderSelect');
+    const mSelect = document.getElementById('editorAiModelSelect');
+    const resSelect = document.getElementById('editorAiResolutionSelect');
+    const aspSelect = document.getElementById('editorAiAspectSelect');
+    const qualitySelect = document.getElementById('editorAiQualitySelect');
+    const fidSelect = document.getElementById('editorAiFidelitySelect');
+    const transPng = document.getElementById('editorAiTransparentPng');
+    const createBranch = document.getElementById('editorAiCreateBranch')?.checked;
+
+    const prompt = (promptInput?.value || '').trim();
+    if(!prompt){
+        alert('请输入修图提示词 (Prompt)，告诉 AI 如何修改或重绘！');
+        promptInput?.focus();
+        return;
+    }
+
+    if(btn) btn.disabled = true;
+    if(btnText) btnText.textContent = '正在提交并生成中...';
+    if(statusTag){
+        statusTag.textContent = '生成中';
+        statusTag.style.background = 'rgba(234,179,8,0.15)';
+        statusTag.style.color = '#eab308';
+    }
+
+    try {
+        const composed = await captureCurrentEditorComposedImage(node);
+        if(!composed || !composed.url){
+            throw new Error('捕获当前修改画面失败');
+        }
+        const composedUrl = composed.url;
+        const maskUrl = await captureCurrentEditorMask(node);
+
+        const resKey = (resSelect?.value || '2k');
+        const ratioKey = (aspSelect?.value || 'source');
+
+        let sizeValue = 'auto';
+        let aspectStr = '';
+        if(resKey !== 'auto'){
+            if((ratioKey === 'source' || ratioKey === 'custom') && composed.width && composed.height){
+                const parts = ratioPartsFromDimensions(composed.width, composed.height);
+                sizeValue = apiImageSize('custom', resKey, `${parts.width}:${parts.height}`);
+                aspectStr = `${parts.width}:${parts.height}`;
+            } else {
+                sizeValue = apiImageSize(ratioKey, resKey);
+                aspectStr = API_RATIO_VALUES[ratioKey] || '';
+            }
+        }
+
+        const _nbase = (node.name || 'image').replace(/\.[^.]+$/, '');
+        const refs = [{
+            url: composedUrl,
+            name: `${_nbase}_modified.png`,
+            kind: 'image',
+            role: 'image',
+            nodeId: node.id
+        }];
+        if(maskUrl){
+            refs.push({
+                url: maskUrl,
+                name: `${_nbase}_mask.png`,
+                kind: 'image',
+                role: 'mask',
+                nodeId: node.id
+            });
+        }
+
+        const qualityVal = normalizedImageQuality(qualitySelect?.value || 'auto') || '';
+
+        const payload = {
+            prompt: prompt,
+            provider_id: pSelect?.value || 'comfly',
+            model: mSelect?.value || 'gpt-image-2.5-flare',
+            size: sizeValue || 'auto',
+            aspect_ratio: aspectStr,
+            resolution: (resKey === 'auto') ? '' : resKey,
+            reference_images: refs
+        };
+        if(qualityVal) payload.quality = qualityVal;
+        if(fidSelect && !fidSelect.disabled && fidSelect.value){
+            payload.input_fidelity = fidSelect.value;
+        }
+        if(transPng && transPng.checked && !transPng.disabled){
+            payload.transparent_background = true;
+        }
+        const taskInfo = await createCanvasImageTask(payload);
+        if(!taskInfo || !taskInfo.task_id){
+            throw new Error('创建生成任务失败，请检查 API 配置或网络');
+        }
+
+        activeEditorAiTaskId = taskInfo.task_id;
+        if(btnText) btnText.textContent = 'AI 渲染中，请稍候...';
+        showEditorAiJob('running', 'AI 正在生成…', '正在调用模型，请稍候');
+
+        const result = await waitCanvasImageTaskResult(taskInfo.task_id);
+        const images = result.images || [];
+        if(!images.length){
+            throw new Error('AI 未能成功返回图片结果');
+        }
+
+        const newImageUrl = typeof images[0] === 'string' ? images[0] : (images[0].url || images[0]);
+
+        if(createBranch){
+            const newNode = {
+                id: uid('img'),
+                type: 'image',
+                x: Number(node.x || 0) + Number(node.w || 320) + 80,
+                y: Number(node.y || 0),
+                url: newImageUrl,
+                name: `${(node.name || 'image').replace(/\.[^.]+$/, '')}_ai_edit.png`,
+                mediaKind: 'image'
+            };
+            nodes.push(newNode);
+            connections.push({
+                from: node.id,
+                fromPort: 'out',
+                to: newNode.id,
+                toPort: 'in',
+                kind: 'dataFlow'
+            });
+            render();
+            scheduleSave();
+            showEditorAiJob('done', '生成完成', '已在右侧创建新分支节点', newImageUrl);
+            if(statusTag){
+                statusTag.textContent = '已完成';
+                statusTag.style.background = 'rgba(34,197,94,0.16)';
+                statusTag.style.color = '#22c55e';
+            }
+        } else {
+            pushUndo();
+            node.url = newImageUrl;
+            const cropImg = document.getElementById('cropImage');
+            if(cropImg) cropImg.src = canvasDisplayMediaUrl(newImageUrl, node.name || '');
+            render();
+            scheduleSave();
+            showEditorAiJob('done', '生成完成', '已替换当前图片（Ctrl+Z 可撤销）', newImageUrl);
+            if(statusTag){
+                statusTag.textContent = '已完成';
+                statusTag.style.background = 'rgba(34,197,94,0.16)';
+                statusTag.style.color = '#22c55e';
+            }
+        }
+    } catch(err) {
+        const errMsg = String(err.message || err || '未知错误');
+        showEditorAiJob('failed', '生成失败', errMsg);
+        if(statusTag){
+            statusTag.textContent = '失败';
+            statusTag.style.background = 'rgba(239,68,68,0.15)';
+            statusTag.style.color = '#ef4444';
+        }
+        if(statusTag){
+            statusTag.textContent = '失败';
+            statusTag.style.background = 'rgba(239,68,68,0.15)';
+            statusTag.style.color = '#ef4444';
+        }
+    } finally {
+        if(btn) btn.disabled = false;
+        if(btnText) btnText.textContent = '以当前修改图生成';
+    }
+}

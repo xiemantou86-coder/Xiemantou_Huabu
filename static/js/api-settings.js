@@ -1,4 +1,38 @@
 let providers = [];
+let providersSignature = '';
+function computeProvidersSignature(list){
+    try {
+        return JSON.stringify((list || []).map(p => ({
+            i:p.id, n:p.name, b:p.base_url, en:p.enabled !== false, k:!!p.has_key,
+            im:p.image_models || [], cm:p.chat_models || [], vm:p.video_models || []
+        })));
+    } catch(e){ return ''; }
+}
+function apiSettingsEditing(){
+    const ae = document.activeElement;
+    if(!ae) return false;
+    const tag = (ae.tagName || '').toLowerCase();
+    return tag === 'input' || tag === 'textarea' || tag === 'select' || ae.isContentEditable === true;
+}
+async function pollExternalApiChanges(){
+    if(document.hidden) return;
+    try {
+        const data = await fetch('/api/providers').then(r => r.json());
+        const next = data.providers || [];
+        const nextSig = computeProvidersSignature(next);
+        if(!nextSig || nextSig === providersSignature) return;
+        if(apiSettingsEditing()){
+            setStatus('检测到外部变更，刷新页面后可载入');
+            return;
+        }
+        providers = next;
+        providersSignature = nextSig;
+        if(!providers.some(item => item.id === selectedId)) selectedId = sortedProviders()[0]?.id || '';
+        renderProviderList();
+        renderEditor();
+        setStatus('已同步外部变更');
+    } catch(e) {}
+}
 let selectedId = '';
 const providerList = document.getElementById('providerList');
 const editorTitle = document.getElementById('editorTitle');
@@ -3793,6 +3827,7 @@ async function loadProviders(){
     try {
         const data = await fetch('/api/providers').then(r => r.json());
         providers = data.providers || [];
+        providersSignature = computeProvidersSignature(providers);
         selectedId = sortedProviders()[0]?.id || '';
         renderEditor();
         openRecommendApi();
@@ -3915,6 +3950,7 @@ async function saveProviders(){
         selectedId = provider()?.id || providers[0]?.id || '';
         renderEditor();
         setStatus(tr('api.saved'));
+        providersSignature = computeProvidersSignature(providers);
         // 广播变更，画布等其他 iframe 立即重新拉取最新平台/模型列表
         broadcastStudioApiChange('providers-changed');
         return true;
@@ -3961,7 +3997,8 @@ window.onload = () => {
     if(window.StudioTheme) window.StudioTheme.apply();
     if(window.StudioI18n) window.StudioI18n.apply();
     syncRecommendView();
-    loadProviders();
+        loadProviders();
+        setInterval(pollExternalApiChanges, 10000);
     // 平台名输入时实时预览生成的 ID
     if(nameInput) nameInput.addEventListener('input', updateIdPreview);
     if(protocolInput) protocolInput.addEventListener('change', updateProtocolFromInput);

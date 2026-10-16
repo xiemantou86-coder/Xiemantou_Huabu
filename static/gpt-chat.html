@@ -16,13 +16,13 @@
             } catch(e) {}
         })();
     </script>
-    <script src="/static/vendor/js/tailwindcss-cdn.js?v=%EF%BB%BF2026.10.15_1.1791960842"></script>
-    <script src="/static/vendor/js/lucide.js?v=%EF%BB%BF2026.10.15_1.1791960842"></script>
-    <script src="/static/js/theme.js?v=%EF%BB%BF2026.10.15_1.1791960804"></script>
-    <script src="/static/js/i18n.js?v=%EF%BB%BF2026.10.15_1.1791960792"></script>
-    <link rel="stylesheet" href="/static/css/theme.css?v=%EF%BB%BF2026.10.15_1.1791960773">
+    <script src="/static/vendor/js/tailwindcss-cdn.js?v=%EF%BB%BF2026.10.15_2.1791960842"></script>
+    <script src="/static/vendor/js/lucide.js?v=%EF%BB%BF2026.10.15_2.1791960842"></script>
+    <script src="/static/js/theme.js?v=%EF%BB%BF2026.10.15_2.1791960804"></script>
+    <script src="/static/js/i18n.js?v=%EF%BB%BF2026.10.15_2.1791960792"></script>
+    <link rel="stylesheet" href="/static/css/theme.css?v=%EF%BB%BF2026.10.15_2.1791960773">
     <style>
-        @import url('/static/vendor/css/fonts.css?v=%EF%BB%BF2026.10.15_1.1791960830');
+        @import url('/static/vendor/css/fonts.css?v=%EF%BB%BF2026.10.15_2.1791960830');
         :root {
             --ease:cubic-bezier(.4,0,.2,1);
             --chat-bg:#eef2f6;
@@ -107,6 +107,13 @@
         .chat-main { width:100%; height:100%; min-width:0; min-height:0; position:relative; display:grid; grid-template-rows:auto minmax(0,1fr) auto; overflow:hidden; }
         .topbar { min-height:74px; padding:0 30px; border-bottom:0; background:rgba(238,242,246,.72); backdrop-filter:blur(18px); z-index:5; }
         .topbar-inner { height:100%; max-width:var(--chat-width); margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:18px; }
+        .mode-switch-bar { display:inline-flex; align-items:center; gap:3px; padding:3px; border-radius:14px; background:var(--chat-panel); border:1px solid var(--chat-line); box-shadow:0 2px 8px rgba(15,23,42,.04); }
+        .mode-btn { height:32px; padding:0 12px; border-radius:10px; display:inline-flex; align-items:center; gap:6px; color:var(--chat-muted); background:transparent; font-size:11.5px; font-weight:850; transition:all .18s var(--ease); cursor:pointer; border:0; }
+        .mode-btn:hover { color:var(--chat-text); background:var(--chat-soft); }
+        .mode-btn.active { background:var(--chat-strong); color:var(--chat-strong-text); box-shadow:0 2px 6px rgba(0,0,0,.12); }
+        .mode-btn i, .mode-btn svg { width:14px; height:14px; }
+        html.studio-theme-dark body .mode-switch-bar, body.studio-theme-dark .mode-switch-bar,
+        html.theme-dark body .mode-switch-bar, body.theme-dark .mode-switch-bar { background:rgba(23,29,41,.94) !important; border-color:var(--chat-line) !important; }
         .title-block { min-width:0; display:flex; flex-direction:column; gap:6px; }
         .title-block h1 { margin:0; color:var(--chat-text); font-size:18px; line-height:1.2; font-weight:950; letter-spacing:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
         .title-block p { margin:0; width:max-content; max-width:100%; height:24px; padding:0 9px; border-radius:999px; display:inline-flex; align-items:center; background:var(--chat-panel); border:1px solid var(--chat-line); color:var(--chat-muted); font-size:10px; line-height:1; font-weight:850; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
@@ -467,6 +474,17 @@
                 <div class="topbar-inner">
                     <div class="title-block">
                         <h1 id="chatTitle" data-i18n="chat.newConversation">新对话</h1>
+                    </div>
+                    <div class="mode-switch-bar">
+                        <button type="button" id="modeBtnOmni" class="mode-btn active" onclick="setMode('agent')" title="全能模式：像 Cherry Studio 一样自动融合对话与图像生成">
+                            <i data-lucide="sparkles"></i><span>全能 Omni</span>
+                        </button>
+                        <button type="button" id="modeBtnChat" class="mode-btn" onclick="setMode('chat')" title="纯对话模式：快速流式问答与思考">
+                            <i data-lucide="message-square"></i><span>对话 Chat</span>
+                        </button>
+                        <button type="button" id="modeBtnImage" class="mode-btn" onclick="setMode('image')" title="纯生图模式：直接按提示词出图">
+                            <i data-lucide="image"></i><span>生图 Image</span>
+                        </button>
                     </div>
                     <div class="top-actions">
                         <button onclick="event.stopPropagation();newConversation()" class="action-btn" title="新建对话" data-i18n-title="chat.newConversation"><i data-lucide="plus"></i><span data-i18n="chat.new">新建</span></button>
@@ -1140,6 +1158,9 @@
             document.getElementById('chatModeBtn')?.classList.toggle('active', next === 'chat');
             document.getElementById('agentModeBtn')?.classList.toggle('active', next === 'agent');
             document.getElementById('imageModeBtn')?.classList.toggle('active', next === 'image');
+            document.getElementById('modeBtnOmni')?.classList.toggle('active', next === 'agent');
+            document.getElementById('modeBtnChat')?.classList.toggle('active', next === 'chat');
+            document.getElementById('modeBtnImage')?.classList.toggle('active', next === 'image');
             document.getElementById('imageControls')?.classList.toggle('hidden', next === 'chat');
             renderProviderControls();
             updateModelLabel();
@@ -1608,7 +1629,7 @@
                     await loadConversations();
                 }
             } catch(err) {
-                renderMessages([...(currentConversation.messages || []), {role:'assistant', content:err.message || tr('chat.requestFailed')}]);
+                renderMessages([...(currentConversation.messages || []), {role:'user', content:message, attachments:pendingRefs}, {role:'assistant', content:err.message || tr('chat.requestFailed')}]);
             } finally {
                 btn.disabled = false;
                 scrollBottom();
