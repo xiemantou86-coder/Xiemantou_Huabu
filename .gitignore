@@ -1,4 +1,4 @@
-﻿python/
+python/
 __pycache__/
 *.pyc
 data/update_backups/
@@ -22,3 +22,7 @@ build_log*.txt
 
 # --- OCR 临时结果 ---
 ocr_res.json
+
+# GPT 对话聊天记录与本地调试备份（禁止上传 Git）
+data/conversations/
+data/conversations/**

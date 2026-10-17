@@ -16,13 +16,13 @@
             } catch(e) {}
         })();
     </script>
-    <script src="/static/vendor/js/tailwindcss-cdn.js?v=%EF%BB%BF2026.10.16_2.1791960842"></script>
-    <script src="/static/vendor/js/lucide.js?v=%EF%BB%BF2026.10.16_2.1791960842"></script>
-    <script src="/static/js/theme.js?v=%EF%BB%BF2026.10.16_2.1791960804"></script>
-    <script src="/static/js/i18n.js?v=%EF%BB%BF2026.10.16_2.1791960792"></script>
-    <link rel="stylesheet" href="/static/css/theme.css?v=%EF%BB%BF2026.10.16_2.1791960773">
+    <script src="/static/vendor/js/tailwindcss-cdn.js?v=%EF%BB%BF2026.10.18_1.1791960842"></script>
+    <script src="/static/vendor/js/lucide.js?v=%EF%BB%BF2026.10.18_1.1791960842"></script>
+    <script src="/static/js/theme.js?v=%EF%BB%BF2026.10.18_1.1791960804"></script>
+    <script src="/static/js/i18n.js?v=%EF%BB%BF2026.10.18_1.1791960792"></script>
+    <link rel="stylesheet" href="/static/css/theme.css?v=%EF%BB%BF2026.10.18_1.1791960773">
     <style>
-        @import url('/static/vendor/css/fonts.css?v=%EF%BB%BF2026.10.16_2.1791960830');
+        @import url('/static/vendor/css/fonts.css?v=%EF%BB%BF2026.10.18_1.1791960830');
         :root {
             --ease:cubic-bezier(.4,0,.2,1);
             --chat-bg:#eef2f6;
@@ -143,9 +143,20 @@
         .bubble { max-width:min(860px,78%); overflow:visible; border-radius:18px; padding:14px 16px; font-size:14px; line-height:1.72; white-space:pre-wrap; word-break:break-word; box-shadow:0 1px 0 rgba(15,23,42,.03); }
         .bubble.user { background:var(--chat-user-bg); color:var(--chat-user-text); border-bottom-right-radius:6px; }
         .bubble.assistant { background:var(--chat-panel); color:var(--chat-text); border:1px solid var(--chat-line); border-bottom-left-radius:6px; }
-        .bubble.image-bubble { width:max-content; max-width:min(600px,78%); padding:10px; }
-        .bubble.image-bubble .bubble-text { max-width:min(560px,100%); margin:0 2px 8px; color:var(--chat-muted); font-size:12px; line-height:1.55; white-space:pre-wrap; }
+        .bubble.image-bubble { width:max-content; max-width:min(620px,80%); padding:14px 16px; }
+        .bubble.image-bubble .bubble-text { max-width:min(580px,100%); margin:0 0 10px; color:var(--chat-text); font-size:14px; line-height:1.72; white-space:pre-wrap; }
         .bubble.image-bubble .bubble-text:empty { display:none; }
+        .gen-card-wrap { position:relative; display:inline-block; max-width:100%; border-radius:14px; overflow:hidden; }
+        .gen-idx-badge { position:absolute; top:8px; left:8px; padding:3px 8px; border-radius:999px; background:rgba(15,23,42,.72); color:#f8fafc; font-size:10.5px; font-weight:850; backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,.18); z-index:3; pointer-events:none; }
+        .gen-use-ref-btn { position:absolute; bottom:8px; right:8px; padding:5px 11px; border-radius:999px; background:rgba(15,23,42,.78); color:#f8fafc; font-size:11px; font-weight:850; backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,.22); display:inline-flex; align-items:center; gap:5px; opacity:0; transform:translateY(3px); transition:all .18s var(--ease); z-index:3; box-shadow:0 6px 16px rgba(0,0,0,.25); }
+        .gen-card-wrap:hover .gen-use-ref-btn { opacity:1; transform:translateY(0); }
+        .gen-use-ref-btn:hover { background:#0284c7; border-color:#7dd3fc; color:#fff; }
+        .omni-img-loader { margin-top:10px; min-width:260px; max-width:420px; padding:14px 16px; border-radius:14px; background:var(--chat-panel-2); border:1px dashed var(--chat-line-2); display:flex; align-items:center; gap:12px; animation:popIn .2s var(--ease); }
+        .omni-spinner { width:18px; height:18px; border-radius:50%; border:2.2px solid var(--chat-line-2); border-top-color:#0ea5e9; animation:omniSpin .85s linear infinite; flex:0 0 auto; }
+        .omni-loader-info { min-width:0; flex:1; display:flex; flex-direction:column; gap:3px; }
+        .omni-loader-title { font-size:12.5px; font-weight:850; color:var(--chat-text); display:flex; align-items:center; justify-content:space-between; gap:8px; }
+        .omni-loader-sub { font-size:11px; color:var(--chat-muted); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        @keyframes omniSpin { to { transform:rotate(360deg); } }
         .bubble.assistant.streaming::after { content:""; display:inline-block; width:7px; height:1.2em; margin-left:3px; border-radius:999px; background:var(--chat-text); vertical-align:-.2em; animation:cursorBlink .9s steps(2,end) infinite; }
         .generated-grid { display:grid; gap:8px; }
         .generated-grid.count-2,
@@ -1110,7 +1121,14 @@
         }
 
         async function openConversation(id, closePanel=false){
-            const data = await fetch(`/api/conversations/${id}`, {headers:{'X-User-ID':userId}}).then(r=>r.json());
+            const res = await fetch(`/api/conversations/${id}`, {headers:{'X-User-ID':userId}});
+            if(!res.ok){
+                currentConversation = null;
+                rememberConversation('');
+                renderMessages([]);
+                return;
+            }
+            const data = await res.json();
             currentConversation = data.conversation;
             rememberConversation(currentConversation.id);
             setChatTitle(currentConversation.title);
@@ -1361,9 +1379,24 @@
             return (SIZE_OPTIONS[key] || SIZE_OPTIONS.square).find(([, label]) => label === targetLabel)?.[0] || fallbackSize;
         }
 
+        let renderedImageCounter = 0;
+        function useImageAsReference(url, label){
+            if(!url) return;
+            if(!refs.some(r => r.url === url)){
+                refs.push({ url, name: label || '引用历史图', kind: 'image', role: 'source' });
+                renderRefs();
+            }
+            const input = document.getElementById('messageInput');
+            if(input){
+                if(!input.value.trim()) input.placeholder = `已挂载 ${label || '此图'} 作为参考图，输入你想怎么修改它...`;
+                input.focus();
+            }
+        }
+
         function renderMessages(messages){
             const box = document.getElementById('messages');
             box.innerHTML = '';
+            renderedImageCounter = 0;
             if(!messages.length){
                 box.innerHTML = `<div class="empty-state"><i data-lucide="messages-square"></i><div class="empty-state-text">${tr('chat.ready')}</div></div>`;
                 lucide.createIcons();
@@ -1398,11 +1431,29 @@
                 const grid = document.createElement('div');
                 grid.className = `generated-grid count-${Math.min(imageUrls.length, 4)}`;
                 imageUrls.forEach(url => {
+                    renderedImageCounter += 1;
+                    const imgIdx = renderedImageCounter;
+                    const wrap = document.createElement('div');
+                    wrap.className = 'gen-card-wrap';
+                    const badge = document.createElement('span');
+                    badge.className = 'gen-idx-badge';
+                    badge.textContent = `#${imgIdx}`;
                     const img = document.createElement('img');
                     img.className = 'generated';
                     img.src = url;
                     img.onclick = () => openImagePreview(url);
-                    grid.appendChild(img);
+                    const editBtn = document.createElement('button');
+                    editBtn.type = 'button';
+                    editBtn.className = 'gen-use-ref-btn';
+                    editBtn.innerHTML = `<span>🎨 基于 #${imgIdx} 改图</span>`;
+                    editBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        useImageAsReference(url, `第#${imgIdx}张图`);
+                    };
+                    wrap.appendChild(badge);
+                    wrap.appendChild(img);
+                    wrap.appendChild(editBtn);
+                    grid.appendChild(wrap);
                 });
                 bubble.appendChild(grid);
             }
@@ -1531,8 +1582,11 @@
 
         async function sendMessage(){
             const input = document.getElementById('messageInput');
-            const message = input.value.trim();
-            if(!message) return;
+            let message = input.value.trim();
+            if(!message && !refs.length) return;
+            if(!message && refs.length){
+                message = mode === 'image' ? '请基于参考图生成高质量图片' : '请参考我上传的图片';
+            }
             const btn = document.getElementById('sendBtn');
             btn.disabled = true;
             const requestedSize = chatSizeFromPrompt(message);
@@ -1546,8 +1600,8 @@
                 document.getElementById('messages').innerHTML = '';
             }
             addMessageBubble({role:'user', content:message, attachments:pendingRefs});
-            const useStreaming = mode === 'chat';
-            const pendingText = mode === 'image' ? tr('chat.generatingImage') : (useStreaming ? '' : (mode === 'agent' ? tr('chat.agentWorking') : ''));
+            const useStreaming = (mode === 'chat' || mode === 'agent');
+            const pendingText = mode === 'image' ? tr('chat.generatingImage') : '';
             const assistantBubble = addMessageBubble({role:'assistant', content: pendingText});
             if(useStreaming || mode === 'agent') assistantBubble.bubble.classList.add('streaming');
             scrollBottom();
@@ -1555,7 +1609,7 @@
                 const requestResolution = chatResolutionForRequest(message, requestedSize);
                 const requestAspectRatio = currentChatAspectRatio();
                 if(useStreaming) {
-                    await streamChatMessage(message, pendingRefs, assistantBubble);
+                    await streamChatMessage(message, pendingRefs, assistantBubble, requestedSize, requestAspectRatio, requestResolution);
                 } else if(mode === 'chat') {
                     const data = await fetch('/api/chat', {
                         method:'POST',
@@ -1636,10 +1690,12 @@
             }
         }
 
-        async function streamChatMessage(message, pendingRefs, assistantBubble){
+        async function streamChatMessage(message, pendingRefs, assistantBubble, requestedSize='', requestAspectRatio='', requestResolution=''){
             const currentProvider = provider;
             const currentMsModel = provider === 'modelscope' ? (msModel || activeChatModel || (config.ms_chat_models?.[0] || '')) : '';
             const currentChatModel = activeChatModel || config.chat_model;
+            let loaderTimer = null;
+            let loaderEl = null;
 
             const res = await fetch('/api/chat/stream', {
                 method:'POST',
@@ -1648,10 +1704,15 @@
                     conversation_id: currentConversation.id || '',
                     message,
                     system_prompt: currentSystemPrompt(),
-                    mode:'chat',
+                    mode: mode === 'agent' ? 'agent' : 'chat',
+                    size: requestedSize || currentChatSize(),
+                    aspect_ratio: requestAspectRatio || currentChatAspectRatio(),
+                    resolution: requestResolution || chatResolutionForRequest(message, requestedSize),
                     model: currentProvider === 'modelscope' ? currentMsModel : currentChatModel,
                     ms_model: currentProvider === 'modelscope' ? currentMsModel : '',
+                    image_model: activeImageModel || config.image_model,
                     provider: currentProvider,
+                    image_provider: activeImageProvider,
                     reference_images: pendingRefs
                 })
             });
@@ -1660,38 +1721,61 @@
             const decoder = new TextDecoder();
             let buffer = '';
             let fullText = '';
-            while(true){
-                const {value, done} = await reader.read();
-                if(done) break;
-                buffer += decoder.decode(value, {stream:true});
-                const events = buffer.split('\n\n');
-                buffer = events.pop() || '';
-                for(const eventText of events){
-                    const line = eventText.split('\n').find(item => item.startsWith('data:'));
-                    if(!line) continue;
-                    const event = JSON.parse(line.slice(5).trim());
-                    if(event.type === 'meta'){
-                        currentConversation = event.conversation;
-                        rememberConversation(currentConversation.id);
-                        setChatTitle(currentConversation.title);
-                    }
-                    if(event.type === 'delta'){
-                        fullText += event.delta || '';
-                        assistantBubble.text.textContent = fullText;
-                        scrollBottom();
-                    }
-                    if(event.type === 'error') throw new Error(event.detail || tr('chat.requestFailed'));
-                    if(event.type === 'done'){
-                        assistantBubble.bubble.classList.remove('streaming');
-                        currentConversation = event.conversation;
-                        rememberConversation(currentConversation.id);
-                        setChatTitle(currentConversation.title);
-                        renderMessages(currentConversation.messages || []);
-                        await loadConversations();
+            try {
+                while(true){
+                    const {value, done} = await reader.read();
+                    if(done) break;
+                    buffer += decoder.decode(value, {stream:true});
+                    const events = buffer.split('\n\n');
+                    buffer = events.pop() || '';
+                    for(const eventText of events){
+                        const line = eventText.split('\n').find(item => item.startsWith('data:'));
+                        if(!line) continue;
+                        const event = JSON.parse(line.slice(5).trim());
+                        if(event.type === 'meta'){
+                            currentConversation = event.conversation;
+                            rememberConversation(currentConversation.id);
+                            setChatTitle(currentConversation.title);
+                        }
+                        if(event.type === 'delta'){
+                            fullText += event.delta || '';
+                            assistantBubble.text.textContent = fullText;
+                            scrollBottom();
+                        }
+                        if(event.type === 'image_generating'){
+                            assistantBubble.bubble.classList.remove('streaming');
+                            assistantBubble.bubble.classList.add('image-bubble');
+                            if(!loaderEl){
+                                loaderEl = document.createElement('div');
+                                loaderEl.className = 'omni-img-loader';
+                                const startSec = Date.now();
+                                const refTag = event.ref_label || '正在绘制';
+                                const mdlTag = shortModelName(event.model || activeImageModel);
+                                loaderEl.innerHTML = `<div class="omni-spinner"></div><div class="omni-loader-info"><div class="omni-loader-title"><span>🎨 ${escapeHtml(refTag)} · ${escapeHtml(mdlTag)}</span><span class="omni-timer">0s</span></div><div class="omni-loader-sub">${escapeHtml(event.prompt || '')}</div></div>`;
+                                assistantBubble.bubble.appendChild(loaderEl);
+                                const timerSpan = loaderEl.querySelector('.omni-timer');
+                                loaderTimer = setInterval(() => {
+                                    if(timerSpan) timerSpan.textContent = `${Math.floor((Date.now() - startSec)/1000)}s`;
+                                }, 1000);
+                            }
+                            scrollBottom();
+                        }
+                        if(event.type === 'error') throw new Error(event.detail || tr('chat.requestFailed'));
+                        if(event.type === 'done'){
+                            if(loaderTimer) { clearInterval(loaderTimer); loaderTimer = null; }
+                            assistantBubble.bubble.classList.remove('streaming');
+                            currentConversation = event.conversation;
+                            rememberConversation(currentConversation.id);
+                            setChatTitle(currentConversation.title);
+                            renderMessages(currentConversation.messages || []);
+                            await loadConversations();
+                        }
                     }
                 }
+            } finally {
+                if(loaderTimer) clearInterval(loaderTimer);
+                assistantBubble.bubble.classList.remove('streaming');
             }
-            assistantBubble.bubble.classList.remove('streaming');
         }
 
         function scrollBottom(){ requestAnimationFrame(() => { const box = document.getElementById('messages'); box.scrollTop = box.scrollHeight; }); }

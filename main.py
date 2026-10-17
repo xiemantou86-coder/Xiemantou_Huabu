@@ -3159,6 +3159,7 @@ class ChatRequest(BaseModel):
     aspect_ratio: str = ""
     resolution: str = ""
     quality: str = "auto"
+    transparent_background: bool = False
     reference_images: List[AIReference] = []
     provider: str = "comfly"
     ms_model: str = ""
@@ -3738,7 +3739,16 @@ def new_conversation(user_id, title="新对话"):
 def load_conversation(user_id, conversation_id):
     path = conversation_path(user_id, conversation_id)
     if not os.path.exists(path):
-        raise HTTPException(status_code=404, detail="对话不存在")
+        clean_id = re.sub(r"[^a-zA-Z0-9_-]", "", str(conversation_id or "")) or uuid.uuid4().hex
+        conversation = {
+            "id": clean_id,
+            "title": "新对话",
+            "created_at": now_ms(),
+            "updated_at": now_ms(),
+            "messages": [],
+        }
+        save_conversation(user_id, conversation)
+        return conversation
     with open(path, 'r', encoding='utf-8') as f:
         return json.load(f)
 
@@ -12470,8 +12480,13 @@ async def generate_ai_image(prompt, size, quality, model, reference_images=None,
 
 def upstream_message_from_record(item):
     role = item.get("role")
-    if role not in {"user", "assistant"} or item.get("type") == "image":
+    if role not in {"user", "assistant"}:
         return None
+    if item.get("type") == "image":
+        reply_txt = item.get("agent_reply") or "已生成图片"
+        prompt_txt = item.get("content") or ""
+        img_url = item.get("image_url") or ""
+        return {"role": "assistant", "content": f"{reply_txt}\n[已生成图片: {img_url} | 画面描述: {prompt_txt}]"}
     attachments = item.get("attachments") or []
     if attachments and role == "user":
         text = item.get("content", "")
@@ -12502,6 +12517,38 @@ AGENT_EDIT_KEYWORDS = [
 CN_NUMERAL_MAP = {
     "一": 1, "二": 2, "两": 2, "俩": 2, "三": 3, "四": 4,
 }
+
+def all_chat_image_refs(conversation):
+    refs = []
+    for item in (conversation.get("messages") or []):
+        if not isinstance(item, dict):
+            continue
+        url = item.get("image_url") or ""
+        if url:
+            refs.append({
+                "index": len(refs) + 1,
+                "url": url,
+                "name": item.get("content") or f"历史图片#{len(refs)+1}",
+                "reply": item.get("agent_reply") or "",
+                "role": "source",
+            })
+    return refs
+
+def pick_chat_image_ref_by_index(conversation, target_index=-1):
+    all_refs = all_chat_image_refs(conversation)
+    if not all_refs:
+        return []
+    try:
+        idx = int(target_index)
+    except Exception:
+        idx = -1
+    if 1 <= idx <= len(all_refs):
+        chosen = all_refs[idx - 1]
+    elif idx < 0 and abs(idx) <= len(all_refs):
+        chosen = all_refs[idx]
+    else:
+        chosen = all_refs[-1]
+    return [{"url": chosen["url"], "name": chosen["name"], "role": "source", "index": chosen["index"]}]
 
 def latest_chat_image_refs(conversation, limit=1):
     refs = []
@@ -12601,12 +12648,34 @@ def parse_agent_decision(raw_text, message, refs, has_previous_image):
         action = heuristic["action"]
     prompt = str(data.get("prompt") or message).strip() or message
     reply = str(data.get("reply") or "").strip()
+    try:
+        target_image_index = int(data.get("target_image_index", -1))
+    except Exception:
+        target_image_index = -1
+    raw_tb = data.get("transparent_background")
+    tb_flag = bool(raw_tb) if isinstance(raw_tb, bool) else (str(raw_tb or "").strip().lower() in {"true", "1", "yes"})
     if action == "edit_image" and not (refs or has_previous_image):
         action = "generate_image" if any(key.lower() in str(message).lower() for key in AGENT_IMAGE_KEYWORDS) else "chat"
-    return {"action": action, "prompt": prompt, "reply": reply}
+    return {"action": action, "prompt": prompt, "reply": reply, "target_image_index": target_image_index, "transparent_background": tb_flag}
+
+CHAT_TRANSPARENT_BG_PATTERNS = (
+    "透明底", "透明背景", "透明通道", "透明png", "png透明", "阿尔法通道", "阿尔法png",
+    "alpha通道", "alpha png", "alpha channel", "transparent background", "transparent png",
+    "免抠", "扣图透明", "抠图透明",
+)
+CHAT_NON_TRANSPARENT_GUARDS = ("不要透明", "不透明", "非透明", "取消透明", "去掉透明")
+
+def chat_wants_transparent_bg(*texts):
+    combined = " ".join(str(t or "") for t in texts).lower()
+    if not combined.strip():
+        return False
+    if any(g in combined for g in CHAT_NON_TRANSPARENT_GUARDS):
+        return False
+    return any(k in combined for k in CHAT_TRANSPARENT_BG_PATTERNS)
 
 async def decide_chat_agent_action(payload, conversation, refs):
-    has_previous_image = bool(latest_chat_image_refs(conversation, 1))
+    all_hist_imgs = all_chat_image_refs(conversation)
+    has_previous_image = bool(all_hist_imgs)
     fallback = heuristic_agent_decision(payload.message, refs, has_previous_image)
     provider_cfg = get_api_provider(payload.provider) if payload.provider not in ("modelscope",) else {}
     if is_codex_provider(provider_cfg):
@@ -12617,49 +12686,90 @@ async def decide_chat_agent_action(payload, conversation, refs):
         return fallback
     history = conversation["messages"][-MAX_HISTORY_MESSAGES:]
     custom_system_prompt = str(getattr(payload, "system_prompt", "") or "").strip()
+    hist_img_summary = "\n".join([f"  - 第{x['index']}张图 (#{x['index']}): {x['name'][:80]}" for x in all_hist_imgs]) if all_hist_imgs else "  无"
     system = (
-        "你是图片创作聊天 Agent 的意图路由器。只返回 JSON，不要 Markdown。\n"
+        "你是温暖贴心的全能聊天与图片创作 AI 助手路由器。只返回 JSON，不要 Markdown。\n"
         "action 只能是 chat、generate_image、edit_image。\n"
-        "chat: 普通问答或不需要调用图片工具。\n"
-        "generate_image: 用户要求生成、绘制、创建新图片。\n"
-        "edit_image: 用户要求修改参考图、上一张图、刚才生成的图，或上传了参考图并要求基于它变化。\n"
-        "prompt 是交给生图/改图工具的完整中文提示词；普通聊天时也填用户原话。\n"
-        "reply 是可选的短状态文本。"
+        "chat: 普通日常闲聊、情感陪伴或问答，不需要画图。\n"
+        "generate_image: 用户要求生成、绘制、创建全新图片。\n"
+        "edit_image: 用户要求修改参考图、历史生成的某张图，或上传了参考图要求基于它变化。\n"
+        "prompt: 当生图或改图时，写出交给生图模型的完整、细腻中文画面描述；若为 edit_image，必须明确写出保留原图哪些主体/背景特征以及具体修改细节。\n"
+        "reply: 当 action 为 generate_image 或 edit_image 时，必须用温柔、自然、像朋友陪聊一样的语气先回应用户（1~2句话，例如：'看你这么无聊，我给你画一只趴在阳光下打哈欠的小橘猫陪你发呆好不好～'），绝不要空着或只写冷冰冰的状态词！\n"
+        "target_image_index: 当 action 为 edit_image 且未新传参考图时，指定要基于历史第几张图修改（整数：1 表示第1张原图，2 表示第2张，-1 表示最新一张图。若用户说'不要刚才的改动/回到第一张/用最开始那张改'则填 1，若顺着上一张继续加东西则填 -1）。\n"
+        "transparent_background: 布尔值(true/false)，当用户要求透明底、透明背景、透明PNG、阿尔法(Alpha)通道或免抠贴纸素材时设为 true，否则设为 false。"
     )
     upstream_messages = [{"role": "system", "content": system}]
-    for item in history[-10:]:
+    prior_history = history[:-1] if (history and history[-1].get("role") == "user") else history
+    for item in prior_history[-10:]:
         msg = upstream_message_from_record(item)
         if msg:
             upstream_messages.append(msg)
-    upstream_messages.append({
-        "role": "user",
-        "content": (
-            f"当前用户输入：{payload.message}\n"
-            f"用户设置的系统提示词：{custom_system_prompt or '无'}\n"
-            f"本次上传参考图数量：{len(refs)}\n"
-            f"对话中是否已有上一张生成图：{'是' if has_previous_image else '否'}\n"
-            "请返回 JSON，例如 {\"action\":\"generate_image\",\"prompt\":\"...\",\"reply\":\"...\"}"
-        )
-    })
+
+    router_text_instruction = (
+        f"当前用户输入：{payload.message}\n"
+        f"用户设置的系统提示词：{custom_system_prompt or '无'}\n"
+        f"本次上传参考图数量：{len(refs)}\n"
+        f"对话中已生成的历史图片列表（共 {len(all_hist_imgs)} 张）：\n{hist_img_summary}\n"
+        "请只返回 JSON，格式：{\"action\":\"chat|generate_image|edit_image\",\"prompt\":\"...\",\"reply\":\"温暖自然的陪聊回应\",\"target_image_index\":-1,\"transparent_background\":false}"
+    )
+
+    visual_refs_to_inspect = list(refs[:2]) if refs else ([all_hist_imgs[-1]] if all_hist_imgs else [])
+    visual_data_urls = []
+    for vref in visual_refs_to_inspect:
+        try:
+            d_url = reference_to_data_url(vref)
+            if d_url:
+                visual_data_urls.append(d_url)
+        except Exception as _v_exc:
+            print(f"[chat-agent] reference_to_data_url skipped: {_v_exc}")
+
+    if visual_data_urls:
+        user_content_multimodal = [{"type": "text", "text": router_text_instruction}]
+        for d_url in visual_data_urls:
+            user_content_multimodal.append({"type": "image_url", "image_url": {"url": d_url}})
+        upstream_messages_with_vision = upstream_messages + [{"role": "user", "content": user_content_multimodal}]
+    else:
+        upstream_messages_with_vision = None
+
+    upstream_messages_text_only = upstream_messages + [{"role": "user", "content": router_text_instruction}]
+
     try:
         chat_base, chat_hdrs, model = resolve_chat_provider(payload.provider, payload.model, payload.ms_model)
+        attempt_queues = []
+        if upstream_messages_with_vision is not None:
+            attempt_queues.append(("vision", upstream_messages_with_vision))
+        attempt_queues.append(("text_only", upstream_messages_text_only))
+        if len(attempt_queues) == 1:
+            attempt_queues.append(("text_retry", upstream_messages_text_only))
+
+        last_err = None
         async with httpx.AsyncClient(timeout=AI_REQUEST_TIMEOUT) as client:
-            req_body = {"model": model, "messages": upstream_messages}
-            if is_apimart_provider(provider_cfg):
-                req_body["stream"] = False
-            response = await client.post(
-                f"{chat_base}/chat/completions",
-                headers=chat_hdrs,
-                json=req_body,
-            )
-            response.raise_for_status()
-            raw = response.json()
-            decision = parse_agent_decision(text_from_chat_response(raw), payload.message, refs, has_previous_image)
-            decision["router_model"] = model
-            return decision
+            for mode_tag, msgs_payload in attempt_queues:
+                try:
+                    req_body = {"model": model, "messages": msgs_payload}
+                    if is_apimart_provider(provider_cfg):
+                        req_body["stream"] = False
+                    response = await client.post(
+                        f"{chat_base}/chat/completions",
+                        headers=chat_hdrs,
+                        json=req_body,
+                    )
+                    response.raise_for_status()
+                    raw = response.json()
+                    raw_reply_text = text_from_chat_response(raw)
+                    if not str(raw_reply_text or "").strip():
+                        raise ValueError("empty router response text")
+                    decision = parse_agent_decision(raw_reply_text, payload.message, refs, has_previous_image)
+                    decision["router_model"] = f"{model} ({mode_tag})"
+                    return decision
+                except Exception as inner_exc:
+                    last_err = inner_exc
+                    print(f"[chat-agent] router attempt '{mode_tag}' with {model} failed: {inner_exc}")
+                    continue
+        raise last_err or RuntimeError("all router attempts failed")
     except Exception as exc:
-        print(f"[chat-agent] intent router fallback: {exc}")
-        fallback["router_model"] = str(getattr(payload, "model", "") or "router-fallback")
+        print(f"[chat-agent] intent router final fallback after retries: {exc}")
+        fallback["router_model"] = "router-fallback"
         return fallback
 
 async def build_chat_text_reply(payload, conversation):
@@ -18715,6 +18825,7 @@ async def chat(payload: ChatRequest, request: Request, x_user_id: str = Header(d
         default_model = (provider.get("image_models") or [IMAGE_MODEL])[0]
         model = selected_model(payload.image_model or payload.model, default_model)
         image_size = chat_prompt_size_override(payload.message, payload.size) or payload.size
+        want_transparent = bool(getattr(payload, "transparent_background", False)) or chat_wants_transparent_bg(payload.message)
         try:
             image_data, raw = await generate_ai_image(
                 payload.message,
@@ -18725,6 +18836,7 @@ async def chat(payload: ChatRequest, request: Request, x_user_id: str = Header(d
                 provider["id"],
                 payload.aspect_ratio,
                 payload.resolution,
+                want_transparent,
             )
             local_url = await save_ai_image_to_output(image_data, prefix="chat_")
         except httpx.HTTPStatusError as exc:
@@ -18853,7 +18965,8 @@ async def chat_agent(payload: ChatRequest, request: Request, x_user_id: str = He
     tool_refs = image_refs[:]
     inherited_size = ""
     if action == "edit_image" and not tool_refs:
-        tool_refs = latest_chat_image_refs(conversation, 1)
+        target_idx = decision.get("target_image_index", -1)
+        tool_refs = pick_chat_image_ref_by_index(conversation, target_idx)
         inherited_size = image_size_from_reference(tool_refs[0]) if tool_refs else ""
     if action == "edit_image" and not tool_refs:
         action = "generate_image"
@@ -18867,6 +18980,7 @@ async def chat_agent(payload: ChatRequest, request: Request, x_user_id: str = He
         image_size = snap_size_to_multiple(prompt_size or inherited_size or payload.size, 16)
         requested_count = 1 if action == "edit_image" else chat_requested_image_count(payload.message)
         prompts = chat_split_parallel_prompts(prompt, requested_count)
+        want_transparent = bool(getattr(payload, "transparent_background", False)) or bool(decision.get("transparent_background")) or chat_wants_transparent_bg(payload.message, prompt)
         local_urls = []
         raw_items = []
         try:
@@ -18880,6 +18994,7 @@ async def chat_agent(payload: ChatRequest, request: Request, x_user_id: str = He
                     image_provider["id"],
                     payload.aspect_ratio,
                     payload.resolution,
+                    want_transparent,
                 )
                 local_urls.append(await save_ai_image_to_output(image_data, prefix="chat_"))
                 raw_items.append(raw)
@@ -18944,6 +19059,110 @@ async def chat_stream(payload: ChatRequest, request: Request, x_user_id: str = H
     conversation["messages"].append(user_message)
     conversation["updated_at"] = now_ms()
     save_conversation(user_id, conversation)
+
+    if payload.mode == "agent":
+        image_refs = image_references(refs)
+        decision = await decide_chat_agent_action(payload, conversation, image_refs)
+        action = decision.get("action") or "chat"
+        tool_refs = image_refs[:]
+        inherited_size = ""
+        if action == "edit_image" and not tool_refs:
+            target_idx = decision.get("target_image_index", -1)
+            tool_refs = pick_chat_image_ref_by_index(conversation, target_idx)
+            inherited_size = image_size_from_reference(tool_refs[0]) if tool_refs else ""
+        if action == "edit_image" and not tool_refs:
+            action = "generate_image"
+
+        if action in {"generate_image", "edit_image"}:
+            async def agent_image_stream():
+                import asyncio
+                yield sse_event({"type": "meta", "conversation": conversation})
+                reply_text = (decision.get("reply") or "").strip() or (
+                    f"好呀，我这就基于第 #{tool_refs[0].get('index', 1)} 张图帮你修改～"
+                    if (action == "edit_image" and tool_refs and tool_refs[0].get("index"))
+                    else "好呀，我这就帮你画出来～"
+                )
+                for i in range(0, len(reply_text), 3):
+                    yield sse_event({"type": "delta", "delta": reply_text[i:i+3]})
+                    await asyncio.sleep(0.025)
+
+                image_provider = pick_chat_image_provider(payload.image_provider or payload.provider, payload.provider)
+                default_model = (image_provider.get("image_models") or [IMAGE_MODEL])[0]
+                img_model = selected_model(payload.image_model or default_model, default_model)
+                prompt = decision.get("prompt") or payload.message
+                prompt_size = chat_prompt_size_override(payload.message, payload.size) or chat_prompt_size_override(prompt, payload.size)
+                image_size = snap_size_to_multiple(prompt_size or inherited_size or payload.size, 16)
+                requested_count = 1 if action == "edit_image" else chat_requested_image_count(payload.message)
+                prompts = chat_split_parallel_prompts(prompt, requested_count)
+                want_transparent = bool(getattr(payload, "transparent_background", False)) or bool(decision.get("transparent_background")) or chat_wants_transparent_bg(payload.message, prompt)
+                base_ref_label = (
+                    f"基于第 #{tool_refs[0]['index']} 张图修改"
+                    if (action == "edit_image" and tool_refs and tool_refs[0].get("index"))
+                    else ("基于参考图修改" if (action == "edit_image" and tool_refs) else "全新绘制")
+                )
+                ref_label = f"{base_ref_label} (透明PNG)" if want_transparent else base_ref_label
+                yield sse_event({
+                    "type": "image_generating",
+                    "action": action,
+                    "model": img_model,
+                    "provider": image_provider["id"],
+                    "size": image_size,
+                    "prompt": prompt,
+                    "ref_label": ref_label,
+                    "transparent_background": want_transparent,
+                    "used_references": tool_refs,
+                })
+                local_urls = []
+                raw_items = []
+                try:
+                    for item_prompt in prompts:
+                        image_data, raw = await generate_ai_image(
+                            item_prompt,
+                            image_size,
+                            payload.quality,
+                            img_model,
+                            tool_refs,
+                            image_provider["id"],
+                            payload.aspect_ratio,
+                            payload.resolution,
+                            want_transparent,
+                        )
+                        local_urls.append(await save_ai_image_to_output(image_data, prefix="chat_"))
+                        raw_items.append(raw)
+                except httpx.HTTPStatusError as exc:
+                    text = exc.response.text or ""
+                    detail = friendly_image_error_detail(text, image_size, img_model) or f"上游生图接口错误：{text[:300]}"
+                    yield sse_event({"type": "error", "detail": detail})
+                    return
+                except Exception as exc:
+                    yield sse_event({"type": "error", "detail": f"生图调用失败：{exc}"})
+                    return
+
+                local_url = local_urls[0] if local_urls else ""
+                assistant_message = {
+                    "id": uuid.uuid4().hex,
+                    "role": "assistant",
+                    "type": "image",
+                    "content": prompt,
+                    "image_url": local_url,
+                    "image_urls": local_urls,
+                    "created_at": now_ms(),
+                    "model": img_model,
+                    "provider": image_provider["id"],
+                    "size": image_size,
+                    "image_count": len(local_urls),
+                    "prompts": prompts,
+                    "agent_action": action,
+                    "agent_reply": reply_text,
+                    "used_references": tool_refs,
+                    "raw_usage": raw_items[0].get("usage") if raw_items and isinstance(raw_items[0], dict) else None,
+                }
+                conversation["messages"].append(assistant_message)
+                conversation["updated_at"] = now_ms()
+                save_conversation(user_id, conversation)
+                yield sse_event({"type": "done", "conversation": conversation, "message": assistant_message, "agent": {"action": action, "decision": decision}})
+
+            return StreamingResponse(agent_image_stream(), media_type="text/event-stream")
 
     _codex_provider = get_api_provider(payload.provider)
     if is_codex_provider(_codex_provider):
