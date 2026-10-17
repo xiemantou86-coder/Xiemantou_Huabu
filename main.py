@@ -1669,6 +1669,19 @@ def update_env_values(updates):
         print("[update_env_values] 写入 API/.env 失败（已重试）: %r" % (err,))
     return ok
 
+BACKEND_LOCAL_LOAD = {addr: 0 for addr in COMFYUI_INSTANCES}
+
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+os.makedirs(ASSETS_DIR, exist_ok=True)
+os.makedirs(OUTPUT_INPUT_DIR, exist_ok=True)
+os.makedirs(OUTPUT_OUTPUT_DIR, exist_ok=True)
+os.makedirs(ASSET_LIBRARY_DIR, exist_ok=True)
+os.makedirs(LOCAL_UPLOAD_DIR, exist_ok=True)
+os.makedirs(STATIC_DIR, exist_ok=True)
+os.makedirs(WORKFLOW_DIR, exist_ok=True)
+os.makedirs(CONVERSATION_DIR, exist_ok=True)
+os.makedirs(CANVAS_DIR, exist_ok=True)
+
 class NoCacheStaticFiles(StaticFiles):
     """静态资源统一声明 no-cache，并且 HTML 每次请求都重算 ?v= 版本号。
 
