@@ -624,7 +624,14 @@ MODELSCOPE_DEFAULT_LORAS = [
 MODELSCOPE_DEFAULTS_VERSION = 3
 CHAT_MODEL = os.getenv("CHAT_MODEL", "gpt-4o-mini")
 IMAGE_MODEL = os.getenv("IMAGE_MODEL", "gpt-image-2")
-SYSTEM_PROMPT = os.getenv("SYSTEM_PROMPT", "You are a helpful assistant.")
+DEFAULT_CHAT_SYSTEM_PROMPT = (
+    "你是一位温暖贴心、聪明博学、审美在线的全能 AI 伙伴（支持日常陪伴聊天、多模态看图分析、实时联网检索与 AI 绘画创作）。请遵循以下准则与用户交流：\n"
+    "1. 【双态语气适配】：日常闲聊或生活求助时，像熟悉靠谱的朋友一样自然、真诚、有温度，拒绝机械客服腔与说教爹味；探讨工作、商业视觉设计（如游戏广告KV、买量素材、多语种翻译）或技术问题时，直接给结论、给可执行方案，干脆利落。\n"
+    "2. 【联网与事实纪律】：当系统在上下文中提供了【实时联网检索结果】或【网页抓取内容】时，必须优先依据这些真实资料作答，严禁再声称“我无法联网/看不到链接”；对于检索资料中未包含的具体数字（如未公开的参保人数、内部数据），如实说明“公开摘要未显示该具体数值”，绝不凭空编造。\n"
+    "3. 【看图与多轮上下文】：当用户上传截图、参考图或追问前文时，仔细读取图片中的文字、数据、构图与色调细节，紧密结合上下文连贯作答。\n"
+    "4. 【排版清晰易读】：回答复杂问题时善用小标题、短列表或表格突出核心重点，避免大段密集的文字墙。"
+)
+SYSTEM_PROMPT = os.getenv("SYSTEM_PROMPT", DEFAULT_CHAT_SYSTEM_PROMPT)
 MAX_HISTORY_MESSAGES = int(os.getenv("MAX_HISTORY_MESSAGES", "30"))
 AI_REQUEST_TIMEOUT = float(os.getenv("REQUEST_TIMEOUT", "1800"))
 IMAGE_POLL_INTERVAL = float(os.getenv("IMAGE_POLL_INTERVAL", "2"))
@@ -3160,13 +3167,26 @@ class ChatRequest(BaseModel):
     resolution: str = ""
     quality: str = "auto"
     transparent_background: bool = False
+    web_search: bool = True
     reference_images: List[AIReference] = []
     provider: str = "comfly"
     ms_model: str = ""
 
+def current_beijing_time_banner() -> str:
+    import datetime as _dt
+    tz_cn = _dt.timezone(_dt.timedelta(hours=8))
+    now_cn = _dt.datetime.now(tz_cn)
+    weekdays = ("星期一", "星期二", "星期三", "星期四", "星期五", "星期六", "星期日")
+    wk = weekdays[now_cn.weekday()]
+    return (
+        f"【系统实时基准时钟】当前准确的北京时间（UTC+8）为：{now_cn.strftime('%Y年%m月%d日')} {wk} {now_cn.strftime('%H:%M:%S')}。"
+        "当用户询问现在几点、今天日期、星期几、今年是哪一年或时间校对时，必须直接以该系统实时基准时钟为准精确回答（精确到秒），严禁编造其他时间或回答2025年等过期年份！"
+    )
+
 def chat_system_prompt(payload):
     prompt = str(getattr(payload, "system_prompt", "") or "").strip()
-    return prompt or SYSTEM_PROMPT
+    base = prompt or SYSTEM_PROMPT
+    return f"{base}\n\n{current_beijing_time_banner()}"
 
 class MsGenerateRequest(BaseModel):
     prompt: str
@@ -3721,6 +3741,27 @@ def now_ms():
 def save_conversation(user_id, conversation):
     with CONVERSATION_LOCK:
         path = conversation_path(user_id, conversation["id"])
+        if os.path.exists(path):
+            try:
+                with open(path, 'r', encoding='utf-8') as rf:
+                    disk_conv = json.load(rf)
+                disk_msgs = disk_conv.get("messages") or []
+                mem_msgs = conversation.get("messages") or []
+                merged = []
+                seen_ids = set()
+                for m in disk_msgs + mem_msgs:
+                    if not isinstance(m, dict):
+                        continue
+                    mid = m.get("id")
+                    if mid and mid in seen_ids:
+                        continue
+                    if mid:
+                        seen_ids.add(mid)
+                    merged.append(m)
+                merged.sort(key=lambda x: x.get("created_at") or 0)
+                conversation["messages"] = merged
+            except Exception:
+                pass
         with open(path, 'w', encoding='utf-8') as f:
             json.dump(conversation, f, ensure_ascii=False, indent=2)
 
@@ -12221,6 +12262,8 @@ async def generate_ai_image(prompt, size, quality, model, reference_images=None,
             if transparent_png:
                 data["background"] = "transparent"
                 data["output_format"] = "png"
+            elif is_gpt2:
+                data["background"] = "opaque"
             return await client.post(
                 edit_url,
                 headers=api_headers(json_body=False, provider=provider, model=model),
@@ -12368,6 +12411,8 @@ async def generate_ai_image(prompt, size, quality, model, reference_images=None,
             if transparent_png:
                 body["background"] = "transparent"
                 body["output_format"] = "png"
+            else:
+                body["background"] = "opaque"
             response = await client.post(gen_url, headers=api_headers(provider=provider, model=model), json=body)
             if response.status_code >= 400 and images_api_unsupported(response):
                 response = await post_openai_edits()
@@ -12583,7 +12628,18 @@ def chat_requested_image_count(message):
         return max(1, min(4, CN_NUMERAL_MAP.get(match.group(1), 1)))
     return 1
 
+MANDATORY_NEGATIVE_PROMPT_SUFFIX = "负向提示词：\n模糊，低清，噪点，脏污，过曝，色彩失真，多余物体，杂乱背景，噪点背景，畸形，变形，手部错误，乱码，错别字，重复文字"
+
+def ensure_mandatory_negative_prompt(prompt_text: str) -> str:
+    txt = str(prompt_text or "").strip()
+    if not txt:
+        return txt
+    if "负向提示词" in txt:
+        return txt
+    return f"{txt}\n\n{MANDATORY_NEGATIVE_PROMPT_SUFFIX}"
+
 def chat_split_parallel_prompts(prompt, count):
+    prompt = ensure_mandatory_negative_prompt(prompt)
     text = str(prompt or "").strip()
     if count <= 1:
         return [text]
@@ -12630,6 +12686,291 @@ def heuristic_agent_decision(message, refs, has_previous_image):
         return {"action": "generate_image", "prompt": message, "reply": ""}
     return {"action": "chat", "prompt": message, "reply": ""}
 
+URL_EXTRACT_RE = re.compile(r"https?://[^\s<>\"\x27\uff0c\u3002\uff09\)\]]+", re.I)
+
+CHAT_SEARCH_TRIGGER_WORDS = (
+    "联网", "搜索", "搜一下", "搜一搜", "查一下", "查一查", "帮我查", "最新", "新闻", "官网", "是什么公司",
+    "你知道", "了解", "谁是", "今天", "实时", "近期", "最近", "股价", "天气", "汇率", "百科",
+    "现在几点", "几点了", "准确时间", "什么日期", "几月几号", "星期几", "哪一年", "参保人数"
+)
+
+def extract_urls_from_text(text: str) -> List[str]:
+    if not text:
+        return []
+    found = URL_EXTRACT_RE.findall(str(text))
+    cleaned = []
+    for u in found:
+        u = u.rstrip(".,;:!?)'\"，。；：！？）】")
+        if u and u not in cleaned:
+            cleaned.append(u)
+    return cleaned[:3]
+
+def strip_html_clean(raw_html: str) -> str:
+    if not raw_html:
+        return ""
+    import html as _html_mod
+    s = re.sub(r"<(script|style|noscript|svg|header|footer|nav)[^>]*>[\s\S]*?</\1>", " ", raw_html, flags=re.I)
+    s = re.sub(r"<[^>]+>", " ", s)
+    s = _html_mod.unescape(s)
+    return re.sub(r"\s+", " ", s).strip()
+
+async def fetch_single_url_context(url: str) -> dict:
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+        "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
+    }
+    title = url
+    content = ""
+    is_time_site = any(k in url.lower() for k in ("beijing-time.org", "time.tianqi.com", "biaozhunshijian"))
+    time_prefix = f"【校准时间提示】{current_beijing_time_banner()}\n" if is_time_site else ""
+    async with httpx.AsyncClient(timeout=5.5, follow_redirects=True, headers=headers) as client:
+        try:
+            rj = await client.get(f"https://r.jina.ai/{url}", timeout=4.2)
+            if rj.status_code == 200 and len(rj.text.strip()) > 60:
+                txt = rj.text.strip()
+                m_t = re.search(r"^Title:\s*(.+)$", txt, flags=re.M)
+                if m_t:
+                    title = m_t.group(1).strip()
+                content = time_prefix + txt[:2800]
+                return {"url": url, "title": title, "content": content, "ok": True}
+        except Exception:
+            pass
+        try:
+            r = await client.get(url, timeout=4.5)
+            if r.status_code < 400 and r.text:
+                m_t = re.search(r"<title[^>]*>([\s\S]*?)</title>", r.text, flags=re.I)
+                if m_t:
+                    title = strip_html_clean(m_t.group(1))[:120] or url
+                m_desc = re.search(r"<meta[^>]+name=[\x22\x27]description[\x22\x27][^>]+content=[\x22\x27]([^\x22\x27]+)[\x22\x27]", r.text, flags=re.I)
+                desc_str = f"【网页简介】{strip_html_clean(m_desc.group(1))}\n" if m_desc else ""
+                body_str = strip_html_clean(r.text)[:2600]
+                content = (time_prefix + desc_str + body_str).strip()
+                return {"url": url, "title": title, "content": content, "ok": bool(content)}
+        except Exception as exc:
+            return {"url": url, "title": url, "content": f"{time_prefix}无法直接打开该链接 ({exc})", "ok": bool(time_prefix)}
+    return {"url": url, "title": url, "content": time_prefix, "ok": bool(time_prefix)}
+
+async def free_web_search_context(query: str, max_results: int = 5) -> List[dict]:
+    q_clean = str(query or "").strip()
+    if not q_clean:
+        return []
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+        "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
+    }
+    results = []
+    q_enc = urllib.parse.quote(q_clean)
+    async with httpx.AsyncClient(timeout=5.5, follow_redirects=True, headers=headers) as client:
+        try:
+            r_so = await client.get(f"https://www.so.com/s?q={q_enc}", timeout=4.2)
+            if r_so.status_code == 200 and r_so.text:
+                blocks = re.findall(r"<li class=\"res-list\"[\s\S]*?</li>", r_so.text)
+                for b in blocks[:max_results]:
+                    m_t = re.search(r"<h3[^>]*>([\s\S]*?)</h3>", b)
+                    m_u = re.search(r"data-mdurl=\"(https?://[^\"]+)\"", b) or re.search(r"<a[^>]+href=\"(https?://[^\"]+)\"", b)
+                    title = strip_html_clean(m_t.group(1)) if m_t else ""
+                    link = m_u.group(1) if m_u else ""
+                    snippet = strip_html_clean(re.sub(r"<h3[^>]*>[\s\S]*?</h3>", " ", b))[:280]
+                    if title and snippet:
+                        results.append({"title": title, "url": link, "snippet": snippet, "source": "web"})
+        except Exception:
+            pass
+        if len(results) < 2:
+            try:
+                r_bing = await client.get(f"https://cn.bing.com/search?q={q_enc}&ensearch=0", timeout=4.2)
+                if r_bing.status_code == 200 and r_bing.text:
+                    algos = re.findall(r"<li class=\"b_algo\"[\s\S]*?</li>", r_bing.text)
+                    for a in algos[:max_results]:
+                        m_t = re.search(r"<h2[^>]*>([\s\S]*?)</h2>", a)
+                        m_u = re.search(r"<a[^>]+href=\"(https?://[^\"]+)\"", a)
+                        title = strip_html_clean(m_t.group(1)) if m_t else ""
+                        link = m_u.group(1) if m_u else ""
+                        snippet = strip_html_clean(re.sub(r"<h2[^>]*>[\s\S]*?</h2>", " ", a))[:280]
+                        if title and snippet:
+                            results.append({"title": title, "url": link, "snippet": snippet, "source": "bing"})
+            except Exception:
+                pass
+    return results[:max_results]
+
+DEEP_FETCH_SKIP_DOMAINS = (
+    "qcc.com", "qichacha.com", "tianyancha.com", "aiqicha.baidu.com",
+    "zhihu.com", "weibo.com", "xiaohongshu.com", "douyin.com", "bilibili.com",
+    "so.com/link", "bing.com/ck/"
+)
+
+DEEP_FETCH_CAPTCHA_NOISE = (
+    "安全验证", "滑块验证", "请完成验证", "拖动滑块", "访问过于频繁",
+    "登录后查看", "请先登录", "Enable JavaScript and cookies", "Just a moment..."
+)
+
+DEEP_DETAIL_INTENT_WORDS = (
+    "详细", "具体", "多少", "哪些", "区别", "对比", "参数", "配置", "价格",
+    "地址", "业务", "产品", "创始人", "股东", "参保", "规模", "背景", "介绍", "怎么", "为什么"
+)
+
+async def light_deep_fetch_top_hit(search_items: List[dict], query: str, message: str) -> str:
+    import asyncio as _aio
+    if not search_items:
+        return ""
+    combined_q = f"{query} {message}"
+    need_deep = any(w in combined_q for w in DEEP_DETAIL_INTENT_WORDS) or len(search_items) <= 4
+    if not need_deep:
+        return ""
+    candidates = []
+    seen_u = set()
+    for it in search_items:
+        u = str(it.get("url") or "").strip()
+        if not u.startswith("http") or u in seen_u:
+            continue
+        seen_u.add(u)
+        u_low = u.lower()
+        if any(bad in u_low for bad in DEEP_FETCH_SKIP_DOMAINS):
+            continue
+        score = 2 if any(good in u_low for good in ("baike.", "wikipedia.", ".gov.cn", ".edu.cn", "163.com", "qq.com", "sina.com", "sohu.com")) else 1
+        candidates.append((score, u, it.get("title") or u))
+    candidates.sort(key=lambda x: -x[0])
+    top_targets = candidates[:3]
+    if not top_targets:
+        return ""
+
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+        "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
+    }
+
+    async def _grab_one(target_url: str, target_title: str) -> str:
+        try:
+            async with httpx.AsyncClient(timeout=2.4, follow_redirects=True, headers=headers) as c:
+                r = await c.get(target_url)
+                if r.status_code >= 400 or not r.text:
+                    return ""
+                body = strip_html_clean(r.text)
+                if len(body) < 80 or any(noise in body[:400] for noise in DEEP_FETCH_CAPTCHA_NOISE):
+                    return ""
+                return f"  - 《{target_title[:60]}》内页详情摘录 ({target_url[:65]}):\n    {body[:900]}"
+        except Exception:
+            return ""
+
+    try:
+        tasks = [_grab_one(u, t) for _, u, t in top_targets]
+        done_texts = await _aio.wait_for(_aio.gather(*tasks, return_exceptions=True), timeout=2.7)
+        valid_parts = [x for x in done_texts if isinstance(x, str) and x.strip()]
+        if valid_parts:
+            return "【Top 权威结果内页深挖补充（自动过滤反爬与登录墙）】\n" + "\n".join(valid_parts)
+    except Exception:
+        pass
+    return ""
+
+def normalize_search_queries(raw_queries, fallback_single: str = "") -> List[str]:
+    out = []
+    if isinstance(raw_queries, list):
+        for item in raw_queries:
+            s = str(item or "").strip()
+            if s and s not in out:
+                out.append(s)
+    elif isinstance(raw_queries, str) and raw_queries.strip():
+        for part in re.split(r"[|；;\n]+", raw_queries.strip()):
+            s = part.strip()
+            if s and s not in out:
+                out.append(s)
+    fb = str(fallback_single or "").strip()
+    if fb and fb not in out:
+        out.append(fb)
+    return out[:3]
+
+async def gather_omni_web_context(message: str, search_query = "", enable_search: bool = True) -> dict:
+    import asyncio as _aio
+    urls = extract_urls_from_text(message)
+    queries = normalize_search_queries(search_query)
+    msg_str = str(message or "").strip()
+    is_pure_time_ask = any(w in msg_str for w in ("现在几点", "几点了", "准确时间", "什么日期", "几月几号", "星期几", "哪一年")) and len(msg_str) <= 22 and not urls
+    if is_pure_time_ask:
+        queries = []
+    elif enable_search and not queries and not urls:
+        if any(w in msg_str for w in CHAT_SEARCH_TRIGGER_WORDS) and len(msg_str) <= 95:
+            q_clean = re.sub(r"^(请问|你知道|帮我查一下|帮我搜一下|查一下|搜一下|可以联网搜索吗|什么是|那你能不能给|帮我给)", "", msg_str).strip(" ？?！!。，,")
+            if len(q_clean) >= 2:
+                queries = [q_clean]
+
+    url_docs = []
+    for u in urls:
+        doc = await fetch_single_url_context(u)
+        if doc.get("content"):
+            url_docs.append(doc)
+
+    search_items = []
+    deep_supplement = ""
+    if enable_search and queries:
+        try:
+            tasks = [free_web_search_context(q_item, max_results=4) for q_item in queries[:3]]
+            batch_res = await _aio.wait_for(_aio.gather(*tasks, return_exceptions=True), timeout=5.2)
+            seen_keys = set()
+            for sub_list in batch_res:
+                if not isinstance(sub_list, list):
+                    continue
+                for it in sub_list:
+                    dedup_k = (it.get("url") or "") or (it.get("title") or "")
+                    if dedup_k and dedup_k not in seen_keys:
+                        seen_keys.add(dedup_k)
+                        search_items.append(it)
+        except Exception:
+            pass
+        if search_items:
+            deep_supplement = await light_deep_fetch_top_hit(search_items, " / ".join(queries), msg_str)
+
+    blocks = [current_beijing_time_banner()]
+    if url_docs:
+        for i, d in enumerate(url_docs, 1):
+            blocks.append(f"【用户提供的网页链接 #{i} 实时抓取内容】\n标题: {d['title']}\n链接: {d['url']}\n正文摘要: {d['content']}")
+    q_joined = " | ".join(queries)
+    if search_items:
+        lines = [f"【多维联网搜索（{q_joined}）共抓取 {len(search_items)} 条去重结果】"]
+        for i, it in enumerate(search_items[:10], 1):
+            lines.append(f"[{i}] 标题：{it['title']}\n    摘要：{it['snippet']}\n    来源：{it['url']}")
+        blocks.append("\n".join(lines))
+    if deep_supplement:
+        blocks.append(deep_supplement)
+
+    has_actual_web = bool(url_docs or search_items)
+    context_text = "\n\n".join(blocks).strip() if has_actual_web else ""
+    deep_tag = " + 深度内页" if deep_supplement else ""
+    q_label_short = q_joined[:42] + ("..." if len(q_joined) > 42 else "")
+    label = (
+        f"已读取网页实时内容 ({url_docs[0]['url'][:36]})"
+        if url_docs
+        else (f"已多维联网检索 {len(search_items)} 条网页{deep_tag} ({q_label_short})" if search_items else "")
+    )
+    return {
+        "has_web": has_actual_web,
+        "urls": [d["url"] for d in url_docs],
+        "query": q_joined if search_items else "",
+        "queries": queries if search_items else [],
+        "label": label,
+        "result_count": len(url_docs) + len(search_items),
+        "context_text": context_text,
+    }
+
+def router_history_message_text_only(item: dict):
+    """Strip heavy base64 images from prior history when feeding the intent router so text_only never chokes."""
+    if not isinstance(item, dict):
+        return None
+    role = item.get("role")
+    if role not in {"user", "assistant"}:
+        return None
+    if item.get("type") == "image":
+        reply_txt = item.get("agent_reply") or "已生成图片"
+        prompt_txt = item.get("content") or ""
+        img_url = item.get("image_url") or ""
+        return {"role": "assistant", "content": f"{reply_txt}\n[已生成图片: {img_url} | 画面描述: {prompt_txt[:300]}]"}
+    text = str(item.get("content") or "").strip()
+    attachments = item.get("attachments") or []
+    if attachments and role == "user":
+        att_names = [str(a.get("name") or a.get("url") or "附件") for a in attachments if isinstance(a, dict)]
+        return {"role": "user", "content": f"{text} [用户本轮曾上传参考附件: {', '.join(att_names[:3])}]".strip()}
+    if not text:
+        return None
+    return {"role": role, "content": text[:1200]}
+
 def parse_agent_decision(raw_text, message, refs, has_previous_image):
     text = str(raw_text or "").strip()
     data = None
@@ -12648,15 +12989,26 @@ def parse_agent_decision(raw_text, message, refs, has_previous_image):
         action = heuristic["action"]
     prompt = str(data.get("prompt") or message).strip() or message
     reply = str(data.get("reply") or "").strip()
+    raw_sq = data.get("search_queries") or data.get("search_query") or ""
+    queries_list = normalize_search_queries(raw_sq)
+    search_query = queries_list[0] if queries_list else ""
     try:
         target_image_index = int(data.get("target_image_index", -1))
     except Exception:
         target_image_index = -1
     raw_tb = data.get("transparent_background")
-    tb_flag = bool(raw_tb) if isinstance(raw_tb, bool) else (str(raw_tb or "").strip().lower() in {"true", "1", "yes"})
+    tb_flag = chat_wants_transparent_bg(message)
     if action == "edit_image" and not (refs or has_previous_image):
         action = "generate_image" if any(key.lower() in str(message).lower() for key in AGENT_IMAGE_KEYWORDS) else "chat"
-    return {"action": action, "prompt": prompt, "reply": reply, "target_image_index": target_image_index, "transparent_background": tb_flag}
+    return {
+        "action": action,
+        "prompt": prompt,
+        "reply": reply,
+        "target_image_index": target_image_index,
+        "transparent_background": tb_flag,
+        "search_query": search_query,
+        "search_queries": queries_list,
+    }
 
 CHAT_TRANSPARENT_BG_PATTERNS = (
     "透明底", "透明背景", "透明通道", "透明png", "png透明", "阿尔法通道", "阿尔法png",
@@ -12691,17 +13043,18 @@ async def decide_chat_agent_action(payload, conversation, refs):
         "你是温暖贴心的全能聊天与图片创作 AI 助手路由器。只返回 JSON，不要 Markdown。\n"
         "action 只能是 chat、generate_image、edit_image。\n"
         "chat: 普通日常闲聊、情感陪伴或问答，不需要画图。\n"
-        "generate_image: 用户要求生成、绘制、创建全新图片。\n"
+        "generate_image: 用户要求生成、绘制、创建全新图片或海报。\n"
         "edit_image: 用户要求修改参考图、历史生成的某张图，或上传了参考图要求基于它变化。\n"
-        "prompt: 当生图或改图时，写出交给生图模型的完整、细腻中文画面描述；若为 edit_image，必须明确写出保留原图哪些主体/背景特征以及具体修改细节。\n"
-        "reply: 当 action 为 generate_image 或 edit_image 时，必须用温柔、自然、像朋友陪聊一样的语气先回应用户（1~2句话，例如：'看你这么无聊，我给你画一只趴在阳光下打哈欠的小橘猫陪你发呆好不好～'），绝不要空着或只写冷冰冰的状态词！\n"
-        "target_image_index: 当 action 为 edit_image 且未新传参考图时，指定要基于历史第几张图修改（整数：1 表示第1张原图，2 表示第2张，-1 表示最新一张图。若用户说'不要刚才的改动/回到第一张/用最开始那张改'则填 1，若顺着上一张继续加东西则填 -1）。\n"
-        "transparent_background: 布尔值(true/false)，当用户要求透明底、透明背景、透明PNG、阿尔法(Alpha)通道或免抠贴纸素材时设为 true，否则设为 false。"
+        "prompt: 当生图或改图时，务必结合前文对话已知背景写出交给生图模型的完整、细腻、极具画面感的中文视觉描述（至少80~180字，严禁只复读用户的简短原话！）；若为 edit_image，必须明确写出保留原图哪些主体/背景特征以及具体修改细节。提交提示词结尾必须附带：\n负向提示词：\n模糊，低清，噪点，脏污，过曝，色彩失真，多余物体，杂乱背景，噪点背景，畸形，变形，手部错误，乱码，错别字，重复文字\n"
+        "reply: 当 action 为 generate_image 或 edit_image 时，必须用温柔、自然、像朋友陪聊一样的语气先回应用户（1~2句话），绝不要空着！\n"
+        "target_image_index: 当 action 为 edit_image 且未新传参考图时，指定要基于历史第几张图修改（整数：1 表示第1张原图，-1 表示最新一张图）。\n"
+        "transparent_background: 布尔值(true/false)，当用户要求透明底、透明背景、透明PNG或免抠素材时设为 true，否则设为 false。\n"
+        "search_queries: 字符串数组（1~3个不同维度的搜索词）。无论是普通问答(chat)还是画图(generate_image/edit_image)，只要涉及具体公司/品牌/产品（如畅指公司宣传海报）、新游戏/动漫角色设定、实时资讯或对比查询，请拆解出 1~3 个互补的搜索引擎关键词以便系统并发检索真实设定；仅在纯打招呼或单纯修改已有画面细节时设为空数组 []。"
     )
     upstream_messages = [{"role": "system", "content": system}]
     prior_history = history[:-1] if (history and history[-1].get("role") == "user") else history
-    for item in prior_history[-10:]:
-        msg = upstream_message_from_record(item)
+    for item in prior_history[-24:]:
+        msg = router_history_message_text_only(item)
         if msg:
             upstream_messages.append(msg)
 
@@ -12710,7 +13063,7 @@ async def decide_chat_agent_action(payload, conversation, refs):
         f"用户设置的系统提示词：{custom_system_prompt or '无'}\n"
         f"本次上传参考图数量：{len(refs)}\n"
         f"对话中已生成的历史图片列表（共 {len(all_hist_imgs)} 张）：\n{hist_img_summary}\n"
-        "请只返回 JSON，格式：{\"action\":\"chat|generate_image|edit_image\",\"prompt\":\"...\",\"reply\":\"温暖自然的陪聊回应\",\"target_image_index\":-1,\"transparent_background\":false}"
+        '请只返回 JSON，格式：{"action":"chat|generate_image|edit_image","prompt":"完整细腻画面描述","reply":"温暖自然的陪聊回应","target_image_index":-1,"transparent_background":false,"search_queries":["关键词1","关键词2"]}'
     )
 
     visual_refs_to_inspect = list(refs[:2]) if refs else ([all_hist_imgs[-1]] if all_hist_imgs else [])
@@ -12743,34 +13096,78 @@ async def decide_chat_agent_action(payload, conversation, refs):
             attempt_queues.append(("text_retry", upstream_messages_text_only))
 
         last_err = None
-        async with httpx.AsyncClient(timeout=AI_REQUEST_TIMEOUT) as client:
-            for mode_tag, msgs_payload in attempt_queues:
-                try:
-                    req_body = {"model": model, "messages": msgs_payload}
-                    if is_apimart_provider(provider_cfg):
-                        req_body["stream"] = False
-                    response = await client.post(
-                        f"{chat_base}/chat/completions",
-                        headers=chat_hdrs,
-                        json=req_body,
-                    )
-                    response.raise_for_status()
-                    raw = response.json()
-                    raw_reply_text = text_from_chat_response(raw)
-                    if not str(raw_reply_text or "").strip():
-                        raise ValueError("empty router response text")
-                    decision = parse_agent_decision(raw_reply_text, payload.message, refs, has_previous_image)
-                    decision["router_model"] = f"{model} ({mode_tag})"
-                    return decision
-                except Exception as inner_exc:
-                    last_err = inner_exc
-                    print(f"[chat-agent] router attempt '{mode_tag}' with {model} failed: {inner_exc}")
-                    continue
+        for trust_env_flag in (False, True):
+            async with httpx.AsyncClient(timeout=25.0, trust_env=trust_env_flag) as client:
+                for mode_tag, msgs_payload in attempt_queues:
+                    try:
+                        req_body = {"model": model, "messages": msgs_payload}
+                        if is_apimart_provider(provider_cfg):
+                            req_body["stream"] = False
+                        response = await client.post(
+                            f"{chat_base}/chat/completions",
+                            headers=chat_hdrs,
+                            json=req_body,
+                        )
+                        response.raise_for_status()
+                        raw = response.json()
+                        raw_reply_text = text_from_chat_response(raw)
+                        if not str(raw_reply_text or "").strip():
+                            raise ValueError("empty router response text")
+                        decision = parse_agent_decision(raw_reply_text, payload.message, refs, has_previous_image)
+                        decision["router_model"] = f"{model} ({mode_tag})"
+                        return decision
+                    except Exception as inner_exc:
+                        last_err = inner_exc
+                        print(f"[chat-agent] router attempt '{mode_tag}' (trust_env={trust_env_flag}) with {model} failed: {repr(inner_exc)}")
+                        continue
         raise last_err or RuntimeError("all router attempts failed")
     except Exception as exc:
         print(f"[chat-agent] intent router final fallback after retries: {exc}")
         fallback["router_model"] = "router-fallback"
         return fallback
+
+async def refine_image_prompt_with_web(payload, user_message_str: str, draft_prompt: str, web_context_text: str, action: str) -> str:
+    """When web_search is enabled for image generation, enrich the image prompt with real retrieved facts."""
+    if not web_context_text or not str(web_context_text).strip():
+        return draft_prompt
+    try:
+        provider_cfg = get_api_provider(payload.provider) if payload.provider not in ("modelscope",) else {}
+        if is_codex_provider(provider_cfg) or is_gemini_cli_provider(provider_cfg):
+            return draft_prompt
+        chat_base, chat_hdrs, model = resolve_chat_provider(payload.provider, payload.model, payload.ms_model)
+        sys_p = (
+            "你是顶级商业视觉导演与 AI 绘画提示词专家。系统刚刚通过联网检索获取了用户所提主体/品牌/角色的真实背景设定。\n"
+            "请将【联网检索到的真实产品/品牌/角色特征/核心卖点】与【用户的生图要求】深度融合，输出一段直接交给生图模型的完整、细腻、极具视觉冲击力的中文画面描述（120~260字）。\n"
+            "要求：1. 必须把检索到的具体产品名、业务场景、标志性视觉元素或角色外貌特征转化为具体的画面构图、光影、配色与排版文字；2. 只输出最终的生图提示词纯文本，不要任何解释、前缀或引号；3. 提交提示词结尾必须附带：\n负向提示词：\n模糊，低清，噪点，脏污，过曝，色彩失真，多余物体，杂乱背景，噪点背景，畸形，变形，手部错误，乱码，错别字，重复文字"
+        )
+        usr_p = (
+            f"【用户原始要求】：{user_message_str}\n"
+            f"【初步画面草稿】：{draft_prompt}\n"
+            f"【实时联网检索到的真实背景设定】：\n{web_context_text[:2600]}\n\n"
+            "请直接输出融合真实设定后的完整中文生图提示词："
+        )
+        req_body = {
+            "model": model,
+            "messages": [
+                {"role": "system", "content": sys_p},
+                {"role": "user", "content": usr_p},
+            ],
+        }
+        if is_apimart_provider(provider_cfg):
+            req_body["stream"] = False
+        for trust_env_flag in (False, True):
+            try:
+                async with httpx.AsyncClient(timeout=18.0, trust_env=trust_env_flag) as client:
+                    resp = await client.post(f"{chat_base}/chat/completions", headers=chat_hdrs, json=req_body)
+                    resp.raise_for_status()
+                    refined = str(text_from_chat_response(resp.json()) or "").strip()
+                    if len(refined) >= 30:
+                        return refined
+            except Exception:
+                continue
+    except Exception as exc:
+        print(f"[chat-agent] refine_image_prompt_with_web skipped: {exc}")
+    return draft_prompt
 
 async def build_chat_text_reply(payload, conversation):
     provider_cfg = get_api_provider(payload.provider) if payload.provider not in ("modelscope",) else {}
@@ -18980,7 +19377,7 @@ async def chat_agent(payload: ChatRequest, request: Request, x_user_id: str = He
         image_size = snap_size_to_multiple(prompt_size or inherited_size or payload.size, 16)
         requested_count = 1 if action == "edit_image" else chat_requested_image_count(payload.message)
         prompts = chat_split_parallel_prompts(prompt, requested_count)
-        want_transparent = bool(getattr(payload, "transparent_background", False)) or bool(decision.get("transparent_background")) or chat_wants_transparent_bg(payload.message, prompt)
+        want_transparent = bool(getattr(payload, "transparent_background", False)) or chat_wants_transparent_bg(payload.message)
         local_urls = []
         raw_items = []
         try:
@@ -19061,26 +19458,60 @@ async def chat_stream(payload: ChatRequest, request: Request, x_user_id: str = H
     save_conversation(user_id, conversation)
 
     if payload.mode == "agent":
-        image_refs = image_references(refs)
-        decision = await decide_chat_agent_action(payload, conversation, image_refs)
-        action = decision.get("action") or "chat"
-        tool_refs = image_refs[:]
-        inherited_size = ""
-        if action == "edit_image" and not tool_refs:
-            target_idx = decision.get("target_image_index", -1)
-            tool_refs = pick_chat_image_ref_by_index(conversation, target_idx)
-            inherited_size = image_size_from_reference(tool_refs[0]) if tool_refs else ""
-        if action == "edit_image" and not tool_refs:
-            action = "generate_image"
+        async def unified_omni_stream():
+            import asyncio
+            yield sse_event({"type": "meta", "conversation": conversation})
+            image_refs = image_references(refs)
+            enable_web = bool(getattr(payload, "web_search", True))
+            msg_now_str = str(payload.message or "").strip()
 
-        if action in {"generate_image", "edit_image"}:
-            async def agent_image_stream():
-                import asyncio
-                yield sse_event({"type": "meta", "conversation": conversation})
+            decision = await decide_chat_agent_action(payload, conversation, image_refs)
+            action = decision.get("action") or "chat"
+            router_queries = decision.get("search_queries") or normalize_search_queries(decision.get("search_query") or "")
+
+            # If web_search is ON and user asks to generate an image about a topic/entity, ensure we search even if router forgot search_queries
+            if enable_web and action in {"generate_image", "edit_image"} and not router_queries:
+                is_pure_local_edit = (action == "edit_image") and not any(w in msg_now_str for w in ("公司", "品牌", "官网", "海报", "风格", "百科", "是什么"))
+                if not is_pure_local_edit and len(msg_now_str) >= 4:
+                    clean_topic = re.sub(r"(重新|再|换个|换一张|这个不是很好看|不好看|不太好看|请|帮我|能不能|可以|生成一张|画一张|做一张|制作一张|生成|绘制|16[:：]9|9[:：]16|1[:：]1|4[kK]|2[kK]|超清|高清|的|吧|吗|呢|[，,。！!？?])", " ", msg_now_str)
+                    clean_topic = re.sub(r"\s+", " ", clean_topic).strip()
+                    if len(clean_topic) >= 2:
+                        router_queries = [f"{clean_topic} 简介 核心产品 视觉特征"]
+
+            is_pure_time_now = any(w in msg_now_str for w in ("现在几点", "几点了", "准确时间", "什么日期", "几月几号", "星期几", "哪一年")) and len(msg_now_str) <= 22 and not extract_urls_from_text(msg_now_str)
+            web_info = {"has_web": False}
+            if enable_web and not is_pure_time_now:
+                has_url_now = bool(extract_urls_from_text(msg_now_str))
+                if has_url_now or router_queries or (action == "chat" and any(w in msg_now_str for w in CHAT_SEARCH_TRIGGER_WORDS)):
+                    q_preview = " | ".join(router_queries) if router_queries else "网页链接解析"
+                    yield sse_event({"type": "web_searching", "query": q_preview, "urls": extract_urls_from_text(msg_now_str)})
+                    try:
+                        web_info = await gather_omni_web_context(msg_now_str, search_query=router_queries, enable_search=enable_web)
+                    except Exception as _w_exc:
+                        print(f"[chat-web] gather failed: {_w_exc}")
+                    if web_info.get("has_web"):
+                        yield sse_event({
+                            "type": "web_search_done",
+                            "query": web_info.get("query") or "",
+                            "urls": web_info.get("urls") or [],
+                            "label": web_info.get("label") or "",
+                            "count": web_info.get("result_count") or 0,
+                        })
+
+            tool_refs = image_refs[:]
+            inherited_size = ""
+            if action == "edit_image" and not tool_refs:
+                target_idx = decision.get("target_image_index", -1)
+                tool_refs = pick_chat_image_ref_by_index(conversation, target_idx)
+                inherited_size = image_size_from_reference(tool_refs[0]) if tool_refs else ""
+            if action == "edit_image" and not tool_refs:
+                action = "generate_image"
+
+            if action in {"generate_image", "edit_image"}:
                 reply_text = (decision.get("reply") or "").strip() or (
                     f"好呀，我这就基于第 #{tool_refs[0].get('index', 1)} 张图帮你修改～"
                     if (action == "edit_image" and tool_refs and tool_refs[0].get("index"))
-                    else "好呀，我这就帮你画出来～"
+                    else "好呀，我已经了解清楚相关设定，这就为你精心绘制～"
                 )
                 for i in range(0, len(reply_text), 3):
                     yield sse_event({"type": "delta", "delta": reply_text[i:i+3]})
@@ -19089,16 +19520,21 @@ async def chat_stream(payload: ChatRequest, request: Request, x_user_id: str = H
                 image_provider = pick_chat_image_provider(payload.image_provider or payload.provider, payload.provider)
                 default_model = (image_provider.get("image_models") or [IMAGE_MODEL])[0]
                 img_model = selected_model(payload.image_model or default_model, default_model)
-                prompt = decision.get("prompt") or payload.message
+                draft_prompt = decision.get("prompt") or payload.message
+                if web_info.get("has_web"):
+                    prompt = await refine_image_prompt_with_web(payload, msg_now_str, draft_prompt, web_info.get("context_text") or "", action)
+                else:
+                    prompt = draft_prompt
+
                 prompt_size = chat_prompt_size_override(payload.message, payload.size) or chat_prompt_size_override(prompt, payload.size)
                 image_size = snap_size_to_multiple(prompt_size or inherited_size or payload.size, 16)
                 requested_count = 1 if action == "edit_image" else chat_requested_image_count(payload.message)
                 prompts = chat_split_parallel_prompts(prompt, requested_count)
-                want_transparent = bool(getattr(payload, "transparent_background", False)) or bool(decision.get("transparent_background")) or chat_wants_transparent_bg(payload.message, prompt)
+                want_transparent = bool(getattr(payload, "transparent_background", False)) or chat_wants_transparent_bg(payload.message)
                 base_ref_label = (
                     f"基于第 #{tool_refs[0]['index']} 张图修改"
                     if (action == "edit_image" and tool_refs and tool_refs[0].get("index"))
-                    else ("基于参考图修改" if (action == "edit_image" and tool_refs) else "全新绘制")
+                    else ("基于参考图修改" if (action == "edit_image" and tool_refs) else ("联网设定绘制" if web_info.get("has_web") else "全新绘制"))
                 )
                 ref_label = f"{base_ref_label} (透明PNG)" if want_transparent else base_ref_label
                 yield sse_event({
@@ -19155,14 +19591,86 @@ async def chat_stream(payload: ChatRequest, request: Request, x_user_id: str = H
                     "agent_action": action,
                     "agent_reply": reply_text,
                     "used_references": tool_refs,
+                    "web_search_label": (web_info.get("label") or "") if web_info.get("has_web") else "",
                     "raw_usage": raw_items[0].get("usage") if raw_items and isinstance(raw_items[0], dict) else None,
                 }
                 conversation["messages"].append(assistant_message)
                 conversation["updated_at"] = now_ms()
                 save_conversation(user_id, conversation)
                 yield sse_event({"type": "done", "conversation": conversation, "message": assistant_message, "agent": {"action": action, "decision": decision}})
+                return
 
-            return StreamingResponse(agent_image_stream(), media_type="text/event-stream")
+            # Otherwise action == "chat" inside unified_omni_stream
+            chat_base, chat_hdrs, model = resolve_chat_provider(payload.provider, payload.model, payload.ms_model)
+            _stream_provider = get_api_provider(payload.provider) if payload.provider not in ("modelscope",) else {}
+            history = conversation["messages"][-MAX_HISTORY_MESSAGES:]
+            base_sys_prompt = chat_system_prompt(payload)
+            sys_content = base_sys_prompt
+            if web_info.get("has_web"):
+                sys_content = (
+                    f"{base_sys_prompt}\n\n"
+                    "【系统已为你实时多维联网检索并抓取以下网页/内页资料，请直接结合这些真实资料与系统实时基准时钟准确回答用户，严禁再说自己不能联网或看不到链接！】\n"
+                    f"{web_info['context_text']}"
+                )
+            upstream_messages = [{"role": "system", "content": sys_content}]
+            for item in history:
+                msg = upstream_message_from_record(item)
+                if msg:
+                    upstream_messages.append(msg)
+
+            content_parts = []
+            raw_usage = None
+            try:
+                async with httpx.AsyncClient(timeout=AI_REQUEST_TIMEOUT) as client:
+                    async with client.stream(
+                        "POST",
+                        f"{chat_base}/chat/completions",
+                        headers=chat_hdrs,
+                        json={"model": model, "messages": upstream_messages, "stream": True},
+                    ) as response:
+                        if response.status_code >= 400:
+                            detail = await response.aread()
+                            body = detail.decode("utf-8", errors="ignore")
+                            friendly = friendly_chat_error_detail(body, model, _stream_provider)
+                            yield sse_event({"type": "error", "detail": friendly or f"上游接口错误：{body}"})
+                            return
+                        async for line in response.aiter_lines():
+                            if not line:
+                                continue
+                            if line.startswith("data:"):
+                                line = line[5:].strip()
+                            if line == "[DONE]":
+                                break
+                            try:
+                                chunk = json.loads(line)
+                            except json.JSONDecodeError:
+                                continue
+                            if isinstance(chunk, dict) and chunk.get("usage"):
+                                raw_usage = chunk.get("usage")
+                            delta = text_delta_from_chat_chunk(chunk)
+                            if delta:
+                                content_parts.append(delta)
+                                yield sse_event({"type": "delta", "delta": delta})
+            except httpx.HTTPError as exc:
+                log_net_error("对话(流式) 网络/TLS错误", exc)
+                yield sse_event({"type": "error", "detail": f"请求上游接口失败：{exc}"})
+                return
+
+            assistant_message = {
+                "id": uuid.uuid4().hex,
+                "role": "assistant",
+                "content": "".join(content_parts).strip() or "接口返回了空回复。",
+                "created_at": now_ms(),
+                "model": model,
+                "raw_usage": raw_usage,
+                "web_search_label": (web_info.get("label") or "") if web_info.get("has_web") else "",
+            }
+            conversation["messages"].append(assistant_message)
+            conversation["updated_at"] = now_ms()
+            save_conversation(user_id, conversation)
+            yield sse_event({"type": "done", "conversation": conversation, "message": assistant_message})
+
+        return StreamingResponse(unified_omni_stream(), media_type="text/event-stream")
 
     _codex_provider = get_api_provider(payload.provider)
     if is_codex_provider(_codex_provider):
@@ -19224,16 +19732,44 @@ async def chat_stream(payload: ChatRequest, request: Request, x_user_id: str = H
     chat_base, chat_hdrs, model = resolve_chat_provider(payload.provider, payload.model, payload.ms_model)
     _stream_provider = get_api_provider(payload.provider) if payload.provider not in ("modelscope",) else {}
     history = conversation["messages"][-MAX_HISTORY_MESSAGES:]
-    upstream_messages = [{"role": "system", "content": chat_system_prompt(payload)}]
-    for item in history:
-        msg = upstream_message_from_record(item)
-        if msg:
-            upstream_messages.append(msg)
+    base_sys_prompt = chat_system_prompt(payload)
+    enable_web = bool(getattr(payload, "web_search", True))
 
     async def stream():
         content_parts = []
         raw_usage = None
         yield sse_event({"type": "meta", "conversation": conversation})
+        web_info = {"has_web": False}
+        msg_now_str = str(payload.message or "").strip()
+        is_pure_time_now = any(w in msg_now_str for w in ("现在几点", "几点了", "准确时间", "什么日期", "几月几号", "星期几", "哪一年")) and len(msg_now_str) <= 22 and not extract_urls_from_text(msg_now_str)
+        if enable_web and not is_pure_time_now:
+            has_url_now = bool(extract_urls_from_text(msg_now_str))
+            if has_url_now or any(w in msg_now_str for w in CHAT_SEARCH_TRIGGER_WORDS):
+                yield sse_event({"type": "web_searching", "query": "网页与联网检索", "urls": extract_urls_from_text(msg_now_str)})
+                try:
+                    web_info = await gather_omni_web_context(msg_now_str, search_query="", enable_search=enable_web)
+                except Exception as _w_exc:
+                    print(f"[chat-web] gather failed: {_w_exc}")
+                if web_info.get("has_web"):
+                    yield sse_event({
+                        "type": "web_search_done",
+                        "query": web_info.get("query") or "",
+                        "urls": web_info.get("urls") or [],
+                        "label": web_info.get("label") or "",
+                        "count": web_info.get("result_count") or 0,
+                    })
+        sys_content = base_sys_prompt
+        if web_info.get("has_web"):
+            sys_content = (
+                f"{base_sys_prompt}\n\n"
+                "【系统已为你实时联网检索并抓取以下网页/搜索资料，请直接结合这些真实资料与系统实时基准时钟准确回答用户，严禁再说自己不能联网或看不到链接！】\n"
+                f"{web_info['context_text']}"
+            )
+        upstream_messages = [{"role": "system", "content": sys_content}]
+        for item in history:
+            msg = upstream_message_from_record(item)
+            if msg:
+                upstream_messages.append(msg)
         try:
             async with httpx.AsyncClient(timeout=AI_REQUEST_TIMEOUT) as client:
                 async with client.stream(
@@ -19277,6 +19813,7 @@ async def chat_stream(payload: ChatRequest, request: Request, x_user_id: str = H
             "created_at": now_ms(),
             "model": model,
             "raw_usage": raw_usage,
+            "web_search_label": (web_info.get("label") or "") if web_info.get("has_web") else "",
         }
         conversation["messages"].append(assistant_message)
         conversation["updated_at"] = now_ms()

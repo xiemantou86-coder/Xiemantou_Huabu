@@ -16,13 +16,13 @@
             } catch(e) {}
         })();
     </script>
-    <script src="/static/vendor/js/tailwindcss-cdn.js?v=%EF%BB%BF2026.10.18_1.1791960842"></script>
-    <script src="/static/vendor/js/lucide.js?v=%EF%BB%BF2026.10.18_1.1791960842"></script>
-    <script src="/static/js/theme.js?v=%EF%BB%BF2026.10.18_1.1791960804"></script>
-    <script src="/static/js/i18n.js?v=%EF%BB%BF2026.10.18_1.1791960792"></script>
-    <link rel="stylesheet" href="/static/css/theme.css?v=%EF%BB%BF2026.10.18_1.1791960773">
+    <script src="/static/vendor/js/tailwindcss-cdn.js?v=%EF%BB%BF2026.10.18_2.1791960842"></script>
+    <script src="/static/vendor/js/lucide.js?v=%EF%BB%BF2026.10.18_2.1791960842"></script>
+    <script src="/static/js/theme.js?v=%EF%BB%BF2026.10.18_2.1791960804"></script>
+    <script src="/static/js/i18n.js?v=%EF%BB%BF2026.10.18_2.1791960792"></script>
+    <link rel="stylesheet" href="/static/css/theme.css?v=%EF%BB%BF2026.10.18_2.1791960773">
     <style>
-        @import url('/static/vendor/css/fonts.css?v=%EF%BB%BF2026.10.18_1.1791960830');
+        @import url('/static/vendor/css/fonts.css?v=%EF%BB%BF2026.10.18_2.1791960830');
         :root {
             --ease:cubic-bezier(.4,0,.2,1);
             --chat-bg:#eef2f6;
@@ -151,6 +151,11 @@
         .gen-use-ref-btn { position:absolute; bottom:8px; right:8px; padding:5px 11px; border-radius:999px; background:rgba(15,23,42,.78); color:#f8fafc; font-size:11px; font-weight:850; backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,.22); display:inline-flex; align-items:center; gap:5px; opacity:0; transform:translateY(3px); transition:all .18s var(--ease); z-index:3; box-shadow:0 6px 16px rgba(0,0,0,.25); }
         .gen-card-wrap:hover .gen-use-ref-btn { opacity:1; transform:translateY(0); }
         .gen-use-ref-btn:hover { background:#0284c7; border-color:#7dd3fc; color:#fff; }
+        .omni-web-pill { margin-bottom:8px; display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; background:rgba(14,165,233,.1); border:1px solid rgba(14,165,233,.28); color:#0284c7; font-size:11.5px; font-weight:750; }
+        .theme-dark .omni-web-pill { background:rgba(56,189,248,.14); border-color:rgba(56,189,248,.35); color:#7dd3fc; }
+        .web-toggle-btn { height:32px; padding:0 11px; border-radius:999px; border:1px solid var(--chat-line); background:var(--chat-panel); color:var(--chat-muted); font-size:11.5px; font-weight:800; display:inline-flex; align-items:center; gap:5px; transition:all .16s var(--ease); }
+        .web-toggle-btn.active { background:rgba(14,165,233,.12); border-color:rgba(14,165,233,.45); color:#0284c7; }
+        .theme-dark .web-toggle-btn.active { background:rgba(56,189,248,.16); border-color:rgba(56,189,248,.45); color:#38bdf8; }
         .omni-img-loader { margin-top:10px; min-width:260px; max-width:420px; padding:14px 16px; border-radius:14px; background:var(--chat-panel-2); border:1px dashed var(--chat-line-2); display:flex; align-items:center; gap:12px; animation:popIn .2s var(--ease); }
         .omni-spinner { width:18px; height:18px; border-radius:50%; border:2.2px solid var(--chat-line-2); border-top-color:#0ea5e9; animation:omniSpin .85s linear infinite; flex:0 0 auto; }
         .omni-loader-info { min-width:0; flex:1; display:flex; flex-direction:column; gap:3px; }
@@ -540,6 +545,9 @@
                                     <input id="attachmentInput" class="file-input" type="file" multiple onchange="uploadFiles(this.files); this.value='';">
                                     <button type="button" class="upload-btn" onclick="document.getElementById('attachmentInput')?.click()" title="上传附件" aria-label="上传附件">
                                         <i data-lucide="paperclip"></i>
+                                    </button>
+                                    <button id="webSearchToggleBtn" type="button" class="web-toggle-btn active" onclick="toggleWebSearch()" title="开启/关闭实时联网搜索与链接读取">
+                                        <span>🌐 联网:开</span>
                                     </button>
                                     <div id="modelPicker" class="model-picker">
                                         <button id="modelPickerBtn" class="model-picker-button" onclick="event.stopPropagation();toggleModelPicker()" title="选择平台和模型">
@@ -1414,6 +1422,12 @@
             bubble.className = `bubble ${msg.role === 'user' ? 'user' : 'assistant'}`;
             const imageUrls = Array.isArray(msg.image_urls) && msg.image_urls.length ? msg.image_urls : (msg.image_url ? [msg.image_url] : []);
             if(imageUrls.length) bubble.classList.add('image-bubble');
+            if(msg.web_search_label){
+                const pill = document.createElement('div');
+                pill.className = 'omni-web-pill';
+                pill.textContent = `🌐 ${msg.web_search_label}`;
+                bubble.appendChild(pill);
+            }
             const text = document.createElement('div');
             text.textContent = msg.type === 'image' ? (msg.agent_reply || tr('chat.generated')) : (msg.content || '');
             text.className = 'bubble-text';
@@ -1575,6 +1589,19 @@
             body.classList.toggle('has-overflow', body.scrollHeight > body.clientHeight + 2);
         }
         function autoGrow(el){ el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 150) + 'px'; updateComposerOverflow(); }
+        window.enableOmniWebSearch = localStorage.getItem('gpt_chat_web_search') !== '0';
+        function syncWebSearchBtn(){
+            const b = document.getElementById('webSearchToggleBtn');
+            if(!b) return;
+            b.classList.toggle('active', window.enableOmniWebSearch !== false);
+            b.innerHTML = window.enableOmniWebSearch !== false ? '<span>🌐 联网:开</span>' : '<span>🌐 联网:关</span>';
+        }
+        function toggleWebSearch(){
+            window.enableOmniWebSearch = !(window.enableOmniWebSearch !== false);
+            localStorage.setItem('gpt_chat_web_search', window.enableOmniWebSearch ? '1' : '0');
+            syncWebSearchBtn();
+        }
+        setTimeout(syncWebSearchBtn, 50);
         function handleKey(e){ if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); sendMessage(); } }
         window.addEventListener('keydown', e => {
             if(e.key === 'Escape') closeImagePreview();
@@ -1713,6 +1740,7 @@
                     image_model: activeImageModel || config.image_model,
                     provider: currentProvider,
                     image_provider: activeImageProvider,
+                    web_search: window.enableOmniWebSearch !== false,
                     reference_images: pendingRefs
                 })
             });
@@ -1736,6 +1764,28 @@
                             currentConversation = event.conversation;
                             rememberConversation(currentConversation.id);
                             setChatTitle(currentConversation.title);
+                        }
+                        if(event.type === 'web_searching'){
+                            let pill = assistantBubble.bubble.querySelector('.omni-web-pill');
+                            if(!pill){
+                                pill = document.createElement('div');
+                                pill.className = 'omni-web-pill';
+                                assistantBubble.bubble.insertBefore(pill, assistantBubble.text);
+                            }
+                            const qLabel = (event.urls && event.urls.length) ? `正在读取网页链接 (${event.urls[0].slice(0, 36)}...)` : `正在联网检索：${event.query || ''}`;
+                            pill.textContent = `🌐 ${qLabel}`;
+                            scrollBottom();
+                        }
+                        if(event.type === 'web_search_done'){
+                            let pill = assistantBubble.bubble.querySelector('.omni-web-pill');
+                            if(!pill){
+                                pill = document.createElement('div');
+                                pill.className = 'omni-web-pill';
+                                assistantBubble.bubble.insertBefore(pill, assistantBubble.text);
+                            }
+                            const doneLabel = event.label || ((event.urls && event.urls.length) ? `已读取网页实时内容` : `已参考联网检索 (${event.query || '实时资料'})`);
+                            pill.textContent = `🌐 ${doneLabel}`;
+                            scrollBottom();
                         }
                         if(event.type === 'delta'){
                             fullText += event.delta || '';
