@@ -83,6 +83,8 @@ const rhAppsCount = document.getElementById('rhAppsCount');
 const rhWorkflowsCount = document.getElementById('rhWorkflowsCount');
 const settingsContent = document.getElementById('settingsContent');
 const recommendContent = document.getElementById('recommendContent');
+const omniContent = document.getElementById('omniContent');
+const omniStatus = document.getElementById('omniStatus');
 const recommendPanel = document.getElementById('recommendPanel');
 const providerOnboardingCard = document.getElementById('providerOnboardingCard');
 const rhWorkflowEditorOverlay = document.getElementById('rhWorkflowEditorOverlay');
@@ -2237,8 +2239,9 @@ function closeRecommendApi(){
     renderEditor();
 }
 function syncRecommendView(){
-    if(settingsContent) settingsContent.hidden = recommendInlineOpen;
-    if(recommendContent) recommendContent.hidden = !recommendInlineOpen;
+    const omniOpen = Boolean(omniContent && !omniContent.hidden);
+    if(settingsContent) settingsContent.hidden = recommendInlineOpen || omniOpen;
+    if(recommendContent) recommendContent.hidden = !recommendInlineOpen || omniOpen;
     const recommendTitle = recommendContent?.querySelector('.editor-title');
     const recommendSub = recommendContent?.querySelector('.editor-sub');
     if(recommendTitle) recommendTitle.textContent = tr('api.recommendPanelTitle');
@@ -4068,3 +4071,155 @@ function copyAiExtractionPrompt(){
         prompt('请手动全选复制以下提示词：', prompt);
     });
 }
+
+
+// ==================== Omni 设置（博查 / SauceNAO） ====================
+let omniLoaded = false;
+
+function omniSetStatus(text, kind){
+    const el = document.getElementById('omniStatus');
+    if(!el) return;
+    el.textContent = text || '';
+    el.className = 'status' + (kind ? ' ' + kind : '');
+}
+
+async function openOmniSettings(){
+    if(recommendInlineOpen){
+        recommendInlineOpen = false;
+        syncRecommendView();
+    }
+    if(!omniContent) return;
+    omniContent.hidden = false;
+    if(settingsContent) settingsContent.hidden = true;
+    if(recommendContent) recommendContent.hidden = true;
+    document.body.classList.add('show-omni-mode');
+    omniSetStatus('正在读取配置…');
+    await loadOmniSettings();
+}
+
+function closeOmniSettings(){
+    if(omniContent) omniContent.hidden = true;
+    document.body.classList.remove('show-omni-mode');
+    if(settingsContent) settingsContent.hidden = false;
+    syncRecommendView();
+    renderEditor();
+}
+
+async function loadOmniSettings(){
+    try{
+        const res = await fetch('/api/omni-settings', {cache:'no-store'});
+        if(!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        const b = data.bocha || {};
+        const s = data.saucenao || {};
+
+        const bochaKey = document.getElementById('omniBochaKey');
+        const bochaHint = document.getElementById('omniBochaKeyHint');
+        if(bochaKey) bochaKey.value = '';
+        if(bochaHint){
+            bochaHint.textContent = b.has_key
+                ? ('已配置：' + (b.key_preview || '****') + '（留空不修改）')
+                : '未配置';
+        }
+
+        const bochaEnabled = document.getElementById('omniBochaEnabled');
+        if(bochaEnabled) bochaEnabled.value = b.enabled ? '1' : '0';
+
+        const bochaCount = document.getElementById('omniBochaCount');
+        if(bochaCount) bochaCount.value = b.count || 10;
+
+        const bochaSummary = document.getElementById('omniBochaSummary');
+        if(bochaSummary) bochaSummary.value = b.summary ? '1' : '0';
+
+        const bochaEndpoint = document.getElementById('omniBochaEndpoint');
+        if(bochaEndpoint) bochaEndpoint.value = b.endpoint || '';
+
+        const bochaClear = document.getElementById('omniBochaClear');
+        if(bochaClear) bochaClear.checked = false;
+
+        const sauceKey = document.getElementById('omniSauceKey');
+        const sauceHint = document.getElementById('omniSauceKeyHint');
+        if(sauceKey) sauceKey.value = '';
+        if(sauceHint){
+            sauceHint.textContent = s.has_key
+                ? ('已配置：' + (s.key_preview || '****') + '（留空不修改）')
+                : '未配置';
+        }
+
+        const sauceMin = document.getElementById('omniSauceMinSim');
+        if(sauceMin) sauceMin.value = s.min_similarity != null ? s.min_similarity : 60;
+
+        const sauceClear = document.getElementById('omniSauceClear');
+        if(sauceClear) sauceClear.checked = false;
+
+        omniLoaded = true;
+        omniSetStatus('已载入当前配置', 'ok');
+    }catch(err){
+        omniSetStatus('读取失败：' + err.message, 'error');
+    }
+}
+
+async function saveOmniSettings(){
+    const payload = {};
+
+    const bochaClear = document.getElementById('omniBochaClear');
+    const bochaKey = document.getElementById('omniBochaKey');
+    if(bochaClear && bochaClear.checked){
+        payload.clear_bocha_key = true;
+    }else if(bochaKey && bochaKey.value.trim()){
+        payload.bocha_api_key = bochaKey.value.trim();
+    }
+
+    const bochaEnabled = document.getElementById('omniBochaEnabled');
+    if(bochaEnabled) payload.bocha_enabled = bochaEnabled.value === '1';
+
+    const bochaCount = document.getElementById('omniBochaCount');
+    if(bochaCount && bochaCount.value !== ''){
+        const n = parseInt(bochaCount.value, 10);
+        if(Number.isFinite(n)) payload.bocha_count = Math.max(1, Math.min(50, n));
+    }
+
+    const bochaSummary = document.getElementById('omniBochaSummary');
+    if(bochaSummary) payload.bocha_summary = bochaSummary.value === '1';
+
+    const sauceClear = document.getElementById('omniSauceClear');
+    const sauceKey = document.getElementById('omniSauceKey');
+    if(sauceClear && sauceClear.checked){
+        payload.clear_saucenao_key = true;
+    }else if(sauceKey && sauceKey.value.trim()){
+        payload.saucenao_api_key = sauceKey.value.trim();
+    }
+
+    const sauceMin = document.getElementById('omniSauceMinSim');
+    if(sauceMin && sauceMin.value !== ''){
+        const v = parseFloat(sauceMin.value);
+        if(Number.isFinite(v)) payload.saucenao_min_similarity = Math.max(0, Math.min(100, v));
+    }
+
+    if(Object.keys(payload).length === 0){
+        omniSetStatus('没有需要保存的改动', 'warn');
+        return;
+    }
+
+    omniSetStatus('正在保存…');
+    try{
+        const res = await fetch('/api/omni-settings', {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(payload),
+        });
+        const data = await res.json().catch(() => ({}));
+        if(!res.ok){
+            throw new Error(data.detail || ('HTTP ' + res.status));
+        }
+        const applied = Array.isArray(data.applied) && data.applied.length
+            ? data.applied.join('；')
+            : '已保存';
+        omniSetStatus(applied + (data.note ? ' · ' + data.note : ''), data.disk_ok === false ? 'warn' : 'ok');
+        await loadOmniSettings();
+        omniSetStatus(applied + (data.note ? ' · ' + data.note : ''), data.disk_ok === false ? 'warn' : 'ok');
+    }catch(err){
+        omniSetStatus('保存失败：' + err.message, 'error');
+    }
+}
+

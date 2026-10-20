@@ -1,5 +1,437 @@
 [
     {
+        "prompt": "改变图片的时间，改成夕阳的强对比光线",
+        "images": [
+            "/assets/output/online_c04a45ff80.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_c04a45ff80.png",
+                "kind": "image",
+                "name": "online_c04a45ff80.png",
+                "natural_w": 1536,
+                "natural_h": 864,
+                "width": 1536,
+                "height": 864
+            }
+        ],
+        "timestamp": 1792501000.0138793,
+        "type": "online",
+        "model": "gpt-image-2.5-sunburst",
+        "provider_id": "apimart",
+        "provider_name": "APIMART",
+        "task_id": "task_01M5CP4GXRBTK2GCPFT3DGCZB9",
+        "request_id": null,
+        "params": {
+            "provider_id": "apimart",
+            "model": "gpt-image-2.5-sunburst",
+            "size": "1280x720",
+            "requested_size": "1280x720",
+            "quality": "max",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_d188ed1d7479.png",
+                    "name": "个人糊弄 (2).png",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": null
+    },
+    {
+        "prompt": "改变图片的时间，改成夕阳的强对比光线",
+        "images": [
+            "/assets/output/online_d306093426.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_d306093426.png",
+                "kind": "image",
+                "name": "online_d306093426.png",
+                "natural_w": 1672,
+                "natural_h": 941,
+                "width": 1672,
+                "height": 941
+            }
+        ],
+        "timestamp": 1792500994.777454,
+        "type": "online",
+        "model": "gpt-image-2.5-ext",
+        "provider_id": "apimart",
+        "provider_name": "APIMART",
+        "task_id": "task_01M5CP41FD7JZ7Z3806DGPZ1M5",
+        "request_id": null,
+        "params": {
+            "provider_id": "apimart",
+            "model": "gpt-image-2.5-ext",
+            "size": "1280x720",
+            "requested_size": "1280x720",
+            "quality": "max",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_d188ed1d7479.png",
+                    "name": "个人糊弄 (2).png",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": null
+    },
+    {
+        "prompt": "改变图片的时间，改成夕阳的强对比光线",
+        "images": [
+            "/assets/output/online_f9881ab3c7.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_f9881ab3c7.png",
+                "kind": "image",
+                "name": "online_f9881ab3c7.png",
+                "natural_w": 1672,
+                "natural_h": 941,
+                "width": 1672,
+                "height": 941
+            }
+        ],
+        "timestamp": 1792500661.6252182,
+        "type": "online",
+        "model": "gpt-image-2.5-ext",
+        "provider_id": "apimart",
+        "provider_name": "APIMART",
+        "task_id": "task_01M5CNSHBF9HED1R4M0Y915SS1",
+        "request_id": null,
+        "params": {
+            "provider_id": "apimart",
+            "model": "gpt-image-2.5-ext",
+            "size": "1280x720",
+            "requested_size": "1280x720",
+            "quality": "max",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_d188ed1d7479.png",
+                    "name": "个人糊弄 (2).png",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": null
+    },
+    {
+        "prompt": "改变图片的时间，改成夕阳的强对比光线",
+        "images": [
+            "/assets/output/online_d47582d593.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_d47582d593.png",
+                "kind": "image",
+                "name": "online_d47582d593.png",
+                "natural_w": 1536,
+                "natural_h": 864,
+                "width": 1536,
+                "height": 864
+            }
+        ],
+        "timestamp": 1792500575.27819,
+        "type": "online",
+        "model": "gpt-image-2.5-flare",
+        "provider_id": "apimart",
+        "provider_name": "APIMART",
+        "task_id": "task_01M5CNQNPTQGVQANQQXQ7RXAN9",
+        "request_id": null,
+        "params": {
+            "provider_id": "apimart",
+            "model": "gpt-image-2.5-flare",
+            "size": "1280x720",
+            "requested_size": "1280x720",
+            "quality": "max",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_d188ed1d7479.png",
+                    "name": "个人糊弄 (2).png",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": null
+    },
+    {
+        "prompt": "改变图片的时间，改成夕阳的强对比光线",
+        "images": [
+            "https://sub2api.07b8fef090a4290405b3f0c29be027d4.r2.cloudflarestorage.com/images/imgtask_d99f096c5ad74290b7615351e973e361-0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Checksum-Mode=ENABLED&X-Amz-Credential=0c31e83d958af4238a1da7ad1465f4e2%2F20261019%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20261019T061815Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=e6172162aae81f2d41bfe34a52a0bcb2b49d17b140300644333ed6d197e905ed"
+        ],
+        "image_items": [
+            {
+                "url": "https://sub2api.07b8fef090a4290405b3f0c29be027d4.r2.cloudflarestorage.com/images/imgtask_d99f096c5ad74290b7615351e973e361-0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Checksum-Mode=ENABLED&X-Amz-Credential=0c31e83d958af4238a1da7ad1465f4e2%2F20261019%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20261019T061815Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=e6172162aae81f2d41bfe34a52a0bcb2b49d17b140300644333ed6d197e905ed",
+                "kind": "image",
+                "name": "imgtask_d99f096c5ad74290b7615351e973e361-0.png"
+            }
+        ],
+        "timestamp": 1792390716.8600423,
+        "type": "online",
+        "model": "gpt-image-2.5-flare",
+        "provider_id": "custom-api-5",
+        "provider_name": "OPEN1-CODE",
+        "task_id": "imgtask_d99f096c5ad74290b7615351e973e361",
+        "request_id": "imgtask_d99f096c5ad74290b7615351e973e361",
+        "params": {
+            "provider_id": "custom-api-5",
+            "model": "gpt-image-2.5-flare",
+            "size": "2048x1152",
+            "requested_size": "2048x1152",
+            "quality": "high",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_d188ed1d7479.png",
+                    "name": "个人糊弄 (2).png",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": null
+    },
+    {
+        "prompt": "生成一只可爱的小猫",
+        "images": [
+            "https://sub2api.07b8fef090a4290405b3f0c29be027d4.r2.cloudflarestorage.com/images/imgtask_3acfccbee4cc4844be27f61419a62fe5-0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Checksum-Mode=ENABLED&X-Amz-Credential=0c31e83d958af4238a1da7ad1465f4e2%2F20261019%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20261019T061655Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=1c72f8569b4f7b92871b774b9729648551c267978be0818846a31900e3659894"
+        ],
+        "image_items": [
+            {
+                "url": "https://sub2api.07b8fef090a4290405b3f0c29be027d4.r2.cloudflarestorage.com/images/imgtask_3acfccbee4cc4844be27f61419a62fe5-0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Checksum-Mode=ENABLED&X-Amz-Credential=0c31e83d958af4238a1da7ad1465f4e2%2F20261019%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20261019T061655Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=1c72f8569b4f7b92871b774b9729648551c267978be0818846a31900e3659894",
+                "kind": "image",
+                "name": "imgtask_3acfccbee4cc4844be27f61419a62fe5-0.png"
+            }
+        ],
+        "timestamp": 1792390635.7835271,
+        "type": "online",
+        "model": "gpt-image-2.5-flare",
+        "provider_id": "custom-api-5",
+        "provider_name": "OPEN1-CODE",
+        "task_id": "imgtask_3acfccbee4cc4844be27f61419a62fe5",
+        "request_id": "imgtask_3acfccbee4cc4844be27f61419a62fe5",
+        "params": {
+            "provider_id": "custom-api-5",
+            "model": "gpt-image-2.5-flare",
+            "size": "2048x1152",
+            "requested_size": "2048x1152",
+            "quality": "high",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": []
+        },
+        "raw_usage": null
+    },
+    {
+        "prompt": "生成一只可爱的小猫",
+        "images": [
+            "/assets/output/online_d342101611.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_d342101611.png",
+                "kind": "image",
+                "name": "online_d342101611.png",
+                "natural_w": 1152,
+                "natural_h": 2048,
+                "width": 1152,
+                "height": 2048
+            }
+        ],
+        "timestamp": 1792381459.1303458,
+        "type": "online",
+        "model": "gpt-image-2.5-flare",
+        "provider_id": "custom-api-5",
+        "provider_name": "OPEN1-CODE",
+        "task_id": "imgtask_3398b182198f484797000de5614a9c09",
+        "request_id": "imgtask_3398b182198f484797000de5614a9c09",
+        "params": {
+            "provider_id": "custom-api-5",
+            "model": "gpt-image-2.5-flare",
+            "size": "1152x2048",
+            "requested_size": "1152x2048",
+            "quality": "medium",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": []
+        },
+        "raw_usage": null
+    },
+    {
+        "prompt": "生成一只可爱的小猫",
+        "images": [
+            "/assets/output/online_5aa644e708.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_5aa644e708.png",
+                "kind": "image",
+                "name": "online_5aa644e708.png",
+                "natural_w": 2048,
+                "natural_h": 1152,
+                "width": 2048,
+                "height": 1152
+            }
+        ],
+        "timestamp": 1792381443.3264124,
+        "type": "online",
+        "model": "gpt-image-2.5-flare",
+        "provider_id": "custom-api-5",
+        "provider_name": "OPEN1-CODE",
+        "task_id": "imgtask_4a5cb2a203a74c5a8217519893243c1f",
+        "request_id": "imgtask_4a5cb2a203a74c5a8217519893243c1f",
+        "params": {
+            "provider_id": "custom-api-5",
+            "model": "gpt-image-2.5-flare",
+            "size": "2048x1152",
+            "requested_size": "2048x1152",
+            "quality": "medium",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": []
+        },
+        "raw_usage": null
+    },
+    {
+        "prompt": "生成一只可爱的小猫",
+        "images": [
+            "/assets/output/online_aac5ff3136.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_aac5ff3136.png",
+                "kind": "image",
+                "name": "online_aac5ff3136.png",
+                "natural_w": 2048,
+                "natural_h": 1152,
+                "width": 2048,
+                "height": 1152
+            }
+        ],
+        "timestamp": 1792381308.7882512,
+        "type": "online",
+        "model": "gpt-image-2.5-flare",
+        "provider_id": "custom-api-5",
+        "provider_name": "OPEN1-CODE",
+        "task_id": "imgtask_e495f410f4df40808630c2d145a9ff6e",
+        "request_id": "imgtask_e495f410f4df40808630c2d145a9ff6e",
+        "params": {
+            "provider_id": "custom-api-5",
+            "model": "gpt-image-2.5-flare",
+            "size": "2048x1152",
+            "requested_size": "2048x1152",
+            "quality": "medium",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": []
+        },
+        "raw_usage": null
+    },
+    {
+        "prompt": "生成一只可爱的小猫",
+        "images": [
+            "/assets/output/online_193517760b.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_193517760b.png",
+                "kind": "image",
+                "name": "online_193517760b.png",
+                "natural_w": 1254,
+                "natural_h": 1254,
+                "width": 1254,
+                "height": 1254
+            }
+        ],
+        "timestamp": 1792380887.3026423,
+        "type": "online",
+        "model": "gpt-image-2.5-sunburst",
+        "provider_id": "custom-api-5",
+        "provider_name": "OPEN1-CODE",
+        "task_id": "imgtask_9ebdd754b887437b950822cac943705c",
+        "request_id": "imgtask_9ebdd754b887437b950822cac943705c",
+        "params": {
+            "provider_id": "custom-api-5",
+            "model": "gpt-image-2.5-sunburst",
+            "size": "1152x2048",
+            "requested_size": "1152x2048",
+            "quality": "medium",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": []
+        },
+        "raw_usage": null
+    },
+    {
+        "prompt": "生成一只可爱的小猫",
+        "images": [
+            "/assets/output/online_0dda13c278.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_0dda13c278.png",
+                "kind": "image",
+                "name": "online_0dda13c278.png",
+                "natural_w": 1254,
+                "natural_h": 1254,
+                "width": 1254,
+                "height": 1254
+            }
+        ],
+        "timestamp": 1792380782.8950148,
+        "type": "online",
+        "model": "gpt-image-2.5-sunburst",
+        "provider_id": "custom-api-5",
+        "provider_name": "OPEN1-CODE",
+        "task_id": "imgtask_796a8ed9f16247698206227e2cb70d28",
+        "request_id": "imgtask_796a8ed9f16247698206227e2cb70d28",
+        "params": {
+            "provider_id": "custom-api-5",
+            "model": "gpt-image-2.5-sunburst",
+            "size": "1280x720",
+            "requested_size": "1280x720",
+            "quality": "medium",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": []
+        },
+        "raw_usage": null
+    },
+    {
         "prompt": " @图片1 保留广告文案，去掉原图logo，\n制作一张简易的不规则的，透明背景的异形弹窗广告，不大改人物构图，去掉黑色背景\n\n边缘干净清晰，\n\n在左上角添加@图片2  游戏logo",
         "images": [
             "/assets/output/online_2fd779b92f.png"

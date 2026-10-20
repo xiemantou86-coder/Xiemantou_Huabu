@@ -16,13 +16,13 @@
             } catch(e) {}
         })();
     </script>
-    <script src="/static/vendor/js/tailwindcss-cdn.js?v=%EF%BB%BF2026.10.18_2.1791960842"></script>
-    <script src="/static/vendor/js/lucide.js?v=%EF%BB%BF2026.10.18_2.1791960842"></script>
-    <script src="/static/js/theme.js?v=%EF%BB%BF2026.10.18_2.1791960804"></script>
-    <script src="/static/js/i18n.js?v=%EF%BB%BF2026.10.18_2.1791960792"></script>
-    <link rel="stylesheet" href="/static/css/theme.css?v=%EF%BB%BF2026.10.18_2.1791960773">
+    <script src="/static/vendor/js/tailwindcss-cdn.js?v=%EF%BB%BF2026.10.19_1.1791960842"></script>
+    <script src="/static/vendor/js/lucide.js?v=%EF%BB%BF2026.10.19_1.1791960842"></script>
+    <script src="/static/js/theme.js?v=%EF%BB%BF2026.10.19_1.1791960804"></script>
+    <script src="/static/js/i18n.js?v=%EF%BB%BF2026.10.19_1.1791960792"></script>
+    <link rel="stylesheet" href="/static/css/theme.css?v=%EF%BB%BF2026.10.19_1.1791960773">
     <style>
-        @import url('/static/vendor/css/fonts.css?v=%EF%BB%BF2026.10.18_2.1791960830');
+        @import url('/static/vendor/css/fonts.css?v=%EF%BB%BF2026.10.19_1.1791960830');
         :root {
             --ease:cubic-bezier(.4,0,.2,1);
             --chat-bg:#eef2f6;
@@ -135,9 +135,71 @@
         .system-prompt-actions .primary { background:var(--chat-strong); color:var(--chat-strong-text); border-color:var(--chat-strong); }
         .system-prompt-actions .primary:hover { background:var(--chat-strong); color:var(--chat-strong-text); opacity:.92; }
         .messages { width:min(var(--chat-width),calc(100% - 60px)); min-height:0; margin:0 auto; overflow-y:auto; overflow-x:hidden; padding:24px 0 18px; display:flex; flex-direction:column; align-items:center; gap:16px; scroll-behavior:smooth; scrollbar-gutter:stable; }
+        /* ===== 对话加载骨架屏 ===== */
+        .msg-skeleton { width:100%; display:flex; flex-direction:column; gap:20px; padding:10px 0 20px; animation:skFadeIn .3s var(--ease); }
+        @keyframes skFadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+        .sk-row { display:flex; gap:10px; width:100%; }
+        .sk-row.right { justify-content:flex-end; }
+        .sk-bubble { position:relative; overflow:hidden; border-radius:18px; background:var(--chat-soft); border:1px solid var(--chat-line); }
+        .sk-bubble::after { content:""; position:absolute; inset:0; transform:translateX(-100%); background:linear-gradient(90deg, transparent 0%, rgba(255,255,255,.55) 50%, transparent 100%); animation:skShimmer 1.5s ease-in-out infinite; }
+        html.theme-dark .sk-bubble::after, body.theme-dark .sk-bubble::after { background:linear-gradient(90deg, transparent 0%, rgba(148,163,184,.16) 50%, transparent 100%); }
+        @keyframes skShimmer { 0%{transform:translateX(-100%)} 60%,100%{transform:translateX(100%)} }
+        .sk-line { height:13px; border-radius:7px; background:var(--chat-soft); position:relative; overflow:hidden; }
+        .sk-line::after { content:""; position:absolute; inset:0; transform:translateX(-100%); background:linear-gradient(90deg, transparent 0%, rgba(255,255,255,.55) 50%, transparent 100%); animation:skShimmer 1.5s ease-in-out infinite; }
+        html.theme-dark .sk-line::after, body.theme-dark .sk-line::after { background:linear-gradient(90deg, transparent 0%, rgba(148,163,184,.16) 50%, transparent 100%); }
+        .sk-text { padding:15px 17px; display:flex; flex-direction:column; gap:9px; }
+        .sk-text .sk-line:nth-child(1) { width:82%; }
+        .sk-text .sk-line:nth-child(2) { width:96%; }
+        .sk-text .sk-line:nth-child(3) { width:58%; }
+        .sk-media { width:min(300px,62vw); height:150px; border-radius:16px; }
+        .sk-media::after { content:""; position:absolute; inset:0; transform:translateX(-100%); background:linear-gradient(90deg, transparent 0%, rgba(255,255,255,.55) 50%, transparent 100%); animation:skShimmer 1.5s ease-in-out infinite; }
+        html.theme-dark .sk-media::after, body.theme-dark .sk-media::after { background:linear-gradient(90deg, transparent 0%, rgba(148,163,184,.16) 50%, transparent 100%); }
+        .sk-hint { margin-top:6px; display:flex; align-items:center; justify-content:center; gap:8px; color:var(--chat-faint); font-size:11.5px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; }
+        .sk-dots { display:inline-flex; gap:4px; }
+        .sk-dots span { width:5px; height:5px; border-radius:50%; background:var(--chat-faint); animation:skBounce 1.2s ease-in-out infinite; }
+        .sk-dots span:nth-child(2) { animation-delay:.16s; }
+        .sk-dots span:nth-child(3) { animation-delay:.32s; }
+        @keyframes skBounce { 0%,60%,100%{opacity:.28;transform:translateY(0)} 30%{opacity:1;transform:translateY(-3px)} }
+
         .empty-state { margin:auto; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; color:var(--chat-faint); text-align:center; }
         .empty-state i,.empty-state svg { width:54px; height:54px; stroke-width:1.2; }
         .empty-state-text { font-size:11px; line-height:1; font-weight:950; letter-spacing:.22em; text-transform:uppercase; }
+        /* ===== 右侧话题定位条 ===== */
+        .msg-locator {
+            position:absolute; right:6px; top:96px; bottom:150px; width:26px;
+            display:flex; flex-direction:column; align-items:center; justify-content:center;
+            gap:9px; overflow:visible; padding:4px 0;
+            display:none; z-index:6; pointer-events:none;
+        }
+        .msg-locator.visible { display:flex !important; pointer-events:auto !important; }
+        .loc-tick {
+            position:relative; flex:0 0 auto; width:22px; height:6px; border-radius:999px;
+            background:rgba(148,163,184,.62); cursor:pointer;
+            transition:background .18s var(--ease), width .18s var(--ease), height .18s var(--ease), box-shadow .18s var(--ease);
+        }
+        .loc-tick:hover { background:rgba(56,189,248,.95); width:26px; height:8px; }
+        .loc-tick.active { background:#38bdf8; width:28px; height:8px; box-shadow:0 0 12px rgba(56,189,248,.85); }
+        .loc-preview {
+            position:fixed; right:auto; left:0; top:0;
+            width:max-content; max-width:250px; min-width:140px;
+            padding:10px 12px; border-radius:12px;
+            background:rgba(15,23,42,.97); color:#e2e8f0;
+            border:1px solid rgba(56,189,248,.42);
+            box-shadow:0 10px 30px rgba(0,0,0,.55);
+            opacity:0; pointer-events:none; z-index:12;
+            transform:translate(-18px,-50%) scale(.92);
+            transform-origin:right center;
+            transition:opacity .16s ease, transform .28s cubic-bezier(.34,1.56,.64,1);
+        }
+        .loc-preview.show { opacity:1; transform:translate(0,-50%) scale(1); }
+        .lp-head { display:flex; align-items:center; gap:6px; margin-bottom:6px; }
+        .lp-role { font-size:10px; font-weight:900; padding:1px 7px; border-radius:999px; }
+        .lp-role.is-user { background:rgba(56,189,248,.2); color:#7dd3fc; border:1px solid rgba(56,189,248,.45); }
+        .lp-role.is-ai { background:rgba(167,139,250,.2); color:#c4b5fd; border:1px solid rgba(167,139,250,.45); }
+        .lp-idx { font-size:10px; color:#64748b; font-weight:700; margin-left:auto; }
+        .lp-text { font-size:11.5px; line-height:1.55; font-weight:600; word-break:break-word; white-space:normal; }
+        .lp-thumbs { display:flex; gap:5px; margin-top:8px; }
+        .lp-thumb { width:46px; height:46px; border-radius:8px; object-fit:cover; border:1px solid rgba(148,163,184,.3); display:block; }
         .bubble-row { width:100%; display:flex; gap:10px; align-items:flex-end; justify-content:flex-start; }
         .bubble-row.user { justify-content:flex-end; }
         .bubble { max-width:min(860px,78%); overflow:visible; border-radius:18px; padding:14px 16px; font-size:14px; line-height:1.72; white-space:pre-wrap; word-break:break-word; box-shadow:0 1px 0 rgba(15,23,42,.03); }
@@ -151,19 +213,94 @@
         .gen-use-ref-btn { position:absolute; bottom:8px; right:8px; padding:5px 11px; border-radius:999px; background:rgba(15,23,42,.78); color:#f8fafc; font-size:11px; font-weight:850; backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,.22); display:inline-flex; align-items:center; gap:5px; opacity:0; transform:translateY(3px); transition:all .18s var(--ease); z-index:3; box-shadow:0 6px 16px rgba(0,0,0,.25); }
         .gen-card-wrap:hover .gen-use-ref-btn { opacity:1; transform:translateY(0); }
         .gen-use-ref-btn:hover { background:#0284c7; border-color:#7dd3fc; color:#fff; }
+        .reasoning-box { margin-bottom:10px; border-radius:10px; border:1px solid rgba(139,92,246,.28); background:rgba(139,92,246,.06); overflow:hidden; }
+        .theme-dark .reasoning-box { border-color:rgba(167,139,250,.32); background:rgba(139,92,246,.1); }
+        .reasoning-head { display:flex; align-items:center; gap:7px; padding:7px 11px; cursor:pointer; user-select:none; font-size:11.5px; font-weight:750; color:#7c3aed; letter-spacing:.01em; }
+        .theme-dark .reasoning-head { color:#c4b5fd; }
+
+        /* ===== 性能模式：消息变多或流式输出时关闭高耗能模糊层 ===== */
+        body.perf-lite .composer,
+        body.perf-lite .topbar,
+        body.perf-lite .chat-rail,
+        body.perf-lite .gen-idx-badge,
+        body.perf-lite .gen-use-ref-btn,
+        body.perf-lite .system-prompt-popover,
+        body.perf-lite .model-picker-popover,
+        body.perf-lite .image-preview-modal {
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+        }
+        body.perf-lite .composer { background: var(--chat-panel-2, #eef2f6); }
+        body.perf-lite .topbar { background: var(--chat-bg, #f4f7fa); }
+
+        /* 气泡隔离重排范围，流式更新时只重绘制自己 */
+        .bubble { contain: content; }
+        .bubble-row { contain: layout style; }
+
+        /* 生成图限制解码内存与重绘范围 */
+        .bubble img.generated {
+            contain: paint;
+            image-rendering: auto;
+        }
+        .generated-grid { contain: layout style; }
+        .reasoning-head:hover { background:rgba(139,92,246,.08); }
+        .reasoning-head .r-arrow { margin-left:auto; font-size:9px; transition:transform .2s var(--ease); opacity:.65; }
+        .reasoning-box.open .reasoning-head .r-arrow { transform:rotate(90deg); }
+        .reasoning-head .r-dot { width:6px; height:6px; border-radius:50%; background:#a78bfa; flex:0 0 auto; }
+        .reasoning-box.streaming .reasoning-head .r-dot { animation:rPulse 1.1s ease-in-out infinite; }
+        @keyframes rPulse { 0%,100%{opacity:.35;transform:scale(.85)} 50%{opacity:1;transform:scale(1.25)} }
+        .reasoning-body { display:none; padding:0 12px 11px 12px; font-size:12px; line-height:1.72; color:#64748b; white-space:pre-wrap; word-break:break-word; max-height:340px; overflow-y:auto; border-top:1px solid rgba(139,92,246,.14); padding-top:9px; }
+        .theme-dark .reasoning-body { color:#a5b4c8; }
+        .reasoning-box.open .reasoning-body { display:block; }
         .omni-web-pill { margin-bottom:8px; display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; background:rgba(14,165,233,.1); border:1px solid rgba(14,165,233,.28); color:#0284c7; font-size:11.5px; font-weight:750; }
         .theme-dark .omni-web-pill { background:rgba(56,189,248,.14); border-color:rgba(56,189,248,.35); color:#7dd3fc; }
+        .omni-img-pill { background:rgba(20,184,166,.1); border-color:rgba(20,184,166,.35); color:#14b8a6; }
+        .theme-dark .omni-img-pill { background:rgba(45,212,191,.14); border-color:rgba(45,212,191,.4); color:#5eead4; }
+        .omni-img-pill.is-loading { animation:imgPillPulse 1.6s ease-in-out infinite; }
+        .omni-web-pill.is-loading { animation:imgPillPulse 1.6s ease-in-out infinite; }
+        @keyframes imgPillPulse { 0%,100%{opacity:.72} 50%{opacity:1} }
         .web-toggle-btn { height:32px; padding:0 11px; border-radius:999px; border:1px solid var(--chat-line); background:var(--chat-panel); color:var(--chat-muted); font-size:11.5px; font-weight:800; display:inline-flex; align-items:center; gap:5px; transition:all .16s var(--ease); }
         .web-toggle-btn.active { background:rgba(14,165,233,.12); border-color:rgba(14,165,233,.45); color:#0284c7; }
         .theme-dark .web-toggle-btn.active { background:rgba(56,189,248,.16); border-color:rgba(56,189,248,.45); color:#38bdf8; }
+        .ctx-meter { display:inline-flex; align-items:center; gap:6px; height:32px; padding:0 11px 0 7px; border-radius:999px; border:1px solid var(--chat-line); background:var(--chat-panel); cursor:default; transition:all .16s var(--ease); flex:0 0 auto; }
+        .ctx-meter.warn { border-color:rgba(245,158,11,.55); background:rgba(245,158,11,.1); }
+        .ctx-meter.danger { border-color:rgba(239,68,68,.55); background:rgba(239,68,68,.1); }
+        .ctx-ring { width:20px; height:20px; transform:rotate(-90deg); flex:0 0 auto; display:block; }
+        .ctx-ring-bg { fill:none; stroke:var(--chat-line); stroke-width:4; }
+        .ctx-ring-fill { fill:none; stroke:#0ea5e9; stroke-width:4; stroke-linecap:round; stroke-dasharray:97.39; stroke-dashoffset:97.39; transition:stroke-dashoffset .4s var(--ease), stroke .3s var(--ease); }
+        .ctx-meter.warn .ctx-ring-fill { stroke:#f59e0b; }
+        .ctx-meter.danger .ctx-ring-fill { stroke:#ef4444; }
+        .ctx-meter-text { font-size:11px; font-weight:800; color:var(--chat-muted); font-family:'Consolas','Monaco',monospace; white-space:nowrap; letter-spacing:.02em; }
+        .ctx-meter.warn .ctx-meter-text { color:#d97706; }
+        .ctx-meter.danger .ctx-meter-text { color:#dc2626; }
+        .ctx-warn-row { margin:10px auto; max-width:var(--chat-width); padding:10px 14px; border-radius:12px; background:rgba(245,158,11,.12); border:1px solid rgba(245,158,11,.42); color:#b45309; font-size:12.5px; line-height:1.6; display:flex; align-items:center; gap:8px; }
+        .theme-dark .ctx-warn-row { background:rgba(245,158,11,.14); border-color:rgba(245,158,11,.45); color:#fbbf24; }
         .omni-img-loader { margin-top:10px; min-width:260px; max-width:420px; padding:14px 16px; border-radius:14px; background:var(--chat-panel-2); border:1px dashed var(--chat-line-2); display:flex; align-items:center; gap:12px; animation:popIn .2s var(--ease); }
         .omni-spinner { width:18px; height:18px; border-radius:50%; border:2.2px solid var(--chat-line-2); border-top-color:#0ea5e9; animation:omniSpin .85s linear infinite; flex:0 0 auto; }
         .omni-loader-info { min-width:0; flex:1; display:flex; flex-direction:column; gap:3px; }
         .omni-loader-title { font-size:12.5px; font-weight:850; color:var(--chat-text); display:flex; align-items:center; justify-content:space-between; gap:8px; }
         .omni-loader-sub { font-size:11px; color:var(--chat-muted); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
         @keyframes omniSpin { to { transform:rotate(360deg); } }
+        /* ===== AI 等待中的三点跳动 ===== */
+        .bubble.assistant.streaming.is-empty::after { display:none; }
+        /* 常驻流式指示器：整个回复期间都显示 */
+        .streaming-indicator { display:flex; align-items:center; gap:14px; padding:6px 0 14px; border-bottom:1px dashed var(--chat-line); margin-bottom:12px; }
+        .streaming-indicator .typing-dots { padding:0; height:auto; }
+        .streaming-indicator .typing-label { margin-left:0; font-size:15px; font-weight:900; letter-spacing:.06em; background:linear-gradient(90deg,#38bdf8,#818cf8,#c084fc,#38bdf8); background-size:300% 100%; -webkit-background-clip:text; background-clip:text; color:transparent; animation:typingTextFlow 2.4s linear infinite; }
+        @keyframes typingTextFlow { 0%{background-position:0% 50%} 100%{background-position:300% 50%} }
+        .typing-dots { display:inline-flex; align-items:center; gap:10px; padding:10px 4px; height:1.8em; vertical-align:middle; }
+        .typing-dots span { width:18px; height:18px; border-radius:50%; background:#38bdf8; box-shadow:0 0 14px rgba(56,189,248,.85), 0 0 4px rgba(56,189,248,1); opacity:.5; animation:typingBounce 1.25s ease-in-out infinite; }
+        .typing-dots span:nth-child(2){ background:#818cf8; box-shadow:0 0 14px rgba(129,140,248,.85), 0 0 4px rgba(129,140,248,1); animation-delay:.15s; }
+        .typing-dots span:nth-child(3){ background:#c084fc; box-shadow:0 0 14px rgba(192,132,252,.85), 0 0 4px rgba(192,132,252,1); animation-delay:.3s; }
+        @keyframes typingBounce {
+            0%, 60%, 100% { opacity:.4; transform:translateY(0) scale(.7); }
+            30% { opacity:1; transform:translateY(-11px) scale(1.25); }
+        }
+        .typing-label { margin-left:9px; font-size:11.5px; font-weight:750; color:var(--chat-muted); letter-spacing:.03em; vertical-align:middle; }
+        .theme-dark .typing-label { color:#94a3b8; }
         .bubble.assistant.streaming::after { content:""; display:inline-block; width:7px; height:1.2em; margin-left:3px; border-radius:999px; background:var(--chat-text); vertical-align:-.2em; animation:cursorBlink .9s steps(2,end) infinite; }
         .generated-grid { display:grid; gap:8px; }
+        .img-expired { display:flex; align-items:center; justify-content:center; gap:6px; min-width:180px; min-height:120px; padding:16px; border-radius:12px; border:1px dashed rgba(148,163,184,.45); background:rgba(148,163,184,.08); color:#94a3b8; font-size:12px; text-align:center; line-height:1.6; }
         .generated-grid.count-2,
         .generated-grid.count-3,
         .generated-grid.count-4 { grid-template-columns:repeat(2,minmax(0,1fr)); }
@@ -270,6 +407,16 @@
         .send-btn { width:42px; height:42px; border-radius:13px; display:flex; align-items:center; justify-content:center; background:var(--chat-strong); color:var(--chat-strong-text); transition:opacity .16s var(--ease), transform .16s var(--ease); flex:0 0 auto; }
         .send-btn:hover { transform:translateY(-1px); }
         .send-btn:disabled { opacity:.45; cursor:not-allowed; }
+        .stop-btn { width:42px; height:42px; border-radius:13px; display:none; align-items:center; justify-content:center; background:#dc2626; color:#fff; border:none; cursor:pointer; transition:all .16s var(--ease); box-shadow:0 2px 8px rgba(220,38,38,.3); }
+        .stop-btn:hover { background:#b91c1c; transform:translateY(-1px); }
+        .stop-btn i, .stop-btn svg { width:16px; height:16px; }
+
+        .regen-row { display:flex; gap:6px; margin-top:8px; }
+        .regen-btn { display:inline-flex; align-items:center; gap:5px; padding:5px 11px; border-radius:999px; border:1px solid var(--chat-line); background:var(--chat-panel); color:var(--chat-muted); font-size:11.5px; font-weight:700; cursor:pointer; transition:all .16s var(--ease); }
+        .regen-btn:hover { background:var(--chat-soft); color:var(--chat-text); border-color:var(--chat-line-2); transform:translateY(-1px); }
+        .bubble.stopped { opacity:.82; }
+        .stopped-tag { display:inline-flex; align-items:center; gap:5px; margin-top:8px; padding:3px 9px; border-radius:999px; background:rgba(245,158,11,.12); border:1px solid rgba(245,158,11,.35); color:#d97706; font-size:11px; font-weight:700; }
+        .theme-dark .stopped-tag { color:#fbbf24; }
         .send-btn i,.send-btn svg { width:18px; height:18px; }
         .ref-strip { display:flex; align-items:center; gap:8px; overflow:auto; min-width:0; max-width:100%; min-height:0; }
         .ref-strip:empty { display:none; }
@@ -462,24 +609,61 @@
             .bubble img.generated { max-width:100%; max-height:34vh; }
             .action-btn span { display:none; }
         }
-        .messages,
         .composer-body,
         #messageInput {
             scrollbar-width:none !important;
             scrollbar-color:transparent transparent !important;
             -ms-overflow-style:none !important;
         }
-        .messages::-webkit-scrollbar,
         .composer-body::-webkit-scrollbar,
         #messageInput::-webkit-scrollbar {
             width:0 !important;
             height:0 !important;
             display:none !important;
         }
-        .messages::-webkit-scrollbar-thumb,
         .composer-body::-webkit-scrollbar-thumb,
         #messageInput::-webkit-scrollbar-thumb {
             background:transparent !important;
+        }
+
+        /* ===== 对话区显式滚动条 ===== */
+        .messages {
+            scrollbar-width:thin !important;
+            scrollbar-color:rgba(148,163,184,.42) transparent !important;
+            -ms-overflow-style:auto !important;
+        }
+        .messages::-webkit-scrollbar {
+            width:8px !important;
+            height:8px !important;
+            display:block !important;
+        }
+        .messages::-webkit-scrollbar-track {
+            background:transparent;
+            margin:10px 0;
+        }
+        .messages::-webkit-scrollbar-thumb {
+            background:rgba(148,163,184,.55) !important;
+            border-radius:999px;
+            border:2px solid transparent;
+            background-clip:padding-box;
+            transition:background .2s var(--ease);
+        }
+        .messages:hover::-webkit-scrollbar-thumb {
+            background:rgba(148,163,184,.62) !important;
+            background-clip:padding-box;
+        }
+        html.theme-dark .messages, body.theme-dark .messages {
+            scrollbar-color:rgba(148,163,184,.5) transparent !important;
+        }
+        html.theme-dark .messages::-webkit-scrollbar-thumb,
+        body.theme-dark .messages::-webkit-scrollbar-thumb {
+            background:rgba(148,163,184,.42) !important;
+            background-clip:padding-box;
+        }
+        html.theme-dark .messages:hover::-webkit-scrollbar-thumb,
+        body.theme-dark .messages:hover::-webkit-scrollbar-thumb {
+            background:rgba(148,163,184,.68) !important;
+            background-clip:padding-box;
         }
     </style>
 </head>
@@ -533,6 +717,7 @@
             </header>
 
             <section id="messages" class="messages"></section>
+            <div id="msgLocator" class="msg-locator" aria-hidden="true"></div>
 
             <div class="composer-wrap">
                 <div class="composer">
@@ -549,6 +734,13 @@
                                     <button id="webSearchToggleBtn" type="button" class="web-toggle-btn active" onclick="toggleWebSearch()" title="开启/关闭实时联网搜索与链接读取">
                                         <span>🌐 联网:开</span>
                                     </button>
+                                    <div id="ctxMeter" class="ctx-meter" title="上下文用量">
+                                        <svg class="ctx-ring" viewBox="0 0 36 36" aria-hidden="true">
+                                            <circle class="ctx-ring-bg" cx="18" cy="18" r="15.5"></circle>
+                                            <circle id="ctxRingFill" class="ctx-ring-fill" cx="18" cy="18" r="15.5"></circle>
+                                        </svg>
+                                        <span id="ctxMeterText" class="ctx-meter-text">0/120</span>
+                                    </div>
                                     <div id="modelPicker" class="model-picker">
                                         <button id="modelPickerBtn" class="model-picker-button" onclick="event.stopPropagation();toggleModelPicker()" title="选择平台和模型">
                                             <i data-lucide="boxes"></i>
@@ -629,6 +821,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <button id="stopBtn" onclick="stopGeneration()" class="stop-btn" title="停止生成"><i data-lucide="square"></i></button>
                             <button id="sendBtn" onclick="sendMessage()" class="send-btn" title="发送" data-i18n-title="chat.send"><i data-lucide="send"></i></button>
                         </div>
                     </div>
@@ -1080,16 +1273,80 @@
             lucide.createIcons();
         }
 
-        async function loadConversations(){
-            const data = await fetch('/api/conversations', {headers:{'X-User-ID':userId}}).then(r=>r.json());
-            conversations = data.conversations || [];
-            renderThreads();
-            if(!currentConversation) {
-                const rememberedId = rememberedConversation();
-                const target = (rememberedId && conversations.find(item => item.id === rememberedId)) || conversations[0];
-                if(target) await openConversation(target.id);
+        // ===== 对话加载骨架屏 =====
+        let _skeletonTimer = null;
+        let _skeletonShownAt = 0;
+        const SKELETON_MIN_MS = 380;
+        function showMessagesSkeleton(){
+            const box = document.getElementById('messages');
+            if(!box) return;
+            if(box.querySelector('.msg-skeleton')) return;
+            if(_skeletonTimer){ clearTimeout(_skeletonTimer); _skeletonTimer = null; }
+            _skeletonShownAt = Date.now();
+            box.innerHTML = ''
+                + '<div class="msg-skeleton">'
+                + '  <div class="sk-row right"><div class="sk-bubble sk-text" style="width:min(340px,58vw)"><div class="sk-line"></div><div class="sk-line"></div></div></div>'
+                + '  <div class="sk-row"><div class="sk-bubble sk-text" style="width:min(440px,74vw)"><div class="sk-line"></div><div class="sk-line"></div><div class="sk-line"></div></div></div>'
+                + '  <div class="sk-row"><div class="sk-bubble sk-media" style="height:150px"></div></div>'
+                + '  <div class="sk-hint"><span class="sk-dots"><span></span><span></span><span></span></span> 正在载入对话</div>'
+                + '</div>';
+        }
+
+        function hideMessagesSkeleton(){
+            if(_skeletonTimer){ clearTimeout(_skeletonTimer); _skeletonTimer = null; }
+            const box = document.getElementById('messages');
+            if(!box) return;
+            const sk = box.querySelector('.msg-skeleton');
+            if(!sk) return;
+            const elapsed = Date.now() - _skeletonShownAt;
+            const wait = Math.max(0, SKELETON_MIN_MS - elapsed);
+            if(wait <= 0){ sk.remove(); return; }
+            if(_skeletonTimer){ clearTimeout(_skeletonTimer); }
+            _skeletonTimer = setTimeout(function(){
+                _skeletonTimer = null;
+                const again = box.querySelector('.msg-skeleton');
+                if(again) again.remove();
+            }, wait);
+        }
+
+        // 骨架存在时，保证至少显示 SKELETON_MIN_MS 再渲染真实内容
+        async function renderMessagesAfterSkeleton(messages){
+            const box = document.getElementById('messages');
+            const sk = box ? box.querySelector('.msg-skeleton') : null;
+            if(!sk){
+                renderMessages(messages);
+                return;
             }
-            if(!currentConversation) renderMessages([]);
+            const elapsed = Date.now() - _skeletonShownAt;
+            const wait = Math.max(0, SKELETON_MIN_MS - elapsed);
+            if(wait > 0){
+                await new Promise(function(r){ setTimeout(r, wait); });
+            }
+            if(_skeletonTimer){ clearTimeout(_skeletonTimer); _skeletonTimer = null; }
+            renderMessages(messages);
+        }
+
+        async function loadConversations(opts){
+            const wantSkeleton = !(opts && opts.skeleton === false);
+            if(wantSkeleton) showMessagesSkeleton();
+            try {
+                const data = await fetch('/api/conversations', {headers:{'X-User-ID':userId}}).then(r=>r.json());
+                conversations = data.conversations || [];
+                renderThreads();
+                if(!currentConversation) {
+                    const rememberedId = rememberedConversation();
+                    const target = (rememberedId && conversations.find(item => item.id === rememberedId)) || conversations[0];
+                    if(target) {
+                        await openConversation(target.id);
+                    } else {
+                        await renderMessagesAfterSkeleton([]);
+                    }
+                } else if(wantSkeleton) {
+                    hideMessagesSkeleton();
+                }
+            } finally {
+                hideMessagesSkeleton();
+            }
         }
 
         function renderThreads(){
@@ -1123,17 +1380,18 @@
             currentConversation = data.conversation;
             rememberConversation(currentConversation.id);
             setChatTitle(currentConversation.title);
-            await loadConversations();
+            await loadConversations({skeleton:false});
             renderMessages([]);
             toggleHistory(false);
         }
 
         async function openConversation(id, closePanel=false){
+            showMessagesSkeleton();
             const res = await fetch(`/api/conversations/${id}`, {headers:{'X-User-ID':userId}});
             if(!res.ok){
                 currentConversation = null;
                 rememberConversation('');
-                renderMessages([]);
+                await renderMessagesAfterSkeleton([]);
                 return;
             }
             const data = await res.json();
@@ -1141,7 +1399,7 @@
             rememberConversation(currentConversation.id);
             setChatTitle(currentConversation.title);
             renderThreads();
-            renderMessages(currentConversation.messages || []);
+            await renderMessagesAfterSkeleton(currentConversation.messages || []);
             if(closePanel) toggleHistory(false);
         }
 
@@ -1151,7 +1409,7 @@
             await fetch(`/api/conversations/${id}`, {method:'DELETE', headers:{'X-User-ID':userId}});
             const deletedCurrent = currentConversation?.id === id;
             if(deletedCurrent){ currentConversation = null; rememberConversation(''); setChatTitle(''); renderMessages([]); }
-            await loadConversations();
+            await loadConversations({skeleton:false});
             if(deletedCurrent && conversations[0]) await openConversation(conversations[0].id);
         }
 
@@ -1401,6 +1659,74 @@
             }
         }
 
+        /* 上下文窗口常量：置于所有调用点之前，避免 const 暂时性死区 */
+        function buildReasoningBox(text, isStreaming){
+            const box = document.createElement('div');
+            box.className = 'reasoning-box' + (isStreaming ? ' streaming open' : '');
+            const head = document.createElement('div');
+            head.className = 'reasoning-head';
+            const dot = document.createElement('span');
+            dot.className = 'r-dot';
+            const label = document.createElement('span');
+            label.className = 'r-label';
+            label.textContent = isStreaming ? '正在深度思考…' : ('💭 思考过程 · ' + text.length + ' 字');
+            const arrow = document.createElement('span');
+            arrow.className = 'r-arrow';
+            arrow.textContent = '▶';
+            head.appendChild(dot);
+            head.appendChild(label);
+            head.appendChild(arrow);
+            const body = document.createElement('div');
+            body.className = 'reasoning-body';
+            body.textContent = text;
+            head.addEventListener('click', () => { box.classList.toggle('open'); });
+            box.appendChild(head);
+            box.appendChild(body);
+            return box;
+        }
+
+        function applyReasoningText(box, text, stillStreaming){
+            const body = box.querySelector('.reasoning-body');
+            const label = box.querySelector('.r-label');
+            if(body){
+                body.textContent = text;
+                if(stillStreaming){
+                    body.scrollTop = body.scrollHeight;
+                }
+            }
+            if(label){
+                label.textContent = stillStreaming
+                    ? ('正在深度思考… (' + text.length + ' 字)')
+                    : ('💭 思考过程 · ' + text.length + ' 字');
+            }
+            if(!stillStreaming){
+                box.classList.remove('streaming');
+                box.classList.remove('open');
+            }
+        }
+
+        function updateReasoningBox(box, text, stillStreaming){
+            if(!box) return;
+            if(stillStreaming){
+                box._pendingReasoning = text;
+                if(!box._reasonThrottle){
+                    box._reasonThrottle = setTimeout(function(){
+                        box._reasonThrottle = null;
+                        applyReasoningText(box, box._pendingReasoning || '', true);
+                    }, 120);
+                }
+            } else {
+                if(box._reasonThrottle){
+                    clearTimeout(box._reasonThrottle);
+                    box._reasonThrottle = null;
+                }
+                applyReasoningText(box, text, false);
+            }
+        }
+
+        const CTX_WINDOW_LIMIT = 120;
+        const CTX_WARN_AT = 90;
+        const CTX_RING_LEN = 2 * Math.PI * 15.5;
         function renderMessages(messages){
             const box = document.getElementById('messages');
             box.innerHTML = '';
@@ -1412,6 +1738,37 @@
             }
             messages.forEach(addMessageBubble);
             scrollBottom();
+            updateContextMeter(localContextUsage(messages));
+            applyPerfMode(messages.length);
+            refreshMsgLocator();
+            bindLocatorScroll();
+        }
+
+        // 失效远程图拦截：预签名 R2 / 已过期图床，直接不发起请求，避免 10 秒连接超时卡顿
+        const EXPIRED_IMG_PATTERNS = [
+            /sub2api\.[a-z0-9]+\.r2\.cloudflarestorage\.com/i,
+            /X-Amz-Expires=/i
+        ];
+        // 缩略图 URL 生成：本地图走 /api/thumb 后端压缩，避免前端加载数千万像素原图
+        function thumbUrl(url, w){
+            const u = String(url || '');
+            if(!u) return u;
+            if(u.startsWith('/assets/') || u.startsWith('/output/')){
+                return '/api/thumb?path=' + encodeURIComponent(u) + '&w=' + (w || 400);
+            }
+            return u;
+        }
+
+        function isLikelyExpiredImage(url){
+            const u = String(url || '');
+            if(!u) return true;
+            return EXPIRED_IMG_PATTERNS.some(function(p){ return p.test(u); });
+        }
+        function makeExpiredPlaceholder(){
+            const d = document.createElement('div');
+            d.className = 'img-expired';
+            d.textContent = '🖼️ 图片链接已过期或不可达';
+            return d;
         }
 
         function addMessageBubble(msg){
@@ -1427,6 +1784,34 @@
                 pill.className = 'omni-web-pill';
                 pill.textContent = `🌐 ${msg.web_search_label}`;
                 bubble.appendChild(pill);
+            }
+            if(msg.image_search){
+                const rec = msg.image_search || {};
+                const ipill = document.createElement('div');
+                ipill.className = 'omni-web-pill omni-img-pill';
+                if(rec.found){
+                    if(rec.source === 'visual_fallback'){
+                        const kws = (rec.keywords || []).slice(0,3).join(' · ');
+                        const cnt = rec.count ? (' · 已检索 ' + rec.count + ' 条') : '';
+                        ipill.textContent = '🔍 视觉描述检索命中：' + (kws || '相关结果') + cnt;
+                    } else {
+                        const best = rec.best || {};
+                        const parts = [];
+                        if(best.characters) parts.push(best.characters);
+                        if(best.title) parts.push(best.title);
+                        if(best.author) parts.push('作者 ' + best.author);
+                        const head = parts.length ? parts.join(' · ') : '已匹配';
+                        const sim = best.similarity ? (' · ' + best.similarity + '%') : '';
+                        const cnt = rec.count && rec.count > 1 ? (' · ' + rec.count + ' 个候选') : '';
+                        ipill.textContent = '🔍 图搜命中：' + head + sim + cnt;
+                    }
+                } else {
+                    ipill.textContent = '🔍 未找到可信匹配' + (rec.error ? ('：' + rec.error) : '');
+                }
+                bubble.appendChild(ipill);
+            }
+            if(msg.reasoning){
+                bubble.appendChild(buildReasoningBox(msg.reasoning, false));
             }
             const text = document.createElement('div');
             text.textContent = msg.type === 'image' ? (msg.agent_reply || tr('chat.generated')) : (msg.content || '');
@@ -1445,6 +1830,10 @@
                 const grid = document.createElement('div');
                 grid.className = `generated-grid count-${Math.min(imageUrls.length, 4)}`;
                 imageUrls.forEach(url => {
+                    if(isLikelyExpiredImage(url)){
+                        grid.appendChild(makeExpiredPlaceholder());
+                        return;
+                    }
                     renderedImageCounter += 1;
                     const imgIdx = renderedImageCounter;
                     const wrap = document.createElement('div');
@@ -1454,7 +1843,8 @@
                     badge.textContent = `#${imgIdx}`;
                     const img = document.createElement('img');
                     img.className = 'generated';
-                    img.src = url;
+                    img.decoding = 'async';
+                    img.src = thumbUrl(url, 480);
                     img.onclick = () => openImagePreview(url);
                     const editBtn = document.createElement('button');
                     editBtn.type = 'button';
@@ -1515,9 +1905,11 @@
 
         function renderAttachmentThumb(ref){
             if(isImageRef(ref)){
+                if(isLikelyExpiredImage(ref.url)) return makeExpiredPlaceholder();
                 const img = document.createElement('img');
                 img.className = 'thumb';
-                img.src = ref.url;
+                img.decoding = 'async';
+                img.src = thumbUrl(ref.url, 320);
                 img.title = attachmentName(ref);
                 img.onclick = () => openImagePreview(ref.url);
                 return img;
@@ -1601,11 +1993,130 @@
             localStorage.setItem('gpt_chat_web_search', window.enableOmniWebSearch ? '1' : '0');
             syncWebSearchBtn();
         }
+        let ctxWarnedConversationId = null;
+
+        function localContextUsage(messages){
+            const msgs = Array.isArray(messages) ? messages : [];
+            let chars = 0, imgs = 0;
+            msgs.forEach(m => {
+                if(!m || typeof m !== 'object') return;
+                chars += String(m.content || '').length;
+                (m.attachments || []).forEach(a => {
+                    if(!a || typeof a !== 'object') return;
+                    const kind = String(a.kind || '').toLowerCase();
+                    const mime = String(a.mime || '').toLowerCase();
+                    if(kind === 'image' || mime.indexOf('image/') === 0) imgs++;
+                });
+                if(m.type === 'image') imgs++;
+            });
+            const n = msgs.length;
+            return {
+                messages: n,
+                window_limit: CTX_WINDOW_LIMIT,
+                warn_at: CTX_WARN_AT,
+                est_tokens: Math.round(chars / 1.5) + imgs * 800,
+                images: imgs,
+                text_chars: chars,
+                percent: CTX_WINDOW_LIMIT ? Math.round(n * 1000 / CTX_WINDOW_LIMIT) / 10 : 0,
+                need_warning: n >= CTX_WARN_AT,
+            };
+        }
+
+        function maybeWarnNewTopic(usage){
+            const cid = (currentConversation && currentConversation.id) || '';
+            if(!cid || ctxWarnedConversationId === cid) return;
+            ctxWarnedConversationId = cid;
+            const box = document.getElementById('messages');
+            if(!box) return;
+            if(box.querySelector('.ctx-warn-row')) return;
+            const row = document.createElement('div');
+            row.className = 'ctx-warn-row';
+            row.textContent = '💡 当前对话已累积 ' + usage.messages + ' 条消息（提醒阈值 ' + usage.warn_at
+                + ' 条）。继续聊下去会拖慢响应并推高成本，建议在左侧新建一个话题继续～';
+            box.appendChild(row);
+            scrollBottom();
+        }
+
+        function updateContextMeter(usage){
+            const box = document.getElementById('ctxMeter');
+            const fill = document.getElementById('ctxRingFill');
+            const txt = document.getElementById('ctxMeterText');
+            if(!box || !fill || !txt) return;
+            if(!usage){
+                box.classList.remove('warn', 'danger');
+                txt.textContent = '0/' + CTX_WINDOW_LIMIT;
+                fill.style.strokeDashoffset = String(CTX_RING_LEN);
+                box.title = '上下文用量';
+                return;
+            }
+            const pct = Math.max(0, Math.min(100, Number(usage.percent) || 0));
+            fill.style.strokeDashoffset = String(CTX_RING_LEN * (1 - pct / 100));
+            txt.textContent = usage.messages + '/' + (usage.window_limit || CTX_WINDOW_LIMIT);
+            box.classList.toggle('warn', pct >= 75 && pct < 93);
+            box.classList.toggle('danger', pct >= 93);
+            const lines = [];
+            lines.push('消息 ' + usage.messages + ' / ' + (usage.window_limit || CTX_WINDOW_LIMIT) + ' 条（' + pct + '%）');
+            lines.push('估算 ≈ ' + Number(usage.est_tokens || 0).toLocaleString() + ' tokens');
+            lines.push('图片 ' + (usage.images || 0) + ' 张 · 文本 ' + Number(usage.text_chars || 0).toLocaleString() + ' 字符');
+            if(usage.need_warning) lines.push('⚠️ 已达提醒阈值，建议开启新对话');
+            box.title = lines.join('\n');
+            if(usage.need_warning) maybeWarnNewTopic(usage);
+        }
+
         setTimeout(syncWebSearchBtn, 50);
         function handleKey(e){ if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); sendMessage(); } }
         window.addEventListener('keydown', e => {
             if(e.key === 'Escape') closeImagePreview();
         });
+
+        // ===== 流式中断与重新生成 =====
+        let _activeAbort = null;
+        let _isStreaming = false;
+
+        function setStreamingUI(on){
+            _isStreaming = !!on;
+            const stopBtn = document.getElementById('stopBtn');
+            const sendBtn = document.getElementById('sendBtn');
+            if(stopBtn) stopBtn.style.display = on ? 'flex' : 'none';
+            if(sendBtn) sendBtn.style.display = on ? 'none' : 'flex';
+        }
+
+        function stopGeneration(){
+            if(_activeAbort){ try { _activeAbort.abort(); } catch(e) {} }
+        }
+
+        function addRegenButton(bubbleObj){
+            if(!bubbleObj || !bubbleObj.bubble) return;
+            if(bubbleObj.bubble.querySelector('.regen-row')) return;
+            const row = document.createElement('div');
+            row.className = 'regen-row';
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'regen-btn';
+            btn.textContent = '↻ 重新生成';
+            btn.onclick = function(e){ e.stopPropagation(); regenerateReply(); };
+            row.appendChild(btn);
+            bubbleObj.bubble.appendChild(row);
+        }
+
+        async function regenerateReply(){
+            if(_isStreaming) return;
+            if(!currentConversation) return;
+            const msgs = currentConversation.messages || [];
+            while(msgs.length && msgs[msgs.length - 1].role === 'assistant') msgs.pop();
+            const lastUser = msgs[msgs.length - 1];
+            if(!lastUser || lastUser.role !== 'user') return;
+            const text = String(lastUser.content || '');
+            const atts = (lastUser.attachments || []).slice();
+            msgs.pop();
+            renderMessages(msgs);
+            const input = document.getElementById('messageInput');
+            input.value = text;
+            autoGrow(input);
+            refs = atts;
+            renderRefs();
+            await sendMessage();
+        }
 
         async function sendMessage(){
             const input = document.getElementById('messageInput');
@@ -1616,6 +2127,7 @@
             }
             const btn = document.getElementById('sendBtn');
             btn.disabled = true;
+            setStreamingUI(true);
             const requestedSize = chatSizeFromPrompt(message);
             const pendingRefs = refs.slice();
             refs = [];
@@ -1630,7 +2142,20 @@
             const useStreaming = (mode === 'chat' || mode === 'agent');
             const pendingText = mode === 'image' ? tr('chat.generatingImage') : '';
             const assistantBubble = addMessageBubble({role:'assistant', content: pendingText});
-            if(useStreaming || mode === 'agent') assistantBubble.bubble.classList.add('streaming');
+            if(useStreaming || mode === 'agent'){
+                assistantBubble.bubble.classList.add('streaming', 'is-empty');
+                const indicator = document.createElement('div');
+                indicator.className = 'streaming-indicator';
+                const dots = document.createElement('div');
+                dots.className = 'typing-dots';
+                dots.innerHTML = '<span></span><span></span><span></span>';
+                const lbl = document.createElement('span');
+                lbl.className = 'typing-label';
+                lbl.textContent = '正在生成';
+                indicator.appendChild(dots);
+                indicator.appendChild(lbl);
+                assistantBubble.bubble.insertBefore(indicator, assistantBubble.bubble.firstChild);
+            }
             scrollBottom();
             try {
                 const requestResolution = chatResolutionForRequest(message, requestedSize);
@@ -1659,7 +2184,7 @@
                     rememberConversation(currentConversation.id);
                     setChatTitle(currentConversation.title);
                     renderMessages(currentConversation.messages || []);
-                    await loadConversations();
+                    await loadConversations({skeleton:false});
                 } else if(mode === 'agent') {
                     const data = await fetch('/api/chat/agent', {
                         method:'POST',
@@ -1684,7 +2209,7 @@
                     rememberConversation(currentConversation.id);
                     setChatTitle(currentConversation.title);
                     renderMessages(currentConversation.messages || []);
-                    await loadConversations();
+                    await loadConversations({skeleton:false});
                 } else {
                     const data = await fetch('/api/chat', {
                         method:'POST',
@@ -1707,14 +2232,259 @@
                     rememberConversation(currentConversation.id);
                     setChatTitle(currentConversation.title);
                     renderMessages(currentConversation.messages || []);
-                    await loadConversations();
+                    await loadConversations({skeleton:false});
                 }
             } catch(err) {
-                renderMessages([...(currentConversation.messages || []), {role:'user', content:message, attachments:pendingRefs}, {role:'assistant', content:err.message || tr('chat.requestFailed')}]);
+                if(err && err.name === 'AbortError'){
+                    assistantBubble.bubble.classList.remove('streaming');
+                    assistantBubble.bubble.classList.add('stopped');
+                    if(!assistantBubble.bubble.querySelector('.stopped-tag')){
+                        const tag = document.createElement('div');
+                        tag.className = 'stopped-tag';
+                        tag.textContent = '⏹ 已停止生成';
+                        assistantBubble.bubble.appendChild(tag);
+                    }
+                } else {
+                    renderMessages([...(currentConversation.messages || []), {role:'user', content:message, attachments:pendingRefs}, {role:'assistant', content:err.message || tr('chat.requestFailed')}]);
+                }
             } finally {
                 btn.disabled = false;
+                setStreamingUI(false);
+                addRegenButton(assistantBubble);
                 scrollBottom();
             }
+        }
+
+        // ===== 右侧话题定位条 =====
+        let _locatorScrollRaf = null;
+        let _locatorRebuildTimer = null;
+
+        function locatorLabel(row){
+            const bubble = row.querySelector('.bubble');
+            if(!bubble) return '';
+            const txt = String(bubble.textContent || '').replace(/\\s+/g, ' ').trim();
+            const role = row.classList.contains('user') ? '你：' : 'AI：';
+            return role + (txt.length > 46 ? txt.slice(0, 46) + '…' : txt);
+        }
+
+        function setLocatorVisible(bar, on){
+            if(!bar) return;
+            if(on){
+                bar.classList.add('visible');
+                bar.removeAttribute('aria-hidden');
+                bar.style.setProperty('display', 'flex', 'important');
+                bar.style.setProperty('opacity', '1', 'important');
+                bar.style.setProperty('pointer-events', 'auto', 'important');
+            }else{
+                bar.classList.remove('visible');
+                bar.setAttribute('aria-hidden', 'true');
+                bar.style.setProperty('display', 'none', 'important');
+                bar.style.setProperty('pointer-events', 'none', 'important');
+            }
+        }
+
+        function refreshMsgLocator(){
+            const bar = document.getElementById('msgLocator');
+            const box = document.getElementById('messages');
+            if(!bar || !box) return;
+            const rows = [...box.querySelectorAll('.bubble-row')];
+            if(rows.length < 3){
+                setLocatorVisible(bar, false);
+                bar.innerHTML = '';
+                return;
+            }
+            setLocatorVisible(bar, true);
+            const keep = Math.max(6, Math.min(rows.length, 26));
+            const step = Math.max(1, Math.ceil(rows.length / keep));
+            const count = Math.ceil(rows.length / step);
+            const barH = bar.clientHeight || 400;
+            const needH = count * 6 + Math.max(0, count - 1) * 9;
+            let gap = 9;
+            if(needH > barH && count > 1){
+                gap = Math.max(2, Math.floor((barH - count * 6) / (count - 1)));
+            }
+            bar.style.gap = gap + 'px';
+            bar.innerHTML = '';
+            let preview = document.getElementById('locPreview');
+            if(!preview){
+                preview = document.createElement('div');
+                preview.className = 'loc-preview';
+                preview.id = 'locPreview';
+            }
+            if(preview.parentElement !== document.body) document.body.appendChild(preview);
+            const frag = document.createDocumentFragment();
+            for(let i = 0; i < rows.length; i += step){
+                const tick = document.createElement('div');
+                tick.className = 'loc-tick';
+                tick.dataset.idx = String(i);
+                tick.addEventListener('click', function(){
+                    const all = [...box.querySelectorAll('.bubble-row')];
+                    const target = all[Number(this.dataset.idx)];
+                    if(!target) return;
+                    const boxRect = box.getBoundingClientRect();
+                    const rowRect = target.getBoundingClientRect();
+                    const delta = rowRect.top - boxRect.top;
+                    const goal = Math.max(0, box.scrollTop + delta - (box.clientHeight - rowRect.height) / 2);
+                    const prevBehavior = box.style.scrollBehavior;
+                    box.style.scrollBehavior = 'auto';
+                    box.scrollTop = goal;
+                    setTimeout(function(){ box.style.scrollBehavior = prevBehavior; updateLocatorActive(); }, 60);
+                });
+                tick.addEventListener('mouseenter', function(){
+                    showLocatorPreview(Number(this.dataset.idx));
+                });
+                tick.addEventListener('mouseleave', function(){
+                    hideLocatorPreview();
+                });
+                frag.appendChild(tick);
+            }
+            bar.appendChild(frag);
+            updateLocatorActive();
+        }
+
+        function showLocatorPreview(idx){
+            const bar = document.getElementById('msgLocator');
+            const box = document.getElementById('messages');
+            const preview = document.getElementById('locPreview');
+            if(!bar || !box || !preview) return;
+            const rows = [...box.querySelectorAll('.bubble-row')];
+            const row = rows[idx];
+            if(!row) return;
+            const isUser = row.classList.contains('user');
+            const bubble = row.querySelector('.bubble');
+            let txt = '';
+            if(bubble){
+                const clone = bubble.cloneNode(true);
+                clone.querySelectorAll('.reasoning-box, .streaming-indicator, .generated-grid, img, .thumbs, .regen-row, .stopped-tag, .omni-web-pill').forEach(function(n){ n.remove(); });
+                const bt = clone.querySelector('.bubble-text') || clone;
+                txt = String(bt.textContent || '').replace(/\s+/g, ' ').trim();
+            }
+            preview.innerHTML = '';
+            const head = document.createElement('div');
+            head.className = 'lp-head';
+            const role = document.createElement('span');
+            role.className = 'lp-role ' + (isUser ? 'is-user' : 'is-ai');
+            role.textContent = isUser ? '你' : 'AI';
+            head.appendChild(role);
+            const idxEl = document.createElement('span');
+            idxEl.className = 'lp-idx';
+            idxEl.textContent = '#' + (idx + 1) + ' / ' + rows.length;
+            head.appendChild(idxEl);
+            preview.appendChild(head);
+            if(txt){
+                const t = document.createElement('div');
+                t.className = 'lp-text';
+                t.textContent = txt.length > 96 ? txt.slice(0, 96) + '…' : txt;
+                preview.appendChild(t);
+            }
+            const srcs = [];
+            row.querySelectorAll('img').forEach(function(im){
+                if(im.src && srcs.length < 3 && srcs.indexOf(im.src) < 0) srcs.push(im.src);
+            });
+            if(srcs.length){
+                const tw = document.createElement('div');
+                tw.className = 'lp-thumbs';
+                srcs.forEach(function(s){
+                    const im = document.createElement('img');
+                    im.className = 'lp-thumb';
+                    im.src = s;
+                    tw.appendChild(im);
+                });
+                preview.appendChild(tw);
+            }
+            const tick = bar.querySelector('.loc-tick[data-idx="' + idx + '"]');
+            if(!tick) return;
+            const tickRect = tick.getBoundingClientRect();
+            const winW = window.innerWidth;
+            const winH = window.innerHeight;
+            const ph = preview.offsetHeight || 80;
+            const pw = preview.offsetWidth || 160;
+            const halfH = ph / 2;
+            let top = tickRect.top + tickRect.height / 2 - halfH;
+            top = Math.max(8, Math.min(top, winH - ph - 8));
+            let left = tickRect.left - pw - 14;
+            if(left < 8) left = tickRect.right + 14;
+            if(left + pw > winW - 8) left = Math.max(8, winW - pw - 8);
+            preview.style.top = top + 'px';
+            preview.style.left = left + 'px';
+            preview.style.right = 'auto';
+            preview.classList.remove('show');
+            void preview.offsetWidth;
+            preview.classList.add('show');
+        }
+
+        function hideLocatorPreview(){
+            const preview = document.getElementById('locPreview');
+            if(!preview) return;
+            preview.classList.remove('show');
+        }
+
+        function updateLocatorActive(){
+            const bar = document.getElementById('msgLocator');
+            const box = document.getElementById('messages');
+            if(!bar || !box) return;
+            const ticks = [...bar.querySelectorAll('.loc-tick')];
+            if(!ticks.length) return;
+            const rows = [...box.querySelectorAll('.bubble-row')];
+            if(!rows.length) return;
+            const boxRect = box.getBoundingClientRect();
+            const midY = boxRect.top + boxRect.height / 2;
+            let best = 0, bestDist = Infinity;
+            rows.forEach(function(r, i){
+                const rc = r.getBoundingClientRect();
+                if(!rc.height) return;
+                const d = Math.abs((rc.top + rc.bottom) / 2 - midY);
+                if(d < bestDist){ bestDist = d; best = i; }
+            });
+            const span = Math.max(1, Math.ceil(rows.length / Math.max(1, ticks.length)));
+            ticks.forEach(function(t){
+                const idx = Number(t.dataset.idx);
+                t.classList.toggle('active', Math.abs(idx - best) < span);
+            });
+        }
+
+        function scheduleLocatorRefresh(){
+            if(_locatorRebuildTimer) return;
+            _locatorRebuildTimer = setTimeout(function(){
+                _locatorRebuildTimer = null;
+                refreshMsgLocator();
+            }, 180);
+        }
+
+        function bindLocatorScroll(){
+            const box = document.getElementById('messages');
+            if(!box) return;
+            if(box.dataset.locatorBound !== '1'){
+                box.dataset.locatorBound = '1';
+                box.addEventListener('scroll', function(){
+                    if(_locatorScrollRaf) return;
+                    _locatorScrollRaf = requestAnimationFrame(function(){
+                        _locatorScrollRaf = null;
+                        updateLocatorActive();
+                    });
+                }, { passive:true });
+            }
+            if(!window._locatorObserver && window.MutationObserver){
+                window._locatorObserver = new MutationObserver(function(muts){
+                    for(let i=0;i<muts.length;i++){
+                        const m = muts[i];
+                        if(m.type === 'childList' && m.target && m.target.id === 'messages' && m.addedNodes && m.addedNodes.length){
+                            scheduleLocatorRefresh();
+                            return;
+                        }
+                    }
+                });
+                window._locatorObserver.observe(box, { childList:true });
+            }
+        }
+
+        // 性能模式自动降级（必须置于所有调用点之前）
+        const PERF_LITE_THRESHOLD = 8;
+        let _perfStreaming = false;
+        function applyPerfMode(msgCount){
+            const n = typeof msgCount === 'number' ? msgCount : ((currentConversation && currentConversation.messages) ? currentConversation.messages.length : 0);
+            const lite = _perfStreaming || n >= PERF_LITE_THRESHOLD;
+            document.body.classList.toggle('perf-lite', lite);
         }
 
         async function streamChatMessage(message, pendingRefs, assistantBubble, requestedSize='', requestAspectRatio='', requestResolution=''){
@@ -1722,10 +2492,14 @@
             const currentMsModel = provider === 'modelscope' ? (msModel || activeChatModel || (config.ms_chat_models?.[0] || '')) : '';
             const currentChatModel = activeChatModel || config.chat_model;
             let loaderTimer = null;
+            let reasoningText = '';
+            let reasoningSealed = false;
             let loaderEl = null;
 
+            _activeAbort = new AbortController();
             const res = await fetch('/api/chat/stream', {
                 method:'POST',
+                signal: _activeAbort.signal,
                 headers:headers(),
                 body:JSON.stringify({
                     conversation_id: currentConversation.id || '',
@@ -1745,6 +2519,8 @@
                 })
             });
             if(!res.ok) throw new Error((await res.json()).detail || tr('chat.requestFailed'));
+            _perfStreaming = true;
+            applyPerfMode();
             const reader = res.body.getReader();
             const decoder = new TextDecoder();
             let buffer = '';
@@ -1764,6 +2540,7 @@
                             currentConversation = event.conversation;
                             rememberConversation(currentConversation.id);
                             setChatTitle(currentConversation.title);
+                            if(event.context_usage) updateContextMeter(event.context_usage);
                         }
                         if(event.type === 'web_searching'){
                             let pill = assistantBubble.bubble.querySelector('.omni-web-pill');
@@ -1776,6 +2553,18 @@
                             pill.textContent = `🌐 ${qLabel}`;
                             scrollBottom();
                         }
+                        if(event.type === 'web_search_refining'){
+                            let pill = assistantBubble.bubble.querySelector('.omni-web-pill');
+                            if(!pill){
+                                pill = document.createElement('div');
+                                pill.className = 'omni-web-pill';
+                                assistantBubble.bubble.insertBefore(pill, assistantBubble.text);
+                            }
+                            pill.classList.add('is-loading');
+                            const qs = (event.queries || []).slice(0, 2).join(' | ');
+                            pill.textContent = '🔄 ' + (event.label || ('补充检索：' + qs));
+                            scrollBottom();
+                        }
                         if(event.type === 'web_search_done'){
                             let pill = assistantBubble.bubble.querySelector('.omni-web-pill');
                             if(!pill){
@@ -1783,14 +2572,102 @@
                                 pill.className = 'omni-web-pill';
                                 assistantBubble.bubble.insertBefore(pill, assistantBubble.text);
                             }
+                        if(event.type === 'image_searching'){
+                            let pill = assistantBubble.bubble.querySelector('.omni-img-pill');
+                            if(!pill){
+                                pill = document.createElement('div');
+                                pill.className = 'omni-web-pill omni-img-pill';
+                                assistantBubble.bubble.insertBefore(pill, assistantBubble.text);
+                            }
+                            pill.classList.add('is-loading');
+                            const imgName = event.name ? ('（' + String(event.name).slice(0, 28) + '）') : '';
+                            const engine = event.engine || 'SauceNAO';
+                            pill.textContent = '🔍 正在以图搜图' + imgName + ' · ' + engine;
+                            scrollBottom();
+                        }
+                        if(event.type === 'image_describing'){
+                            let pill = assistantBubble.bubble.querySelector('.omni-img-pill');
+                            if(!pill){
+                                pill = document.createElement('div');
+                                pill.className = 'omni-web-pill omni-img-pill';
+                                assistantBubble.bubble.insertBefore(pill, assistantBubble.text);
+                            }
+                            pill.classList.add('is-loading');
+                            pill.textContent = '🔍 ' + (event.label || '图搜未命中，正在分析画面特征…');
+                            scrollBottom();
+                        }
+                        if(event.type === 'image_fallback_searching'){
+                            let pill = assistantBubble.bubble.querySelector('.omni-img-pill');
+                            if(!pill){
+                                pill = document.createElement('div');
+                                pill.className = 'omni-web-pill omni-img-pill';
+                                assistantBubble.bubble.insertBefore(pill, assistantBubble.text);
+                            }
+                            pill.classList.add('is-loading');
+                            pill.textContent = '🔍 ' + (event.label || (event.keywords ? ('视觉描述检索：' + (event.keywords || []).slice(0,2).join(' | ')) : '正在按视觉特征检索…'));
+                            scrollBottom();
+                        }
+                        if(event.type === 'image_search_done'){
+                            let pill = assistantBubble.bubble.querySelector('.omni-img-pill');
+                            if(!pill){
+                                pill = document.createElement('div');
+                                pill.className = 'omni-web-pill omni-img-pill';
+                                assistantBubble.bubble.insertBefore(pill, assistantBubble.text);
+                            }
+                            pill.classList.remove('is-loading');
+                            const best = event.best || {};
+                            const viaVisual = event.source === 'visual_fallback';
+                            if(event.found){
+                                if(viaVisual){
+                                    const kws = (event.keywords || []).slice(0,3).join(' · ');
+                                    const cnt = event.count ? (' · 已检索 ' + event.count + ' 条') : '';
+                                    pill.textContent = '🔍 视觉描述检索命中：' + (kws || '相关结果') + cnt;
+                                } else {
+                                    const parts = [];
+                                    if(best.characters) parts.push(best.characters);
+                                    if(best.title) parts.push(best.title);
+                                    if(best.author) parts.push('作者 ' + best.author);
+                                    const head = parts.length ? parts.join(' · ') : '已匹配';
+                                    const sim = best.similarity ? (' · ' + best.similarity + '%') : '';
+                                    const cnt = event.count && event.count > 1 ? (' · ' + event.count + ' 个候选') : '';
+                                    pill.textContent = '🔍 图搜命中：' + head + sim + cnt;
+                                }
+                            } else {
+                                const reason = event.error ? ('：' + event.error) : '';
+                                pill.textContent = '🔍 未找到可信匹配' + reason;
+                            }
+                            scrollBottom();
+                        }
+                            pill.classList.remove('is-loading');
                             const doneLabel = event.label || ((event.urls && event.urls.length) ? `已读取网页实时内容` : `已参考联网检索 (${event.query || '实时资料'})`);
                             pill.textContent = `🌐 ${doneLabel}`;
                             scrollBottom();
                         }
-                        if(event.type === 'delta'){
-                            fullText += event.delta || '';
-                            assistantBubble.text.textContent = fullText;
+                        if(event.type === 'thinking'){
+                            if(!assistantBubble.reasoningBox){
+                                assistantBubble.reasoningBox = buildReasoningBox('', true);
+                                assistantBubble.bubble.insertBefore(assistantBubble.reasoningBox, assistantBubble.text);
+                            }
+                            reasoningText += event.delta || '';
+                            updateReasoningBox(assistantBubble.reasoningBox, reasoningText, true);
                             scrollBottom();
+                        }
+                        if(event.type === 'delta'){
+                            if(assistantBubble.bubble.classList.contains('is-empty')){
+                                assistantBubble.bubble.classList.remove('is-empty');
+                            }
+                            if(assistantBubble.reasoningBox && !reasoningSealed){
+                                updateReasoningBox(assistantBubble.reasoningBox, reasoningText, false);
+                                reasoningSealed = true;
+                            }
+                            fullText += event.delta || '';
+                            if(!assistantBubble._flushTimer){
+                                assistantBubble._flushTimer = setTimeout(function(){
+                                    assistantBubble._flushTimer = null;
+                                    assistantBubble.text.textContent = fullText;
+                                    scrollBottom();
+                                }, 60);
+                            }
                         }
                         if(event.type === 'image_generating'){
                             assistantBubble.bubble.classList.remove('streaming');
@@ -1814,21 +2691,79 @@
                         if(event.type === 'done'){
                             if(loaderTimer) { clearInterval(loaderTimer); loaderTimer = null; }
                             assistantBubble.bubble.classList.remove('streaming');
+                            if(assistantBubble._flushTimer){
+                                clearTimeout(assistantBubble._flushTimer);
+                                assistantBubble._flushTimer = null;
+                            }
                             currentConversation = event.conversation;
                             rememberConversation(currentConversation.id);
                             setChatTitle(currentConversation.title);
-                            renderMessages(currentConversation.messages || []);
-                            await loadConversations();
+                            const lastMsg = event.message;
+                            if(lastMsg && lastMsg.id){
+                                if(!currentConversation.messages.some(function(m){ return m.id === lastMsg.id; })){
+                                    currentConversation.messages.push(lastMsg);
+                                }
+                                if(lastMsg.type === 'image'){
+                                    if(!assistantBubble.text.textContent) assistantBubble.text.textContent = lastMsg.agent_reply || '';
+                                    if(!assistantBubble.bubble.querySelector('.generated-grid')){
+                                        const grid = document.createElement('div');
+                                        const urls = Array.isArray(lastMsg.image_urls) && lastMsg.image_urls.length
+                                            ? lastMsg.image_urls : (lastMsg.image_url ? [lastMsg.image_url] : []);
+                                        grid.className = 'generated-grid count-' + Math.min(urls.length, 4);
+                                        urls.forEach(function(u){
+                                            const wrap = document.createElement('div');
+                                            wrap.className = 'gen-card-wrap';
+                                            const im = document.createElement('img');
+                                            im.className = 'generated';
+                                            im.decoding = 'async';
+                                            im.src = thumbUrl(u, 480);
+                                            im.onclick = function(){ openImagePreview(u); };
+                                            wrap.appendChild(im);
+                                            grid.appendChild(wrap);
+                                        });
+                                        assistantBubble.bubble.appendChild(grid);
+                                        assistantBubble.bubble.classList.add('image-bubble');
+                                    }
+                                } else if(lastMsg.content) {
+                                    assistantBubble.text.textContent = lastMsg.content;
+                                }
+                            } else if(!assistantBubble.text.textContent) {
+                                assistantBubble.text.textContent = '';
+                            }
+                            updateContextMeter(localContextUsage(currentConversation.messages));
+                            scrollBottom();
                         }
                     }
                 }
             } finally {
                 if(loaderTimer) clearInterval(loaderTimer);
-                assistantBubble.bubble.classList.remove('streaming');
+                assistantBubble.bubble.classList.remove('streaming', 'is-empty');
+                const _ind = assistantBubble.bubble.querySelector('.streaming-indicator');
+                if(_ind) _ind.remove();
+                const _staleDots = assistantBubble.text.querySelector('.typing-dots');
+                if(_staleDots) _staleDots.remove();
+                _perfStreaming = false;
+                applyPerfMode();
+                _activeAbort = null;
             }
         }
 
-        function scrollBottom(){ requestAnimationFrame(() => { const box = document.getElementById('messages'); box.scrollTop = box.scrollHeight; }); }
+        let _sbPending = false;
+        function scrollBottom(){
+            if(_sbPending) return;
+            _sbPending = true;
+            requestAnimationFrame(() => {
+                _sbPending = false;
+                const box = document.getElementById('messages');
+                if(!box) return;
+                const gap = box.scrollHeight - box.scrollTop - box.clientHeight;
+                if(gap >= 160) return;
+                const prev = box.style.scrollBehavior;
+                box.style.scrollBehavior = 'auto';
+                box.scrollTop = box.scrollHeight;
+                box.style.scrollBehavior = prev;
+            });
+        }
         function escapeHtml(str){ return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s])); }
 
         window.onload = async () => {

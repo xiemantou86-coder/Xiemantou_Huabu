@@ -16,12 +16,12 @@
             } catch(e) {}
         })();
     </script>
-    <script src="/static/vendor/js/tailwindcss-cdn.js?v=%EF%BB%BF2026.10.18_2.1791960842"></script>
-    <script src="/static/vendor/js/lucide.js?v=%EF%BB%BF2026.10.18_2.1791960842"></script>
-    <script src="/static/js/theme.js?v=%EF%BB%BF2026.10.18_2.1791960804"></script>
-    <script src="/static/js/i18n.js?v=%EF%BB%BF2026.10.18_2.1791960792"></script>
-    <link rel="stylesheet" href="/static/css/theme.css?v=%EF%BB%BF2026.10.18_2.1791960773">
-    <link rel="stylesheet" href="/static/css/api-settings.css?v=%EF%BB%BF2026.10.18_2.1791960765">
+    <script src="/static/vendor/js/tailwindcss-cdn.js?v=%EF%BB%BF2026.10.19_1.1791960842"></script>
+    <script src="/static/vendor/js/lucide.js?v=%EF%BB%BF2026.10.19_1.1791960842"></script>
+    <script src="/static/js/theme.js?v=%EF%BB%BF2026.10.19_1.1791960804"></script>
+    <script src="/static/js/i18n.js?v=%EF%BB%BF2026.10.19_1.1791960792"></script>
+    <link rel="stylesheet" href="/static/css/theme.css?v=%EF%BB%BF2026.10.19_1.1791960773">
+    <link rel="stylesheet" href="/static/css/api-settings.css?v=%EF%BB%BF2026.10.19_1.1791960765">
 </head>
 <body>
     <div class="page">
@@ -47,6 +47,13 @@
                             <button class="cli-quick-btn" type="button" onclick="addCliProvider('codex')"><i data-lucide="terminal" class="w-3.5 h-3.5"></i><span>GPT CLI</span></button>
                             <button class="cli-quick-btn" type="button" onclick="addCliProvider('gemini-cli')"><i data-lucide="sparkles" class="w-3.5 h-3.5"></i><span>Antigravity CLI</span></button>
                             <div class="cli-quick-note">需要先安装 CLI文件夹中的依赖。</div>
+                        </div>
+                    </div>
+                    <div class="cli-quick-group">
+                        <div class="side-section-title">Omni 设置</div>
+                        <div class="cli-quick-list">
+                            <button class="cli-quick-btn" type="button" onclick="openOmniSettings()"><i data-lucide="search" class="w-3.5 h-3.5"></i><span>搜索与图搜</span></button>
+                            <div class="cli-quick-note">博查联网搜索 / SauceNAO 以图搜图</div>
                         </div>
                     </div>
                 </aside>
@@ -446,6 +453,111 @@
                     </div>
                     <section id="recommendPanel" class="provider-onboarding-card recommend-inline-card"></section>
                 </main>
+                <main id="omniContent" class="content" hidden>
+                    <div class="content-head">
+                        <div>
+                            <div class="editor-title">Omni 设置</div>
+                            <div class="editor-sub">联网搜索与以图搜图的 API 配置。保存后即时生效，无需重启。</div>
+                        </div>
+                        <div class="content-actions">
+                            <button class="action-btn save-btn" type="button" onclick="saveOmniSettings()"><i data-lucide="save" class="w-4 h-4"></i><span>保存</span></button>
+                            <button class="action-btn" type="button" onclick="closeOmniSettings()"><i data-lucide="x" class="w-4 h-4"></i><span>关闭</span></button>
+                        </div>
+                    </div>
+                    <div id="omniStatus" class="status"></div>
+
+                    <section class="block">
+                        <div class="block-head">
+                            <div>
+                                <div class="block-title">博查联网搜索</div>
+                                <div class="block-desc">Bocha Web Search API · 国内直连 · ￥0.036/次 · 主搜索源</div>
+                            </div>
+                        </div>
+                        <div class="form">
+                            <label class="field full">
+                                <span class="label">API Key</span>
+                                <div class="field-frame"><input id="omniBochaKey" type="password" placeholder="sk-..." autocomplete="off"></div>
+                                <span class="hint" id="omniBochaKeyHint">未配置</span>
+                            </label>
+                            <label class="field">
+                                <span class="label">启用</span>
+                                <div class="field-frame">
+                                    <select id="omniBochaEnabled">
+                                        <option value="1">启用（优先使用博查）</option>
+                                        <option value="0">禁用（回退到免费搜索源）</option>
+                                    </select>
+                                </div>
+                            </label>
+                            <label class="field">
+                                <span class="label">每查询条数（1-50）</span>
+                                <div class="field-frame"><input id="omniBochaCount" type="number" min="1" max="50" step="1" value="10"></div>
+                                <span class="hint">条数越多上下文越丰富，但也更消耗 token</span>
+                            </label>
+                            <label class="field">
+                                <span class="label">返回 AI 摘要</span>
+                                <div class="field-frame">
+                                    <select id="omniBochaSummary">
+                                        <option value="1">启用（summary=true，摘要更完整）</option>
+                                        <option value="0">禁用（只返回简短片段）</option>
+                                    </select>
+                                </div>
+                            </label>
+                            <label class="field full">
+                                <span class="label">端点</span>
+                                <div class="field-frame"><input id="omniBochaEndpoint" type="text" readonly></div>
+                            </label>
+                            <div class="field full">
+                                <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+                                    <input id="omniBochaClear" type="checkbox">
+                                    <span>清除已保存的博查 Key</span>
+                                </label>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="block">
+                        <div class="block-head">
+                            <div>
+                                <div class="block-title">SauceNAO 以图搜图</div>
+                                <div class="block-desc">二次元/插画/游戏角色识别 · 免费账户 100 次/天 · 4 次/30 秒</div>
+                            </div>
+                        </div>
+                        <div class="form">
+                            <label class="field full">
+                                <span class="label">API Key</span>
+                                <div class="field-frame"><input id="omniSauceKey" type="password" placeholder="40 位十六进制" autocomplete="off"></div>
+                                <span class="hint" id="omniSauceKeyHint">未配置</span>
+                            </label>
+                            <label class="field">
+                                <span class="label">相似度阈值（0-100）</span>
+                                <div class="field-frame"><input id="omniSauceMinSim" type="number" min="0" max="100" step="1" value="60"></div>
+                                <span class="hint">低于此值视为无意义匹配。SauceNAO 分数偏高，建议 60-70</span>
+                            </label>
+                            <div class="field full">
+                                <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+                                    <input id="omniSauceClear" type="checkbox">
+                                    <span>清除已保存的 SauceNAO Key</span>
+                                </label>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="block">
+                        <div class="block-head">
+                            <div>
+                                <div class="block-title">说明</div>
+                            </div>
+                        </div>
+                        <div class="form">
+                            <div class="field full" style="font-size:12.5px;line-height:1.75;color:var(--chat-muted,#94a3b8)">
+                                • 两个 Key 都写入 <code>API/.env</code>，保存后立即生效<br/>
+                                • 博查不可用时自动回退到免费搜索源（必应 + 查询降级）<br/>
+                                • 图搜触发词：这是谁 / 什么角色 / 出自哪 / 图片里是谁 …<br/>
+                                • 博查注册：<a href="https://open.bocha.cn" target="_blank" rel="noopener">open.bocha.cn</a>　SauceNAO 注册：<a href="https://saucenao.com/user.php?page=search-api" target="_blank" rel="noopener">saucenao.com</a>
+                            </div>
+                        </div>
+                    </section>
+                </main>
         </div>
         </div>
     </div>
@@ -619,6 +731,6 @@
         </div>
     </div>
 
-    <script src="/static/js/api-settings.js?v=%EF%BB%BF2026.10.18_2.1792127564"></script>
+    <script src="/static/js/api-settings.js?v=%EF%BB%BF2026.10.19_1.1792495468"></script>
 </body>
 </html>

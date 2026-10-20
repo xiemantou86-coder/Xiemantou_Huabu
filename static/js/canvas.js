@@ -5792,13 +5792,15 @@ function createLinkedNode(type){
         fromPort = normalized.fromPort;
         toPort = normalized.toPort;
     }
-    if(canConnect(fromId, toId, fromPort, toPort, kind) && !connections.some(c => c.from === fromId && c.to === toId && kvConnectionKind(c) === kind)){
+    if(canConnect(fromId, toId, fromPort, toPort, kind) && !connections.some(c => c.from === fromId && c.to === toId && kvConnectionKind(c) === kind && (kind !== KV_CONNECTION_KIND_GALLERY_SLOT_OUT || c.fromPort === fromPort))){
         replacePromptChainInput(fromId, toId);
         if(kind === KV_CONNECTION_KIND_IMAGE) connections = connections.filter(c => !(isKvImageBindingConnection(c) && (c.from === fromId || c.to === toId)));
         if(kind === KV_CONNECTION_KIND_GALLERY) connections = connections.filter(c => !(isKvGalleryConnection(c) && c.to === toId));
         if(kind === KV_CONNECTION_KIND_GALLERY_SLOT) connections = connections.filter(c => !(isKvGallerySlotConnection(c) && c.to === toId && c.toPort === toPort));
-        if(fromNode.type === 'kvReferenceGallery' && ['generator', 'masterGenerator'].includes(toNode.type)){
-            connections = connections.filter(c => c.to !== toId || !nodes.some(node => node.id === c.from && node.type === 'kvReferenceGallery'));
+        if(kind === KV_CONNECTION_KIND_GALLERY_SLOT_OUT){
+            connections = connections.filter(c => !(isKvGallerySlotOutConnection(c) && c.from === fromId && c.to === toId && c.fromPort === fromPort));
+        } else if(fromNode.type === 'kvReferenceGallery' && ['generator', 'masterGenerator'].includes(toNode.type)){
+            connections = connections.filter(c => c.to !== toId || isKvGallerySlotOutConnection(c) || !nodes.some(node => node.id === c.from && node.type === 'kvReferenceGallery'));
         }
         connections.push({id:uid('c'), kind, from:fromId, to:toId, fromPort, toPort});
         syncLatestGeneratedOutputToConnection(fromId, toId);
@@ -20158,14 +20160,16 @@ function startLink(e, originId, originKind, originPort=''){
             const toNode = nodes.find(node => node.id === toId);
             const kind = connectionKindFromPorts(fromNode, toNode, fromPort, toPort);
             if(canConnect(fromId, toId, fromPort, toPort, kind)){
-                if(!connections.some(c => c.from === fromId && c.to === toId && kvConnectionKind(c) === kind)){
+                if(!connections.some(c => c.from === fromId && c.to === toId && kvConnectionKind(c) === kind && (kind !== KV_CONNECTION_KIND_GALLERY_SLOT_OUT || c.fromPort === fromPort))){
                     pushUndo();
                     replacePromptChainInput(fromId, toId);
                     if(kind === KV_CONNECTION_KIND_IMAGE) connections = connections.filter(c => !(isKvImageBindingConnection(c) && (c.from === fromId || c.to === toId)));
                     if(kind === KV_CONNECTION_KIND_GALLERY) connections = connections.filter(c => !(isKvGalleryConnection(c) && c.to === toId));
                     if(kind === KV_CONNECTION_KIND_GALLERY_SLOT) connections = connections.filter(c => !(isKvGallerySlotConnection(c) && c.to === toId && c.toPort === toPort));
-                    if(fromNode.type === 'kvReferenceGallery' && ['generator', 'masterGenerator'].includes(toNode.type)){
-                        connections = connections.filter(c => c.to !== toId || !nodes.some(node => node.id === c.from && node.type === 'kvReferenceGallery'));
+                    if(kind === KV_CONNECTION_KIND_GALLERY_SLOT_OUT){
+                        connections = connections.filter(c => !(isKvGallerySlotOutConnection(c) && c.from === fromId && c.to === toId && c.fromPort === fromPort));
+                    } else if(fromNode.type === 'kvReferenceGallery' && ['generator', 'masterGenerator'].includes(toNode.type)){
+                        connections = connections.filter(c => c.to !== toId || isKvGallerySlotOutConnection(c) || !nodes.some(node => node.id === c.from && node.type === 'kvReferenceGallery'));
                     }
                     connections.push({id:uid('c'), kind, from:fromId, to:toId, fromPort, toPort});
                     syncLatestGeneratedOutputToConnection(fromId, toId);

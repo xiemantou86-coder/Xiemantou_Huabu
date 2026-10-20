@@ -10,44 +10,348 @@
     {
       "id": "tutorial_generator",
       "type": "generator",
-      "x": 510,
-      "y": 120,
-      "apiProvider": "custom-api-5",
-      "model": "gpt-image-2.5-sunburst",
+      "x": 517.289628702493,
+      "y": 115.1639327362145,
+      "apiProvider": "apimart",
+      "model": "gpt-image-2",
       "ratio": "wide",
       "resolution": "4k",
       "customRatio": "",
       "customSize": "",
       "transparentBackground": false,
       "inputs": [
-        "prompt_f7d566c366229_1792142372531"
+        "img_56399f7629d03_1792384052943",
+        "prompt_e5b6d5de1eae18_1792384059083"
       ],
       "generatedOutputs": [
-        "/assets/output/online_2fd779b92f.png"
+        "/assets/output/online_c04a45ff80.png"
       ],
       "_apiResolutionUserSet": false,
       "customWidth": "",
       "customHeight": "",
       "customRatioWidth": "",
       "customRatioHeight": "",
-      "quality": "xhigh",
+      "quality": "max",
       "transparentCheckWarning": ""
     },
     {
       "id": "tutorial_output",
       "type": "output",
-      "x": 916.8683386944491,
-      "y": 117.92418970081557,
+      "x": 912.5040355547706,
+      "y": 8.816611208851555,
       "images": [
         {
           "url": "/static/tutorial/kitten-example.jpg",
           "viewed": true
+        },
+        {
+          "url": "https://sub2api.07b8fef090a4290405b3f0c29be027d4.r2.cloudflarestorage.com/images/imgtask_d99f096c5ad74290b7615351e973e361-0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Checksum-Mode=ENABLED&X-Amz-Credential=0c31e83d958af4238a1da7ad1465f4e2%2F20261019%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20261019T061815Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=e6172162aae81f2d41bfe34a52a0bcb2b49d17b140300644333ed6d197e905ed",
+          "viewed": true,
+          "runMs": 84647,
+          "run": {
+            "nodeType": "generator",
+            "node": {
+              "id": "tutorial_generator",
+              "type": "generator",
+              "x": 517.289628702493,
+              "y": 115.1639327362145,
+              "apiProvider": "custom-api-5",
+              "model": "gpt-image-2.5-flare",
+              "ratio": "wide",
+              "resolution": "2k",
+              "customRatio": "",
+              "customSize": "",
+              "transparentBackground": false,
+              "generatedOutputs": [
+                "/assets/output/online_d342101611.png"
+              ],
+              "_apiResolutionUserSet": true,
+              "customWidth": "",
+              "customHeight": "",
+              "customRatioWidth": "",
+              "customRatioHeight": "",
+              "quality": "high",
+              "transparentCheckWarning": ""
+            },
+            "prompt": "改变图片的时间，改成夕阳的强对比光线",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_d188ed1d7479.png",
+                "name": "个人糊弄 (2).png"
+              }
+            ],
+            "request": {
+              "task_id": "imgtask_d99f096c5ad74290b7615351e973e361",
+              "request_id": "imgtask_d99f096c5ad74290b7615351e973e361",
+              "provider_id": "custom-api-5",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        },
+        {
+          "url": "/assets/output/online_d47582d593.png",
+          "viewed": false,
+          "runMs": 27330,
+          "run": {
+            "nodeType": "generator",
+            "node": {
+              "id": "tutorial_generator",
+              "type": "generator",
+              "x": 517.289628702493,
+              "y": 115.1639327362145,
+              "apiProvider": "apimart",
+              "model": "gpt-image-2.5-flare",
+              "ratio": "wide",
+              "resolution": "1k",
+              "customRatio": "",
+              "customSize": "",
+              "transparentBackground": false,
+              "generatedOutputs": [
+                "https://sub2api.07b8fef090a4290405b3f0c29be027d4.r2.cloudflarestorage.com/images/imgtask_d99f096c5ad74290b7615351e973e361-0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Checksum-Mode=ENABLED&X-Amz-Credential=0c31e83d958af4238a1da7ad1465f4e2%2F20261019%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20261019T061815Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=e6172162aae81f2d41bfe34a52a0bcb2b49d17b140300644333ed6d197e905ed"
+              ],
+              "_apiResolutionUserSet": true,
+              "customWidth": "",
+              "customHeight": "",
+              "customRatioWidth": "",
+              "customRatioHeight": "",
+              "quality": "max",
+              "transparentCheckWarning": ""
+            },
+            "prompt": "改变图片的时间，改成夕阳的强对比光线",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_d188ed1d7479.png",
+                "name": "个人糊弄 (2).png"
+              }
+            ],
+            "request": {
+              "task_id": "task_01M5CNQNPTQGVQANQQXQ7RXAN9",
+              "request_id": "",
+              "provider_id": "apimart",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        },
+        {
+          "url": "/assets/output/online_f9881ab3c7.png",
+          "viewed": false,
+          "runMs": 53568,
+          "run": {
+            "nodeType": "generator",
+            "node": {
+              "id": "tutorial_generator",
+              "type": "generator",
+              "x": 517.289628702493,
+              "y": 115.1639327362145,
+              "apiProvider": "apimart",
+              "model": "gpt-image-2.5-ext",
+              "ratio": "wide",
+              "resolution": "1k",
+              "customRatio": "",
+              "customSize": "",
+              "transparentBackground": false,
+              "generatedOutputs": [
+                "/assets/output/online_d47582d593.png"
+              ],
+              "_apiResolutionUserSet": true,
+              "customWidth": "",
+              "customHeight": "",
+              "customRatioWidth": "",
+              "customRatioHeight": "",
+              "quality": "max",
+              "transparentCheckWarning": ""
+            },
+            "prompt": "改变图片的时间，改成夕阳的强对比光线",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_d188ed1d7479.png",
+                "name": "个人糊弄 (2).png"
+              }
+            ],
+            "request": {
+              "task_id": "task_01M5CNSHBF9HED1R4M0Y915SS1",
+              "request_id": "",
+              "provider_id": "apimart",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        },
+        {
+          "url": "/assets/output/online_d306093426.png",
+          "viewed": false,
+          "runMs": 42922,
+          "run": {
+            "nodeType": "generator",
+            "node": {
+              "id": "tutorial_generator",
+              "type": "generator",
+              "x": 517.289628702493,
+              "y": 115.1639327362145,
+              "apiProvider": "apimart",
+              "model": "gpt-image-2.5-ext",
+              "ratio": "wide",
+              "resolution": "1k",
+              "customRatio": "",
+              "customSize": "",
+              "transparentBackground": false,
+              "generatedOutputs": [
+                "/assets/output/online_f9881ab3c7.png"
+              ],
+              "_apiResolutionUserSet": true,
+              "customWidth": "",
+              "customHeight": "",
+              "customRatioWidth": "",
+              "customRatioHeight": "",
+              "quality": "max",
+              "transparentCheckWarning": ""
+            },
+            "prompt": "改变图片的时间，改成夕阳的强对比光线",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_d188ed1d7479.png",
+                "name": "个人糊弄 (2).png"
+              }
+            ],
+            "request": {
+              "task_id": "task_01M5CP41FD7JZ7Z3806DGPZ1M5",
+              "request_id": "",
+              "provider_id": "apimart",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        },
+        {
+          "url": "/assets/output/online_c04a45ff80.png",
+          "viewed": true,
+          "runMs": 30995,
+          "run": {
+            "nodeType": "generator",
+            "node": {
+              "id": "tutorial_generator",
+              "type": "generator",
+              "x": 517.289628702493,
+              "y": 115.1639327362145,
+              "apiProvider": "apimart",
+              "model": "gpt-image-2.5-sunburst",
+              "ratio": "wide",
+              "resolution": "1k",
+              "customRatio": "",
+              "customSize": "",
+              "transparentBackground": false,
+              "generatedOutputs": [
+                "/assets/output/online_f9881ab3c7.png"
+              ],
+              "_apiResolutionUserSet": true,
+              "customWidth": "",
+              "customHeight": "",
+              "customRatioWidth": "",
+              "customRatioHeight": "",
+              "quality": "max",
+              "transparentCheckWarning": ""
+            },
+            "prompt": "改变图片的时间，改成夕阳的强对比光线",
+            "refs": [
+              {
+                "url": "/assets/input/ai_ref_d188ed1d7479.png",
+                "name": "个人糊弄 (2).png"
+              }
+            ],
+            "request": {
+              "task_id": "task_01M5CP4GXRBTK2GCPFT3DGCZB9",
+              "request_id": "",
+              "provider_id": "apimart",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
         }
       ],
-      "w": 278,
-      "h": 334,
-      "_pending": [],
-      "imageComparisons": {}
+      "w": 479,
+      "h": 710,
+      "_pending": [
+        {
+          "id": "p_80ba334151a87_1792387421454",
+          "startedAt": 1792387421454,
+          "run": {
+            "nodeType": "generator",
+            "node": {
+              "id": "tutorial_generator",
+              "type": "generator",
+              "x": 523.0929094190357,
+              "y": 120,
+              "apiProvider": "custom-api-5",
+              "model": "gpt-image-2.5-flare",
+              "ratio": "wide",
+              "resolution": "2k",
+              "customRatio": "",
+              "customSize": "",
+              "transparentBackground": false,
+              "generatedOutputs": [
+                "/assets/output/online_d342101611.png"
+              ],
+              "_apiResolutionUserSet": true,
+              "customWidth": "",
+              "customHeight": "",
+              "customRatioWidth": "",
+              "customRatioHeight": "",
+              "quality": "medium",
+              "transparentCheckWarning": ""
+            },
+            "prompt": "生成一只可爱的小猫",
+            "refs": []
+          },
+          "canvasTaskId": "canvas_img_486b15beec30486a93f58f2482e16706",
+          "canvasTaskType": "online-image",
+          "providerId": "custom-api-5",
+          "model": "gpt-image-2.5-flare",
+          "appendGenerated": false,
+          "previewSize": {
+            "w": 2048,
+            "h": 1152
+          },
+          "failed": true,
+          "querying": false,
+          "error": "No available compatible accounts",
+          "recoverTaskId": "imgtask_c22488a838504e5c9b0ed20c80001243",
+          "canvasTaskStatus": "failed"
+        }
+      ],
+      "imageComparisons": {
+        "https://sub2api.07b8fef090a4290405b3f0c29be027d4.r2.cloudflarestorage.com/images/imgtask_d99f096c5ad74290b7615351e973e361-0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Checksum-Mode=ENABLED&X-Amz-Credential=0c31e83d958af4238a1da7ad1465f4e2%2F20261019%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20261019T061815Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=e6172162aae81f2d41bfe34a52a0bcb2b49d17b140300644333ed6d197e905ed": {
+          "url": "/assets/input/ai_ref_d188ed1d7479.png",
+          "name": "个人糊弄 (2).png"
+        },
+        "/assets/output/online_d47582d593.png": {
+          "url": "/assets/input/ai_ref_d188ed1d7479.png",
+          "name": "个人糊弄 (2).png"
+        },
+        "/assets/output/online_f9881ab3c7.png": {
+          "url": "/assets/input/ai_ref_d188ed1d7479.png",
+          "name": "个人糊弄 (2).png"
+        },
+        "/assets/output/online_d306093426.png": {
+          "url": "/assets/input/ai_ref_d188ed1d7479.png",
+          "name": "个人糊弄 (2).png"
+        },
+        "/assets/output/online_c04a45ff80.png": {
+          "url": "/assets/input/ai_ref_d188ed1d7479.png",
+          "name": "个人糊弄 (2).png"
+        }
+      }
     },
     {
       "id": "prompt_9fec161aeb8d_1791478725122",
@@ -86,9 +390,45 @@
     {
       "id": "prompt_f7d566c366229_1792142372531",
       "type": "prompt",
-      "x": 156.48057093183837,
-      "y": 115.38333840753681,
+      "x": 126.49695389636828,
+      "y": 132.7931805571646,
       "text": "生成一只可爱的小猫"
+    },
+    {
+      "id": "img_56399f7629d03_1792384052943",
+      "type": "image",
+      "x": 165.2610136331076,
+      "y": 358.6605853251309,
+      "url": "/assets/input/ai_ref_d188ed1d7479.png",
+      "name": "个人糊弄 (2).png",
+      "mediaKind": "image",
+      "_naturalSizeLoading": false,
+      "natural_w": 3840,
+      "natural_h": 2161
+    },
+    {
+      "id": "prompt_e5b6d5de1eae18_1792384059083",
+      "type": "prompt",
+      "x": 130.89395267884777,
+      "y": -105.14894272538201,
+      "text": "改变图片的时间，改成夕阳的强对比光线"
+    },
+    {
+      "id": "llm_062d39af738748_1792506677997",
+      "type": "llm",
+      "x": -825.6437014939467,
+      "y": -191.89832504126178,
+      "llmProvider": "custom-api",
+      "model": "deepseek-flash",
+      "mode": "node",
+      "systemPrompt": "You are a helpful assistant. Rewrite the input into a concise image prompt.",
+      "chatInput": "",
+      "messages": [],
+      "outputText": "你好！很高兴见到你 😊\n\n有什么我可以帮你的吗？无论是聊天、解答问题、写作、翻译、编程，还是其他任何事情，都可以告诉我。",
+      "llmInputHeight": 110,
+      "llmOutputHeight": 150,
+      "showSystem": false,
+      "userInput": "你好"
     }
   ],
   "connections": [
@@ -109,18 +449,26 @@
       "toPort": "in"
     },
     {
-      "id": "c_44fd1c64f36f28_1792142377867",
+      "id": "c_b15819bf2706f8_1792142384051",
       "kind": "dataFlow",
-      "from": "prompt_f7d566c366229_1792142372531",
+      "from": "tutorial_generator",
+      "to": "tutorial_output",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_9d8dae9d5fdb7_1792390587157",
+      "kind": "dataFlow",
+      "from": "img_56399f7629d03_1792384052943",
       "to": "tutorial_generator",
       "fromPort": "out",
       "toPort": "in"
     },
     {
-      "id": "c_b15819bf2706f8_1792142384051",
+      "id": "c_ffcd7102fec0e8_1792390588630",
       "kind": "dataFlow",
-      "from": "tutorial_generator",
-      "to": "tutorial_output",
+      "from": "prompt_e5b6d5de1eae18_1792384059083",
+      "to": "tutorial_generator",
       "fromPort": "out",
       "toPort": "in"
     }
@@ -132,6 +480,459 @@
   },
   "settings": {},
   "logs": [
+    {
+      "id": "log_5d46ac6ca08db_1792501000761",
+      "createdAt": 1792501000761,
+      "status": "success",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {
+        "task_id": "task_01M5CP4GXRBTK2GCPFT3DGCZB9",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "改变图片的时间，改成夕阳的强对比光线",
+      "outputs": [
+        "/assets/output/online_c04a45ff80.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_d188ed1d7479.png",
+          "name": "个人糊弄 (2).png"
+        }
+      ],
+      "runMs": 30995,
+      "error": ""
+    },
+    {
+      "id": "log_dc787a8e94044_1792500997120",
+      "createdAt": 1792500997120,
+      "status": "success",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-ext",
+      "request": {
+        "task_id": "task_01M5CP41FD7JZ7Z3806DGPZ1M5",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "改变图片的时间，改成夕阳的强对比光线",
+      "outputs": [
+        "/assets/output/online_d306093426.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_d188ed1d7479.png",
+          "name": "个人糊弄 (2).png"
+        }
+      ],
+      "runMs": 42922,
+      "error": ""
+    },
+    {
+      "id": "log_1f1bc6ad5536c8_1792500663187",
+      "createdAt": 1792500663187,
+      "status": "success",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-ext",
+      "request": {
+        "task_id": "task_01M5CNSHBF9HED1R4M0Y915SS1",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "改变图片的时间，改成夕阳的强对比光线",
+      "outputs": [
+        "/assets/output/online_f9881ab3c7.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_d188ed1d7479.png",
+          "name": "个人糊弄 (2).png"
+        }
+      ],
+      "runMs": 53568,
+      "error": ""
+    },
+    {
+      "id": "log_5f01d8876aa09_1792500576167",
+      "createdAt": 1792500576167,
+      "status": "success",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-flare",
+      "request": {
+        "task_id": "task_01M5CNQNPTQGVQANQQXQ7RXAN9",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "改变图片的时间，改成夕阳的强对比光线",
+      "outputs": [
+        "/assets/output/online_d47582d593.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_d188ed1d7479.png",
+          "name": "个人糊弄 (2).png"
+        }
+      ],
+      "runMs": 27330,
+      "error": ""
+    },
+    {
+      "id": "log_78368e2191f928_1792390718535",
+      "createdAt": 1792390718535,
+      "status": "success",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-flare",
+      "request": {
+        "task_id": "imgtask_d99f096c5ad74290b7615351e973e361",
+        "request_id": "imgtask_d99f096c5ad74290b7615351e973e361",
+        "provider_id": "custom-api-5",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "改变图片的时间，改成夕阳的强对比光线",
+      "outputs": [
+        "https://sub2api.07b8fef090a4290405b3f0c29be027d4.r2.cloudflarestorage.com/images/imgtask_d99f096c5ad74290b7615351e973e361-0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Checksum-Mode=ENABLED&X-Amz-Credential=0c31e83d958af4238a1da7ad1465f4e2%2F20261019%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20261019T061815Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=e6172162aae81f2d41bfe34a52a0bcb2b49d17b140300644333ed6d197e905ed"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_d188ed1d7479.png",
+          "name": "个人糊弄 (2).png"
+        }
+      ],
+      "runMs": 84647,
+      "error": ""
+    },
+    {
+      "id": "log_f101bc0cf428c8_1792390636739",
+      "createdAt": 1792390636739,
+      "status": "success",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-flare",
+      "request": {
+        "task_id": "imgtask_3acfccbee4cc4844be27f61419a62fe5",
+        "request_id": "imgtask_3acfccbee4cc4844be27f61419a62fe5",
+        "provider_id": "custom-api-5",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [
+        "https://sub2api.07b8fef090a4290405b3f0c29be027d4.r2.cloudflarestorage.com/images/imgtask_3acfccbee4cc4844be27f61419a62fe5-0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Checksum-Mode=ENABLED&X-Amz-Credential=0c31e83d958af4238a1da7ad1465f4e2%2F20261019%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20261019T061655Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=1c72f8569b4f7b92871b774b9729648551c267978be0818846a31900e3659894"
+      ],
+      "refs": [],
+      "runMs": 54272,
+      "error": ""
+    },
+    {
+      "id": "log_b1aaf0a976c3c8_1792387423306",
+      "createdAt": 1792387423306,
+      "status": "failed",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-flare",
+      "request": {},
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [],
+      "refs": [],
+      "runMs": 1852,
+      "error": "生图任务失败：No available compatible accounts"
+    },
+    {
+      "id": "log_1bf47d65b55a88_1792387418608",
+      "createdAt": 1792387418608,
+      "status": "failed",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-flare",
+      "request": {},
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [],
+      "refs": [],
+      "runMs": 1865,
+      "error": "生图任务失败：upstream failed"
+    },
+    {
+      "id": "log_d7dd8c33d63968_1792387291246",
+      "createdAt": 1792387291246,
+      "status": "failed",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-flare",
+      "request": {},
+      "prompt": "改变图片的时间，改成夕阳的强对比光线",
+      "outputs": [],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_d188ed1d7479.png",
+          "name": "个人糊弄 (2).png"
+        }
+      ],
+      "runMs": 28940,
+      "error": "生图任务失败：upstream failed"
+    },
+    {
+      "id": "log_e865d002bf9008_1792384129385",
+      "createdAt": 1792384129385,
+      "status": "failed",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-flare",
+      "request": {},
+      "prompt": "改变图片的时间，改成夕阳的强对比光线",
+      "outputs": [],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_d188ed1d7479.png",
+          "name": "个人糊弄 (2).png"
+        }
+      ],
+      "runMs": 37994,
+      "error": "生图任务失败：upstream failed"
+    },
+    {
+      "id": "log_15ee4e7aa256b_1792381459959",
+      "createdAt": 1792381459959,
+      "status": "success",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-flare",
+      "request": {
+        "task_id": "imgtask_3398b182198f484797000de5614a9c09",
+        "request_id": "imgtask_3398b182198f484797000de5614a9c09",
+        "provider_id": "custom-api-5",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [
+        "/assets/output/online_d342101611.png"
+      ],
+      "refs": [],
+      "runMs": 25375,
+      "error": ""
+    },
+    {
+      "id": "log_89143f753edf5_1792381443653",
+      "createdAt": 1792381443653,
+      "status": "success",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-flare",
+      "request": {
+        "task_id": "imgtask_4a5cb2a203a74c5a8217519893243c1f",
+        "request_id": "imgtask_4a5cb2a203a74c5a8217519893243c1f",
+        "provider_id": "custom-api-5",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [
+        "/assets/output/online_5aa644e708.png"
+      ],
+      "refs": [],
+      "runMs": 21725,
+      "error": ""
+    },
+    {
+      "id": "log_fbaccf6407344_1792381309949",
+      "createdAt": 1792381309949,
+      "status": "success",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-flare",
+      "request": {
+        "task_id": "imgtask_e495f410f4df40808630c2d145a9ff6e",
+        "request_id": "imgtask_e495f410f4df40808630c2d145a9ff6e",
+        "provider_id": "custom-api-5",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [
+        "/assets/output/online_aac5ff3136.png"
+      ],
+      "refs": [],
+      "runMs": 23586,
+      "error": ""
+    },
+    {
+      "id": "log_61e40fc7c73fe8_1792381272326",
+      "createdAt": 1792381272326,
+      "status": "failed",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {},
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [],
+      "refs": [],
+      "runMs": 10893,
+      "error": "生图任务失败：upstream failed"
+    },
+    {
+      "id": "log_88c62c84152c88_1792381233190",
+      "createdAt": 1792381233190,
+      "status": "failed",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {},
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [],
+      "refs": [],
+      "runMs": 33351,
+      "error": "上游生图接口错误：{\"error\": {\"message\": \"RS 后台任务轮询失败（404）：404 page not found（任务 id=imgtask_698ef3abc3f3459db3ae55ee106e61f1）\"}}"
+    },
+    {
+      "id": "log_3385c6f19cc078_1792381186818",
+      "createdAt": 1792381186818,
+      "status": "failed",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {},
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [],
+      "refs": [],
+      "runMs": 1864,
+      "error": "生图任务失败：No available compatible accounts"
+    },
+    {
+      "id": "log_d76039fa5a0e4_1792381181234",
+      "createdAt": 1792381181234,
+      "status": "failed",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {},
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [],
+      "refs": [],
+      "runMs": 5502,
+      "error": "生图任务失败：upstream failed"
+    },
+    {
+      "id": "log_595b9abedade68_1792380888178",
+      "createdAt": 1792380888178,
+      "status": "success",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {
+        "task_id": "imgtask_9ebdd754b887437b950822cac943705c",
+        "request_id": "imgtask_9ebdd754b887437b950822cac943705c",
+        "provider_id": "custom-api-5",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [
+        "/assets/output/online_193517760b.png"
+      ],
+      "refs": [],
+      "runMs": 43406,
+      "error": ""
+    },
+    {
+      "id": "log_9f63c0a1502a78_1792380784308",
+      "createdAt": 1792380784308,
+      "status": "success",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {
+        "task_id": "imgtask_796a8ed9f16247698206227e2cb70d28",
+        "request_id": "imgtask_796a8ed9f16247698206227e2cb70d28",
+        "provider_id": "custom-api-5",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [
+        "/assets/output/online_0dda13c278.png"
+      ],
+      "refs": [],
+      "runMs": 43477,
+      "error": ""
+    },
+    {
+      "id": "log_40977f29be4608_1792380137838",
+      "createdAt": 1792380137838,
+      "status": "failed",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {},
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [],
+      "refs": [],
+      "runMs": 32611,
+      "error": "上游生图接口错误：{\"error\": {\"message\": \"RS 后台任务轮询失败（404）：404 page not found（任务 id=imgtask_b766305bc59642a1be9c7202cc66afa9）\"}}"
+    },
+    {
+      "id": "log_14a37f3f98546_1792376671155",
+      "createdAt": 1792376671155,
+      "status": "failed",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {},
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [],
+      "refs": [],
+      "runMs": 1862,
+      "error": "上游生图接口错误：{\"code\":\"INVALID_API_KEY\",\"message\":\"Invalid API key\"}"
+    },
+    {
+      "id": "log_eb9547140cf508_1792376558576",
+      "createdAt": 1792376558576,
+      "status": "failed",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {},
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [],
+      "refs": [],
+      "runMs": 2103,
+      "error": "上游生图接口错误：{\"code\":\"INVALID_API_KEY\",\"message\":\"Invalid API key\"}"
+    },
     {
       "id": "log_636af7f76e4cf_1792120748395",
       "createdAt": 1792120748395,
@@ -708,7 +1509,7 @@
   "id": "825bd5531f664c7b9afe820ce2b711da",
   "tutorial_template": "kitten-v1",
   "created_at": 1790594019199,
-  "updated_at": 1792216423467,
+  "updated_at": 1792506708927,
   "board_x": 413.0,
   "board_y": 155.0
 }

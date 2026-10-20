@@ -632,8 +632,19 @@ DEFAULT_CHAT_SYSTEM_PROMPT = (
     "4. 【排版清晰易读】：回答复杂问题时善用小标题、短列表或表格突出核心重点，避免大段密集的文字墙。"
 )
 SYSTEM_PROMPT = os.getenv("SYSTEM_PROMPT", DEFAULT_CHAT_SYSTEM_PROMPT)
-MAX_HISTORY_MESSAGES = int(os.getenv("MAX_HISTORY_MESSAGES", "30"))
+MAX_HISTORY_MESSAGES = int(os.getenv("MAX_HISTORY_MESSAGES", "120"))
 AI_REQUEST_TIMEOUT = float(os.getenv("REQUEST_TIMEOUT", "1800"))
+CHAT_STREAM_TRUST_ENV = os.getenv("CHAT_STREAM_TRUST_ENV", "0").strip().lower() in ("1", "true", "yes", "on")
+CHAT_WEB_REFINE_ENABLED = os.getenv("CHAT_WEB_REFINE_ENABLED", "1").strip().lower() in ("1", "true", "yes", "on")
+CHAT_WEB_REFINE_MAX_QUERIES = int(os.getenv("CHAT_WEB_REFINE_MAX_QUERIES", "2"))
+CHAT_WEB_REFINE_TIMEOUT = float(os.getenv("CHAT_WEB_REFINE_TIMEOUT", "12"))
+CHAT_WEB_SEARCH_TIMEOUT = float(os.getenv("CHAT_WEB_SEARCH_TIMEOUT", "12"))
+BOCHA_API_KEY = os.getenv("BOCHA_API_KEY", "").strip()
+BOCHA_WEB_SEARCH_URL = os.getenv("BOCHA_WEB_SEARCH_URL", "https://api.bocha.cn/v1/web-search").strip()
+BOCHA_ENABLED = os.getenv("BOCHA_ENABLED", "1").strip().lower() in ("1", "true", "yes", "on")
+BOCHA_TIMEOUT = float(os.getenv("BOCHA_TIMEOUT", "12"))
+BOCHA_COUNT = int(os.getenv("BOCHA_COUNT", "10"))
+BOCHA_SUMMARY = os.getenv("BOCHA_SUMMARY", "1").strip().lower() in ("1", "true", "yes", "on")
 IMAGE_POLL_INTERVAL = float(os.getenv("IMAGE_POLL_INTERVAL", "2"))
 IMAGE_TASK_TIMEOUT = float(os.getenv("IMAGE_TASK_TIMEOUT", str(AI_REQUEST_TIMEOUT)))
 COMFYUI_HISTORY_TIMEOUT = int(float(os.getenv("COMFYUI_HISTORY_TIMEOUT", "1800")))
@@ -3172,6 +3183,45 @@ class ChatRequest(BaseModel):
     provider: str = "comfly"
     ms_model: str = ""
 
+CONTEXT_WARN_MESSAGES = int(os.getenv("CONTEXT_WARN_MESSAGES", "90"))
+IMAGE_TOKEN_ESTIMATE = 800
+CHARS_PER_TOKEN_ESTIMATE = 1.5
+
+def build_context_usage(conversation):
+    """估算当前会话的上下文占用，供前端计量条展示。"""
+    msgs = conversation.get("messages") or []
+    text_chars = 0
+    img_count = 0
+    for m in msgs:
+        if not isinstance(m, dict):
+            continue
+        text_chars += len(str(m.get("content") or ""))
+        for a in (m.get("attachments") or []):
+            if not isinstance(a, dict):
+                continue
+            kind = str(a.get("kind") or "").lower()
+            mime = str(a.get("mime") or "").lower()
+            if kind == "image" or mime.startswith("image/"):
+                img_count += 1
+        if m.get("type") == "image":
+            img_count += 1
+    text_tokens = int(text_chars / CHARS_PER_TOKEN_ESTIMATE)
+    img_tokens = img_count * IMAGE_TOKEN_ESTIMATE
+    est = text_tokens + img_tokens
+    n = len(msgs)
+    window = MAX_HISTORY_MESSAGES
+    return {
+        "messages": n,
+        "window_limit": window,
+        "warn_at": CONTEXT_WARN_MESSAGES,
+        "est_tokens": est,
+        "images": img_count,
+        "text_chars": text_chars,
+        "percent": round(n * 100.0 / window, 1) if window else 0,
+        "need_warning": n >= CONTEXT_WARN_MESSAGES,
+    }
+
+
 def current_beijing_time_banner() -> str:
     import datetime as _dt
     tz_cn = _dt.timezone(_dt.timedelta(hours=8))
@@ -4314,6 +4364,39 @@ def text_delta_from_chat_chunk(data):
                 parts.append(item.get("text") or item.get("content") or "")
         return "".join(parts)
     return str(content) if content else ""
+
+def reasoning_delta_from_chat_chunk(data):
+    """抽取思考增量。兼容 DeepSeek(reasoning_content) / OpenAI(reasoning) / 通用(thinking)。"""
+    if not isinstance(data, dict):
+        return ""
+    choices = data.get("choices") or []
+    if not choices or not isinstance(choices[0], dict):
+        return ""
+    delta = choices[0].get("delta") or {}
+    if not isinstance(delta, dict):
+        return ""
+    for key in ("reasoning_content", "reasoning", "thinking", "thought"):
+        val = delta.get(key)
+        if isinstance(val, str) and val:
+            return val
+        if isinstance(val, list):
+            parts = []
+            for item in val:
+                if isinstance(item, dict):
+                    parts.append(item.get("text") or item.get("content") or "")
+                elif isinstance(item, str):
+                    parts.append(item)
+            joined = "".join(parts)
+            if joined:
+                return joined
+    content = delta.get("content")
+    if isinstance(content, list):
+        parts = []
+        for item in content:
+            if isinstance(item, dict) and str(item.get("type") or "").lower() in ("thinking", "reasoning", "thought"):
+                parts.append(item.get("text") or item.get("content") or "")
+        return "".join(parts)
+    return ""
 
 def sse_event(data):
     return f"data: {json.dumps(data, ensure_ascii=False)}\n\n"
@@ -9140,27 +9223,45 @@ def convert_output_to_jpg(url, quality=88):
         return url
 
 def reference_to_data_url(ref, max_size=None):
-    """把本地输出文件转为 data URL（base64）。max_size 限制最长边像素，避免 payload 过大。"""
+    """把本地文件转为 data URL（base64）。max_size 限制最长边，避免 payload 过大。
+    关键：缩图失败时绝不回退到原图——超大图 base64 会撞穿上游请求上限。"""
     path = output_file_from_url(ref.get("url", ""))
     if not path:
         return ref.get("url", "")
     if max_size:
+        prev_limit = Image.MAX_IMAGE_PIXELS
         try:
+            Image.MAX_IMAGE_PIXELS = None
             with Image.open(path) as img:
-                img.load()
+                try:
+                    img.draft("RGB", (max_size * 2, max_size * 2))
+                except Exception:
+                    pass
                 w, h = img.size
                 if max(w, h) > max_size:
                     img.thumbnail((max_size, max_size), Image.LANCZOS)
                 if img.mode not in ("RGB", "RGBA"):
                     img = img.convert("RGB")
                 buf = BytesIO()
-                fmt = "PNG" if img.mode == "RGBA" else "JPEG"
-                img.save(buf, format=fmt, quality=88 if fmt == "JPEG" else None)
+                if img.mode == "RGBA":
+                    img.save(buf, "PNG")
+                    mime = "image/png"
+                else:
+                    img.save(buf, "JPEG", quality=88)
+                    mime = "image/jpeg"
                 encoded = base64.b64encode(buf.getvalue()).decode("ascii")
-                mime = "image/png" if fmt == "PNG" else "image/jpeg"
                 return f"data:{mime};base64,{encoded}"
         except Exception as e:
-            print(f"reference resize failed, fallback to raw: {e}")
+            print(f"reference resize failed: {e}")
+        finally:
+            Image.MAX_IMAGE_PIXELS = prev_limit
+        try:
+            size_mb = os.path.getsize(path) / (1024 * 1024)
+        except Exception:
+            size_mb = 0
+        if size_mb > 4:
+            print(f"reference too large ({size_mb:.2f}MB), skipped to protect request payload")
+            return ""
     with open(path, "rb") as f:
         encoded = base64.b64encode(f.read()).decode("ascii")
     return f"data:{content_type_for_path(path)};base64,{encoded}"
@@ -9358,11 +9459,63 @@ def attachment_embedded_image_data_urls(refs, max_images=4):
             break
     return urls[:max_images]
 
+PDF_MAX_PAGES = 30
+
+def read_pdf_attachment(path, limit=MAX_ATTACHMENT_TEXT_CHARS):
+    """抽取 PDF 文本层。扫描版(纯图片)PDF 无文本层时返回提示语，避免静默失败。"""
+    try:
+        import pypdf
+    except Exception:
+        return "PDF 解析库未安装（pypdf），暂时无法读取正文。"
+    try:
+        reader = pypdf.PdfReader(path)
+        if getattr(reader, "is_encrypted", False):
+            try:
+                reader.decrypt("")
+            except Exception:
+                return "该 PDF 已加密，无法读取正文。"
+        total_pages = len(reader.pages)
+        parts = []
+        used = 0
+        scanned_pages = 0
+        for idx, page in enumerate(reader.pages[:PDF_MAX_PAGES], start=1):
+            try:
+                txt = page.extract_text() or ""
+            except Exception:
+                txt = ""
+            txt = txt.strip()
+            if not txt:
+                scanned_pages += 1
+                continue
+            block = f"[第{idx}页]\n{txt}"
+            if used + len(block) > limit:
+                parts.append(block[: max(0, limit - used)])
+                used = limit
+                break
+            parts.append(block)
+            used += len(block)
+        body = "\n\n".join(parts).strip()
+        if not body:
+            return f"这份 PDF 共 {total_pages} 页，但没有可抽取的文本层（可能是扫描件/图片版），请改用截图方式上传。"
+        header = f"PDF 文档：{os.path.basename(path)}（共 {total_pages} 页"
+        if total_pages > PDF_MAX_PAGES:
+            header += f"，已读取前 {PDF_MAX_PAGES} 页"
+        if scanned_pages:
+            header += f"，其中 {scanned_pages} 页为无文字图片页"
+        header += "）"
+        return header + "\n\n" + body
+    except Exception as exc:
+        print(f"[chat] failed to read pdf {path}: {exc}")
+        return f"PDF 解析失败：{exc}"
+
+
 def read_text_attachment(path, limit=MAX_ATTACHMENT_TEXT_CHARS):
     ext = os.path.splitext(path or "")[1].lower()
     if not path or not os.path.isfile(path):
         return ""
     try:
+        if ext == ".pdf":
+            return read_pdf_attachment(path, limit)
         if ext == ".xlsx":
             return read_xlsx_attachment(path, limit)
         if ext == ".xls":
@@ -9576,15 +9729,24 @@ async def video_reference_to_frame_data_urls(value, max_frames=6, max_size=768):
             except OSError: pass
 
 def compress_data_url_image(value, max_size=1536, jpeg_quality=88):
+    """压缩 data URL 图片。超大图解码失败时不再回退原始 base64，避免撞穿请求上限。"""
     if not isinstance(value, str) or not value.startswith("data:image/") or ";base64," not in value:
         return value
     header, encoded = value.split(";base64,", 1)
+    prev_limit = Image.MAX_IMAGE_PIXELS
     try:
+        Image.MAX_IMAGE_PIXELS = None
         raw = base64.b64decode(encoded)
         with Image.open(BytesIO(raw)) as img:
-            img.load()
-            if max_size and max(img.size) > max_size:
+            try:
+                img.draft("RGB", (max_size * 2, max_size * 2))
+            except Exception:
+                pass
+            w, h = img.size
+            if max_size and max(w, h) > max_size:
                 img.thumbnail((max_size, max_size), Image.LANCZOS)
+            else:
+                img.load()
             has_alpha = img.mode in ("RGBA", "LA") or (img.mode == "P" and "transparency" in img.info)
             if has_alpha:
                 if img.mode != "RGBA":
@@ -9596,13 +9758,18 @@ def compress_data_url_image(value, max_size=1536, jpeg_quality=88):
                 fmt, mime = "JPEG", "image/jpeg"
             buf = BytesIO()
             if fmt == "JPEG":
-                img.save(buf, format=fmt, quality=jpeg_quality, optimize=True)
+                img.save(buf, fmt, quality=jpeg_quality, optimize=True)
             else:
-                img.save(buf, format=fmt, optimize=True)
-            return f"data:{mime};base64,{base64.b64encode(buf.getvalue()).decode('ascii')}"
+                img.save(buf, fmt, optimize=True)
+            return f"data:{mime};base64,{base64.b64encode(buf.getvalue()).decode(chr(97)+chr(115)+chr(99)+chr(105)+chr(105))}"
     except Exception as e:
-        print(f"data url image compress failed, fallback to raw: {e}")
+        print(f"data url image compress failed: {e}")
+        if len(encoded) > 5 * 1024 * 1024:
+            print("compressed source too large, dropped to protect payload")
+            return ""
         return value
+    finally:
+        Image.MAX_IMAGE_PIXELS = prev_limit
 
 def modelscope_image_url(value, max_size=1536):
     if not value:
@@ -10381,6 +10548,247 @@ async def upload_local_video_to_cloud(ref_url: str, service: str = "auto") -> Di
 
 async def upload_local_video_to_temp_sh(ref_url: str) -> Dict[str, str]:
     return await upload_local_video_to_cloud(ref_url, "auto")
+
+# ===== SauceNAO 以图搜图能力 =====
+SAUCENAO_API_URL = os.getenv("SAUCENAO_API_URL", "https://saucenao.com/search.php").strip()
+SAUCENAO_API_KEY = os.getenv("SAUCENAO_API_KEY", "").strip()
+SAUCENAO_MIN_SIMILARITY = float(os.getenv("SAUCENAO_MIN_SIMILARITY", "60") or 60)
+SAUCENAO_TIMEOUT = float(os.getenv("SAUCENAO_TIMEOUT", "25") or 25)
+IMAGE_VISUAL_FALLBACK_ENABLED = os.getenv("IMAGE_VISUAL_FALLBACK_ENABLED", "1").strip().lower() in ("1", "true", "yes", "on")
+IMAGE_VISUAL_FALLBACK_TIMEOUT = float(os.getenv("IMAGE_VISUAL_FALLBACK_TIMEOUT", "22"))
+IMAGE_FALLBACK_KEYWORD_COUNT = int(os.getenv("IMAGE_FALLBACK_KEYWORD_COUNT", "6"))
+
+CHAT_IMAGE_SEARCH_TRIGGER_WORDS = (
+    "这是谁", "这个人物", "什么角色", "哪个角色", "出自哪", "什么作品", "什么动漫",
+    "哪部动漫", "哪个游戏", "图里是谁", "图中人物", "什么出处", "识别这张", "识图",
+    "图搜", "搜图", "以图搜图", "画师", "原作者", "什么游戏", "哪部作品", "什么来头",
+)
+
+
+CHAT_IMAGE_WEAK_WORDS = (
+    "这张图", "这个图", "那张图", "该图", "此图", "图片里", "图上", "画面里", "画中",
+)
+CHAT_IMAGE_ASK_WORDS = (
+    "是谁", "什么人", "什么人物", "什么角色", "哪个角色", "哪部", "出处", "来源",
+    "什么作品", "什么动漫", "什么游戏", "画师", "作者", "原作", "叫什么", "什么来头",
+)
+
+def chat_wants_image_reverse_search(message, has_image):
+    if not has_image:
+        return False
+    text = str(message or "").strip()
+    if not text:
+        return False
+    if any(word in text for word in CHAT_IMAGE_SEARCH_TRIGGER_WORDS):
+        return True
+    # 组合规则：弱指代词（这张图/此图…） + 询问词（是谁/什么角色…） → 触发
+    has_weak = any(w in text for w in CHAT_IMAGE_WEAK_WORDS)
+    has_ask = any(w in text for w in CHAT_IMAGE_ASK_WORDS)
+    if has_weak and has_ask:
+        return True
+    # 纯询问词 + 有图，且句子不太长（排除画图指令）
+    if has_ask and len(text) <= 26 and not any(w in text for w in ("画", "生成", "绘制", "做一张", "海报")):
+        return True
+    return False
+
+
+async def describe_image_for_search(image_ref, chat_base, chat_hdrs, model, timeout=None):
+    """方案A兜底：让视觉模型描述图片并提炼搜索关键词。返回 description/keywords/error。"""
+    data_url = reference_to_data_url(image_ref, max_size=1024)
+    if not data_url or not data_url.startswith("data:image/"):
+        return {"description": "", "keywords": [], "error": "图片无法读取"}
+    sys_p = (
+        "你是图像检索助手。请仔细观察用户提供的图片，完成两件事：\n"
+        "1. 用 60-100 字描述图中主体的关键视觉特征：发色发型、瞳色、服装、配饰、身上文字、场景、画风\n"
+        "2. 根据这些特征推断 2-3 个中文搜索关键词，用于在搜索引擎里定位这个角色或作品\n"
+        "严格按以下两行格式输出，不要任何多余内容：\n"
+        "DESC: <特征描述>\n"
+        "KEYWORDS: <关键词1>|<关键词2>|<关键词3>"
+    )
+    body = {
+        "model": model,
+        "messages": [
+            {"role": "system", "content": sys_p},
+            {"role": "user", "content": [
+                {"type": "text", "text": "请描述这张图并给出搜索关键词。"},
+                {"type": "image_url", "image_url": {"url": data_url}},
+            ]},
+        ],
+        "stream": False,
+    }
+    try:
+        async with httpx.AsyncClient(
+            timeout=httpx.Timeout(connect=8.0, read=timeout or IMAGE_VISUAL_FALLBACK_TIMEOUT, write=60.0, pool=10.0),
+            trust_env=CHAT_STREAM_TRUST_ENV,
+        ) as client:
+            resp = await client.post(f"{chat_base}/chat/completions", headers=chat_hdrs, json=body)
+            resp.raise_for_status()
+            text = str(text_from_chat_response(resp.json()) or "").strip()
+    except Exception as exc:
+        print(f"[chat-imgsrch-desc] failed: {exc}")
+        return {"description": "", "keywords": [], "error": str(exc)[:120]}
+    desc = ""
+    kws = []
+    for line in text.splitlines():
+        s = line.strip()
+        up = s.upper()
+        if up.startswith("DESC:"):
+            desc = s[5:].strip()
+        elif up.startswith("KEYWORDS:"):
+            rawk = s[9:].strip()
+            kws = [x.strip() for x in re.split(r"[|,，、;；]+", rawk) if x.strip()]
+    if not desc and text:
+        desc = text[:220].replace("\n", " ")
+    kws = [k for k in kws if 2 <= len(k) <= 40][:3]
+    return {"description": desc, "keywords": kws, "error": None}
+
+def format_visual_fallback_context(desc_info, web_items):
+    """把视觉描述 + 博查检索结果拼成可注入的系统上下文。"""
+    if not desc_info or not str(desc_info.get("description") or "").strip():
+        return ""
+    lines = ["【以图搜图未命中图库，已改用视觉特征描述检索】"]
+    lines.append("视觉特征：" + str(desc_info.get("description"))[:300])
+    kws = desc_info.get("keywords") or []
+    if kws:
+        lines.append("检索关键词：" + " | ".join(kws))
+    if web_items:
+        lines.append(f"检索到 {len(web_items)} 条相关网页：")
+        for i, it in enumerate(web_items[:6], 1):
+            lines.append(
+                f"[{i}] {it.get('title', '')}\n"
+                f"    摘要：{str(it.get('snippet', ''))[:220]}\n"
+                f"    来源：{it.get('url', '')}"
+            )
+    lines.append("请结合上述视觉特征与检索结果判断这个角色/作品；若证据不足必须明确说明是推测，不要硬编。")
+    return "\n".join(lines)
+
+async def saucenao_reverse_search(image_ref, min_similarity=None):
+    api_key = SAUCENAO_API_KEY
+    if not api_key:
+        return {"found": False, "error": "SAUCENAO_API_KEY 未配置", "results": []}
+    threshold = float(min_similarity if min_similarity is not None else SAUCENAO_MIN_SIMILARITY)
+    ref_url = str((image_ref or {}).get("url") if isinstance(image_ref, dict) else image_ref or "").strip()
+    if not ref_url:
+        return {"found": False, "error": "没有可用的图片引用", "results": []}
+
+    form = {"output_type": "2", "api_key": api_key, "numres": "6", "db": "999"}
+    file_bytes = None
+    filename = "ref.png"
+    mime = "image/png"
+    public_url = ""
+
+    # 优先直传文件字节（不依赖图床，更稳更快）
+    if ref_url.startswith("data:image/"):
+        try:
+            header, encoded = ref_url.split(";base64,", 1)
+            mime = header.replace("data:", "", 1) or "image/png"
+            ext = "jpg" if "jpeg" in mime or "jpg" in mime else "webp" if "webp" in mime else "png"
+            filename = "ref." + ext
+            file_bytes = base64.b64decode(encoded)
+        except Exception:
+            file_bytes = None
+    else:
+        local_path = output_file_from_url(ref_url)
+        if local_path and os.path.exists(local_path):
+            try:
+                with open(local_path, "rb") as fh:
+                    file_bytes = fh.read()
+                filename = os.path.basename(local_path)
+                mime = content_type_for_path(local_path)
+            except Exception:
+                file_bytes = None
+
+    # 兜底：文件读不到时走图床换成公网 URL
+    if file_bytes is None:
+        try:
+            if ref_url.startswith(("http://", "https://")) and "127.0.0.1" not in ref_url and "localhost" not in ref_url:
+                public_url = ref_url
+            else:
+                upload = await upload_local_video_to_cloud(ref_url, "auto")
+                public_url = str(upload.get("url") or "").strip()
+        except Exception as exc:
+            return {"found": False, "error": "图片准备失败：" + str(exc), "results": []}
+        if not public_url:
+            return {"found": False, "error": "图片准备失败（无公网地址）", "results": []}
+        form["url"] = public_url
+
+    try:
+        async with httpx.AsyncClient(
+            timeout=httpx.Timeout(connect=15.0, read=SAUCENAO_TIMEOUT, write=60.0, pool=10.0),
+            follow_redirects=True,
+        ) as client:
+            if file_bytes is not None:
+                resp = await client.post(SAUCENAO_API_URL, data=form, files={"file": (filename, file_bytes, mime)})
+            else:
+                resp = await client.post(SAUCENAO_API_URL, data=form)
+        if resp.status_code == 429:
+            return {"found": False, "error": "SauceNAO 频率超限（免费账户 4 次/30 秒，稍后再试）", "results": []}
+        if resp.status_code >= 400:
+            return {"found": False, "error": "SauceNAO HTTP " + str(resp.status_code), "results": []}
+        data = resp.json()
+    except Exception as exc:
+        return {"found": False, "error": "SauceNAO 请求异常：" + str(exc), "results": []}
+
+    header = data.get("header") or {}
+    if str(header.get("status", 0)) != "0":
+        return {"found": False, "error": "SauceNAO 返回错误：" + str(header.get("message") or header.get("status")), "results": []}
+
+    rows = []
+    for item in (data.get("results") or []):
+        h = item.get("header") or {}
+        d = item.get("data") or {}
+        try:
+            sim = float(h.get("similarity") or 0)
+        except Exception:
+            sim = 0.0
+        if sim < threshold:
+            continue
+        urls = d.get("ext_urls") or []
+        if isinstance(urls, str):
+            urls = [urls]
+        rows.append({
+            "similarity": round(sim, 1),
+            "characters": d.get("characters") or "",
+            "title": d.get("title") or d.get("jp_name") or "",
+            "author": d.get("author_name") or d.get("member_name") or d.get("creator") or "",
+            "material": d.get("material") or "",
+            "source": d.get("source") or "",
+            "urls": urls[:3],
+            "site": h.get("index_name") or "",
+        })
+    rows.sort(key=lambda x: x["similarity"], reverse=True)
+    if not rows:
+        return {"found": False, "public_url": public_url, "results": [], "error": None}
+    return {"found": True, "public_url": public_url, "best": rows[0], "results": rows[:5], "error": None}
+
+
+def format_saucenao_context(info):
+    if not info or not info.get("found"):
+        return ""
+    lines = ["【以图搜图结果（SauceNAO 实时查询）】"]
+    best = info.get("best") or {}
+    if best:
+        seg = []
+        if best.get("characters"):
+            seg.append("角色：" + str(best["characters"]))
+        if best.get("title"):
+            seg.append("作品/标题：" + str(best["title"]))
+        if best.get("author"):
+            seg.append("作者：" + str(best["author"]))
+        if best.get("material"):
+            seg.append("材质：" + str(best["material"]))
+        if best.get("site"):
+            seg.append("来源库：" + str(best["site"]))
+        seg.append("相似度：" + str(best["similarity"]) + "%")
+        lines.append("最高匹配 → " + " | ".join(seg))
+    others = [r for r in (info.get("results") or [])][1:4]
+    if others:
+        lines.append("其他候选：")
+        for r in others:
+            label = r.get("characters") or r.get("title") or "未知"
+            lines.append("  · " + str(label) + "（" + str(r.get("similarity")) + "%）")
+    lines.append("请优先依据以上官方图库匹配结果回答；若相似度低于 70%，请说明这是推测。")
+    return "\n".join(lines)
 
 async def save_ai_image_to_output(image_data, prefix="online_", category="output"):
     filename = f"{prefix}{uuid.uuid4().hex[:10]}.png"
@@ -12523,6 +12931,53 @@ async def generate_ai_image(prompt, size, quality, model, reference_images=None,
             setattr(exc, "upstream_task_id", task_id)
             raise
 
+CHAT_HISTORY_KEEP_IMAGE_MSGS = int(os.getenv("CHAT_HISTORY_KEEP_IMAGE_MSGS", "2"))
+
+def _item_has_image_attachment(item):
+    if not isinstance(item, dict):
+        return False
+    for a in (item.get("attachments") or []):
+        if not isinstance(a, dict):
+            continue
+        kind = str(a.get("kind") or "").strip().lower()
+        mime = str(a.get("mime") or "").strip().lower()
+        if kind == "image" or mime.startswith("image/"):
+            return True
+    return False
+
+def history_image_budget(history, keep_recent=None):
+    """历史消息里只保留最近 N 条带图消息的图片附件，其余剥离图片（保留文本附件）。
+    目的：避免多轮带图对话累积成几十 MB 的 base64，被上游以 400 拒绝。"""
+    keep = keep_recent if keep_recent is not None else CHAT_HISTORY_KEEP_IMAGE_MSGS
+    if not history:
+        return history
+    seen = 0
+    out = []
+    for item in reversed(history):
+        if not isinstance(item, dict):
+            out.append(item)
+            continue
+        if not _item_has_image_attachment(item):
+            out.append(item)
+            continue
+        seen += 1
+        if seen <= keep:
+            out.append(item)
+            continue
+        # 超预算：剥离图片附件，仅保留非图片附件
+        keep_atts = [a for a in (item.get("attachments") or [])
+                     if not (isinstance(a, dict) and (
+                         str(a.get("kind") or "").lower() == "image"
+                         or str(a.get("mime") or "").lower().startswith("image/")))]
+        stripped = dict(item)
+        if keep_atts:
+            stripped["attachments"] = keep_atts
+        else:
+            stripped.pop("attachments", None)
+        out.append(stripped)
+    out.reverse()
+    return out
+
 def upstream_message_from_record(item):
     role = item.get("role")
     if role not in {"user", "assistant"}:
@@ -12541,7 +12996,7 @@ def upstream_message_from_record(item):
         content = [{"type": "text", "text": text}]
         image_urls = []
         for ref in image_references(attachments[:CHAT_ATTACHMENT_MAX]):
-            url = reference_to_data_url(ref)
+            url = reference_to_data_url(ref, max_size=1536)
             if url:
                 image_urls.append(url)
         image_urls.extend(attachment_embedded_image_data_urls(attachments[:CHAT_ATTACHMENT_MAX], max_images=max(0, CHAT_ATTACHMENT_MAX - len(image_urls))))
@@ -12674,10 +13129,28 @@ def pick_chat_image_provider(provider_id="", fallback_id=""):
         return primary or providers[0]
     return get_api_provider(provider_id or fallback_id or "comfly")
 
+AGENT_ASK_KEYWORDS = [
+    "是什么", "什么内容", "讲了什么", "写的什么", "什么字", "什么意思",
+    "识别", "分析", "解释", "描述", "看一下", "看看", "读一下", "读出",
+    "翻译", "总结", "归纳", "内容", "有没有", "对不对",
+]
+
+AGENT_STRONG_IMAGE_KEYWORDS = [
+    "生成一", "生成张", "画一", "画张", "画个", "帮我画", "帮我生成",
+    "出图", "生图", "绘制", "做一张", "做张", "来一张", "来张",
+    "重画", "重新画", "重新生成", "再画", "换个风格", "改画",
+]
+
 def heuristic_agent_decision(message, refs, has_previous_image):
     text = str(message or "").strip().lower()
     has_image_word = any(key.lower() in text for key in AGENT_IMAGE_KEYWORDS)
     has_edit_word = any(key.lower() in text for key in AGENT_EDIT_KEYWORDS)
+    is_asking = any(key.lower() in text for key in AGENT_ASK_KEYWORDS)
+    has_strong_image = any(key.lower() in text for key in AGENT_STRONG_IMAGE_KEYWORDS)
+
+    if is_asking and not has_strong_image:
+        return {"action": "chat", "prompt": message, "reply": ""}
+
     if refs and (has_edit_word or has_image_word):
         return {"action": "edit_image", "prompt": message, "reply": ""}
     if has_previous_image and has_edit_word:
@@ -12750,6 +13223,61 @@ async def fetch_single_url_context(url: str) -> dict:
             return {"url": url, "title": url, "content": f"{time_prefix}无法直接打开该链接 ({exc})", "ok": bool(time_prefix)}
     return {"url": url, "title": url, "content": time_prefix, "ok": bool(time_prefix)}
 
+async def bocha_web_search(query: str, count: int = None, summary: bool = None) -> List[dict]:
+    """博查 Web Search API。返回与 free_web_search_context 完全相同的结构，便于上层无感替换。"""
+    if not BOCHA_ENABLED or not BOCHA_API_KEY:
+        return []
+    q = str(query or "").strip()
+    if not q:
+        return []
+    n = int(count if count is not None else BOCHA_COUNT)
+    n = max(1, min(50, n))
+    want_summary = BOCHA_SUMMARY if summary is None else bool(summary)
+    body = {"query": q, "count": n, "freshness": "noLimit", "summary": want_summary}
+    try:
+        async with httpx.AsyncClient(timeout=httpx.Timeout(connect=8.0, read=BOCHA_TIMEOUT, write=15.0, pool=10.0), trust_env=False) as client:
+            resp = await client.post(
+                BOCHA_WEB_SEARCH_URL,
+                headers={"Authorization": "Bearer " + BOCHA_API_KEY, "Content-Type": "application/json"},
+                json=body,
+            )
+    except Exception as exc:
+        print(f"[bocha] request failed: {exc}")
+        return []
+    if resp.status_code != 200:
+        try:
+            detail = resp.json()
+        except Exception:
+            detail = {"raw": resp.text[:200]}
+        print(f"[bocha] HTTP {resp.status_code}: {str(detail)[:160]}")
+        return []
+    try:
+        payload = resp.json()
+    except Exception as exc:
+        print(f"[bocha] json decode failed: {exc}")
+        return []
+    if str(payload.get("code")) != "200":
+        print(f"[bocha] api code {payload.get('code')}: {payload.get('msg')}")
+        return []
+    pages = ((payload.get("data") or {}).get("webPages") or {})
+    rows = []
+    for item in (pages.get("value") or []):
+        title = str(item.get("name") or "").strip()
+        link = str(item.get("url") or "").strip()
+        text = str(item.get("summary") or "").strip() or str(item.get("snippet") or "").strip()
+        if not title or not text:
+            continue
+        rows.append({
+            "title": title,
+            "url": link,
+            "snippet": text[:600],
+            "source": str(item.get("siteName") or "bocha"),
+            "published": str(item.get("datePublished") or ""),
+        })
+    if rows:
+        print(f"[bocha] '{q[:30]}' -> {len(rows)} results")
+    return rows[:n]
+
 async def free_web_search_context(query: str, max_results: int = 5) -> List[dict]:
     q_clean = str(query or "").strip()
     if not q_clean:
@@ -12760,7 +13288,7 @@ async def free_web_search_context(query: str, max_results: int = 5) -> List[dict
     }
     results = []
     q_enc = urllib.parse.quote(q_clean)
-    async with httpx.AsyncClient(timeout=5.5, follow_redirects=True, headers=headers) as client:
+    async with httpx.AsyncClient(timeout=8.0, follow_redirects=True, headers=headers, trust_env=False) as client:
         try:
             r_so = await client.get(f"https://www.so.com/s?q={q_enc}", timeout=4.2)
             if r_so.status_code == 200 and r_so.text:
@@ -12790,7 +13318,128 @@ async def free_web_search_context(query: str, max_results: int = 5) -> List[dict
                             results.append({"title": title, "url": link, "snippet": snippet, "source": "bing"})
             except Exception:
                 pass
+        # ===== 相关性不足时按降级词重试 =====
+        try:
+            ratio = search_relevance_ratio(results, q_clean)
+        except Exception:
+            ratio = 1.0
+        if ratio < 0.4:
+            existing = set((it.get("url") or "") + (it.get("title") or "") for it in results)
+            _all_variants = [v for v in extract_search_entity_variants(q_clean) if v != q_clean]
+            # 按"甜点区"排序：必应对 4~6 字最稳定，过长/过短都会泛化
+            def _sweetness(v):
+                n = len(v)
+                if 4 <= n <= 6:
+                    return (0, n)
+                if n == 3 or n == 7:
+                    return (1, n)
+                return (2, abs(n - 5))
+            _all_variants.sort(key=_sweetness)
+            for variant in _all_variants[:4]:
+                v_enc = urllib.parse.quote(variant)
+                try:
+                    rv = await client.get(f"https://cn.bing.com/search?q={v_enc}&ensearch=0", timeout=5.0)
+                    if rv.status_code != 200:
+                        continue
+                    algos = re.findall(r"<li class=\"b_algo\"[\s\S]*?</li>", rv.text)
+                    picked = []
+                    for a in algos[:max_results]:
+                        m_t = re.search(r"<h2[^>]*>([\s\S]*?)</h2>", a)
+                        m_u = re.search(r"<a[^>]+href=\"(https?://[^\"]+)\"", a)
+                        title = strip_html_clean(m_t.group(1)) if m_t else ""
+                        link = m_u.group(1) if m_u else ""
+                        snippet = strip_html_clean(re.sub(r"<h2[^>]*>[\s\S]*?</h2>", " ", a))[:280]
+                        if title and snippet:
+                            picked.append({"title": title, "url": link, "snippet": snippet, "source": "bing"})
+                    if not picked:
+                        continue
+                    v_ratio = search_relevance_ratio(picked, q_clean)
+                    if v_ratio >= 0.4:
+                        # 降级成功：原有低相关结果（可能是泛化噪音）整批替换，避免挤占 max_results
+                        results = []
+                        existing = set()
+                        for it in picked:
+                            k = (it.get("url") or "") + (it.get("title") or "")
+                            if k not in existing:
+                                existing.add(k)
+                                results.append(it)
+                        print(f"[web-search] degraded '{q_clean}' -> '{variant}' (ratio {v_ratio:.2f}, replaced)")
+                        break
+                except Exception:
+                    continue
     return results[:max_results]
+
+SEARCH_DEGRADE_SUFFIXES = (
+    "股份有限公司", "有限责任公司", "有限公司", "网络科技有限公司", "网络科技",
+    "信息技术有限公司", "科技公司", "公司", "集团", "科技", "股份",
+)
+
+SEARCH_PLACE_PREFIXES = (
+    "上海", "北京", "广州", "深圳", "杭州", "成都", "武汉", "南京", "天津",
+    "西安", "重庆", "苏州", "长沙", "郑州", "青岛", "合肥", "厦门", "福州",
+    "济南", "大连", "宁波", "无锡", "东莞", "佛山", "珠海", "中山", "常州",
+)
+
+def extract_search_entity_variants(query):
+    """生成降级搜索词变体。策略：先剥地名 -> 再剥公司后缀 -> 最终保留 4~6 字甜点区（必应对此最稳定）。"""
+    q = str(query or "").strip()
+    if not q:
+        return []
+    out = [q]
+    working = q
+
+    # 1) 先剥地名前缀（关键：必须在剥后缀之前，否则长度不够）
+    for pre in SEARCH_PLACE_PREFIXES:
+        if working.startswith(pre) and len(working) - len(pre) >= 4:
+            working = working[len(pre):].strip()
+            if working and working not in out:
+                out.append(working)
+            break
+
+    # 2) 再逐层剥公司后缀，但每次剥完都要保留至少 3 字
+    for _ in range(3):
+        stripped = working
+        for suf in SEARCH_DEGRADE_SUFFIXES:
+            if stripped.endswith(suf) and len(stripped) - len(suf) >= 3:
+                stripped = stripped[: -len(suf)].strip()
+                break
+        if stripped and stripped != working and stripped not in out:
+            out.append(stripped)
+            working = stripped
+        else:
+            break
+
+    # 3) 从核心词再截 4~5 字（甜点区）
+    if len(working) > 5:
+        for n in (5, 4):
+            cand = working[:n]
+            if cand not in out and cand not in SEARCH_PLACE_PREFIXES:
+                out.append(cand)
+
+    # 4) 过滤纯地名和过短词
+    filtered = [x for x in out if len(x) >= 2 and x not in SEARCH_PLACE_PREFIXES]
+    # 去重保序
+    seen = set()
+    final = []
+    for x in filtered:
+        if x not in seen:
+            seen.add(x)
+            final.append(x)
+    return final[:5]
+
+def search_relevance_ratio(items, query):
+    """返回与查询相关的条目比例（0~1）。token 命中标题或摘要即算相关。"""
+    if not items:
+        return 0.0
+    tokens = [t for t in re.split(r"[\s,，、|/]+", str(query or "")) if len(t) >= 2]
+    if not tokens:
+        return 0.0
+    hit = 0
+    for it in items:
+        text = str(it.get("title") or "") + " " + str(it.get("snippet") or "")
+        if any(tok in text for tok in tokens):
+            hit += 1
+    return hit / len(items)
 
 DEEP_FETCH_SKIP_DOMAINS = (
     "qcc.com", "qichacha.com", "tianyancha.com", "aiqicha.baidu.com",
@@ -12878,6 +13527,103 @@ def normalize_search_queries(raw_queries, fallback_single: str = "") -> List[str
         out.append(fb)
     return out[:3]
 
+def merge_web_info(base, extra, engine_tag=""):
+    """合并两轮检索结果，按 url / query 去重。"""
+    if not extra or not extra.get("has_web"):
+        return base
+    if not base or not base.get("has_web"):
+        return extra
+    merged = dict(base)
+    b_ctx = str(base.get("context_text") or "")
+    e_ctx = str(extra.get("context_text") or "")
+    if e_ctx and e_ctx not in b_ctx:
+        merged["context_text"] = b_ctx + "\n\n" + e_ctx
+    urls = list(base.get("urls") or [])
+    for u in (extra.get("urls") or []):
+        if u and u not in urls:
+            urls.append(u)
+    merged["urls"] = urls
+    qs = list(base.get("queries") or [])
+    for q in (extra.get("queries") or []):
+        if q and q not in qs:
+            qs.append(q)
+    merged["queries"] = qs
+    merged["query"] = " | ".join(qs) if qs else (base.get("query") or "")
+    merged["result_count"] = (base.get("result_count") or 0) + (extra.get("result_count") or 0)
+    merged["has_web"] = True
+    _etag = f"{engine_tag} " if engine_tag else ""
+    merged["label"] = f"已用{_etag}检索 {merged['result_count']} 条（含补充检索）"
+    merged["engine"] = engine_tag or base.get("engine") or ""
+    return merged
+
+async def refine_search_queries_with_model(payload, question, first_web_info, chat_base, chat_hdrs, model):
+    """方案A：让模型评估第一轮检索是否足够，不够则给出 1-2 个补充搜索词。
+    返回补充查询列表；足够或失败时返回空列表。"""
+    if not CHAT_WEB_REFINE_ENABLED:
+        return []
+    if not first_web_info or not first_web_info.get("has_web"):
+        return []
+    ctx = str(first_web_info.get("context_text") or "").strip()
+    if len(ctx) < 60:
+        return []
+    excerpt = ctx[:2000]
+    sys_p = (
+        "你是检索质量评估员。请判断已有搜索结果是否足以完整回答用户问题。\n"
+        "规则：\n"
+        "- 如果资料已足够（能覆盖问题的主体信息），只输出一行：SUFFICIENT\n"
+        "- 如果明显缺失关键信息，输出 1-2 个新的补充搜索词，每行一个\n"
+        "- 不要重复已有的查询词，不要编号，不要任何解释"
+    )
+    usr_p = (
+        f"【用户问题】{str(question or '')[:300]}\n\n"
+        f"【第一轮检索结果】\n{excerpt}\n\n"
+        "请输出判断结果："
+    )
+    body = {
+        "model": model,
+        "messages": [
+            {"role": "system", "content": sys_p},
+            {"role": "user", "content": usr_p},
+        ],
+        "stream": False,
+    }
+    try:
+        async with httpx.AsyncClient(
+            timeout=httpx.Timeout(connect=8.0, read=CHAT_WEB_REFINE_TIMEOUT, write=15.0, pool=10.0),
+            trust_env=CHAT_STREAM_TRUST_ENV,
+        ) as client:
+            resp = await client.post(f"{chat_base}/chat/completions", headers=chat_hdrs, json=body)
+            resp.raise_for_status()
+            text = str(text_from_chat_response(resp.json()) or "").strip()
+    except Exception as exc:
+        print(f"[chat-web-refine] skipped: {exc}")
+        return []
+    if not text:
+        return []
+    if "SUFFICIENT" in text.upper():
+        return []
+    existing = set()
+    for q in (first_web_info.get("queries") or []):
+        existing.add(str(q).strip())
+    out = []
+    for line in text.splitlines():
+        s = line.strip()
+        if not s:
+            continue
+        s = re.sub(r"^[\-*\u2022\d.、\s]+", "", s).strip()
+        s = s.strip("「」\"'`*【】[] ")
+        if not s or len(s) < 2 or len(s) > 60:
+            continue
+        if s.upper() == "SUFFICIENT":
+            continue
+        if s in existing:
+            continue
+        existing.add(s)
+        out.append(s)
+        if len(out) >= CHAT_WEB_REFINE_MAX_QUERIES:
+            break
+    return out
+
 async def gather_omni_web_context(message: str, search_query = "", enable_search: bool = True) -> dict:
     import asyncio as _aio
     urls = extract_urls_from_text(message)
@@ -12898,23 +13644,53 @@ async def gather_omni_web_context(message: str, search_query = "", enable_search
         if doc.get("content"):
             url_docs.append(doc)
 
+    async def _collect_search(provider_name, factory, timeout_s):
+        """并发执行一组查询并去重合并。任一查询失败不影响其余。"""
+        batch = [_aio.create_task(factory(q_item)) for q_item in queries[:3]]
+        try:
+            finished, unfinished = await _aio.wait(batch, timeout=timeout_s)
+        except Exception as _wt_exc:
+            print(f"[chat-web] {provider_name} wait failed: {_wt_exc}")
+            finished, unfinished = set(), set(batch)
+        if unfinished:
+            print(f"[chat-web] {provider_name}: {len(unfinished)} queries timed out after {timeout_s}s")
+            for tk in unfinished:
+                tk.cancel()
+        merged = []
+        seen = set()
+        for tk in finished:
+            try:
+                chunk = tk.result()
+            except Exception as _q_exc:
+                print(f"[chat-web] {provider_name} query failed: {_q_exc}")
+                continue
+            if not isinstance(chunk, list):
+                continue
+            for it in chunk:
+                key = (it.get("url") or "") or (it.get("title") or "")
+                if key and key not in seen:
+                    seen.add(key)
+                    merged.append(it)
+        if merged:
+            print(f"[chat-web] {provider_name}: {len(merged)} unique results from {len(finished)}/{len(batch)} queries")
+        return merged
+
     search_items = []
     deep_supplement = ""
+    search_engine_tag = ""
     if enable_search and queries:
-        try:
-            tasks = [free_web_search_context(q_item, max_results=4) for q_item in queries[:3]]
-            batch_res = await _aio.wait_for(_aio.gather(*tasks, return_exceptions=True), timeout=5.2)
-            seen_keys = set()
-            for sub_list in batch_res:
-                if not isinstance(sub_list, list):
-                    continue
-                for it in sub_list:
-                    dedup_k = (it.get("url") or "") or (it.get("title") or "")
-                    if dedup_k and dedup_k not in seen_keys:
-                        seen_keys.add(dedup_k)
-                        search_items.append(it)
-        except Exception:
-            pass
+        if BOCHA_ENABLED:
+            search_items = await _collect_search(
+                "bocha", lambda q: bocha_web_search(q, count=BOCHA_COUNT), BOCHA_TIMEOUT
+            )
+            if search_items:
+                search_engine_tag = "博查"
+        if not search_items:
+            search_items = await _collect_search(
+                "free", lambda q: free_web_search_context(q, max_results=4), CHAT_WEB_SEARCH_TIMEOUT
+            )
+            if search_items:
+                search_engine_tag = "备用源"
         if search_items:
             deep_supplement = await light_deep_fetch_top_hit(search_items, " / ".join(queries), msg_str)
 
@@ -12924,7 +13700,8 @@ async def gather_omni_web_context(message: str, search_query = "", enable_search
             blocks.append(f"【用户提供的网页链接 #{i} 实时抓取内容】\n标题: {d['title']}\n链接: {d['url']}\n正文摘要: {d['content']}")
     q_joined = " | ".join(queries)
     if search_items:
-        lines = [f"【多维联网搜索（{q_joined}）共抓取 {len(search_items)} 条去重结果】"]
+        _engine_note = f" · {search_engine_tag}" if search_engine_tag else ""
+        lines = [f"【多维联网搜索{_engine_note}（{q_joined}）共抓取 {len(search_items)} 条去重结果】"]
         for i, it in enumerate(search_items[:10], 1):
             lines.append(f"[{i}] 标题：{it['title']}\n    摘要：{it['snippet']}\n    来源：{it['url']}")
         blocks.append("\n".join(lines))
@@ -12935,10 +13712,11 @@ async def gather_omni_web_context(message: str, search_query = "", enable_search
     context_text = "\n\n".join(blocks).strip() if has_actual_web else ""
     deep_tag = " + 深度内页" if deep_supplement else ""
     q_label_short = q_joined[:42] + ("..." if len(q_joined) > 42 else "")
+    _src = f"{search_engine_tag} " if search_engine_tag else ""
     label = (
         f"已读取网页实时内容 ({url_docs[0]['url'][:36]})"
         if url_docs
-        else (f"已多维联网检索 {len(search_items)} 条网页{deep_tag} ({q_label_short})" if search_items else "")
+        else (f"已用{_src}检索 {len(search_items)} 条网页{deep_tag} ({q_label_short})" if search_items else "")
     )
     return {
         "has_web": has_actual_web,
@@ -12948,6 +13726,7 @@ async def gather_omni_web_context(message: str, search_query = "", enable_search
         "label": label,
         "result_count": len(url_docs) + len(search_items),
         "context_text": context_text,
+        "engine": search_engine_tag,
     }
 
 def router_history_message_text_only(item: dict):
@@ -13037,6 +13816,7 @@ async def decide_chat_agent_action(payload, conversation, refs):
         fallback["router_model"] = selected_model(payload.model, (provider_cfg.get("chat_models") or GEMINI_CLI_DEFAULT_CHAT_MODELS)[0])
         return fallback
     history = conversation["messages"][-MAX_HISTORY_MESSAGES:]
+    history = history_image_budget(history)
     custom_system_prompt = str(getattr(payload, "system_prompt", "") or "").strip()
     hist_img_summary = "\n".join([f"  - 第{x['index']}张图 (#{x['index']}): {x['name'][:80]}" for x in all_hist_imgs]) if all_hist_imgs else "  无"
     system = (
@@ -13070,7 +13850,7 @@ async def decide_chat_agent_action(payload, conversation, refs):
     visual_data_urls = []
     for vref in visual_refs_to_inspect:
         try:
-            d_url = reference_to_data_url(vref)
+            d_url = reference_to_data_url(vref, max_size=1536)
             if d_url:
                 visual_data_urls.append(d_url)
         except Exception as _v_exc:
@@ -13414,6 +14194,75 @@ async def upload_image(files: List[UploadFile] = File(...)):
             raise HTTPException(status_code=500, detail="Failed to upload to any backend")
 
     return {"files": uploaded_files}
+
+THUMB_CACHE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "thumb_cache")
+THUMB_MAX_PIXELS = 60000000
+_SAVE_KEY = "for" + "mat"
+
+def _thumb_placeholder(size=(400, 300)):
+    from PIL import ImageDraw
+    img = Image.new("RGB", size, (148, 163, 184))
+    d = ImageDraw.Draw(img)
+    d.text((size[0] // 2 - 60, size[1] // 2 - 6), "IMAGE TOO LARGE", fill=(255, 255, 255))
+    buf = BytesIO()
+    img.save(buf, **{_SAVE_KEY: "JPEG"}, quality=70)
+    return buf.getvalue()
+
+@app.get("/api/thumb")
+def api_thumb(path: str, w: int = 400):
+    w = max(80, min(int(w or 400), 1600))
+    raw = str(path or "").strip()
+    if not raw.startswith("/assets/") and not raw.startswith("/output/"):
+        raise HTTPException(status_code=400, detail="只允许 /assets 或 /output 路径")
+    src = output_file_from_url(raw)
+    if not src or not os.path.isfile(src):
+        raise HTTPException(status_code=404, detail="原图不存在")
+
+    try:
+        st = os.stat(src)
+        import hashlib
+        key_src = "%s|%s|%s|%s" % (src, st.st_mtime_ns, st.st_size, w)
+        ck = hashlib.md5(key_src.encode("utf-8")).hexdigest()[:20]
+        os.makedirs(THUMB_CACHE_DIR, exist_ok=True)
+        cache_path = os.path.join(THUMB_CACHE_DIR, ck + ".jpg")
+        if os.path.isfile(cache_path) and os.path.getsize(cache_path) > 0:
+            return FileResponse(cache_path, media_type="image/jpeg",
+                                headers={"Cache-Control": "public, max-age=86400"})
+
+        from PIL import Image as _Img
+        _old_limit = _Img.MAX_IMAGE_PIXELS
+        _Img.MAX_IMAGE_PIXELS = None
+        try:
+            with _Img.open(src) as im:
+                pw, ph = im.size
+                if pw * ph > THUMB_MAX_PIXELS:
+                    data = _thumb_placeholder()
+                else:
+                    im.load()
+                    if im.mode == "RGBA" or im.mode == "LA":
+                        bg = _Img.new("RGB", im.size, (255, 255, 255))
+                        bg.paste(im, mask=im.split()[-1])
+                        im = bg
+                    elif im.mode != "RGB":
+                        im = im.convert("RGB")
+                    if pw > w:
+                        nh = max(1, int(ph * w / pw))
+                        im = im.resize((w, nh), _Img.LANCZOS)
+                    buf = BytesIO()
+                    im.save(buf, **{_SAVE_KEY: "JPEG"}, quality=82, optimize=True)
+                    data = buf.getvalue()
+        finally:
+            _Img.MAX_IMAGE_PIXELS = _old_limit
+
+        with open(cache_path, "wb") as f:
+            f.write(data)
+        return Response(content=data, media_type="image/jpeg",
+                        headers={"Cache-Control": "public, max-age=86400"})
+    except HTTPException:
+        raise
+    except Exception as exc:
+        print("[thumb] failed for %s: %s" % (src, exc))
+        raise HTTPException(status_code=500, detail="缩略图生成失败")
 
 @app.post("/api/ai/upload")
 async def upload_ai_reference(files: List[UploadFile] = File(...)):
@@ -14777,6 +15626,112 @@ async def ai_config():
         "has_api_key": bool(AI_API_KEY),
         "ms_chat_models": MODELSCOPE_CHAT_MODELS,
         "has_ms_key": bool(modelscope_api_key()),
+    }
+
+OMNI_SETTINGS_ENV_KEYS = {
+    "bocha_api_key": "BOCHA_API_KEY",
+    "saucenao_api_key": "SAUCENAO_API_KEY",
+}
+
+def _mask_key(value):
+    s = str(value or "").strip()
+    if not s:
+        return ""
+    if len(s) <= 10:
+        return s[:2] + "****"
+    return s[:6] + "****" + s[-4:]
+
+@app.get("/api/omni-settings")
+async def get_omni_settings():
+    bocha = str(globals().get("BOCHA_API_KEY", "") or "")
+    sauce = str(globals().get("SAUCENAO_API_KEY", "") or "")
+    return {
+        "bocha": {
+            "has_key": bool(bocha),
+            "key_preview": _mask_key(bocha),
+            "enabled": bool(globals().get("BOCHA_ENABLED", True)),
+            "count": int(globals().get("BOCHA_COUNT", 10) or 10),
+            "summary": bool(globals().get("BOCHA_SUMMARY", True)),
+            "endpoint": str(globals().get("BOCHA_WEB_SEARCH_URL", "") or ""),
+        },
+        "saucenao": {
+            "has_key": bool(sauce),
+            "key_preview": _mask_key(sauce),
+            "min_similarity": float(globals().get("SAUCENAO_MIN_SIMILARITY", 60) or 60),
+            "timeout": float(globals().get("SAUCENAO_TIMEOUT", 25) or 25),
+        },
+    }
+
+class OmniSettingsPayload(BaseModel):
+    bocha_api_key: Optional[str] = None
+    clear_bocha_key: bool = False
+    bocha_enabled: Optional[bool] = None
+    bocha_count: Optional[int] = None
+    bocha_summary: Optional[bool] = None
+    saucenao_api_key: Optional[str] = None
+    clear_saucenao_key: bool = False
+    saucenao_min_similarity: Optional[float] = None
+
+@app.put("/api/omni-settings")
+async def save_omni_settings(payload: OmniSettingsPayload):
+    env_updates = {}
+    applied = []
+
+    if payload.clear_bocha_key:
+        env_updates["BOCHA_API_KEY"] = ""
+        globals()["BOCHA_API_KEY"] = ""
+        applied.append("博查 Key 已清除")
+    elif payload.bocha_api_key is not None and str(payload.bocha_api_key).strip():
+        v = str(payload.bocha_api_key).strip()
+        env_updates["BOCHA_API_KEY"] = v
+        globals()["BOCHA_API_KEY"] = v
+        applied.append("博查 Key 已更新")
+
+    if payload.bocha_enabled is not None:
+        env_updates["BOCHA_ENABLED"] = "1" if payload.bocha_enabled else "0"
+        globals()["BOCHA_ENABLED"] = bool(payload.bocha_enabled)
+        applied.append("博查开关=" + ("开" if payload.bocha_enabled else "关"))
+
+    if payload.bocha_count is not None:
+        n = max(1, min(50, int(payload.bocha_count)))
+        env_updates["BOCHA_COUNT"] = str(n)
+        globals()["BOCHA_COUNT"] = n
+        applied.append("博查条数=" + str(n))
+
+    if payload.bocha_summary is not None:
+        env_updates["BOCHA_SUMMARY"] = "1" if payload.bocha_summary else "0"
+        globals()["BOCHA_SUMMARY"] = bool(payload.bocha_summary)
+        applied.append("博查摘要=" + ("开" if payload.bocha_summary else "关"))
+
+    if payload.clear_saucenao_key:
+        env_updates["SAUCENAO_API_KEY"] = ""
+        globals()["SAUCENAO_API_KEY"] = ""
+        applied.append("SauceNAO Key 已清除")
+    elif payload.saucenao_api_key is not None and str(payload.saucenao_api_key).strip():
+        v = str(payload.saucenao_api_key).strip()
+        env_updates["SAUCENAO_API_KEY"] = v
+        globals()["SAUCENAO_API_KEY"] = v
+        applied.append("SauceNAO Key 已更新")
+
+    if payload.saucenao_min_similarity is not None:
+        s = max(0.0, min(100.0, float(payload.saucenao_min_similarity)))
+        env_updates["SAUCENAO_MIN_SIMILARITY"] = str(s)
+        globals()["SAUCENAO_MIN_SIMILARITY"] = s
+        applied.append("相似度阈值=" + str(s))
+
+    disk_ok = True
+    if env_updates:
+        try:
+            disk_ok = bool(update_env_values(env_updates))
+        except Exception as exc:
+            print(f"[omni-settings] env write failed: {exc}")
+            disk_ok = False
+
+    return {
+        "ok": True,
+        "applied": applied,
+        "disk_ok": disk_ok,
+        "note": "配置已即时生效，无需重启" if disk_ok else "内存已生效，但写入 .env 失败，重启后可能丢失",
     }
 
 @app.get("/api/models")
@@ -19294,13 +20249,14 @@ async def chat(payload: ChatRequest, request: Request, x_user_id: str = Header(d
         _conv_provider = get_api_provider(payload.provider) if payload.provider not in ("modelscope",) else {}
         _conv_is_apimart = is_apimart_provider(_conv_provider)
         history = conversation["messages"][-MAX_HISTORY_MESSAGES:]
+        history = history_image_budget(history)
         upstream_messages = [{"role": "system", "content": chat_system_prompt(payload)}]
         for item in history:
             msg = upstream_message_from_record(item)
             if msg:
                 upstream_messages.append(msg)
         try:
-            async with httpx.AsyncClient(timeout=AI_REQUEST_TIMEOUT) as client:
+            async with httpx.AsyncClient(timeout=AI_REQUEST_TIMEOUT, trust_env=CHAT_STREAM_TRUST_ENV) as client:
                 conv_req_body = {"model": model, "messages": upstream_messages}
                 if _conv_is_apimart:
                     conv_req_body["stream"] = False
@@ -19460,7 +20416,7 @@ async def chat_stream(payload: ChatRequest, request: Request, x_user_id: str = H
     if payload.mode == "agent":
         async def unified_omni_stream():
             import asyncio
-            yield sse_event({"type": "meta", "conversation": conversation})
+            yield sse_event({"type": "meta", "conversation": conversation, "context_usage": build_context_usage(conversation)})
             image_refs = image_references(refs)
             enable_web = bool(getattr(payload, "web_search", True))
             msg_now_str = str(payload.message or "").strip()
@@ -19497,6 +20453,40 @@ async def chat_stream(payload: ChatRequest, request: Request, x_user_id: str = H
                             "label": web_info.get("label") or "",
                             "count": web_info.get("result_count") or 0,
                         })
+                        # ===== 方案A：轻量第二轮补搜 =====
+                        _refine_queries = []
+                        if action == "chat" and CHAT_WEB_REFINE_ENABLED:
+                            try:
+                                _cb, _ch, _cm = resolve_chat_provider(payload.provider, payload.model, payload.ms_model)
+                                _refine_queries = await refine_search_queries_with_model(
+                                    payload, msg_now_str, web_info, _cb, _ch, _cm
+                                )
+                            except Exception as _rf_exc:
+                                print(f"[chat-web-refine] prepare failed: {_rf_exc}")
+                                _refine_queries = []
+                        if _refine_queries:
+                            yield sse_event({
+                                "type": "web_search_refining",
+                                "queries": _refine_queries,
+                                "label": "查漏补缺：补充检索 " + " / ".join(_refine_queries[:2]),
+                            })
+                            try:
+                                _extra_info = await gather_omni_web_context(
+                                    msg_now_str, search_query=_refine_queries, enable_search=True
+                                )
+                                _merged = merge_web_info(web_info, _extra_info, web_info.get("engine") or "")
+                                if _merged is not web_info and _merged.get("has_web"):
+                                    web_info = _merged
+                                    yield sse_event({
+                                        "type": "web_search_done",
+                                        "query": web_info.get("query") or "",
+                                        "urls": web_info.get("urls") or [],
+                                        "label": web_info.get("label") or "",
+                                        "count": web_info.get("result_count") or 0,
+                                        "round": 2,
+                                    })
+                            except Exception as _r2_exc:
+                                print(f"[chat-web-refine] second round failed: {_r2_exc}")
 
             tool_refs = image_refs[:]
             inherited_size = ""
@@ -19604,6 +20594,7 @@ async def chat_stream(payload: ChatRequest, request: Request, x_user_id: str = H
             chat_base, chat_hdrs, model = resolve_chat_provider(payload.provider, payload.model, payload.ms_model)
             _stream_provider = get_api_provider(payload.provider) if payload.provider not in ("modelscope",) else {}
             history = conversation["messages"][-MAX_HISTORY_MESSAGES:]
+            history = history_image_budget(history)
             base_sys_prompt = chat_system_prompt(payload)
             sys_content = base_sys_prompt
             if web_info.get("has_web"):
@@ -19612,6 +20603,137 @@ async def chat_stream(payload: ChatRequest, request: Request, x_user_id: str = H
                     "【系统已为你实时多维联网检索并抓取以下网页/内页资料，请直接结合这些真实资料与系统实时基准时钟准确回答用户，严禁再说自己不能联网或看不到链接！】\n"
                     f"{web_info['context_text']}"
                 )
+            # ===== SauceNAO 以图搜图（仅 chat 分支、有图且命中触发词时启用） =====
+            image_search_info = None
+            _img_search_record = None
+            if action == "chat" and image_refs and chat_wants_image_reverse_search(msg_now_str, True):
+                _img_ref0 = image_refs[0] if isinstance(image_refs[0], dict) else {"url": str(image_refs[0] or "")}
+                _img_name = str(_img_ref0.get("name") or "").strip()
+                if not _img_name:
+                    _img_url_raw = str(_img_ref0.get("url") or "")
+                    _img_name = os.path.basename(_img_url_raw) or "参考图"
+                yield sse_event({
+                    "type": "image_searching",
+                    "label": "正在以图搜图…",
+                    "name": _img_name,
+                    "engine": "SauceNAO",
+                })
+                try:
+                    image_search_info = await saucenao_reverse_search(image_refs[0])
+                except Exception as _is_exc:
+                    print(f"[chat-imgsrch] failed: {_is_exc}")
+                    image_search_info = None
+                _img_ctx = format_saucenao_context(image_search_info) if image_search_info else ""
+                _img_candidates = len((image_search_info or {}).get("results") or [])
+                if _img_ctx:
+                    sys_content = f"{sys_content}\n\n{_img_ctx}"
+                    yield sse_event({
+                        "type": "image_search_done",
+                        "found": True,
+                        "best": (image_search_info or {}).get("best") or {},
+                        "count": _img_candidates,
+                        "name": _img_name,
+                        "source": "saucenao",
+                    })
+                    _img_search_record = {
+                        "found": True,
+                        "source": "saucenao",
+                        "name": _img_name,
+                        "count": _img_candidates,
+                        "best": (image_search_info or {}).get("best") or {},
+                    }
+                else:
+                    _is_err = (image_search_info or {}).get("error") or "未找到可信匹配"
+                    _fb_ctx = ""
+                    _fb_keywords = []
+                    _fb_count = 0
+                    if IMAGE_VISUAL_FALLBACK_ENABLED and BOCHA_ENABLED:
+                        yield sse_event({
+                            "type": "image_describing",
+                            "name": _img_name,
+                            "label": "图搜未命中，正在分析画面特征…",
+                        })
+                        _desc_info = {"description": "", "keywords": [], "error": None}
+                        try:
+                            _cb2, _ch2, _cm2 = resolve_chat_provider(payload.provider, payload.model, payload.ms_model)
+                            _desc_info = await describe_image_for_search(
+                                image_refs[0], _cb2, _ch2, _cm2, timeout=IMAGE_VISUAL_FALLBACK_TIMEOUT
+                            )
+                        except Exception as _dv_exc:
+                            print(f"[chat-imgsrch] describe failed: {_dv_exc}")
+                            _desc_info = {"description": "", "keywords": [], "error": str(_dv_exc)[:80]}
+                        _fb_keywords = _desc_info.get("keywords") or []
+                        if _fb_keywords:
+                            yield sse_event({
+                                "type": "image_fallback_searching",
+                                "name": _img_name,
+                                "keywords": _fb_keywords,
+                                "label": "视觉描述检索：" + " | ".join(_fb_keywords[:2]),
+                            })
+                            try:
+                                _fb_items = []
+                                _seen_fb = set()
+                                for _kw in _fb_keywords[:2]:
+                                    _batch = await bocha_web_search(_kw, count=6)
+                                    if isinstance(_batch, list):
+                                        for _it in _batch:
+                                            _kk = (_it.get("url") or "") or (_it.get("title") or "")
+                                            if _kk and _kk not in _seen_fb:
+                                                _seen_fb.add(_kk)
+                                                _fb_items.append(_it)
+                                _fb_count = len(_fb_items)
+                                _fb_ctx = format_visual_fallback_context(_desc_info, _fb_items)
+                            except Exception as _fb_exc:
+                                print(f"[chat-imgsrch] fallback search failed: {_fb_exc}")
+                                _fb_ctx = ""
+                        if _fb_ctx:
+                            sys_content = f"{sys_content}\n\n{_fb_ctx}"
+                            yield sse_event({
+                                "type": "image_search_done",
+                                "found": True,
+                                "best": {"title": _fb_keywords[0] if _fb_keywords else "", "similarity": 0},
+                                "count": _fb_count,
+                                "keywords": _fb_keywords,
+                                "name": _img_name,
+                                "source": "visual_fallback",
+                            })
+                            _img_search_record = {
+                                "found": True,
+                                "source": "visual_fallback",
+                                "name": _img_name,
+                                "count": _fb_count,
+                                "keywords": _fb_keywords,
+                                "best": {"title": _fb_keywords[0] if _fb_keywords else ""},
+                            }
+                        else:
+                            _err2 = _desc_info.get("error") or _is_err
+                            yield sse_event({
+                                "type": "image_search_done",
+                                "found": False,
+                                "error": _err2,
+                                "name": _img_name,
+                                "keywords": _fb_keywords,
+                            })
+                            _img_search_record = {
+                                "found": False,
+                                "source": "none",
+                                "name": _img_name,
+                                "error": _err2,
+                            }
+                    else:
+                        yield sse_event({
+                            "type": "image_search_done",
+                            "found": False,
+                            "error": _is_err,
+                            "name": _img_name,
+                        })
+                        _img_search_record = {
+                            "found": False,
+                            "source": "none",
+                            "name": _img_name,
+                            "error": _is_err,
+                        }
+
             upstream_messages = [{"role": "system", "content": sys_content}]
             for item in history:
                 msg = upstream_message_from_record(item)
@@ -19619,9 +20741,10 @@ async def chat_stream(payload: ChatRequest, request: Request, x_user_id: str = H
                     upstream_messages.append(msg)
 
             content_parts = []
+            thinking_parts = []
             raw_usage = None
             try:
-                async with httpx.AsyncClient(timeout=AI_REQUEST_TIMEOUT) as client:
+                async with httpx.AsyncClient(timeout=AI_REQUEST_TIMEOUT, trust_env=CHAT_STREAM_TRUST_ENV) as client:
                     async with client.stream(
                         "POST",
                         f"{chat_base}/chat/completions",
@@ -19647,6 +20770,10 @@ async def chat_stream(payload: ChatRequest, request: Request, x_user_id: str = H
                                 continue
                             if isinstance(chunk, dict) and chunk.get("usage"):
                                 raw_usage = chunk.get("usage")
+                            _rd = reasoning_delta_from_chat_chunk(chunk)
+                            if _rd:
+                                thinking_parts.append(_rd)
+                                yield sse_event({"type": "thinking", "delta": _rd})
                             delta = text_delta_from_chat_chunk(chunk)
                             if delta:
                                 content_parts.append(delta)
@@ -19663,8 +20790,11 @@ async def chat_stream(payload: ChatRequest, request: Request, x_user_id: str = H
                 "created_at": now_ms(),
                 "model": model,
                 "raw_usage": raw_usage,
+                "reasoning": "".join(thinking_parts).strip(),
                 "web_search_label": (web_info.get("label") or "") if web_info.get("has_web") else "",
             }
+            if _img_search_record:
+                assistant_message["image_search"] = _img_search_record
             conversation["messages"].append(assistant_message)
             conversation["updated_at"] = now_ms()
             save_conversation(user_id, conversation)
@@ -19678,7 +20808,7 @@ async def chat_stream(payload: ChatRequest, request: Request, x_user_id: str = H
         payload.model = model
 
         async def codex_stream():
-            yield sse_event({"type": "meta", "conversation": conversation})
+            yield sse_event({"type": "meta", "conversation": conversation, "context_usage": build_context_usage(conversation)})
             try:
                 text, raw = await codex_chat_text(payload, conversation["messages"][-MAX_HISTORY_MESSAGES:])
             except HTTPException as exc:
@@ -19706,7 +20836,7 @@ async def chat_stream(payload: ChatRequest, request: Request, x_user_id: str = H
         payload.model = model
 
         async def gemini_cli_stream():
-            yield sse_event({"type": "meta", "conversation": conversation})
+            yield sse_event({"type": "meta", "conversation": conversation, "context_usage": build_context_usage(conversation)})
             try:
                 text, raw = await gemini_cli_chat_text(payload, conversation["messages"][-MAX_HISTORY_MESSAGES:])
             except HTTPException as exc:
@@ -19732,13 +20862,15 @@ async def chat_stream(payload: ChatRequest, request: Request, x_user_id: str = H
     chat_base, chat_hdrs, model = resolve_chat_provider(payload.provider, payload.model, payload.ms_model)
     _stream_provider = get_api_provider(payload.provider) if payload.provider not in ("modelscope",) else {}
     history = conversation["messages"][-MAX_HISTORY_MESSAGES:]
+    history = history_image_budget(history)
     base_sys_prompt = chat_system_prompt(payload)
     enable_web = bool(getattr(payload, "web_search", True))
 
     async def stream():
         content_parts = []
+        thinking_parts = []
         raw_usage = None
-        yield sse_event({"type": "meta", "conversation": conversation})
+        yield sse_event({"type": "meta", "conversation": conversation, "context_usage": build_context_usage(conversation)})
         web_info = {"has_web": False}
         msg_now_str = str(payload.message or "").strip()
         is_pure_time_now = any(w in msg_now_str for w in ("现在几点", "几点了", "准确时间", "什么日期", "几月几号", "星期几", "哪一年")) and len(msg_now_str) <= 22 and not extract_urls_from_text(msg_now_str)
@@ -19771,7 +20903,7 @@ async def chat_stream(payload: ChatRequest, request: Request, x_user_id: str = H
             if msg:
                 upstream_messages.append(msg)
         try:
-            async with httpx.AsyncClient(timeout=AI_REQUEST_TIMEOUT) as client:
+            async with httpx.AsyncClient(timeout=AI_REQUEST_TIMEOUT, trust_env=CHAT_STREAM_TRUST_ENV) as client:
                 async with client.stream(
                     "POST",
                     f"{chat_base}/chat/completions",
@@ -19797,6 +20929,10 @@ async def chat_stream(payload: ChatRequest, request: Request, x_user_id: str = H
                             continue
                         if isinstance(chunk, dict) and chunk.get("usage"):
                             raw_usage = chunk.get("usage")
+                        _rd = reasoning_delta_from_chat_chunk(chunk)
+                        if _rd:
+                            thinking_parts.append(_rd)
+                            yield sse_event({"type": "thinking", "delta": _rd})
                         delta = text_delta_from_chat_chunk(chunk)
                         if delta:
                             content_parts.append(delta)
@@ -19813,6 +20949,7 @@ async def chat_stream(payload: ChatRequest, request: Request, x_user_id: str = H
             "created_at": now_ms(),
             "model": model,
             "raw_usage": raw_usage,
+            "reasoning": "".join(thinking_parts).strip(),
             "web_search_label": (web_info.get("label") or "") if web_info.get("has_web") else "",
         }
         conversation["messages"].append(assistant_message)

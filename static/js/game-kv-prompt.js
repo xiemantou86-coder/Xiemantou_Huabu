@@ -492,10 +492,10 @@
         }
         if(node.showLogo){
             if(takeoverLogo){
-                sections.push(`限制：\n- 在画面四周角落放置图片${takeoverLogo.imageNumber}的游戏logo，确保logo不会变形，出错，严禁修改logo样式`);
+                sections.push(`限制：\n- 在画面角落放置图片${takeoverLogo.imageNumber}的游戏logo，确保logo不会变形，出错，严禁修改logo样式`);
             } else {
                 const logo = logoReference ? `图片${logoReference.imageNumber || references.indexOf(logoReference) + 1}的游戏Logo，保持样式清晰完整` : '游戏logo';
-                sections.push(`限制：\n- 在画面四周角落放置${logo}，确保logo不会变形，出错`);
+                sections.push(`限制：\n- 在画面角落放置${logo}，确保logo不会变形，出错`);
             }
         }else if(node.noLogo !== false){
             sections.push('限制：\n- 成图不要添加游戏Logo、品牌标识、水印或角标。');
