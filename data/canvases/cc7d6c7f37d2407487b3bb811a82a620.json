@@ -8,7 +8,7 @@
   "pinned": false,
   "project": "default",
   "created_at": 1789034316892,
-  "updated_at": 1792557500872,
+  "updated_at": 1792562453184,
   "nodes": [
     {
       "id": "containerGroup_cdc65987d9fd3_1789034526143",
@@ -2056,13 +2056,14 @@
         }
       ],
       "mediaKind": "image",
-      "translationExcludedOutputs": []
+      "translationExcludedOutputs": [],
+      "translationBatchAll": true
     },
     {
       "id": "translate-out_c01487863cf69_1791631701330",
       "type": "translationOutput",
       "x": 9325.476940018305,
-      "y": 2943.300326254206,
+      "y": 3097.300326254206,
       "w": 383,
       "translationSourceId": "translate-in_6615524e6fd6e_1791623983514",
       "translationMode": "translate",
@@ -2265,7 +2266,7 @@
       "id": "translate-out_0d5b614b6091c8_1791631701330",
       "type": "translationOutput",
       "x": 9745.476940018305,
-      "y": 2943.300326254206,
+      "y": 3097.300326254206,
       "w": 383,
       "translationSourceId": "translate-in_6615524e6fd6e_1791623983514",
       "translationMode": "translate",
@@ -2289,7 +2290,7 @@
       "id": "translate-out_93bde599f42838_1791631701330",
       "type": "translationOutput",
       "x": 10165.476940018305,
-      "y": 2943.300326254206,
+      "y": 3097.300326254206,
       "w": 383,
       "translationSourceId": "translate-in_6615524e6fd6e_1791623983514",
       "translationMode": "translate",
@@ -2313,7 +2314,7 @@
       "id": "translate-out_353736bbe7e3e8_1791631711369",
       "type": "translationOutput",
       "x": 9325.476940018305,
-      "y": 3404.300326254206,
+      "y": 3544.300326254206,
       "w": 383,
       "translationSourceId": "translate-in_6615524e6fd6e_1791623983514",
       "translationMode": "translate",
@@ -2427,7 +2428,7 @@
       "id": "translate-out_07e3f232cae26_1791631711369",
       "type": "translationOutput",
       "x": 9745.476940018305,
-      "y": 3404.300326254206,
+      "y": 3544.300326254206,
       "w": 383,
       "translationSourceId": "translate-in_6615524e6fd6e_1791623983514",
       "translationMode": "translate",
@@ -2451,7 +2452,7 @@
       "id": "translate-out_0ee27b54c21cd_1791631711369",
       "type": "translationOutput",
       "x": 10165.476940018305,
-      "y": 3404.300326254206,
+      "y": 3544.300326254206,
       "w": 383,
       "translationSourceId": "translate-in_6615524e6fd6e_1791623983514",
       "translationMode": "translate",
@@ -2506,33 +2507,18 @@
       "locked": true
     },
     {
-      "id": "out_f6df2c44a84f28_1792557014680",
-      "type": "output",
-      "x": 1004.576221837636,
-      "y": 1793.2465429077488,
-      "images": [
-        {
-          "url": "/assets/output/online_dae1c33574.png",
-          "viewed": false,
-          "runMs": 0,
-          "run": null,
-          "name": "上游生成图.png"
-        }
-      ]
-    },
-    {
       "id": "resizer_5f98d10fed59a_1792557014680",
       "type": "imageResizer",
-      "x": 1600,
-      "y": 1750,
-      "w": 820,
-      "h": 0,
+      "x": 1748.2029970459712,
+      "y": 1735.3626669584226,
+      "w": 838,
+      "h": 740,
       "resizeImages": [
         {
-          "id": "resize-image_92ef7305481b68_1792557044979",
-          "url": "/assets/output/online_dae1c33574.png",
-          "name": "上游生成图.png",
-          "sourceNodeId": "out_f6df2c44a84f28_1792557014680"
+          "id": "resize-image_739229882096c_1792562452342",
+          "url": "/assets/input/ai_ref_3cc0a83e2e9c.png",
+          "name": "imgtask_02305abfe51f4329909fe737528a9c45-0.png",
+          "sourceNodeId": "img_1866a1196655d8_1792561184310"
         }
       ],
       "resizeTargets": [
@@ -2547,67 +2533,207 @@
           "height": 390
         }
       ],
-      "resizeMode": "cover",
+      "resizeMode": "stretch",
       "resizeBackground": "#ffffff",
       "resizeExcludedOutputs": [],
-      "resizeLayoutVersion": 2
+      "resizeLayoutVersion": 2,
+      "resizeBatchAll": false
     },
     {
-      "id": "resize-out_946a19f128ac6_1792557044979",
+      "id": "gen_a709b98f656288_1792560973803",
+      "type": "generator",
+      "x": 697.6900922522893,
+      "y": 1771.9659207207385,
+      "apiProvider": "apimart",
+      "model": "gpt-image-2.5-flare",
+      "ratio": "square",
+      "resolution": "1k",
+      "customRatio": "",
+      "customSize": "",
+      "customRatioWidth": "",
+      "customRatioHeight": "",
+      "customWidth": "",
+      "customHeight": "",
+      "transparentBackground": false,
+      "inputs": [
+        "prompt_04fa2dbb026d18_1792560984419"
+      ],
+      "_apiResolutionUserSet": true,
+      "generatedOutputs": [
+        "/assets/output/online_ab65ecc320.png"
+      ]
+    },
+    {
+      "id": "out_51efa2af311dc8_1792560977716",
+      "type": "output",
+      "x": 1121.8773909259126,
+      "y": 1752.3684700526023,
+      "images": [
+        {
+          "url": "https://sub2api.07b8fef090a4290405b3f0c29be027d4.r2.cloudflarestorage.com/images/imgtask_02305abfe51f4329909fe737528a9c45-0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Checksum-Mode=ENABLED&X-Amz-Credential=0c31e83d958af4238a1da7ad1465f4e2%2F20261021%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20261021T053757Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=413dcd18f6ca1c861bfe7004ee29b3bf5360b5b4972c4464d14e9a7b5e5d0c00",
+          "viewed": true,
+          "runMs": 60171,
+          "run": {
+            "nodeType": "generator",
+            "node": {
+              "id": "gen_a709b98f656288_1792560973803",
+              "type": "generator",
+              "x": 697.6900922522893,
+              "y": 1771.9659207207385,
+              "apiProvider": "custom-api-5",
+              "model": "gpt-image-2.5-flare",
+              "ratio": "square",
+              "resolution": "1k",
+              "customRatio": "",
+              "customSize": "",
+              "customRatioWidth": "",
+              "customRatioHeight": "",
+              "customWidth": "",
+              "customHeight": "",
+              "transparentBackground": false,
+              "_apiResolutionUserSet": true
+            },
+            "prompt": "一只小猫",
+            "refs": [],
+            "request": {
+              "task_id": "imgtask_02305abfe51f4329909fe737528a9c45",
+              "request_id": "imgtask_02305abfe51f4329909fe737528a9c45",
+              "provider_id": "custom-api-5",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        },
+        {
+          "url": "/assets/output/online_ab65ecc320.png",
+          "viewed": false,
+          "runMs": 23702,
+          "run": {
+            "nodeType": "generator",
+            "node": {
+              "id": "gen_a709b98f656288_1792560973803",
+              "type": "generator",
+              "x": 697.6900922522893,
+              "y": 1771.9659207207385,
+              "apiProvider": "apimart",
+              "model": "gpt-image-2.5-flare",
+              "ratio": "square",
+              "resolution": "1k",
+              "customRatio": "",
+              "customSize": "",
+              "customRatioWidth": "",
+              "customRatioHeight": "",
+              "customWidth": "",
+              "customHeight": "",
+              "transparentBackground": false,
+              "_apiResolutionUserSet": true,
+              "generatedOutputs": [
+                "https://sub2api.07b8fef090a4290405b3f0c29be027d4.r2.cloudflarestorage.com/images/imgtask_02305abfe51f4329909fe737528a9c45-0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Checksum-Mode=ENABLED&X-Amz-Credential=0c31e83d958af4238a1da7ad1465f4e2%2F20261021%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20261021T053757Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=413dcd18f6ca1c861bfe7004ee29b3bf5360b5b4972c4464d14e9a7b5e5d0c00"
+              ]
+            },
+            "prompt": "一只小猫",
+            "refs": [],
+            "request": {
+              "task_id": "task_01M5EFMC04GRW7JDYEQCTPJ2PE",
+              "request_id": "",
+              "provider_id": "apimart",
+              "backend": "",
+              "prompt_id": "",
+              "workflow_json": "",
+              "seed": ""
+            }
+          }
+        }
+      ],
+      "_pending": []
+    },
+    {
+      "id": "prompt_04fa2dbb026d18_1792560984419",
+      "type": "prompt",
+      "x": 333.70958577499454,
+      "y": 1757.6369714239318,
+      "text": "一只小猫"
+    },
+    {
+      "id": "img_1866a1196655d8_1792561184310",
+      "type": "image",
+      "x": 1090.2110670320471,
+      "y": 2109.2522084786615,
+      "url": "/assets/input/ai_ref_3cc0a83e2e9c.png",
+      "name": "imgtask_02305abfe51f4329909fe737528a9c45-0.png",
+      "mediaKind": "image",
+      "_naturalSizeLoading": false,
+      "natural_w": 1024,
+      "natural_h": 1024
+    },
+    {
+      "id": "img_99cc944e62cbc8_1792561357423",
+      "type": "image",
+      "x": 1380.0131783438974,
+      "y": 2102.494487362253,
+      "url": "/assets/output/online_ab65ecc320.png",
+      "name": "online_ab65ecc320.png",
+      "_naturalSizeLoading": false,
+      "natural_w": 1024,
+      "natural_h": 1024
+    },
+    {
+      "id": "resize-out_b606d669e78e8_1792562452342",
       "type": "resizeOutput",
-      "x": 1818.5,
-      "y": 2505,
+      "x": 1975.7029970459712,
+      "y": 2555.362666958423,
       "w": 383,
       "resizeSourceId": "resizer_5f98d10fed59a_1792557014680",
-      "resizeImageId": "resize-image_92ef7305481b68_1792557044979",
-      "resizeImageName": "上游生成图.png",
+      "resizeImageId": "resize-image_739229882096c_1792562452342",
+      "resizeImageName": "imgtask_02305abfe51f4329909fe737528a9c45-0.png",
       "resizeTargetId": "fhd",
       "resizeTargetWidth": 1920,
       "resizeTargetHeight": 1080,
       "resizeOrder": 0,
       "images": [
         {
-          "url": "/assets/output/resize_d10e18f49de14b26843d275a44c63cbd.png",
-          "name": "resize_d10e18f49de14b26843d275a44c63cbd.png",
+          "url": "/assets/output/resize_a7decbfbc0a7468bbac7564740d08028.png",
+          "name": "resize_a7decbfbc0a7468bbac7564740d08028.png",
           "width": 1920,
-          "height": 1080,
-          "viewed": true
+          "height": 1080
         }
       ],
       "blocked": false,
       "imageComparisons": {
-        "/assets/output/resize_d10e18f49de14b26843d275a44c63cbd.png": {
-          "url": "/assets/output/online_dae1c33574.png",
-          "name": "上游生成图.png"
+        "/assets/output/resize_a7decbfbc0a7468bbac7564740d08028.png": {
+          "url": "/assets/input/ai_ref_3cc0a83e2e9c.png",
+          "name": "imgtask_02305abfe51f4329909fe737528a9c45-0.png"
         }
       }
     },
     {
-      "id": "resize-out_9a3096ec574bf_1792557497458",
+      "id": "resize-out_0f339f057ed648_1792562452342",
       "type": "resizeOutput",
-      "x": 1818.5,
-      "y": 2905,
+      "x": 1975.7029970459712,
+      "y": 2955.362666958423,
       "w": 383,
       "resizeSourceId": "resizer_5f98d10fed59a_1792557014680",
-      "resizeImageId": "resize-image_92ef7305481b68_1792557044979",
-      "resizeImageName": "上游生成图.png",
+      "resizeImageId": "resize-image_739229882096c_1792562452342",
+      "resizeImageName": "imgtask_02305abfe51f4329909fe737528a9c45-0.png",
       "resizeTargetId": "popup-s",
       "resizeTargetWidth": 650,
       "resizeTargetHeight": 390,
       "resizeOrder": 1,
       "images": [
         {
-          "url": "/assets/output/resize_a1b138298c17429cb02888b7ee80faf1.png",
-          "name": "resize_a1b138298c17429cb02888b7ee80faf1.png",
+          "url": "/assets/output/resize_9facd4310020469886f2275976e765f2.png",
+          "name": "resize_9facd4310020469886f2275976e765f2.png",
           "width": 650,
           "height": 390
         }
       ],
       "blocked": false,
       "imageComparisons": {
-        "/assets/output/resize_a1b138298c17429cb02888b7ee80faf1.png": {
-          "url": "/assets/output/online_dae1c33574.png",
-          "name": "上游生成图.png"
+        "/assets/output/resize_9facd4310020469886f2275976e765f2.png": {
+          "url": "/assets/input/ai_ref_3cc0a83e2e9c.png",
+          "name": "imgtask_02305abfe51f4329909fe737528a9c45-0.png"
         }
       }
     }
@@ -2950,26 +3076,42 @@
       "toPort": "in"
     },
     {
-      "id": "c_58da3f4355b4b_1792557044978",
+      "id": "c_e3325dc60b0ba_1792560977819",
       "kind": "dataFlow",
-      "from": "out_f6df2c44a84f28_1792557014680",
+      "from": "gen_a709b98f656288_1792560973803",
+      "to": "out_51efa2af311dc8_1792560977716",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_28dcf02224cb3_1792560984522",
+      "kind": "dataFlow",
+      "from": "prompt_04fa2dbb026d18_1792560984419",
+      "to": "gen_a709b98f656288_1792560973803",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_37634efd8f218_1792562452341",
+      "kind": "dataFlow",
+      "from": "img_1866a1196655d8_1792561184310",
       "to": "resizer_5f98d10fed59a_1792557014680",
       "fromPort": "out",
       "toPort": "in"
     },
     {
-      "id": "c_75d6a9f65a935_1792557044979",
+      "id": "c_fe662552db79_1792562452342",
       "kind": "imageResizeFlow",
       "from": "resizer_5f98d10fed59a_1792557014680",
-      "to": "resize-out_946a19f128ac6_1792557044979",
+      "to": "resize-out_b606d669e78e8_1792562452342",
       "fromPort": "resizerOut",
       "toPort": "in"
     },
     {
-      "id": "c_de3adebcd9fc28_1792557497458",
+      "id": "c_4182c05a212db8_1792562452342",
       "kind": "imageResizeFlow",
       "from": "resizer_5f98d10fed59a_1792557014680",
-      "to": "resize-out_9a3096ec574bf_1792557497458",
+      "to": "resize-out_0f339f057ed648_1792562452342",
       "fromPort": "resizerOut",
       "toPort": "in"
     },
@@ -3078,6 +3220,82 @@
   "board_x": 413.0,
   "board_y": 315.0,
   "logs": [
+    {
+      "id": "log_5ec2ca4a37b5c8_1792561284472",
+      "createdAt": 1792561284472,
+      "status": "success",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-flare",
+      "request": {
+        "task_id": "task_01M5EFMC04GRW7JDYEQCTPJ2PE",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "一只小猫",
+      "outputs": [
+        "/assets/output/online_ab65ecc320.png"
+      ],
+      "refs": [],
+      "runMs": 23702,
+      "error": ""
+    },
+    {
+      "id": "log_7eefefd9dfb9f8_1792561097580",
+      "createdAt": 1792561097580,
+      "status": "success",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-flare",
+      "request": {
+        "task_id": "imgtask_02305abfe51f4329909fe737528a9c45",
+        "request_id": "imgtask_02305abfe51f4329909fe737528a9c45",
+        "provider_id": "custom-api-5",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "一只小猫",
+      "outputs": [
+        "https://sub2api.07b8fef090a4290405b3f0c29be027d4.r2.cloudflarestorage.com/images/imgtask_02305abfe51f4329909fe737528a9c45-0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Checksum-Mode=ENABLED&X-Amz-Credential=0c31e83d958af4238a1da7ad1465f4e2%2F20261021%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20261021T053757Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=413dcd18f6ca1c861bfe7004ee29b3bf5360b5b4972c4464d14e9a7b5e5d0c00"
+      ],
+      "refs": [],
+      "runMs": 60171,
+      "error": ""
+    },
+    {
+      "id": "log_cedf4ae7ef4178_1792561016526",
+      "createdAt": 1792561016526,
+      "status": "failed",
+      "platform": "畅指",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-flare",
+      "request": {},
+      "prompt": "一只小猫",
+      "outputs": [],
+      "refs": [],
+      "runMs": 2088,
+      "error": "上游生图接口错误：{\"type\":\"error\",\"error\":{\"type\":\"invalid_request\",\"message\":\"请求格式非法，请检查请求结构是否符合 API 规范 (request_id: sess_mvhojo4d_491d747a575b)\"}}"
+    },
+    {
+      "id": "log_f24fd63b08a74_1792561010093",
+      "createdAt": 1792561010093,
+      "status": "failed",
+      "platform": "畅指",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-flare",
+      "request": {},
+      "prompt": "一只小猫",
+      "outputs": [],
+      "refs": [],
+      "runMs": 2167,
+      "error": "上游生图接口错误：{\"type\":\"error\",\"error\":{\"type\":\"invalid_request\",\"message\":\"请求格式非法，请检查请求结构是否符合 API 规范 (request_id: sess_mvhojjh3_f3ceb6945087)\"}}"
+    },
     {
       "id": "log_268de7c562867_1791859592489",
       "createdAt": 1791859592489,

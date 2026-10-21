@@ -1,5 +1,71 @@
 [
     {
+        "prompt": "一只小猫",
+        "images": [
+            "/assets/output/online_ab65ecc320.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_ab65ecc320.png",
+                "kind": "image",
+                "name": "online_ab65ecc320.png",
+                "natural_w": 1024,
+                "natural_h": 1024,
+                "width": 1024,
+                "height": 1024
+            }
+        ],
+        "timestamp": 1792561282.9048872,
+        "type": "online",
+        "model": "gpt-image-2.5-flare",
+        "provider_id": "apimart",
+        "provider_name": "APIMART",
+        "task_id": "task_01M5EFMC04GRW7JDYEQCTPJ2PE",
+        "request_id": null,
+        "params": {
+            "provider_id": "apimart",
+            "model": "gpt-image-2.5-flare",
+            "size": "1024x1024",
+            "requested_size": "1024x1024",
+            "quality": "auto",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": []
+        },
+        "raw_usage": null
+    },
+    {
+        "prompt": "一只小猫",
+        "images": [
+            "https://sub2api.07b8fef090a4290405b3f0c29be027d4.r2.cloudflarestorage.com/images/imgtask_02305abfe51f4329909fe737528a9c45-0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Checksum-Mode=ENABLED&X-Amz-Credential=0c31e83d958af4238a1da7ad1465f4e2%2F20261021%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20261021T053757Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=413dcd18f6ca1c861bfe7004ee29b3bf5360b5b4972c4464d14e9a7b5e5d0c00"
+        ],
+        "image_items": [
+            {
+                "url": "https://sub2api.07b8fef090a4290405b3f0c29be027d4.r2.cloudflarestorage.com/images/imgtask_02305abfe51f4329909fe737528a9c45-0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Checksum-Mode=ENABLED&X-Amz-Credential=0c31e83d958af4238a1da7ad1465f4e2%2F20261021%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20261021T053757Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=413dcd18f6ca1c861bfe7004ee29b3bf5360b5b4972c4464d14e9a7b5e5d0c00",
+                "kind": "image",
+                "name": "imgtask_02305abfe51f4329909fe737528a9c45-0.png"
+            }
+        ],
+        "timestamp": 1792561097.2559898,
+        "type": "online",
+        "model": "gpt-image-2.5-flare",
+        "provider_id": "custom-api-5",
+        "provider_name": "OPEN1-CODE",
+        "task_id": "imgtask_02305abfe51f4329909fe737528a9c45",
+        "request_id": "imgtask_02305abfe51f4329909fe737528a9c45",
+        "params": {
+            "provider_id": "custom-api-5",
+            "model": "gpt-image-2.5-flare",
+            "size": "1024x1024",
+            "requested_size": "1024x1024",
+            "quality": "auto",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": []
+        },
+        "raw_usage": null
+    },
+    {
         "prompt": "改变图片的时间，改成夕阳的强对比光线",
         "images": [
             "https://sub2api.07b8fef090a4290405b3f0c29be027d4.r2.cloudflarestorage.com/images/imgtask_d99f096c5ad74290b7615351e973e361-0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Checksum-Mode=ENABLED&X-Amz-Credential=0c31e83d958af4238a1da7ad1465f4e2%2F20261019%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20261019T061815Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=e6172162aae81f2d41bfe34a52a0bcb2b49d17b140300644333ed6d197e905ed"

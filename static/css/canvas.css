@@ -2149,6 +2149,10 @@ html[data-studio-scale="off"].studio-scale-managed .toolbar.scale-expanded .tool
 .translation-image-actions{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:11px}
 .translation-image-actions>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .translation-image-actions>button{flex-shrink:0}
+.translation-batch-toggle{min-width:0;min-height:31px;display:flex;align-items:center;gap:7px;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--card-solid);color:var(--text);font-size:11px;font-weight:600;cursor:pointer}
+.translation-batch-toggle:has(input:checked){border-color:var(--translation-line);background:var(--translation-tint)}
+.translation-batch-toggle>span{min-width:0;overflow-wrap:anywhere;flex:1}
+.translation-batch-toggle>small{color:var(--muted);font-size:10px;font-weight:500;flex-shrink:0}
 .translation-field{min-width:0;display:flex;flex-direction:column;gap:6px;color:var(--muted);font-size:10.5px;font-weight:800}
 .translation-field select,.translation-field textarea,.translation-settings-grid select,.translation-settings-grid input{width:100%;min-width:0;border:1px solid var(--line-2);border-radius:6px;background:var(--card-solid);color:var(--text);font:inherit;padding:6px 8px}
 .translation-field select,.translation-settings-grid select,.translation-settings-grid input{height:32px;font-size:11px;font-weight:500}

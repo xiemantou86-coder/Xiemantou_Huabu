@@ -2736,7 +2736,9 @@ function normalizeTranslationImages(source){
         const id = String(image.id || uid('translate-image'));
         if(seen.has(id)) return null;
         seen.add(id);
-        return {id, url:image.url, name:image.name || canvasFileNameFromUrl(image.url) || '翻译原图', kind:'image'};
+        const normalized = {id, url:image.url, name:image.name || canvasFileNameFromUrl(image.url) || '翻译原图', kind:'image'};
+        if(image.sourceNodeId) normalized.sourceNodeId = image.sourceNodeId;
+        return normalized;
     }).filter(Boolean);
     if(!source.url && source.translationImages[0]){
         source.url = source.translationImages[0].url;
@@ -2771,8 +2773,53 @@ function translationSizeLabel(size){
 }
 function translationOutputKey(languageId, sizeId){ return JSON.stringify([languageId, sizeId]); }
 function translationOutputKeyForImage(imageId, languageId, sizeId){ return JSON.stringify([String(imageId || ''), String(languageId || ''), String(sizeId || '')]); }
+function translationBatchEnabled(node){
+    return node?.translationBatchAll !== false;
+}
+function harvestTranslationInputs(node){
+    if(!node || node.type !== 'translationInput') return false;
+    const images = normalizeTranslationImages(node);
+    const incomingLinks = (connections || []).filter(c => c.to === node.id && c.kind !== 'labelBinding');
+    const linkedSourceIds = new Set(incomingLinks.map(c => String(c.from || '')));
+    const latestOnly = !translationBatchEnabled(node);
+    const linked = [];
+    incomingLinks.forEach(connection => {
+        const source = nodes.find(n => n.id === connection.from);
+        collectNodeImageRefs(source, {latestOnly}).forEach(ref => linked.push({...ref, sourceNodeId:connection.from}));
+    });
+    const manual = images.filter(image => !image.sourceNodeId);
+    const existingByKey = new Map(
+        images.filter(image => image.sourceNodeId && linkedSourceIds.has(String(image.sourceNodeId)))
+            .map(image => [String(image.sourceNodeId) + '|' + image.url, image])
+    );
+    const merged = [...manual];
+    linked.forEach(ref => {
+        const key = String(ref.sourceNodeId || '') + '|' + ref.url;
+        if(merged.some(image => String(image.sourceNodeId || '') + '|' + image.url === key)) return;
+        const reuse = existingByKey.get(key);
+        merged.push(reuse ? {...reuse, name:ref.name || reuse.name} : {id:uid('translate-image'), url:ref.url, name:ref.name, kind:'image', sourceNodeId:ref.sourceNodeId});
+    });
+    const nextList = merged.slice(0, 20);
+    const prevSig = images.map(image => String(image.sourceNodeId || '') + ':' + image.id + ':' + image.url).join('|');
+    const nextSig = nextList.map(image => String(image.sourceNodeId || '') + ':' + image.id + ':' + image.url).join('|');
+    if(prevSig === nextSig) return false;
+    node.translationImages = nextList;
+    node.url = nextList[0]?.url || '';
+    node.name = nextList[0]?.name || '翻译原图';
+    return true;
+}
+function syncAllTranslationInputs(){
+    let touched = false;
+    nodes.filter(node => node.type === 'translationInput').forEach(node => { if(harvestTranslationInputs(node)) touched = true; });
+    return touched;
+}
+function translationActiveImages(node){
+    const images = normalizeTranslationImages(node);
+    if(translationBatchEnabled(node)) return images;
+    return images.length ? [images[images.length - 1]] : [];
+}
 function translationCombinations(source, includeExcluded=false){
-    const images = normalizeTranslationImages(source);
+    const images = translationActiveImages(source);
     const mode = translationMode(source);
     const excluded = new Set(source.translationExcludedOutputs || []);
     return images.flatMap(image => normalizeTranslationSizes(source).flatMap(size => translationModeLanguageIds(source, mode).map(languageId => ({image, imageId:image.id, languageId, size,
@@ -2861,7 +2908,7 @@ function translationOutputPosition(source, index, count=translationSelectedIds(s
         y:Number(source.y || 0) + (element?.offsetHeight || source.h || 560) + 80};
 }
 function translationOutputColumn(source, output){
-    const images = normalizeTranslationImages(source);
+    const images = translationActiveImages(source);
     const languages = translationModeLanguageIds(source, translationMode(output));
     const imageIndex = Math.max(0, images.findIndex(image => image.id === output.translationImageId));
     const languageIndex = Math.max(0, languages.indexOf(output.translationLanguageId));
@@ -3063,11 +3110,19 @@ function excludeImgResizeOutput(output){
     const key = imgResizeOutputKeyFor(output.resizeImageId, output.resizeTargetId);
     source.resizeExcludedOutputs = [...new Set([...(source.resizeExcludedOutputs || []), key])];
 }
+function imgResizeBatchEnabled(node){
+    return node?.resizeBatchAll !== false;
+}
+function imgResizeActiveImages(node){
+    const source = imgResizeNormalize(node);
+    const images = source.resizeImages || [];
+    return imgResizeBatchEnabled(source) ? images : images.slice(0, 1);
+}
 function imgResizeCombinations(node, includeExcluded=false){
     const source = imgResizeNormalize(node);
     const excluded = new Set(source.resizeExcludedOutputs || []);
     const list = [];
-    (source.resizeImages || []).forEach(image => {
+    imgResizeActiveImages(source).forEach(image => {
         (source.resizeTargets || []).filter(target => Number(target.width) >= 16 && Number(target.height) >= 16).forEach(target => {
             const key = imgResizeOutputKeyFor(image.id, target.id);
             if(!includeExcluded && excluded.has(key)) return;
@@ -3116,7 +3171,7 @@ function layoutImgResizeOutputs(source, {onlyNew=false}={}){
     const outputs = imgResizeOutputNodes(source.id);
     if(!outputs.length) return;
     imgResizeNormalize(source);
-    const images = source.resizeImages || [];
+    const images = imgResizeActiveImages(source);
     const targets = (source.resizeTargets || []).filter(target => Number(target.width) >= 16 && Number(target.height) >= 16);
     const element = nodesEl.querySelector('.node[data-id="' + CSS.escape(source.id) + '"]');
     const sourceHeight = element?.offsetHeight || source.h || 560;
@@ -3186,14 +3241,25 @@ function addImageResizerNode(point){
 function imgResizeOutputTarget(output){
     return {id:output?.resizeTargetId, width:Number(output?.resizeTargetWidth)||0, height:Number(output?.resizeTargetHeight)||0};
 }
-function collectNodeImageRefs(source){
+function collectNodeImageRefs(source, options={}){
+    const latestOnly = Boolean(options.latestOnly);
     if(!source) return [];
     if(source.type === 'image' && source.url) return [{url:source.url, name:source.name || canvasFileNameFromUrl(source.url) || '原图'}];
     if(source.type === 'output' || source.type === 'resizeOutput'){
-        return (source.images || []).map(item => ({url:outputUrlValue(item), name:item?.name || canvasFileNameFromUrl(outputUrlValue(item)) || '输出图'})).filter(ref => ref.url);
+        let items = source.images || [];
+        if(latestOnly){
+            const found = [...items].reverse().find(item => outputUrlValue(item));
+            items = found ? [found] : [];
+        }
+        return items.map(item => ({url:outputUrlValue(item), name:item?.name || canvasFileNameFromUrl(outputUrlValue(item)) || '输出图'})).filter(ref => ref.url);
     }
     if(source.type === 'group' || source.type === 'promptGroup'){
-        return (source.items || []).map(id => nodes.find(n => n.id === id)).flatMap(child => collectNodeImageRefs(child));
+        const children = (source.items || []).map(id => nodes.find(n => n.id === id));
+        if(latestOnly){
+            const last = children[children.length - 1];
+            return last ? collectNodeImageRefs(last, options) : [];
+        }
+        return children.flatMap(child => collectNodeImageRefs(child, options));
     }
     return [];
 }
@@ -3203,9 +3269,10 @@ function harvestImgResizerInputs(node){
     const incomingLinks = (connections || []).filter(c => c.to === node.id && c.kind !== 'labelBinding');
     const linkedSourceIds = new Set(incomingLinks.map(c => String(c.from || '')));
     const linked = [];
+    const latestOnly = !imgResizeBatchEnabled(node);
     incomingLinks.forEach(connection => {
         const source = nodes.find(n => n.id === connection.from);
-        collectNodeImageRefs(source).forEach(ref => linked.push({...ref, sourceNodeId:connection.from}));
+        collectNodeImageRefs(source, {latestOnly}).forEach(ref => linked.push({...ref, sourceNodeId:connection.from}));
     });
     const manual = node.resizeImages.filter(image => !image.sourceNodeId);
     const existingByKey = new Map(
@@ -3235,6 +3302,17 @@ function syncAllImgResizerInputs(){
 }
 function triggerDownstreamImgResizersForSource(sourceNodeId, {autoRun=true}={}){
     if(!sourceNodeId) return;
+    const transTargets = (connections || [])
+        .filter(c => c.from === sourceNodeId && c.kind !== 'labelBinding')
+        .map(c => nodes.find(n => n.id === c.to && n.type === 'translationInput'))
+        .filter(Boolean);
+    transTargets.forEach(target => {
+        if(harvestTranslationInputs(target)){
+            syncTranslationOutputNodes(target, {layout:false});
+            layoutTranslationOutputs(target);
+            scheduleSave();
+        }
+    });
     const resizers = (connections || [])
         .filter(c => c.from === sourceNodeId && c.kind !== 'labelBinding')
         .map(c => nodes.find(n => n.id === c.to && n.type === 'imageResizer'))
@@ -3332,6 +3410,7 @@ function renderImgResizeBody(node){
         '<div class="translation-source-column">' +
         imageHtml +
         '<div class="translation-image-actions"><button type="button" class="secondary-btn" data-resize-pick><i data-lucide="upload" class="w-3.5 h-3.5"></i>上传原图</button><span>' + (images.length ? (images.length + ' / 20 张原图') : '未上传') + '</span></div>' +
+        '<label class="translation-batch-toggle"><input type="checkbox" data-resize-batch ' + (imgResizeBatchEnabled(node) ? 'checked' : '') + '><span>批量处理全部原图</span><small>' + (imgResizeBatchEnabled(node) ? '全部参与生成' : '仅用第 1 张') + '</small></label>' +
         '<div class="translation-mode-hint">' + escapeHtml(currentMode.label + '：' + currentMode.hint) + ' · 本地像素级 LANCZOS 重采样，不消耗 API 算力。</div>' +
         '</div>' +
         '<div class="translation-settings-column">' +
@@ -3382,6 +3461,20 @@ function bindImgResizeBody(el, node){
         input.click();
     };
     el.querySelector('[data-resize-pick]')?.addEventListener('click', pick);
+    el.querySelector('[data-resize-batch]')?.addEventListener('change', event => {
+        const nextValue = event.target.checked;
+        pushUndo();
+        node.resizeBatchAll = nextValue;
+        harvestImgResizerInputs(node);
+        syncImgResizeOutputNodes(node, {layout:false});
+        render();
+        layoutImgResizeOutputs(node);
+        if(nextValue){
+            const ungenerated = imgResizeOutputNodes(node.id).filter(out => !out.blocked && !out.running && !(out.images || []).length);
+            if(ungenerated.length) Promise.all(ungenerated.map(out => runImgResizeOutputNode(out.id, {silent:true}))).catch(() => {});
+        }
+        scheduleSave();
+    });
     const hint = el.querySelector('[data-resize-drop-hint]');
     if(hint){
         hint.addEventListener('click', pick);
@@ -3722,6 +3815,7 @@ function renderTranslationInputBody(node){
         <div class="translation-source-column">
         ${imageHtml}
         <div class="translation-image-actions"><button type="button" class="secondary-btn" data-translation-pick><i data-lucide="upload" class="w-3.5 h-3.5"></i>上传原图</button><span>${images.length ? `${images.length} / 20 张原图` : '未上传'}</span></div>
+        <label class="translation-batch-toggle"><input type="checkbox" data-translation-batch ${translationBatchEnabled(node) ? 'checked' : ''}><span>批量处理全部原图</span><small>${translationBatchEnabled(node) ? '全部参与生成' : '仅用第 1 张'}</small></label>
         ${mode === 'translate' ? `<label class="translation-field"><span>原图文案语言</span><select data-translation-source-language>${[{id:TRANSLATION_AUTO_LANGUAGE_ID, label:TRANSLATION_AUTO_LANGUAGE_LABEL}, ...languages].map(item => `<option value="${escapeAttr(item.id)}" ${item.id === node.sourceLanguage ? 'selected' : ''}>${escapeHtml(item.label)}</option>`).join('')}</select></label>
         <div class="translation-field"><span>目标语言</span><div class="translation-language-grid">${targetHtml}</div><button type="button" class="translation-add-language" data-translation-add-language><i data-lucide="plus" class="w-3.5 h-3.5"></i>添加自定义语言</button></div>` : `<div class="translation-mode-hint">改尺寸模式：保留原图元素，按下方比例生成。</div>`}
         <div class="translation-field"><span>输出尺寸</span><div class="translation-size-grid">${sizeHtml}</div></div>
@@ -3784,6 +3878,32 @@ function bindTranslationInputBody(el, node){
         });
     }
     el.querySelector('[data-translation-pick]')?.addEventListener('click', pick);
+    el.querySelector('[data-translation-batch]')?.addEventListener('change', event => {
+        const nextValue = event.target.checked;
+        pushUndo();
+        node.translationBatchAll = nextValue;
+        harvestTranslationInputs(node);
+        syncTranslationOutputNodes(node);
+        render();
+        layoutTranslationOutputs(node);
+        scheduleSave();
+        event.target.checked = nextValue;
+        if(true) return;
+        const images = normalizeTranslationImages(node);
+        const firstImageId = images[0]?.id || '';
+        const toRemove = translationOutputNodes(node.id).filter(output => output.translationImageId && output.translationImageId !== firstImageId);
+        if(!nextValue && toRemove.some(output => output.images?.length || output._pending?.length)
+            && !window.confirm(`关闭批量处理将删除其余 ${toRemove.length} 组原图的输出节点及已有生成图片，是否继续？`)){
+            event.target.checked = true;
+            return;
+        }
+        pushUndo();
+        node.translationBatchAll = nextValue;
+        syncTranslationOutputNodes(node);
+        render();
+        layoutTranslationOutputs(node);
+        scheduleSave();
+    });
     el.querySelectorAll('[data-translation-mode]').forEach(button => button.addEventListener('click', () => {
         const nextMode = button.dataset.translationMode;
         if(translationMode(node) === nextMode) return;
@@ -11271,7 +11391,7 @@ function renderNode(node){
         if(e.button !== 0 || !isNodeDragSurface(e.target)) return;
         startNodeDrag(e, node);
     };
-    const canInput = node.type === 'prompt' || ['generator','masterGenerator','midjourney','comfy','ltxDirector','output','llm','msgen','video','rh','minimax','translationOutput','imageResizer','resizeOutput'].includes(node.type) || (node.type === 'loop' && (node.imageInput || node.showPrompt));
+    const canInput = node.type === 'prompt' || ['generator','masterGenerator','midjourney','comfy','ltxDirector','output','llm','msgen','video','rh','minimax','translationOutput','imageResizer','resizeOutput','translationInput'].includes(node.type) || (node.type === 'loop' && (node.imageInput || node.showPrompt));
     const canOutput = ['image','prompt','loop','group','promptGroup','generator','masterGenerator','midjourney','comfy','ltxDirector','llm','msgen','video','rh','minimax','output','resizeOutput'].includes(node.type);
     if(node.type === 'imageResizer') el.insertAdjacentHTML('beforeend', '<div class="port out translation-port" data-port="resizerOut" title="尺寸输出"></div>');
     if(canInput) el.insertAdjacentHTML('beforeend', `<div class="port in" title="${tr('canvas.connectHere')}"></div>`);
@@ -20976,6 +21096,7 @@ function canConnect(fromId, toId, fromPort='out', toPort='in', preferredKind='')
     if(from.type === 'kvReferenceGallery'){
         return ['generator', 'masterGenerator'].includes(to.type) && fromPort === 'out' && toPort === 'in';
     }
+    if(to.type === 'translationInput') return ['image','group','output','resizeOutput'].includes(from.type) && fromPort === 'out' && toPort === 'in';
     if(to.type === 'prompt') return false;
     // The popup node is deliberately a fixed second segment. Its only valid
     // upstream is the game-KV node; allowing a normal prompt here would make
