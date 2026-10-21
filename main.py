@@ -2255,9 +2255,46 @@ def github_bytes(url: str) -> bytes:
     resp = github_get(url, headers={"User-Agent": "Infinite-Canvas-Updater"}, timeout=60)
     return resp.content
 
+UPDATE_PROGRESS_STATE: Dict[str, Any] = {
+    "active": False,
+    "percent": 0,
+    "done": 0,
+    "total": 0,
+    "stage": "",
+    "current_file": "",
+    "source": "",
+}
+
+def set_update_progress(*, active: Optional[bool] = None, percent: Optional[int] = None,
+                        done: Optional[int] = None, total: Optional[int] = None,
+                        stage: Optional[str] = None, current_file: Optional[str] = None,
+                        source: Optional[str] = None) -> None:
+    if active is not None:
+        UPDATE_PROGRESS_STATE["active"] = bool(active)
+    if percent is not None:
+        UPDATE_PROGRESS_STATE["percent"] = max(0, min(100, int(percent)))
+    if done is not None:
+        UPDATE_PROGRESS_STATE["done"] = int(done)
+    if total is not None:
+        UPDATE_PROGRESS_STATE["total"] = int(total)
+    if stage is not None:
+        UPDATE_PROGRESS_STATE["stage"] = str(stage)
+    if current_file is not None:
+        UPDATE_PROGRESS_STATE["current_file"] = str(current_file)
+    if source is not None:
+        UPDATE_PROGRESS_STATE["source"] = str(source)
+
+@app.get("/api/update-progress")
+def get_update_progress():
+    return {"ok": True, **UPDATE_PROGRESS_STATE}
+
 def download_github_update_files(files: List[str], staging_root: str) -> None:
     staging_root_abs = os.path.abspath(staging_root)
-    for rel in files:
+    total = len(files)
+    for idx, rel in enumerate(files, 1):
+        pct = 15 + int(((idx - 1) / max(1, total)) * 68)
+        set_update_progress(active=True, percent=pct, done=idx - 1, total=total,
+                            stage=f"正在从 GitHub 下载 ({idx}/{total})", current_file=rel, source="github")
         safe_update_target(rel)
         raw_url = f"{GITHUB_RAW_ROOT}/{urllib.parse.quote(rel, safe='/')}"
         data = github_bytes(raw_url)
@@ -2267,6 +2304,9 @@ def download_github_update_files(files: List[str], staging_root: str) -> None:
         os.makedirs(os.path.dirname(stage_path), exist_ok=True)
         with open(stage_path, "wb") as f:
             f.write(data)
+        pct_done = 15 + int((idx / max(1, total)) * 68)
+        set_update_progress(active=True, percent=pct_done, done=idx, total=total,
+                            stage=f"正在从 GitHub 下载 ({idx}/{total})", current_file=rel, source="github")
 
 def modelscope_update_file_list() -> List[str]:
     """通过 ModelScope 仓库文件 API 列出所有允许更新的文件（不依赖 git）。"""
@@ -2300,7 +2340,11 @@ def download_modelscope_update_files(staging_root: str) -> List[str]:
     if not any(f.startswith("static/") for f in files):
         raise RuntimeError("ModelScope 未返回 static 文件，已取消更新")
     staging_root_abs = os.path.abspath(staging_root)
-    for rel in files:
+    total = len(files)
+    for idx, rel in enumerate(files, 1):
+        pct = 15 + int(((idx - 1) / max(1, total)) * 68)
+        set_update_progress(active=True, percent=pct, done=idx - 1, total=total,
+                            stage=f"正在从魔搭下载 ({idx}/{total})", current_file=rel, source="modelscope")
         safe_update_target(rel)
         data = modelscope_file_bytes(rel)
         stage_path = os.path.abspath(os.path.join(staging_root_abs, *rel.split("/")))
@@ -2309,6 +2353,9 @@ def download_modelscope_update_files(staging_root: str) -> List[str]:
         os.makedirs(os.path.dirname(stage_path), exist_ok=True)
         with open(stage_path, "wb") as f:
             f.write(data)
+        pct_done = 15 + int((idx / max(1, total)) * 68)
+        set_update_progress(active=True, percent=pct_done, done=idx, total=total,
+                            stage=f"正在从魔搭下载 ({idx}/{total})", current_file=rel, source="modelscope")
     return files
 
 def safe_update_target(path: str) -> str:
@@ -2625,6 +2672,7 @@ def update_from_github(req: UpdateRequest = UpdateRequest()):
         raise HTTPException(status_code=409, detail="正在更新中，请稍后再试")
     staging_root = ""
     requested_source = normalize_update_source(req.source)
+    set_update_progress(active=True, percent=10, done=0, total=0, stage="正在获取远程更新文件清单…", current_file="", source=requested_source)
     # 冗余设计：先用用户选择的源，失败后自动切换到另一个源兜底，全部失败才报错
     source_order = [requested_source]
     if req.fallback:
@@ -2666,6 +2714,7 @@ def update_from_github(req: UpdateRequest = UpdateRequest()):
             print(f"[update] 所有下载源均失败 → {detail}")
             raise HTTPException(status_code=502, detail=f"所有下载源均失败 → {detail}")
 
+        set_update_progress(active=True, percent=86, stage="正在校验文件并创建还原点…", current_file="")
         validate_staged_update(staging_root, root_files, static_files)
 
         new_version = ""
@@ -2778,6 +2827,7 @@ def update_from_github(req: UpdateRequest = UpdateRequest()):
     except Exception as exc:
         raise HTTPException(status_code=500, detail=f"更新失败：{exc}") from exc
     finally:
+        set_update_progress(active=False, percent=100, current_file="")
         if staging_root and os.path.isdir(staging_root):
             shutil.rmtree(staging_root, ignore_errors=True)
         UPDATE_LOCK.release()
