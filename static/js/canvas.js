@@ -3137,23 +3137,32 @@ function syncImgResizeOutputNodes(source, {layout=true}={}){
     const combos = imgResizeCombinations(source, false);
     const validKeys = new Set(combos.map(item => item.key));
     const existing = imgResizeOutputNodes(source.id);
-    const removed = existing.filter(item => !validKeys.has(imgResizeOutputKeyFor(item.resizeImageId, item.resizeTargetId)));
-    if(removed.length){
-        const removedIds = new Set(removed.map(item => item.id));
-        nodes = nodes.filter(item => !removedIds.has(item.id));
-        connections = connections.filter(c => !removedIds.has(c.from) && !removedIds.has(c.to));
-    }
-    const byKey = new Map(imgResizeOutputNodes(source.id).map(item => [imgResizeOutputKeyFor(item.resizeImageId, item.resizeTargetId), item]));
+    const removablePool = existing.filter(item => !validKeys.has(imgResizeOutputKeyFor(item.resizeImageId, item.resizeTargetId)));
+    const reusedIds = new Set();
+    const byKey = new Map(existing.filter(item => validKeys.has(imgResizeOutputKeyFor(item.resizeImageId, item.resizeTargetId))).map(item => [imgResizeOutputKeyFor(item.resizeImageId, item.resizeTargetId), item]));
     combos.forEach((combo, index) => {
         const key = imgResizeOutputKeyFor(combo.image.id, combo.target.id);
         let output = byKey.get(key);
         if(!output){
-            output = {id:uid('resize-out'), type:'resizeOutput', x:Number(source.x||0), y:Number(source.y||0) + 700,
-                w:383, resizeSourceId:source.id, resizeImageId:combo.image.id, resizeImageName:combo.image.name,
-                resizeTargetId:combo.target.id, resizeTargetWidth:combo.target.width, resizeTargetHeight:combo.target.height,
-                resizeOrder:index, images:[], running:false, blocked:false};
-            nodes.push(output);
-            imgResizeNewOutputs.add(output);
+            const reuseIdx = removablePool.findIndex(item => !reusedIds.has(item.id) && item.resizeTargetId === combo.target.id);
+            if(reuseIdx >= 0){
+                output = removablePool[reuseIdx];
+                reusedIds.add(output.id);
+                output.resizeImageId = combo.image.id;
+                output.resizeImageName = combo.image.name;
+                output.resizeTargetWidth = combo.target.width;
+                output.resizeTargetHeight = combo.target.height;
+                output.resizeOrder = index;
+                output.images = [];
+                output.running = false;
+            } else {
+                output = {id:uid('resize-out'), type:'resizeOutput', x:Number(source.x||0), y:Number(source.y||0) + 700,
+                    w:383, resizeSourceId:source.id, resizeImageId:combo.image.id, resizeImageName:combo.image.name,
+                    resizeTargetId:combo.target.id, resizeTargetWidth:combo.target.width, resizeTargetHeight:combo.target.height,
+                    resizeOrder:index, images:[], running:false, blocked:false};
+                nodes.push(output);
+                imgResizeNewOutputs.add(output);
+            }
         } else {
             output.resizeImageName = combo.image.name;
             output.resizeTargetWidth = combo.target.width;
@@ -3164,12 +3173,20 @@ function syncImgResizeOutputNodes(source, {layout=true}={}){
             connections.push({id:uid('c'), kind:'imageResizeFlow', from:source.id, to:output.id, fromPort:'resizerOut', toPort:'in'});
         }
     });
-    if(layout) layoutImgResizeOutputs(source);
+    const removed = removablePool.filter(item => !reusedIds.has(item.id));
+    if(removed.length){
+        const removedIds = new Set(removed.map(item => item.id));
+        nodes = nodes.filter(item => !removedIds.has(item.id));
+        connections = connections.filter(c => !removedIds.has(c.from) && !removedIds.has(c.to));
+    }
+    if(layout) layoutImgResizeOutputs(source, {onlyNew:true});
     return imgResizeOutputNodes(source.id);
 }
-function layoutImgResizeOutputs(source, {onlyNew=false}={}){
+function layoutImgResizeOutputs(source, {onlyNew=true}={}){
     const outputs = imgResizeOutputNodes(source.id);
     if(!outputs.length) return;
+    const hasNew = outputs.some(output => imgResizeNewOutputs.has(output));
+    if(onlyNew && !hasNew) return;
     imgResizeNormalize(source);
     const images = imgResizeActiveImages(source);
     const targets = (source.resizeTargets || []).filter(target => Number(target.width) >= 16 && Number(target.height) >= 16);
@@ -3197,34 +3214,7 @@ function layoutImgResizeOutputs(source, {onlyNew=false}={}){
     refreshGeometry();
 }
 function ensureImgResizeSpacing(source){
-    imgResizeNormalize(source);
-    const targets = (source.resizeTargets || []).filter(target => Number(target.width) >= 16 && Number(target.height) >= 16);
-    const outputs = imgResizeOutputNodes(source.id);
-    if(!outputs.length) return;
-    const sourceEl = nodesEl.querySelector('.node[data-id="' + CSS.escape(source.id) + '"]');
-    const sourceH = sourceEl?.offsetHeight || source.h || 560;
-    let minimumY = Number(source.y || 0) + sourceH + 80;
-    let changed = false;
-    targets.forEach(target => {
-        const row = outputs.filter(output => output.resizeTargetId === target.id);
-        if(!row.length) return;
-        const rowTop = Math.min(...row.map(output => Number(output.y || 0)));
-        const delta = Math.max(0, minimumY - rowTop);
-        let maxHeight = 320;
-        row.forEach(output => {
-            const el = nodesEl.querySelector('.node[data-id="' + CSS.escape(output.id) + '"]');
-            const height = el?.offsetHeight || output.h || 320;
-            maxHeight = Math.max(maxHeight, height);
-            imgResizeOutputHeights.set(output, height);
-            if(delta > 0){
-                output.y += delta;
-                if(el) el.style.top = output.y + 'px';
-                changed = true;
-            }
-        });
-        minimumY = Math.max(...row.map(output => Number(output.y || 0))) + maxHeight + 80;
-    });
-    if(changed){ refreshGeometry(); scheduleSave(); }
+    // 尺寸修改节点的下游输出节点不自动重置/推挤位置，保持用户自由摆放的位置
 }
 function addImageResizerNode(point){
     const p = point || defaultPoint(-220, 0);
