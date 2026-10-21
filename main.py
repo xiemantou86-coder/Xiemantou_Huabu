@@ -14340,6 +14340,103 @@ async def upload_ai_base64(payload: Base64UploadRequest):
         f.write(content)
     return {"files": [{"url": output_url_for(filename, "input"), "name": payload.name or filename, "kind": kind}]}
 
+class ImageResizeRequest(BaseModel):
+    url: str = ""
+    width: int = 0
+    height: int = 0
+    mode: str = "cover"
+    background: str = "#ffffff"
+
+IMG_RESIZE_MODES = {"cover", "contain", "stretch"}
+IMG_RESIZE_MIN_SIDE = 16
+IMG_RESIZE_MAX_SIDE = 16384
+
+def _resize_parse_background(value):
+    text = str(value or "").strip()
+    if not text or text.lower() in {"transparent", "none", "alpha"}:
+        return None
+    if text.startswith("#"):
+        digits = text[1:]
+        if len(digits) == 3:
+            digits = "".join(ch * 2 for ch in digits)
+        if len(digits) == 6:
+            try:
+                return (int(digits[0:2], 16), int(digits[2:4], 16), int(digits[4:6], 16))
+            except ValueError:
+                pass
+    return (255, 255, 255)
+
+def _resize_contain(image, size, background, resample, has_alpha):
+    target_w, target_h = int(size[0]), int(size[1])
+    src_w, src_h = image.size
+    if src_w <= 0 or src_h <= 0:
+        raise ValueError("原图尺寸无效")
+    scale = min(target_w / float(src_w), target_h / float(src_h))
+    new_w = max(1, int(round(src_w * scale)))
+    new_h = max(1, int(round(src_h * scale)))
+    resized = image.resize((new_w, new_h), resample)
+    offset = ((target_w - new_w) // 2, (target_h - new_h) // 2)
+    if background is None:
+        canvas = Image.new("RGBA", (target_w, target_h), (0, 0, 0, 0))
+        mask = resized if resized.mode == "RGBA" else None
+        canvas.paste(resized, offset, mask)
+        return canvas
+    if has_alpha:
+        canvas = Image.new("RGBA", (target_w, target_h), background + (255,))
+        canvas.paste(resized, offset, resized if resized.mode == "RGBA" else None)
+        return canvas
+    canvas = Image.new("RGB", (target_w, target_h), background)
+    canvas.paste(resized.convert("RGB"), offset)
+    return canvas
+
+@app.post("/api/image-resize")
+async def api_image_resize(payload: ImageResizeRequest):
+    """本地像素级尺寸重采样，不调用任何 AI 模型。"""
+    src = output_file_from_url(str(payload.url or "").strip())
+    if not src or not os.path.isfile(src):
+        raise HTTPException(status_code=404, detail="原图不存在或地址无效")
+    width = int(payload.width or 0)
+    height = int(payload.height or 0)
+    if width < IMG_RESIZE_MIN_SIDE or height < IMG_RESIZE_MIN_SIDE:
+        raise HTTPException(status_code=400, detail="目标尺寸过小，宽高至少 16 像素")
+    if width > IMG_RESIZE_MAX_SIDE or height > IMG_RESIZE_MAX_SIDE:
+        raise HTTPException(status_code=400, detail="目标尺寸过大，宽高上限 16384 像素")
+    mode = str(payload.mode or "cover").strip().lower()
+    if mode not in IMG_RESIZE_MODES:
+        mode = "cover"
+    try:
+        with Image.open(src) as raw:
+            raw.load()
+            source_width, source_height = raw.size
+            oriented = ImageOps.exif_transpose(raw)
+            has_alpha = image_has_alpha(oriented)
+            work = oriented.convert("RGBA") if has_alpha else oriented.convert("RGB")
+            resample = getattr(Image, "Resampling", Image).LANCZOS
+            if mode == "cover":
+                result = ImageOps.fit(work, (width, height), method=resample, centering=(0.5, 0.5))
+            elif mode == "contain":
+                background = _resize_parse_background(payload.background)
+                result = _resize_contain(work, (width, height), background, resample, has_alpha)
+            else:
+                result = work.resize((width, height), resample)
+    except HTTPException:
+        raise
+    except Exception as exc:
+        raise HTTPException(status_code=400, detail="图片处理失败：" + str(exc)) from exc
+    filename = "resize_" + uuid.uuid4().hex + ".png"
+    out_path = output_path_for(filename, "output")
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+    result.save(out_path)
+    return {
+        "url": output_url_for(filename, "output"),
+        "width": width,
+        "height": height,
+        "source_width": source_width,
+        "source_height": source_height,
+        "mode": mode,
+        "scale": round(width / float(source_width), 4) if source_width else 0,
+        "name": filename,
+    }
 @app.post("/api/comfyui/upload-base64")
 async def upload_comfyui_base64(payload: Base64UploadRequest):
     """base64 方式把图片传到 ComfyUI 各后端的 input 目录，返回 comfy 用文件名（供 UXP 做 ComfyUI 图生图）。"""

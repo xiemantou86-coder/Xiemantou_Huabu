@@ -2999,6 +2999,597 @@ async function uploadTranslationImages(nodeId, files){
     scheduleSave();
 }
 async function uploadTranslationImage(nodeId, file){ return uploadTranslationImages(nodeId, file ? [file] : []); }
+const IMG_RESIZE_TARGETS = Object.freeze([
+    {id:'fhd-v',   group:'开屏页', label:'1080×1920', width:1080, height:1920},
+    {id:'fhd',     group:'开屏页', label:'1920×1080', width:1920, height:1080},
+    {id:'popup-l', group:'大弹窗', label:'960×540',   width:960,  height:540},
+    {id:'popup-s', group:'大弹窗', label:'650×390',   width:650,  height:390},
+    {id:'mini',    group:'小弹窗', label:'300×420',   width:300,  height:420},
+    {id:'square',  group:'通用',   label:'1080×1080', width:1080, height:1080},
+    {id:'qhd',     group:'通用',   label:'2560×1440', width:2560, height:1440},
+    {id:'uhd',     group:'通用',   label:'3840×2160', width:3840, height:2160},
+    {id:'custom',  group:'自定义', label:'自定义',    width:0,    height:0}
+]);
+const IMG_RESIZE_MODES = Object.freeze([
+    {id:'cover',   label:'等比裁剪', hint:'比例不同时居中裁切，不变形'},
+    {id:'contain', label:'留白填充', hint:'等比缩放进框，空白补底色'},
+    {id:'stretch', label:'强制拉伸', hint:'直接拉满目标尺寸，允许轻微形变'}
+]);
+const imgResizeOutputHeights = new WeakMap();
+const imgResizeNewOutputs = new WeakSet();
+const imgResizeBatchSources = new Set();
+const imgResizeLayoutSources = new Set();
+const imgResizeQueuedOutputs = new Set();
+
+function imgResizeTargetById(id){
+    return IMG_RESIZE_TARGETS.find(item => item.id === id) || IMG_RESIZE_TARGETS[0];
+}
+function imgResizeTargetLabel(target){
+    if(!target) return '自定义';
+    if(target.id === 'custom' || !target.width || !target.height) return '自定义 ' + (target.width||0) + '×' + (target.height||0);
+    return target.label;
+}
+function imgResizeModeMeta(mode){
+    return IMG_RESIZE_MODES.find(item => item.id === mode) || IMG_RESIZE_MODES[0];
+}
+function imgResizeNormalize(node){
+    if(!node) return node;
+    if(!Array.isArray(node.resizeImages)) node.resizeImages = node.url ? [{id:'legacy-'+node.id, url:node.url, name:node.name || '原图'}] : [];
+    if(!Array.isArray(node.resizeTargets)) node.resizeTargets = [{id:'fhd-v', width:1080, height:1920}, {id:'fhd', width:1920, height:1080}];
+    node.resizeTargets = node.resizeTargets.map(item => {
+        const base = imgResizeTargetById(item.id);
+        return {id:item.id || base.id, width:Number(item.width) || base.width || 0, height:Number(item.height) || base.height || 0};
+    });
+    if(!IMG_RESIZE_MODES.some(mode => mode.id === node.resizeMode)) node.resizeMode = 'cover';
+    if(typeof node.resizeBackground !== 'string' || !node.resizeBackground) node.resizeBackground = '#ffffff';
+    if(!Array.isArray(node.resizeExcludedOutputs)) node.resizeExcludedOutputs = [];
+    return node;
+}
+function imgResizeSourceNode(output){
+    return nodes.find(item => item.id === output?.resizeSourceId && item.type === 'imageResizer'
+        && connections.some(connection => connection.from === item.id && connection.to === output.id)) || null;
+}
+function imgResizeOutputNodes(nodeId){
+    return nodes.filter(item => item.type === 'resizeOutput' && item.resizeSourceId === nodeId)
+        .sort((a, b) => Number(a.resizeOrder || 0) - Number(b.resizeOrder || 0));
+}
+function imgResizeOutputKeyFor(imageId, targetId){
+    return JSON.stringify([String(imageId || ''), String(targetId || '')]);
+}
+function excludeImgResizeOutput(output){
+    const source = nodes.find(item => item.id === output?.resizeSourceId && item.type === 'imageResizer');
+    if(!source) return;
+    imgResizeNormalize(source);
+    const key = imgResizeOutputKeyFor(output.resizeImageId, output.resizeTargetId);
+    source.resizeExcludedOutputs = [...new Set([...(source.resizeExcludedOutputs || []), key])];
+}
+function imgResizeCombinations(node, includeExcluded=false){
+    const source = imgResizeNormalize(node);
+    const excluded = new Set(source.resizeExcludedOutputs || []);
+    const list = [];
+    (source.resizeImages || []).forEach(image => {
+        (source.resizeTargets || []).filter(target => Number(target.width) >= 16 && Number(target.height) >= 16).forEach(target => {
+            const key = imgResizeOutputKeyFor(image.id, target.id);
+            if(!includeExcluded && excluded.has(key)) return;
+            list.push({image, target, key});
+        });
+    });
+    return list;
+}
+function syncImgResizeOutputNodes(source, {layout=true}={}){
+    if(!source || source.type !== 'imageResizer') return [];
+    imgResizeNormalize(source);
+    const combos = imgResizeCombinations(source, false);
+    const validKeys = new Set(combos.map(item => item.key));
+    const existing = imgResizeOutputNodes(source.id);
+    const removed = existing.filter(item => !validKeys.has(imgResizeOutputKeyFor(item.resizeImageId, item.resizeTargetId)));
+    if(removed.length){
+        const removedIds = new Set(removed.map(item => item.id));
+        nodes = nodes.filter(item => !removedIds.has(item.id));
+        connections = connections.filter(c => !removedIds.has(c.from) && !removedIds.has(c.to));
+    }
+    const byKey = new Map(imgResizeOutputNodes(source.id).map(item => [imgResizeOutputKeyFor(item.resizeImageId, item.resizeTargetId), item]));
+    combos.forEach((combo, index) => {
+        const key = imgResizeOutputKeyFor(combo.image.id, combo.target.id);
+        let output = byKey.get(key);
+        if(!output){
+            output = {id:uid('resize-out'), type:'resizeOutput', x:Number(source.x||0), y:Number(source.y||0) + 700,
+                w:383, resizeSourceId:source.id, resizeImageId:combo.image.id, resizeImageName:combo.image.name,
+                resizeTargetId:combo.target.id, resizeTargetWidth:combo.target.width, resizeTargetHeight:combo.target.height,
+                resizeOrder:index, images:[], running:false, blocked:false};
+            nodes.push(output);
+            imgResizeNewOutputs.add(output);
+        } else {
+            output.resizeImageName = combo.image.name;
+            output.resizeTargetWidth = combo.target.width;
+            output.resizeTargetHeight = combo.target.height;
+            output.resizeOrder = index;
+        }
+        if(!connections.some(item => item.from === source.id && item.to === output.id && item.kind === 'imageResizeFlow')){
+            connections.push({id:uid('c'), kind:'imageResizeFlow', from:source.id, to:output.id, fromPort:'resizerOut', toPort:'in'});
+        }
+    });
+    if(layout) layoutImgResizeOutputs(source);
+    return imgResizeOutputNodes(source.id);
+}
+function layoutImgResizeOutputs(source, {onlyNew=false}={}){
+    const outputs = imgResizeOutputNodes(source.id);
+    if(!outputs.length) return;
+    imgResizeNormalize(source);
+    const images = source.resizeImages || [];
+    const targets = (source.resizeTargets || []).filter(target => Number(target.width) >= 16 && Number(target.height) >= 16);
+    const element = nodesEl.querySelector('.node[data-id="' + CSS.escape(source.id) + '"]');
+    const sourceHeight = element?.offsetHeight || source.h || 560;
+    const columnCount = Math.max(1, images.length);
+    const rowWidth = columnCount * 420 - 37;
+    const baseX = Number(source.x || 0) + Number(source.w || 820) / 2 - rowWidth / 2;
+    let rowOffset = 0;
+    targets.forEach(target => {
+        const row = outputs.filter(output => output.resizeTargetId === target.id);
+        if(!row.length) return;
+        row.forEach(output => {
+            if(onlyNew && !imgResizeNewOutputs.has(output)) return;
+            const col = Math.max(0, images.findIndex(image => image.id === output.resizeImageId));
+            output.x = baseX + col * 420;
+            output.y = Number(source.y || 0) + sourceHeight + 80 + rowOffset;
+            const el = nodesEl.querySelector('.node[data-id="' + CSS.escape(output.id) + '"]');
+            if(el){ el.style.left = output.x + 'px'; el.style.top = output.y + 'px'; }
+            imgResizeOutputHeights.set(output, el?.offsetHeight || output.h || 320);
+            imgResizeNewOutputs.delete(output);
+        });
+        rowOffset += Math.max(320, ...row.map(output => nodesEl.querySelector('.node[data-id="' + CSS.escape(output.id) + '"]')?.offsetHeight || output.h || 320)) + 80;
+    });
+    refreshGeometry();
+}
+function ensureImgResizeSpacing(source){
+    imgResizeNormalize(source);
+    const targets = (source.resizeTargets || []).filter(target => Number(target.width) >= 16 && Number(target.height) >= 16);
+    const outputs = imgResizeOutputNodes(source.id);
+    if(!outputs.length) return;
+    const sourceEl = nodesEl.querySelector('.node[data-id="' + CSS.escape(source.id) + '"]');
+    const sourceH = sourceEl?.offsetHeight || source.h || 560;
+    let minimumY = Number(source.y || 0) + sourceH + 80;
+    let changed = false;
+    targets.forEach(target => {
+        const row = outputs.filter(output => output.resizeTargetId === target.id);
+        if(!row.length) return;
+        const rowTop = Math.min(...row.map(output => Number(output.y || 0)));
+        const delta = Math.max(0, minimumY - rowTop);
+        let maxHeight = 320;
+        row.forEach(output => {
+            const el = nodesEl.querySelector('.node[data-id="' + CSS.escape(output.id) + '"]');
+            const height = el?.offsetHeight || output.h || 320;
+            maxHeight = Math.max(maxHeight, height);
+            imgResizeOutputHeights.set(output, height);
+            if(delta > 0){
+                output.y += delta;
+                if(el) el.style.top = output.y + 'px';
+                changed = true;
+            }
+        });
+        minimumY = Math.max(...row.map(output => Number(output.y || 0))) + maxHeight + 80;
+    });
+    if(changed){ refreshGeometry(); scheduleSave(); }
+}
+function addImageResizerNode(point){
+    const p = point || defaultPoint(-220, 0);
+    const node = {id:uid('resizer'), type:'imageResizer', x:p.x, y:p.y, w:820, h:0,
+        resizeImages:[], resizeTargets:[{id:'fhd-v', width:1080, height:1920}, {id:'fhd', width:1920, height:1080}],
+        resizeMode:'cover', resizeBackground:'#ffffff', resizeExcludedOutputs:[]};
+    imgResizeNormalize(node);
+    addNode(node);
+    syncImgResizeOutputNodes(node);
+    render();
+    scheduleSave();
+    return node;
+}
+function imgResizeOutputTarget(output){
+    return {id:output?.resizeTargetId, width:Number(output?.resizeTargetWidth)||0, height:Number(output?.resizeTargetHeight)||0};
+}
+function collectNodeImageRefs(source){
+    if(!source) return [];
+    if(source.type === 'image' && source.url) return [{url:source.url, name:source.name || canvasFileNameFromUrl(source.url) || '原图'}];
+    if(source.type === 'output' || source.type === 'resizeOutput'){
+        return (source.images || []).map(item => ({url:outputUrlValue(item), name:item?.name || canvasFileNameFromUrl(outputUrlValue(item)) || '输出图'})).filter(ref => ref.url);
+    }
+    if(source.type === 'group' || source.type === 'promptGroup'){
+        return (source.items || []).map(id => nodes.find(n => n.id === id)).flatMap(child => collectNodeImageRefs(child));
+    }
+    return [];
+}
+function harvestImgResizerInputs(node){
+    if(!node || node.type !== 'imageResizer') return false;
+    imgResizeNormalize(node);
+    const incomingLinks = (connections || []).filter(c => c.to === node.id && c.kind !== 'labelBinding');
+    const linkedSourceIds = new Set(incomingLinks.map(c => String(c.from || '')));
+    const linked = [];
+    incomingLinks.forEach(connection => {
+        const source = nodes.find(n => n.id === connection.from);
+        collectNodeImageRefs(source).forEach(ref => linked.push({...ref, sourceNodeId:connection.from}));
+    });
+    const manual = node.resizeImages.filter(image => !image.sourceNodeId);
+    const existingByKey = new Map(
+        node.resizeImages.filter(image => image.sourceNodeId && linkedSourceIds.has(String(image.sourceNodeId)))
+            .map(image => [String(image.sourceNodeId) + '|' + image.url, image])
+    );
+    const merged = [...manual];
+    linked.forEach(ref => {
+        const key = String(ref.sourceNodeId || '') + '|' + ref.url;
+        if(merged.some(image => String(image.sourceNodeId || '') + '|' + image.url === key)) return;
+        const reuse = existingByKey.get(key);
+        merged.push(reuse ? {...reuse, name:ref.name || reuse.name} : {id:uid('resize-image'), url:ref.url, name:ref.name, sourceNodeId:ref.sourceNodeId});
+    });
+    const nextList = merged.slice(0, 20);
+    const prevSig = node.resizeImages.map(image => String(image.sourceNodeId || '') + ':' + image.id + ':' + image.url).join('|');
+    const nextSig = nextList.map(image => String(image.sourceNodeId || '') + ':' + image.id + ':' + image.url).join('|');
+    if(prevSig === nextSig) return false;
+    const prevImageIds = new Set(node.resizeImages.map(image => image.id));
+    node.resizeImages = nextList;
+    node._newlyHarvestedImageIds = nextList.filter(image => !prevImageIds.has(image.id)).map(image => image.id);
+    return true;
+}
+function syncAllImgResizerInputs(){
+    let touched = false;
+    nodes.filter(node => node.type === 'imageResizer').forEach(node => { if(harvestImgResizerInputs(node)) touched = true; });
+    return touched;
+}
+function triggerDownstreamImgResizersForSource(sourceNodeId, {autoRun=true}={}){
+    if(!sourceNodeId) return;
+    const resizers = (connections || [])
+        .filter(c => c.from === sourceNodeId && c.kind !== 'labelBinding')
+        .map(c => nodes.find(n => n.id === c.to && n.type === 'imageResizer'))
+        .filter(Boolean);
+    if(!resizers.length) return;
+    const toRunOutputs = [];
+    let anyChanged = false;
+    resizers.forEach(resizer => {
+        const changed = harvestImgResizerInputs(resizer);
+        const newImgIds = new Set(resizer._newlyHarvestedImageIds || []);
+        delete resizer._newlyHarvestedImageIds;
+        if(changed){
+            anyChanged = true;
+            syncImgResizeOutputNodes(resizer, {layout:false});
+        }
+        const candidates = imgResizeOutputNodes(resizer.id).filter(out =>
+            !out.blocked && !out.running && (newImgIds.has(out.resizeImageId) || !(out.images || []).length)
+        );
+        candidates.forEach(out => { if(!toRunOutputs.includes(out)) toRunOutputs.push(out); });
+    });
+    if(anyChanged){
+        render();
+        resizers.forEach(resizer => layoutImgResizeOutputs(resizer));
+        scheduleSave();
+    }
+    if(autoRun && toRunOutputs.length){
+        Promise.all(toRunOutputs.map(out => runImgResizeOutputNode(out.id, {silent:true}))).catch(err => console.error('[imageResizer] auto-run failed:', err));
+    }
+}
+async function uploadImgResizeImages(nodeId, files){
+    const images = Array.from(files || []).filter(file => String(file.type || '').startsWith('image/'));
+    if(!images.length) throw new Error('请选择图片文件');
+    const node = nodes.find(item => item.id === nodeId);
+    if(!node) return;
+    imgResizeNormalize(node);
+    const available = 20 - node.resizeImages.length;
+    if(images.length > available) throw new Error('每个节点最多放入 20 张原图');
+    const form = new FormData();
+    images.forEach(file => form.append('files', file));
+    const response = await fetch('/api/ai/upload', {method:'POST', body:form});
+    if(!response.ok) throw new Error(await responseErrorMessage(response, '图片上传失败'));
+    const data = await response.json();
+    const uploaded = (data.files || []).filter(item => item?.url);
+    if(!uploaded.length) throw new Error('上传未返回图片');
+    pushUndo();
+    node.resizeImages = [...node.resizeImages, ...uploaded.map(item => ({id:uid('resize-image'), url:item.url, name:item.name || '原图'}))];
+    syncImgResizeOutputNodes(node, {layout:false});
+    render();
+    layoutImgResizeOutputs(node);
+    scheduleSave();
+}
+function renderImgResizeBody(node){
+    imgResizeNormalize(node);
+    const images = node.resizeImages || [];
+    const targets = node.resizeTargets || [];
+    const busy = imgResizeBatchSources.has(node.id);
+    const imageHtml = images.length
+        ? '<div class="translation-image-list">' + images.map(image =>
+            '<div class="translation-image-item" data-resize-image="' + escapeAttr(image.id) + '">' +
+            '<div class="translation-source-image">' + canvasPreviewImgHtml(image.url, 768, 'draggable="false"') + '</div>' +
+            '<div class="translation-image-item-footer"><span title="' + escapeAttr(image.name) + '">' + escapeHtml(image.name) + '</span>' +
+            '<button type="button" class="translation-remove-image" data-resize-remove="' + escapeAttr(image.id) + '" title="移除原图"><i data-lucide="x"></i></button></div>' +
+            '</div>').join('') + '</div>'
+        : '<div class="translation-source-image" data-resize-drop-hint><div class="translation-empty-image"><i data-lucide="image-plus"></i><span>点击或拖入原图</span></div></div>';
+    const targetGroups = [];
+    IMG_RESIZE_TARGETS.forEach(target => {
+        let group = targetGroups.find(item => item.name === target.group);
+        if(!group){ group = {name:target.group || '通用', items:[]}; targetGroups.push(group); }
+        group.items.push(target);
+    });
+    const targetHtml = targetGroups.map(group =>
+        '<div class="resize-target-group-title">' + escapeHtml(group.name) + '</div>' +
+        group.items.map(target => {
+            const checked = targets.some(item => item.id === target.id);
+            return '<label class="translation-language-option"><input type="checkbox" data-resize-target="' + escapeAttr(target.id) + '" ' + (checked ? 'checked' : '') + '><span>' + escapeHtml(target.label) + '</span></label>';
+        }).join('')
+    ).join('');
+    const customTarget = targets.find(item => item.id === 'custom');
+    const modeButtonsHtml = IMG_RESIZE_MODES.map(mode =>
+        '<button type="button" data-resize-mode-btn="' + escapeAttr(mode.id) + '" aria-pressed="' + (node.resizeMode === mode.id) + '" title="' + escapeAttr(mode.hint) + '">' + escapeHtml(mode.label) + '</button>').join('');
+    const currentMode = imgResizeModeMeta(node.resizeMode);
+    const outputByKey = new Map(imgResizeOutputNodes(node.id).map(output => [imgResizeOutputKeyFor(output.resizeImageId, output.resizeTargetId), output]));
+    const outputHtml = imgResizeCombinations(node, true).map(({image, target, key}) => {
+        const output = outputByKey.get(key);
+        const baseMeta = imgResizeTargetById(target.id);
+        const sizeText = target.id === 'custom'
+            ? ('自定义 ' + (target.width||0) + '×' + (target.height||0))
+            : ((baseMeta.group ? '[' + baseMeta.group + '] ' : '') + baseMeta.label);
+        const label = (images.length > 1 ? (image.name + ' · ') : '') + sizeText;
+        if(!output) return '<div class="translation-output-toggle"><span>' + escapeHtml(label) + '</span><button type="button" class="translation-restore-output" data-resize-restore="' + escapeAttr(key) + '" title="恢复输出节点"><i data-lucide="rotate-ccw"></i></button></div>';
+        return '<label class="translation-output-toggle"><input type="checkbox" data-resize-block="' + escapeAttr(output.id) + '" ' + (output.blocked ? '' : 'checked') + '><span>' + escapeHtml(label) + '</span><small>' + (output.blocked ? '已屏蔽' : '参与生成') + '</small></label>';
+    }).join('');
+    return '<div class="translation-input-body">' +
+        '<div class="translation-mode-switch" role="group" aria-label="缩放模式"><span>缩放模式</span>' + modeButtonsHtml + '</div>' +
+        '<div class="translation-source-column">' +
+        imageHtml +
+        '<div class="translation-image-actions"><button type="button" class="secondary-btn" data-resize-pick><i data-lucide="upload" class="w-3.5 h-3.5"></i>上传原图</button><span>' + (images.length ? (images.length + ' / 20 张原图') : '未上传') + '</span></div>' +
+        '<div class="translation-mode-hint">' + escapeHtml(currentMode.label + '：' + currentMode.hint) + ' · 本地像素级 LANCZOS 重采样，不消耗 API 算力。</div>' +
+        '</div>' +
+        '<div class="translation-settings-column">' +
+        '<div class="translation-field"><span>输出尺寸</span><div class="translation-language-grid">' + targetHtml + '</div>' +
+        (customTarget ? '<div class="resize-custom-size"><input type="number" min="16" max="16384" data-resize-custom-width value="' + (customTarget.width || '') + '" placeholder="宽度 px"><span>×</span><input type="number" min="16" max="16384" data-resize-custom-height value="' + (customTarget.height || '') + '" placeholder="高度 px"><small>像素</small></div>' : '') +
+        '</div>' +
+        '<div class="translation-field" ' + (node.resizeMode === 'contain' ? '' : 'hidden') + '><span>留白填充底色</span><input type="color" class="resize-color-input" data-resize-background value="' + escapeAttr(node.resizeBackground || '#ffffff') + '"></div>' +
+        '<div class="translation-output-controls"><button type="button" class="gen-btn" data-resize-run-all ' + (busy || !outputByKey.size ? 'disabled' : '') + '><i data-lucide="' + (busy ? 'loader-circle' : 'zap') + '" class="w-4 h-4"></i>' + (busy ? '生成中' : '全部生成') + '</button><span>下游输出<strong>' + outputByKey.size + ' 个</strong></span></div>' +
+        '<div class="translation-output-list">' + outputHtml + '</div>' +
+        '</div>' +
+        '</div>';
+}
+function renderImgResizeOutputBody(node){
+    const target = imgResizeOutputTarget(node);
+    const ratio = target.width && target.height ? (target.width + '/' + target.height) : '16/9';
+    const source = imgResizeSourceNode(node);
+    const running = Boolean(node.running);
+    const queued = imgResizeQueuedOutputs.has(node.id);
+    const modeMeta = imgResizeModeMeta(source?.resizeMode || 'cover');
+    const baseMeta = imgResizeTargetById(target.id);
+    const groupPrefix = baseMeta && baseMeta.group && target.id !== 'custom' ? ('[' + baseMeta.group + '] ') : '';
+    const sizeText = target.width && target.height ? (target.width + '×' + target.height) : '自定义';
+    const promptSummary = '本地缩放 · ' + modeMeta.label + ' · 目标 ' + groupPrefix + sizeText + (source?.resizeMode === 'contain' ? (' · 底色 ' + (source.resizeBackground || '#ffffff')) : '');
+    const titleText = truncateTranslationTitle((node.resizeImageName || '原图') + ' · ' + sizeText, 16);
+    const pendingHtml = (node._pending || []).map(item => renderPendingOutput(item)).join('');
+    return '<div class="translation-output-body" style="--translation-output-ratio:' + escapeAttr(ratio) + '">' +
+        '<div class="translation-output-language"><span>' + escapeHtml(titleText) + '</span></div>' +
+        (node.blocked ? '<div class="translation-output-state">已屏蔽</div>' : '') +
+        '<div class="translation-output-prompt">' + escapeHtml(promptSummary) + '</div>' +
+        (!source ? '<div class="translation-error">未连接尺寸修改节点</div>' : '') +
+        (node.runError ? '<div class="translation-error">' + escapeHtml(node.runError) + '</div>' : '') +
+        '<div class="translation-output-images">' + renderOutputGrid(node, pendingHtml) + '</div>' +
+        '<button type="button" class="gen-btn translation-rerun-btn" data-resize-rerun ' + (!source || node.blocked || running ? 'disabled' : '') + '><i data-lucide="refresh-cw" class="w-4 h-4"></i>' + (queued ? '等待生成' : running ? '生成中' : '重新生成') + '</button>' +
+        '</div>';
+}
+function bindImgResizeBody(el, node){
+    imgResizeNormalize(node);
+    const uploadFiles = async files => {
+        try { await uploadImgResizeImages(node.id, files); }
+        catch(error){ showErrorModal(error.message || String(error), '上传失败'); }
+    };
+    const pick = () => {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.multiple = true;
+        input.onchange = () => { if(input.files?.length) uploadFiles(input.files); };
+        input.click();
+    };
+    el.querySelector('[data-resize-pick]')?.addEventListener('click', pick);
+    const hint = el.querySelector('[data-resize-drop-hint]');
+    if(hint){
+        hint.addEventListener('click', pick);
+    }
+    el.querySelectorAll('[data-resize-image]').forEach(card => {
+        card.addEventListener('click', event => {
+            if(!event.target.closest('[data-resize-remove]')) pick();
+        });
+    });
+    const dropZone = el.querySelector('.translation-source-column');
+    const handleDrop = async (event, zone) => {
+        event.preventDefault();
+        event.stopPropagation();
+        zone?.classList.remove('drag-over');
+        el.querySelector('[data-resize-drop-hint]')?.classList.remove('drag-over');
+        const files = await uploadFilesFromDataTransfer(event.dataTransfer);
+        const images = files.filter(file => String(file.type || '').startsWith('image/'));
+        if(images.length) uploadFiles(images);
+    };
+    if(dropZone){
+        dropZone.addEventListener('dragover', event => {
+            event.preventDefault();
+            event.stopPropagation();
+            dropZone.classList.add('drag-over');
+            el.querySelector('[data-resize-drop-hint]')?.classList.add('drag-over');
+        });
+        dropZone.addEventListener('dragleave', event => {
+            if(!dropZone.contains(event.relatedTarget)){
+                dropZone.classList.remove('drag-over');
+                el.querySelector('[data-resize-drop-hint]')?.classList.remove('drag-over');
+            }
+        });
+        dropZone.addEventListener('drop', event => handleDrop(event, dropZone));
+    }
+    el.querySelectorAll('[data-resize-mode-btn]').forEach(button => {
+        button.addEventListener('click', () => {
+            const nextMode = button.dataset.resizeModeBtn;
+            if(node.resizeMode === nextMode) return;
+            pushUndo();
+            node.resizeMode = nextMode;
+            render();
+            refreshNodes(imgResizeOutputNodes(node.id).map(item => item.id));
+            scheduleSave();
+        });
+    });
+    el.querySelectorAll('[data-resize-remove]').forEach(button => {
+        button.addEventListener('click', event => {
+            event.preventDefault();
+            event.stopPropagation();
+            const imageId = button.dataset.resizeRemove;
+            pushUndo();
+            node.resizeImages = imgResizeNormalize(node).resizeImages.filter(image => image.id !== imageId);
+            syncImgResizeOutputNodes(node, {layout:false});
+            render();
+            layoutImgResizeOutputs(node);
+            scheduleSave();
+        });
+    });
+    el.querySelectorAll('[data-resize-target]').forEach(box => {
+        box.addEventListener('change', () => {
+            const targetId = box.dataset.resizeTarget;
+            pushUndo();
+            const current = imgResizeNormalize(node).resizeTargets.slice();
+            if(box.checked){
+                const base = imgResizeTargetById(targetId);
+                const defW = targetId === 'custom' ? ( base.width || 1920 ) : base.width;
+                const defH = targetId === 'custom' ? ( base.height || 1080 ) : base.height;
+                if(!current.some(item => item.id === targetId)) current.push({id:targetId, width:defW, height:defH});
+                node.resizeTargets = current;
+                const clearedKeys = new Set((node.resizeImages || []).map(img => imgResizeOutputKeyFor(img.id, targetId)));
+                node.resizeExcludedOutputs = (node.resizeExcludedOutputs || []).filter(key => !clearedKeys.has(key));
+            } else {
+                node.resizeTargets = current.filter(item => item.id !== targetId);
+            }
+            syncImgResizeOutputNodes(node, {layout:false});
+            render();
+            layoutImgResizeOutputs(node);
+            scheduleSave();
+        });
+    });
+    el.querySelector('[data-resize-custom-width]')?.addEventListener('change', event => {
+        const width = Math.max(0, Math.min(16384, Number(event.target.value) || 0));
+        const height = Math.max(0, Math.min(16384, Number(el.querySelector('[data-resize-custom-height]')?.value) || 0));
+        const target = imgResizeNormalize(node).resizeTargets.find(item => item.id === 'custom');
+        if(!target){ event.target.value = width || ''; return; }
+        target.width = width;
+        target.height = height;
+        syncImgResizeOutputNodes(node, {layout:false});
+        render();
+        layoutImgResizeOutputs(node);
+        scheduleSave();
+    });
+    el.querySelector('[data-resize-custom-height]')?.addEventListener('change', event => {
+        const height = Math.max(0, Math.min(16384, Number(event.target.value) || 0));
+        const width = Math.max(0, Math.min(16384, Number(el.querySelector('[data-resize-custom-width]')?.value) || 0));
+        const target = imgResizeNormalize(node).resizeTargets.find(item => item.id === 'custom');
+        if(!target){ event.target.value = height || ''; return; }
+        target.width = width;
+        target.height = height;
+        syncImgResizeOutputNodes(node, {layout:false});
+        render();
+        layoutImgResizeOutputs(node);
+        scheduleSave();
+    });
+    el.querySelector('[data-resize-background]')?.addEventListener('input', event => {
+        node.resizeBackground = event.target.value || '#ffffff';
+        refreshNodes(imgResizeOutputNodes(node.id).map(item => item.id));
+        scheduleSave();
+    });
+    el.querySelectorAll('[data-resize-block]').forEach(input => {
+        input.addEventListener('change', event => {
+            const output = nodes.find(item => item.id === event.target.dataset.resizeBlock);
+            if(output){
+                pushUndo();
+                output.blocked = !event.target.checked;
+                refreshNodes([node.id, output.id]);
+                scheduleSave();
+            }
+        });
+    });
+    el.querySelectorAll('[data-resize-restore]').forEach(button => {
+        button.addEventListener('click', () => {
+            pushUndo();
+            node.resizeExcludedOutputs = (node.resizeExcludedOutputs || []).filter(key => key !== button.dataset.resizeRestore);
+            syncImgResizeOutputNodes(node, {layout:false});
+            render();
+            layoutImgResizeOutputs(node);
+            scheduleSave();
+        });
+    });
+    el.querySelector('[data-resize-run-all]')?.addEventListener('click', () => runAllImgResizeOutputs(node.id));
+}
+function bindImgResizeOutputBody(el, node){
+    el.querySelector('[data-resize-rerun]')?.addEventListener('click', () => runImgResizeOutputNode(node.id));
+    el.querySelectorAll('.output-img-wrap').forEach(wrap => bindOutputWrap(wrap, node));
+}
+async function runImgResizeOutputNode(outputId, options={}){
+    const output = nodes.find(item => item.id === outputId && item.type === 'resizeOutput');
+    if(!output || output.blocked) return;
+    const source = imgResizeSourceNode(output) || nodes.find(item => item.id === output.resizeSourceId);
+    if(!source) return;
+    if(!options.fromBatch) imgResizeQueuedOutputs.delete(outputId);
+    imgResizeNormalize(source);
+    const image = source.resizeImages.find(item => item.id === output.resizeImageId);
+    const target = imgResizeOutputTarget(output);
+    if(!image || !image.url){ output.runError = '原图已移除'; refreshNodes([output.id]); return; }
+    if(!target.width || !target.height || target.width < 16 || target.height < 16){
+        output.runError = '目标尺寸无效（宽高至少 16）'; refreshNodes([output.id]); return;
+    }
+    if(output.running) return;
+    output.running = true;
+    output.runStatus = 'running';
+    output.runError = '';
+    refreshNodes([output.id]);
+    setTimeout(() => { output.running = false; refreshNodes([output.id]); }, 2000);
+    try {
+        const response = await fetch('/api/image-resize', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({url:image.url, width:target.width, height:target.height, mode:source.resizeMode || 'cover', background:source.resizeBackground || '#ffffff'})
+        });
+        if(!response.ok) throw new Error(await responseErrorMessage(response, '尺寸调整失败'));
+        const data = await response.json();
+        if(!nodes.includes(output)) return;
+        const url = data.url;
+        output.images = [{url, name:data.name || '', width:data.width, height:data.height}, ...(output.images || [])];
+        if(image.url){
+            output.imageComparisons = output.imageComparisons || {};
+            output.imageComparisons[url] = {url:image.url, name:image.name || '原图'};
+        }
+        output.runStatus = 'done';
+        if(!options.silent) setStatus('已输出 ' + data.width + '×' + data.height);
+    } catch(error){
+        output.runError = error.message || String(error);
+        output.runStatus = 'failed';
+        if(!options.silent) showErrorModal(output.runError, '尺寸调整失败');
+    } finally {
+        output.running = false;
+        refreshNodes([output.id]);
+        scheduleSave();
+    }
+}
+async function runAllImgResizeOutputs(sourceId){
+    const source = nodes.find(item => item.id === sourceId && item.type === 'imageResizer');
+    if(!source) return;
+    if(imgResizeBatchSources.has(sourceId)) return;
+    if(!imgResizeNormalize(source).resizeImages.length){ alert('请先在尺寸修改节点放入原图'); return; }
+    const outputs = imgResizeOutputNodes(source.id).filter(item => !item.blocked && !item.running);
+    if(!outputs.length){ alert('没有可生成的尺寸输出'); return; }
+    imgResizeBatchSources.add(sourceId);
+    outputs.forEach(item => imgResizeQueuedOutputs.add(item.id));
+    refreshNodes([sourceId, ...outputs.map(item => item.id)]);
+    let next = 0;
+    try {
+        await Promise.all(Array.from({length:Math.min(4, outputs.length)}, async () => {
+            while(next < outputs.length){
+                const job = outputs[next++];
+                if(!imgResizeQueuedOutputs.has(job.id)) continue;
+                imgResizeQueuedOutputs.delete(job.id);
+                await runImgResizeOutputNode(job.id, {silent:true, fromBatch:true});
+            }
+        }));
+    } finally {
+        imgResizeBatchSources.delete(sourceId);
+        outputs.forEach(item => imgResizeQueuedOutputs.delete(item.id));
+        refreshNodes([sourceId, ...outputs.map(item => item.id)]);
+    }
+}
 function addTranslationInputNode(point){
     const p = point || defaultPoint(-220, 0);
     const providerId = imageApiProviders()[0]?.id || '';
@@ -5387,9 +5978,13 @@ function linkCreateOptions(state){
             if(originPort === 'imageOut') return [{type:'masterGenerator', label:'主控API', icon:'images'}];
             return [{type:'prompt', label:tr('canvas.prompt'), icon:'text-cursor-input'}, labelOption];
         }
-        if(['image','prompt','loop','group','promptGroup','llm','output'].includes(node.type)){
+        if(['image','prompt','loop','group','promptGroup','llm','output','resizeOutput'].includes(node.type)){
             return [
                 labelOption,
+                ...( ['image','group','output','resizeOutput'].includes(node.type) ? [
+                    {type:'imageResizer', label:'尺寸修改', icon:'scaling'},
+                    {type:'translationInput', label:'改图/翻译节点', icon:'languages'}
+                ] : [] ),
                 {type:'generator', label:tr('canvas.apiGenerate'), icon:'wand-sparkles'},
                 {type:'masterGenerator', label:'主控API', icon:'wand-sparkles'},
                 {type:'midjourney', label:'Midjourney', icon:'panel-top'},
@@ -5413,7 +6008,7 @@ function linkCreateOptions(state){
     if(isKvPromptNode(node) && originPort === 'galleryIn'){
         return [{type:'kvReferenceGallery', label:'KV 参考图库', icon:'images'}, labelOption];
     }
-    if(isKvReferenceGalleryNode(node) && String(originPort).startsWith('gallerySlot:')){
+    if((isKvReferenceGalleryNode(node) && String(originPort).startsWith('gallerySlot:')) || node.type === 'imageResizer'){
         return [
             {type:'image', label:tr('canvas.imageCard'), icon:'image-plus'},
             {type:'group', label:tr('canvas.group'), icon:'group'},
@@ -5804,6 +6399,7 @@ function createLinkedNode(type){
         }
         connections.push({id:uid('c'), kind, from:fromId, to:toId, fromPort, toPort});
         syncLatestGeneratedOutputToConnection(fromId, toId);
+        if(toNode?.type === 'imageResizer') setTimeout(() => triggerDownstreamImgResizersForSource(fromId, {autoRun:true}), 30);
         syncPromptChainOutputs(fromId, {updateDom:false});
         syncGeneratorInputs();
         scheduleKvGraphRefresh();
@@ -5815,6 +6411,7 @@ function createNodeByType(type, point){
     if(type === 'batchResize') return addBatchResizeNode(point);
     if(type === 'image') return addImageNode(point);
     if(type === 'translationInput') return addTranslationInputNode(point);
+    if(type === 'imageResizer') return addImageResizerNode(point);
     if(type === 'prompt') return addPromptNode(point);
     if(type === 'gameKvPopupPrompt') return addGameKvPopupPromptNode(point);
     if(type === 'irregularPopupKvPrompt') return addIrregularPopupKvPromptNode(point);
@@ -5841,6 +6438,7 @@ function menuAdd(type){
     if(type === 'batchResize') addBatchResizeNode(menuPoint);
     if(type === 'image') addImageNode(menuPoint);
     if(type === 'translationInput') addTranslationInputNode(menuPoint);
+    if(type === 'imageResizer') addImageResizerNode(menuPoint);
     if(type === 'prompt') addPromptNode(menuPoint);
     if(type === 'gameKvPopupPrompt') addGameKvPopupPromptNode(menuPoint);
     if(type === 'irregularPopupKvPrompt') addIrregularPopupKvPromptNode(menuPoint);
@@ -9232,6 +9830,15 @@ function render(){
     });
     const translationSizeUpdates = nodes.filter(node => node.type === 'translationInput' && !Array.isArray(node.translationSizes));
     translationSizeUpdates.forEach(node => syncTranslationOutputNodes(node, {layout:false}));
+    // 尺寸修改节点：先把上游连线图灌进原图列表，再补建输出节点，最后才进入节点渲染循环
+    const resizeLayoutUpdates = nodes.filter(node => node.type === 'imageResizer' && (!node.w || Number(node.w) === 560 || Number(node.w) > 1200 || Number(node.h) > 1200 || node.resizeLayoutVersion !== 2));
+    resizeLayoutUpdates.forEach(node => { node.w = 820; delete node.h; node.resizeLayoutVersion = 2; });
+    nodes.filter(node => node.type === 'resizeOutput' && (!node.w || Number(node.w) === 300)).forEach(node => { node.w = 383; });
+    if(syncAllImgResizerInputs() || resizeLayoutUpdates.length){
+        nodes.filter(node => node.type === 'imageResizer').forEach(source => syncImgResizeOutputNodes(source, {layout:false}));
+        imgResizeLayoutSources.add(true);
+        scheduleSave();
+    }
     syncAllKvPromptOutputs({updateDom:false});
     const outputScrolls = captureOutputScrolls();
     const mediaStates = captureMediaPlaybackStates();
@@ -9262,9 +9869,11 @@ function render(){
     restoreMediaPlaybackStates(mediaStates);
     restoreOutputScrolls(outputScrolls);
     translationLayoutUpdates.forEach(layoutTranslationOutputs);
+    if(imgResizeLayoutSources.size){ imgResizeLayoutSources.clear(); nodes.filter(node => node.type === 'imageResizer').forEach(source => layoutImgResizeOutputs(source)); }
     translationSizeUpdates.forEach(source => layoutTranslationOutputs(source, {onlyNew:true}));
     nodes.filter(node => node.type === 'translationInput').forEach(ensureTranslationRowSpacing);
     nodes.filter(node => node.type === 'batchResize').forEach(ensureBatchResizeSpacing);
+    nodes.filter(node => node.type === 'imageResizer').forEach(ensureImgResizeSpacing);
     if(translationLayoutUpdates.length || translationSizeUpdates.length) scheduleSave();
     refreshGeometry();
     refreshGeometryAfterLayout();
@@ -9309,6 +9918,7 @@ function refreshNodes(ids=[]){
         if(source) ensureTranslationRowSpacing(source);
     });
     uniqueIds.map(id => nodes.find(node => node.id === id)).filter(node => node?.type === 'batchResize').forEach(ensureBatchResizeSpacing);
+    uniqueIds.map(id => nodes.find(node => node.id === id)).filter(node => node?.type === 'imageResizer').forEach(ensureImgResizeSpacing);
     refreshGeometry();
     refreshGeometryAfterLayout();
     refreshIcons();
@@ -10416,7 +11026,7 @@ function renderNode(node){
         else openGeneratorNodeMenu(node.id, e.clientX, e.clientY);
     };
     const title = node.type === 'image' ? 'Image' : node.type === 'prompt' ? 'Prompt' : node.type === 'translationInput' ? '改图/翻译节点' : node.type === 'translationOutput' ? (node.translationLanguageLabel || '翻译输出') : node.type === 'gameKvPopupPrompt' ? (node.title || '大弹窗 KV 提示词') : node.type === 'gameKvPrompt' ? '游戏 KV 提示词' : node.type === 'loop' ? tr('canvas.loopNode') : node.type === 'promptGroup' ? 'Prompts' : node.type === 'group' ? 'Group' : node.type === 'output' ? 'Output' : node.type === 'llm' ? 'LLM' : node.type === 'comfy' ? 'ComfyUI' : node.type === 'ltxDirector' ? tr('canvas.ltxDirector') : node.type === 'rh' ? 'RunningHub' : node.type === 'minimax' ? 'MiniMax H3' : node.type === 'midjourney' ? 'Midjourney' : node.type === 'msgen' ? tr('canvas.modelscopeGenerate') : node.type === 'video' ? tr('canvas.videoGenerateNode') : node.type === 'masterGenerator' ? '主控API' : 'API生成';
-    const displayTitle = node.type === 'batchResize' ? '批量尺寸适配' : node.resizeSourceId ? escapeHtml(node.resizeName || '尺寸输出') : node.type === 'image' && node.url ? nodeTitleForMedia(node) : title;
+    const displayTitle = node.type === 'batchResize' ? '批量尺寸适配' : node.type === 'imageResizer' ? '尺寸修改' : node.type === 'resizeOutput' ? escapeHtml((node.resizeImageName || '原图') + ' · ' + ((node.resizeTargetWidth||0) + '×' + (node.resizeTargetHeight||0))) : node.resizeSourceId ? escapeHtml(node.resizeName || '尺寸输出') : node.type === 'image' && node.url ? nodeTitleForMedia(node) : title;
     const outputSizeLabel = node.type === 'translationOutput' ? (function(){ const _s = translationSourceNode(node); const _z = _s && translationOutputSize(_s, node); return _z ? escapeHtml(String(translationSizeLabel(_z))) : ''; })() : '';
     // 失败徽章只在一键运行模式中显示，单节点失败已通过 alert 提示
     const showStatus = ['generator','masterGenerator','midjourney','msgen','comfy','ltxDirector','llm','video','rh','minimax'].includes(node.type) && node.runStatus
@@ -10425,7 +11035,7 @@ function renderNode(node){
         const label = { queued:'排队中', running:'运行中', done:'完成', failed:'失败' }[node.runStatus] || '';
         return `<span class="node-run-status ${node.runStatus}"><span class="dot"></span>${escapeHtml(label)}${node._cascadeIdx?' '+node._cascadeIdx:''}</span>`;
     })() : '';
-    el.innerHTML = `<div class="node-head"><span class="node-title${node.type === 'translationOutput' ? ' translation-output-node-title' : ''}">${displayTitle}${outputSizeLabel ? ' · ' + outputSizeLabel : ''}</span><div style="display:flex;align-items:center;gap:8px">${statusHtml}<button onclick="deleteNodeFromButton('${node.id}', event)" class="text-gray-300 hover:text-red-500"><i data-lucide="x" class="w-4 h-4"></i></button></div></div>`;
+    el.innerHTML = `<div class="node-head"><span class="node-title${(node.type === 'translationOutput' || node.type === 'resizeOutput') ? ' translation-output-node-title' : ''}">${displayTitle}${outputSizeLabel ? ' · ' + outputSizeLabel : ''}</span><div style="display:flex;align-items:center;gap:8px">${statusHtml}<button onclick="deleteNodeFromButton('${node.id}', event)" class="text-gray-300 hover:text-red-500"><i data-lucide="x" class="w-4 h-4"></i></button></div></div>`;
     const body = document.createElement('div');
     body.className = 'node-body';
     if(node.type === 'batchResize') {
@@ -10435,6 +11045,14 @@ function renderNode(node){
     if(node.type === 'translationInput') {
         body.appendChild(document.createRange().createContextualFragment(renderTranslationInputBody(node)));
         bindTranslationInputBody(body, node);
+    }
+    if(node.type === 'imageResizer') {
+        body.innerHTML = renderImgResizeBody(node);
+        bindImgResizeBody(body, node);
+    }
+    if(node.type === 'resizeOutput') {
+        body.innerHTML = renderImgResizeOutputBody(node);
+        bindImgResizeOutputBody(body, node);
     }
     if(node.type === 'translationOutput') {
         body.innerHTML = renderTranslationOutputBody(node);
@@ -10653,8 +11271,9 @@ function renderNode(node){
         if(e.button !== 0 || !isNodeDragSurface(e.target)) return;
         startNodeDrag(e, node);
     };
-    const canInput = node.type === 'prompt' || ['generator','masterGenerator','midjourney','comfy','ltxDirector','output','llm','msgen','video','rh','minimax','translationOutput'].includes(node.type) || (node.type === 'loop' && (node.imageInput || node.showPrompt));
-    const canOutput = ['image','prompt','loop','group','promptGroup','generator','masterGenerator','midjourney','comfy','ltxDirector','llm','msgen','video','rh','minimax','output'].includes(node.type);
+    const canInput = node.type === 'prompt' || ['generator','masterGenerator','midjourney','comfy','ltxDirector','output','llm','msgen','video','rh','minimax','translationOutput','imageResizer','resizeOutput'].includes(node.type) || (node.type === 'loop' && (node.imageInput || node.showPrompt));
+    const canOutput = ['image','prompt','loop','group','promptGroup','generator','masterGenerator','midjourney','comfy','ltxDirector','llm','msgen','video','rh','minimax','output','resizeOutput'].includes(node.type);
+    if(node.type === 'imageResizer') el.insertAdjacentHTML('beforeend', '<div class="port out translation-port" data-port="resizerOut" title="尺寸输出"></div>');
     if(canInput) el.insertAdjacentHTML('beforeend', `<div class="port in" title="${tr('canvas.connectHere')}"></div>`);
     if(canOutput) el.insertAdjacentHTML('beforeend', `<div class="port out" title="${tr('canvas.dragConnect')}"></div>`);
     if(isGameKvPromptNode(node)) el.insertAdjacentHTML('beforeend', `<div class="port in kv-special-port kv-gallery-port" data-port="galleryIn" title="连接 KV 参考图库"></div><div class="port out kv-special-port kv-inherit-port" data-port="kvOut" title="输出配置到下游 KV"></div><div class="port out kv-special-port kv-prompt-port" data-port="promptOut" title="输出提示词到 Prompt"></div><div class="port out kv-special-port kv-image-port" data-port="imageOut" title="绑定主控 API 图片"></div>`);
@@ -10839,6 +11458,8 @@ function refreshOutputNodeContent(node){
 }
 function defaultNodeSize(type){
     if(type === 'batchResize') return {w:740, h:0};
+    if(type === 'imageResizer') return {w:820, h:0};
+    if(type === 'resizeOutput') return {w:383, h:0};
     if(type === 'label') return {w:132, h:52};
     if(type === 'gameKvPopupPrompt') return {w:410, h:540};
     if(type === 'irregularPopupKvPrompt') return {w:440, h:860};
@@ -17897,6 +18518,9 @@ function deleteNode(id, event){
     if(deleting?.type === 'translationOutput'){
         excludeTranslationOutput(deleting);
     }
+    if(deleting?.type === 'resizeOutput'){
+        excludeImgResizeOutput(deleting);
+    }
     destroyLTXEditor(nodes.find(n => n.id === id));
     nodes = nodes.filter(n => n.id !== id && !translationChildren.has(n.id));
     connections.forEach(clearKvGallerySlotConnectionState);
@@ -17951,6 +18575,13 @@ function deleteConnection(id, event){
     if(typeof clearKvGallerySlotConnectionState === 'function') clearKvGallerySlotConnectionState(removed);
     connections = connections.filter(c => c.id !== id);
     if(hoveredConnectionId === id) hoveredConnectionId = '';
+    if(removed){
+        const targetNode = nodes.find(n => n.id === removed.to);
+        if(targetNode?.type === 'imageResizer'){
+            harvestImgResizerInputs(targetNode);
+            syncImgResizeOutputNodes(targetNode, {layout:false});
+        }
+    }
     syncGeneratorInputs();
     render();
     scheduleSave();
@@ -18572,6 +19203,9 @@ function appendOutputImages(out, images, compareRef, metas=[], layout=null){
         list.forEach(url => {
             out.imageComparisons[url] = {url:compareRef.url, name:compareRef.name || 'input image'};
         });
+    }
+    if(out.type === 'output'){
+        setTimeout(() => triggerDownstreamImgResizersForSource(out.id, {autoRun:true}), 30);
     }
 }
 function outputCompareUrlFor(url, out){
@@ -19657,7 +20291,7 @@ function duplicateNodesForAltDrag(node, preserveConnections=false){
             }
         });
     }
-    copies.forEach(item => { remapKvReferenceState(item, idMap); remapTranslationState(item, idMap); remapBatchResizeState(item, idMap); });
+    copies.forEach(item => { remapKvReferenceState(item, idMap); remapTranslationState(item, idMap); remapBatchResizeState(item, idMap); remapImgResizeState(item, idMap); });
     restoreTranslationCopies(copies);
     return copy;
 }
@@ -19701,6 +20335,7 @@ function pasteNodes(){
         remapKvGalleryState(c, idMap);
         remapTranslationState(c, idMap);
         remapBatchResizeState(c, idMap);
+        remapImgResizeState(c, idMap);
     });
     const newConnections = clipConnections
         .map(c => ({...c, id:uid('c'), from:idMap.get(c.from), to:idMap.get(c.to)}))
@@ -19924,6 +20559,7 @@ function insertWorkflowIntoCanvas(imported){
         remapKvGalleryState(node, idMap);
         remapTranslationState(node, idMap);
         remapBatchResizeState(node, idMap);
+        remapImgResizeState(node, idMap);
     });
     const newConnections = srcConnections
         .map(c => ({...c, id:uid('c'), from:idMap.get(c.from), to:idMap.get(c.to)}))
@@ -20173,6 +20809,7 @@ function startLink(e, originId, originKind, originPort=''){
                     }
                     connections.push({id:uid('c'), kind, from:fromId, to:toId, fromPort, toPort});
                     syncLatestGeneratedOutputToConnection(fromId, toId);
+                    if(toNode?.type === 'imageResizer') setTimeout(() => triggerDownstreamImgResizersForSource(fromId, {autoRun:true}), 30);
                 }
                 syncPromptChainOutputs(fromId, {updateDom:false});
                 syncGeneratorInputs();
@@ -20273,6 +20910,7 @@ function wouldCreateGeneratorCycle(fromId, toId){
 function connectionKindFromPorts(from, to, fromPort='out', toPort='in', preferredKind=''){
     if(preferredKind && preferredKind !== 'dataFlow') return preferredKind;
     if(fromPort === 'resizeOut') return 'batchResizeFlow';
+    if(fromPort === 'resizerOut') return 'imageResizeFlow';
     if(fromPort === 'translationOut' || (from?.type === 'translationInput' && to?.type === 'translationOutput')) return TRANSLATION_CONNECTION_KIND;
     if(fromPort === 'galleryOut' || toPort === 'galleryIn') return KV_CONNECTION_KIND_GALLERY;
     if(String(toPort || '').startsWith('gallerySlot:')) return KV_CONNECTION_KIND_GALLERY_SLOT;
@@ -20304,6 +20942,11 @@ function canConnect(fromId, toId, fromPort='out', toPort='in', preferredKind='')
     if(!from || !to) return false;
     if(isLabelNode(from) || isLabelNode(to)) return isLabelNode(from) !== isLabelNode(to);
     const kind = connectionKindFromPorts(from, to, fromPort, toPort, preferredKind);
+    if(kind === 'imageResizeFlow') return from.type === 'imageResizer' && to.type === 'resizeOutput'
+        && to.resizeSourceId === from.id && fromPort === 'resizerOut' && toPort === 'in';
+    if(to.type === 'imageResizer') return ['image','group','output','resizeOutput'].includes(from.type) && fromPort === 'out';
+    if(from.type === 'resizeOutput') return CANVAS_GENERATOR_TYPES.includes(to.type) || to.type === 'imageResizer' || to.type === 'output';
+    if(from.type === 'imageResizer') return to.type === 'resizeOutput' && to.resizeSourceId === from.id;
     if(kind === 'batchResizeFlow') return from.type === 'batchResize' && to.type === 'output'
         && to.resizeSourceId === from.id && fromPort === 'resizeOut' && toPort === 'in';
     if(kind === TRANSLATION_CONNECTION_KIND) return from.type === 'translationInput' && to.type === 'translationOutput'
@@ -21285,6 +21928,9 @@ function deleteSelectedNodes(){
     nodes.filter(node => node.type === 'translationOutput' && toDelete.has(node.id)).forEach(output => {
         excludeTranslationOutput(output);
     });
+    nodes.filter(node => node.type === 'resizeOutput' && toDelete.has(node.id)).forEach(output => {
+        excludeImgResizeOutput(output);
+    });
     toDelete.forEach(id => destroyLTXEditor(nodes.find(n => n.id === id)));
     nodes = nodes.filter(n => !toDelete.has(n.id));
     connections = connections.filter(c => !toDelete.has(c.from) && !toDelete.has(c.to));
@@ -21812,5 +22458,22 @@ async function runImageEditorAiGenerate(){
     } finally {
         if(btn) btn.disabled = false;
         if(btnText) btnText.textContent = '以当前修改图生成';
+    }
+}
+
+function remapImgResizeState(node, idMap){
+    if(!node) return;
+    if(node.type === 'resizeOutput' && node.resizeSourceId){
+        const newId = idMap.get(node.resizeSourceId);
+        if(newId) node.resizeSourceId = newId;
+        else { delete node.resizeSourceId; node.images = []; }
+    }
+    if(node.type === 'imageResizer'){
+        node.resizeImages = (node.resizeImages || []).map(image => {
+            if(!image.sourceNodeId) return image;
+            const newId = idMap.get(image.sourceNodeId);
+            return newId ? {...image, sourceNodeId:newId} : null;
+        }).filter(Boolean);
+        node._pending = [];
     }
 }

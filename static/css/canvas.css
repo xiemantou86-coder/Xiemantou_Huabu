@@ -2742,3 +2742,24 @@ html.studio-theme-dark .shell .translationInput-node .translation-port::after{ba
     font-size: 12px;
     font-weight: 800;
 }
+
+/* ===== 尺寸修改节点 imageResizer（1:1 复刻改图/翻译节点琥珀金视觉体系） ===== */
+.imageResizer-node{container-type:inline-size;--translation-accent:#ad8129;--translation-accent-text:#7a5310;--translation-tint:#fffaf0;--translation-line:#ead9ad}
+.node.sized.imageResizer-node .node-body{display:flex;flex-direction:column}
+.node.sized.imageResizer-node .translation-input-body{flex:1 0 auto}
+.imageResizer-node select:focus,.imageResizer-node textarea:focus,.imageResizer-node input:not([type="checkbox"]):focus{outline:none;border-color:var(--translation-accent);box-shadow:0 0 0 2px rgba(173,129,41,.13)}
+.imageResizer-node .node-head{background:var(--translation-tint);border-bottom-color:var(--translation-line)}
+.imageResizer-node .node-title{color:var(--translation-accent-text);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.resizeOutput-node{--output-thumb-min:120px;--output-thumb-max:280px}
+.resizeOutput-node .node-head{background:var(--soft)}
+.resizeOutput-node .node-title{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.theme-dark .imageResizer-node{--translation-accent:#cba54c;--translation-accent-text:#f5d780;--translation-tint:#282215;--translation-line:#57491f}
+html.studio-theme-dark .shell .imageResizer-node .node-head{background:var(--translation-tint)!important;border-bottom-color:var(--translation-line)!important}
+html.studio-theme-dark .shell .imageResizer-node .node-title{color:var(--translation-accent-text)!important}
+html.studio-theme-dark .shell .imageResizer-node .translation-port::after{background:var(--translation-accent)!important;box-shadow:0 0 0 1px var(--translation-accent-text)!important}
+.resize-target-group-title{grid-column:1/-1;font-size:10px;letter-spacing:.06em;color:var(--translation-accent-text);font-weight:800;padding-top:4px}
+.resize-target-group-title:first-child{padding-top:0}
+.resize-custom-size{display:flex;align-items:center;gap:6px;margin-top:4px;font-size:11px;color:var(--muted)}
+.resize-custom-size input{flex:1;min-width:0;height:32px;border:1px solid var(--line-2);border-radius:6px;background:var(--card-solid);color:var(--text);font:inherit;padding:6px 8px;font-size:11px;font-weight:500}
+.resize-color-input{width:100%;height:32px;border:1px solid var(--line-2);border-radius:6px;background:var(--card-solid);padding:2px 4px;cursor:pointer}
+.translation-source-column.drag-over .translation-source-image{border-color:var(--translation-accent);background:var(--translation-tint)}

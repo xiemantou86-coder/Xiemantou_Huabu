@@ -16,14 +16,14 @@
             } catch(e) {}
         })();
     </script>
-    <script src="/static/vendor/js/tailwindcss-cdn.js?v=%EF%BB%BF2026.10.19_1.1791960842"></script>
-    <script src="/static/vendor/js/lucide.js?v=%EF%BB%BF2026.10.19_1.1791960842"></script>
-    <script src="/static/js/theme.js?v=%EF%BB%BF2026.10.19_1.1791960804"></script>
-    <script src="/static/js/touch-mouse.js?v=%EF%BB%BF2026.10.19_1.1791960805"></script>
-    <script src="/static/js/i18n.js?v=%EF%BB%BF2026.10.19_1.1791960792"></script>
-    <link rel="stylesheet" href="/static/css/canvas.css?v=%EF%BB%BF2026.10.19_1.1792408087">
-    <link rel="stylesheet" href="/static/css/batch-resize.css?v=%EF%BB%BF2026.10.19_1.1791960767">
-    <link rel="stylesheet" href="/static/css/theme.css?v=%EF%BB%BF2026.10.19_1.1791960773">
+    <script src="/static/vendor/js/tailwindcss-cdn.js?v=%EF%BB%BF2026.10.20_1.1791960842"></script>
+    <script src="/static/vendor/js/lucide.js?v=%EF%BB%BF2026.10.20_1.1791960842"></script>
+    <script src="/static/js/theme.js?v=%EF%BB%BF2026.10.20_1.1791960804"></script>
+    <script src="/static/js/touch-mouse.js?v=%EF%BB%BF2026.10.20_1.1791960805"></script>
+    <script src="/static/js/i18n.js?v=%EF%BB%BF2026.10.20_1.1791960792"></script>
+    <link rel="stylesheet" href="/static/css/canvas.css?v=%EF%BB%BF2026.10.20_1.1792554193">
+    <link rel="stylesheet" href="/static/css/batch-resize.css?v=%EF%BB%BF2026.10.20_1.1791960767">
+    <link rel="stylesheet" href="/static/css/theme.css?v=%EF%BB%BF2026.10.20_1.1791960773">
 </head>
 <body>
     <div id="shell" class="shell no-canvas">
@@ -41,6 +41,7 @@
                 <div class="toolbar-items">
                     <button class="tool-btn" onclick="addImageNode()"><i data-lucide="image-plus" class="w-4 h-4"></i><span data-i18n="canvas.image">图片</span></button>
                     <button class="tool-btn" onclick="addTranslationInputNode()" title="改图与多语言翻译"><i data-lucide="languages" class="w-4 h-4"></i><span>改图/翻译节点</span></button>
+                <button class="tool-btn" onclick="addImageResizerNode()" title="图片分辨率与比例适配"><i data-lucide="scaling" class="w-4 h-4"></i><span>尺寸修改</span></button>
                     <button class="tool-btn" onclick="addPromptNode()"><i data-lucide="text-cursor-input" class="w-4 h-4"></i><span data-i18n="canvas.prompt">提示词</span></button>
                     <button class="tool-btn" onclick="addGameKvPromptNode()" title="游戏 KV 提示词"><i data-lucide="megaphone" class="w-4 h-4"></i><span>游戏 KV</span></button>
                     <button class="tool-btn" onclick="addGameKvPopupPromptNode()" title="大弹窗 KV 提示词"><i data-lucide="layout-template" class="w-4 h-4"></i><span>大弹窗 KV</span></button>
@@ -77,6 +78,7 @@
                 <button class="menu-btn" onclick="menuAdd('prompt')"><i data-lucide="text-cursor-input" class="w-4 h-4"></i><span data-i18n="canvas.prompt">提示词</span></button>
                 <div class="workflow-node-menu-group"><button class="menu-btn workflow-node-menu-toggle" type="button" onclick="toggleWorkflowNodeMenu(event)"><img src="/static/assets/changzhi-workflow-logo.svg" alt=""><span>畅指-工作流节点</span><i data-lucide="chevron-right" class="workflow-node-menu-chevron"></i></button><div class="workflow-node-submenu">
                     <button class="menu-btn" onclick="menuAdd('translationInput')"><i data-lucide="languages" class="w-4 h-4"></i><span>改图/翻译节点</span></button>
+                <button class="menu-btn" onclick="menuAdd('imageResizer')"><i data-lucide="scaling" class="w-4 h-4"></i><span>尺寸修改</span></button>
                     <button class="menu-btn" onclick="menuAdd('kvReferenceGallery')"><i data-lucide="images" class="w-4 h-4"></i><span>KV参考图库</span></button>
                     <button class="menu-btn" onclick="menuAdd('gameKvPrompt')"><i data-lucide="megaphone" class="w-4 h-4"></i><span>游戏kv提示词</span></button>
                     <button class="menu-btn" onclick="menuAdd('gameKvPopupPrompt')"><i data-lucide="megaphone" class="w-4 h-4"></i><span>大弹窗kv</span></button>
@@ -489,9 +491,9 @@
         </div>
     </div>
 
-    <script src="/static/js/ltx-director-timeline.js?v=%EF%BB%BF2026.10.19_1.1791960798"></script>
-    <script src="/static/js/game-kv-prompt.js?v=%EF%BB%BF2026.10.19_1.1792403746"></script>
-<script src="/static/js/batch-resize.js?v=%EF%BB%BF2026.10.19_1.1791960786"></script>
-<script src="/static/js/canvas.js?v=%EF%BB%BF2026.10.19_1.1792408087"></script>
+    <script src="/static/js/ltx-director-timeline.js?v=%EF%BB%BF2026.10.20_1.1791960798"></script>
+    <script src="/static/js/game-kv-prompt.js?v=%EF%BB%BF2026.10.20_1.1792403746"></script>
+<script src="/static/js/batch-resize.js?v=%EF%BB%BF2026.10.20_1.1791960786"></script>
+<script src="/static/js/canvas.js?v=%EF%BB%BF2026.10.20_1.1792554264"></script>
 </body>
 </html>

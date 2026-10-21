@@ -8,7 +8,7 @@
   "pinned": false,
   "project": "default",
   "created_at": 1789034316892,
-  "updated_at": 1792504025394,
+  "updated_at": 1792557500872,
   "nodes": [
     {
       "id": "containerGroup_cdc65987d9fd3_1789034526143",
@@ -1059,7 +1059,7 @@
       "x": 8408.644751942125,
       "y": 2983.9915871042044,
       "w": 156,
-      "h": 96,
+      "h": 97,
       "text": "9：6竖版",
       "fontSize": 29,
       "baseFontSize": 20,
@@ -1085,7 +1085,7 @@
       "x": 8391.899276008124,
       "y": 3809.222936823315,
       "w": 209,
-      "h": 111,
+      "h": 112,
       "text": "5：7小弹窗",
       "fontSize": 35,
       "baseFontSize": 20,
@@ -1479,7 +1479,7 @@
       "x": 6838.093472246389,
       "y": 3366.081667170668,
       "w": 537,
-      "h": 231,
+      "h": 232,
       "text": "广告出图\n工作流",
       "fontSize": 83,
       "baseFontSize": 20,
@@ -2504,6 +2504,112 @@
         "label_f7b90c2aa545f8_1791631796488"
       ],
       "locked": true
+    },
+    {
+      "id": "out_f6df2c44a84f28_1792557014680",
+      "type": "output",
+      "x": 1004.576221837636,
+      "y": 1793.2465429077488,
+      "images": [
+        {
+          "url": "/assets/output/online_dae1c33574.png",
+          "viewed": false,
+          "runMs": 0,
+          "run": null,
+          "name": "上游生成图.png"
+        }
+      ]
+    },
+    {
+      "id": "resizer_5f98d10fed59a_1792557014680",
+      "type": "imageResizer",
+      "x": 1600,
+      "y": 1750,
+      "w": 820,
+      "h": 0,
+      "resizeImages": [
+        {
+          "id": "resize-image_92ef7305481b68_1792557044979",
+          "url": "/assets/output/online_dae1c33574.png",
+          "name": "上游生成图.png",
+          "sourceNodeId": "out_f6df2c44a84f28_1792557014680"
+        }
+      ],
+      "resizeTargets": [
+        {
+          "id": "fhd",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "id": "popup-s",
+          "width": 650,
+          "height": 390
+        }
+      ],
+      "resizeMode": "cover",
+      "resizeBackground": "#ffffff",
+      "resizeExcludedOutputs": [],
+      "resizeLayoutVersion": 2
+    },
+    {
+      "id": "resize-out_946a19f128ac6_1792557044979",
+      "type": "resizeOutput",
+      "x": 1818.5,
+      "y": 2505,
+      "w": 383,
+      "resizeSourceId": "resizer_5f98d10fed59a_1792557014680",
+      "resizeImageId": "resize-image_92ef7305481b68_1792557044979",
+      "resizeImageName": "上游生成图.png",
+      "resizeTargetId": "fhd",
+      "resizeTargetWidth": 1920,
+      "resizeTargetHeight": 1080,
+      "resizeOrder": 0,
+      "images": [
+        {
+          "url": "/assets/output/resize_d10e18f49de14b26843d275a44c63cbd.png",
+          "name": "resize_d10e18f49de14b26843d275a44c63cbd.png",
+          "width": 1920,
+          "height": 1080,
+          "viewed": true
+        }
+      ],
+      "blocked": false,
+      "imageComparisons": {
+        "/assets/output/resize_d10e18f49de14b26843d275a44c63cbd.png": {
+          "url": "/assets/output/online_dae1c33574.png",
+          "name": "上游生成图.png"
+        }
+      }
+    },
+    {
+      "id": "resize-out_9a3096ec574bf_1792557497458",
+      "type": "resizeOutput",
+      "x": 1818.5,
+      "y": 2905,
+      "w": 383,
+      "resizeSourceId": "resizer_5f98d10fed59a_1792557014680",
+      "resizeImageId": "resize-image_92ef7305481b68_1792557044979",
+      "resizeImageName": "上游生成图.png",
+      "resizeTargetId": "popup-s",
+      "resizeTargetWidth": 650,
+      "resizeTargetHeight": 390,
+      "resizeOrder": 1,
+      "images": [
+        {
+          "url": "/assets/output/resize_a1b138298c17429cb02888b7ee80faf1.png",
+          "name": "resize_a1b138298c17429cb02888b7ee80faf1.png",
+          "width": 650,
+          "height": 390
+        }
+      ],
+      "blocked": false,
+      "imageComparisons": {
+        "/assets/output/resize_a1b138298c17429cb02888b7ee80faf1.png": {
+          "url": "/assets/output/online_dae1c33574.png",
+          "name": "上游生成图.png"
+        }
+      }
     }
   ],
   "connections": [
@@ -2841,6 +2947,30 @@
       "from": "kv-gallery_d155fbed5a97f8_1791621479683",
       "to": "masterGenerator_f0e134cf699058_1789034526143",
       "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_58da3f4355b4b_1792557044978",
+      "kind": "dataFlow",
+      "from": "out_f6df2c44a84f28_1792557014680",
+      "to": "resizer_5f98d10fed59a_1792557014680",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_75d6a9f65a935_1792557044979",
+      "kind": "imageResizeFlow",
+      "from": "resizer_5f98d10fed59a_1792557014680",
+      "to": "resize-out_946a19f128ac6_1792557044979",
+      "fromPort": "resizerOut",
+      "toPort": "in"
+    },
+    {
+      "id": "c_de3adebcd9fc28_1792557497458",
+      "kind": "imageResizeFlow",
+      "from": "resizer_5f98d10fed59a_1792557014680",
+      "to": "resize-out_9a3096ec574bf_1792557497458",
+      "fromPort": "resizerOut",
       "toPort": "in"
     },
     {
