@@ -193,6 +193,7 @@
         type:'gameKvPrompt',
         promptKind:'game-kv',
         kvVersion:1,
+        visualDesignEnabled:true,
         visualStyle:'anime-fantasy',
         composition:'hero-center',
         copyEnabled:true,
@@ -359,6 +360,7 @@
             type:'gameKvPrompt',
             promptKind:'game-kv',
             kvVersion:Math.max(1, Number(firstValue(source, ['kvVersion','version'])) || BASE_DEFAULTS.kvVersion),
+            visualDesignEnabled:booleanValue(source, ['visualDesignEnabled','designEnabled','enableVisualDesign'], BASE_DEFAULTS.visualDesignEnabled),
             visualStyle:choiceValue(source, ['visualStyle','style'], BASE_DEFAULTS.visualStyle, visualStyles),
             composition:choiceValue(source, ['composition','layout'], BASE_DEFAULTS.composition, compositions),
             mainTitle:textValue(source, ['mainTitle','headline','mainText','title'], BASE_DEFAULTS.mainTitle),
@@ -444,13 +446,17 @@
             .filter(Boolean);
         if(referenceRules.length) sections.push(`参考图规则：\n${referenceRules.map(item => `- ${item}`).join('\n')}`);
 
-        const visualStyle = optionPrompt(visualStyles, node.visualStyle);
-        const composition = optionPrompt(compositions, node.composition);
-        const design = [];
-        if(visualStyle) design.push(`视觉风格：${visualStyle}。`);
-        if(composition) design.push(`构图：${composition}。`);
-        design.push('强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。');
-        sections.push(`画面设计：\n${design.map(item => `- ${item}`).join('\n')}`);
+        if(node.visualDesignEnabled === false){
+            sections.push('画面设计：\n- 可以不大改主要画面参考@图片1 构图画面');
+        } else {
+            const visualStyle = optionPrompt(visualStyles, node.visualStyle);
+            const composition = optionPrompt(compositions, node.composition);
+            const design = [];
+            if(visualStyle) design.push(`视觉风格：${visualStyle}。`);
+            if(composition) design.push(`构图：${composition}。`);
+            design.push('强调主角、动态姿态和强视觉焦点，背景层次清晰，整体具备商业广告冲击力。');
+            sections.push(`画面设计：\n${design.map(item => `- ${item}`).join('\n')}`);
+        }
 
         const subtitle = node.copyEnabled && node.subtitleEnabled ? node.subtitle : '';
         if(node.copyEnabled && (node.mainTitle || subtitle)){

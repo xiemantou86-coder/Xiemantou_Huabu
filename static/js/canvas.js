@@ -9376,6 +9376,15 @@ function gameKvSelectOptions(options, current){
     return items.join('');
 }
 function updateGameKvConditionalUi(root){
+    const visualDesignControl = root.querySelector('[data-kv-field="visualDesignEnabled"]');
+    const visualDesignEnabled = visualDesignControl ? Boolean(visualDesignControl.checked) : true;
+    const visualDesignGrid = root.querySelector('[data-kv-conditional="visualDesign"]');
+    if(visualDesignGrid){
+        visualDesignGrid.classList.toggle('disabled', !visualDesignEnabled);
+        visualDesignGrid.querySelectorAll('select,input').forEach(control => {
+            control.disabled = !visualDesignEnabled;
+        });
+    }
     const copyEnabled = Boolean(root.querySelector('[data-kv-field="copyEnabled"]')?.checked);
     const subtitleEnabled = Boolean(root.querySelector('[data-kv-field="subtitleEnabled"]')?.checked);
     const negativeEnabled = Boolean(root.querySelector('[data-kv-field="negativeEnabled"]')?.checked);
@@ -9493,10 +9502,10 @@ function renderGameKvPromptBody(node){
             <button type="button" data-kv-library-open title="打开游戏 KV 提示词库"><i data-lucide="library"></i><span>管理提示词</span></button>
         </section>
         <section class="game-kv-section kv-editor-section">
-            <div class="kv-editor-section-head"><span class="kv-editor-section-index">04</span><span><strong>画面设计</strong><small>控制整体视觉风格与构图氛围</small></span></div>
-            <div class="game-kv-grid">
-                <label class="game-kv-field"><span>视觉风格</span><select data-kv-field="visualStyle">${gameKvSelectOptions(gameKvPromptOptions('visualStyle'), state.visualStyle)}</select></label>
-                <label class="game-kv-field"><span>构图氛围</span><select data-kv-field="composition">${gameKvSelectOptions(gameKvPromptOptions('composition'), state.composition)}</select></label>
+            <div class="kv-editor-section-head"><span class="kv-editor-section-index">04</span><span><strong>画面设计</strong><small>控制整体视觉风格与构图氛围</small></span><label class="game-kv-switch popup-kv-inline-switch" style="margin-left:auto" title="关闭后画面设计输出：可以不大改主要画面参考@图片1 构图画面"><span>启用视觉设计</span><input data-kv-field="visualDesignEnabled" type="checkbox" ${checked(state.visualDesignEnabled !== false)}><span class="game-kv-switch-ui"></span></label></div>
+            <div class="game-kv-grid ${state.visualDesignEnabled === false ? 'disabled' : ''}" data-kv-conditional="visualDesign">
+                <label class="game-kv-field"><span>视觉风格</span><select data-kv-field="visualStyle" ${state.visualDesignEnabled === false ? 'disabled' : ''}>${gameKvSelectOptions(gameKvPromptOptions('visualStyle'), state.visualStyle)}</select></label>
+                <label class="game-kv-field"><span>构图氛围</span><select data-kv-field="composition" ${state.visualDesignEnabled === false ? 'disabled' : ''}>${gameKvSelectOptions(gameKvPromptOptions('composition'), state.composition)}</select></label>
             </div>
         </section>
         <section class="game-kv-section kv-editor-section" data-kv-conditional="copy">
