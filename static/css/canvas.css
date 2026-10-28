@@ -1283,6 +1283,11 @@ input[type=range].canvas-range::-webkit-slider-runnable-track { height:3px; bord
 .container-group-lock:hover { background:rgba(15,23,42,.08); color:#475569; }
 .container-group-lock.active { background:var(--container-group-color); color:#fff; }
 .containerGroup-node.locked { border-style:solid; border-width:2px; }
+.container-group-pin { width:22px; height:22px; display:inline-flex; align-items:center; justify-content:center; border-radius:8px; border:none; background:transparent; color:#94a3b8; cursor:pointer; }
+.container-group-pin:hover { background:rgba(15,23,42,.08); color:#475569; }
+.container-group-pin.active { background:var(--container-group-color); color:#fff; }
+.containerGroup-node.pinned { border-style:double; border-width:3px; }
+.containerGroup-node.pinned::after { content:""; position:absolute; inset:32px 0 0 0; border-radius:0 0 20px 20px; pointer-events:none; background:repeating-linear-gradient(45deg, transparent 0 10px, color-mix(in srgb, var(--container-group-color) 9%, transparent) 10px 20px); }
 .container-group-colors { display:inline-flex; align-items:center; gap:4px; }
 .container-group-color { width:14px; height:14px; border-radius:999px; background:var(--swatch); border:2px solid rgba(255,255,255,.9); box-shadow:0 0 0 1px rgba(15,23,42,.16); cursor:pointer; }
 .container-group-color.active { box-shadow:0 0 0 2px var(--container-group-color); }
@@ -2767,3 +2772,25 @@ html.studio-theme-dark .shell .imageResizer-node .translation-port::after{backgr
 .resize-custom-size input{flex:1;min-width:0;height:32px;border:1px solid var(--line-2);border-radius:6px;background:var(--card-solid);color:var(--text);font:inherit;padding:6px 8px;font-size:11px;font-weight:500}
 .resize-color-input{width:100%;height:32px;border:1px solid var(--line-2);border-radius:6px;background:var(--card-solid);padding:2px 4px;cursor:pointer}
 .translation-source-column.drag-over .translation-source-image{border-color:var(--translation-accent);background:var(--translation-tint)}
+
+/* 简易异形弹窗 KV 节点样式 */
+.compactPopupKvPrompt-node { min-width:380px; }
+.compact-kv-lang-badge { font-size:10px; padding:2px 8px; border-radius:12px; background:rgba(56,189,248,.14); color:#38bdf8; font-weight:700; border:1px solid rgba(56,189,248,.3); }
+.compact-slot-list { display:flex; flex-direction:column; gap:6px; margin-top:8px; }
+.compact-slot-item { position:relative; display:flex; align-items:center; justify-content:space-between; padding:6px 10px; background:rgba(0,0,0,.03); border:1px solid var(--line); border-radius:8px; font-size:11px; }
+body.theme-dark .compact-slot-item { background:rgba(255,255,255,.03); }
+.compact-slot-label { font-weight:600; color:var(--text); }
+.compact-slot-status { font-size:10px; font-weight:700; padding:1px 6px; border-radius:4px; }
+.compact-slot-status.connected { background:rgba(34,197,94,.15); color:#22c55e; border:1px solid rgba(34,197,94,.3); }
+.compact-slot-status.disconnected { background:rgba(148,163,184,.12); color:#94a3b8; border:1px solid rgba(148,163,184,.2); }
+.compact-btn-config { margin-top:8px; transition:opacity .15s; }
+.compact-btn-config.disabled { opacity:.4; pointer-events:none; }
+.compact-kv-preview-text { width:100%; box-sizing:border-box; height:105px; resize:none; padding:8px 10px; font-size:11.5px; line-height:1.5; font-family:Consolas, monospace; background:rgba(0,0,0,.04); border:1px solid var(--line); border-radius:8px; color:var(--text); outline:none; }
+body.theme-dark .compact-kv-preview-text { background:rgba(0,0,0,.3); }
+.compactPopupKvPrompt-node .compact-slot-item > .port.compact-port { left:-20px; top:50%; width:28px; height:28px; border:0; background:transparent; box-shadow:none; transform:translateY(-50%); z-index:10; pointer-events:auto; }
+.compactPopupKvPrompt-node .port.compact-port::after { left:50%; top:50%; width:12px; height:12px; box-sizing:border-box; transform:translate(-50%,-50%); background:#38bdf8; border:2px solid #fff; box-shadow:0 0 6px rgba(56,189,248,.5); }
+.compactPopupKvPrompt-node .compact-slot-label { padding-left:8px; }
+.compactPopupKvPrompt-node > .port.kv-prompt-port { top:50%; z-index:10; }
+.compactPopupKvPrompt-node .port.compact-port:hover::after { transform:translate(-50%,-50%) scale(1.25); background:#0284c7; }
+/* Focus marks the exact reference frame receiving clipboard images. */
+.kvReferenceGallery-node .kv-gallery-slot:focus { outline:2px solid #38bdf8; outline-offset:2px; }

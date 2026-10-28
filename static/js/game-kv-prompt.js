@@ -476,20 +476,20 @@
             if(copyPlacement) copy.push(`排版位置：${copyPlacement}。`);
             if(node.downloadButtonEnabled){
                 if(takeoverButton){
-                    copy.push(`在画面合适的位置，加入图片${takeoverButton.imageNumber}的按钮包裹文字：${language.buttonText || 'Download'}。`);
+                    copy.push(`在画面合适的位置，加入图片${takeoverButton.imageNumber}的按钮包裹文字：${language.buttonText || 'Download'}`);
                 } else {
                     const button = buttonReference ? `图片${buttonReference.imageNumber || references.indexOf(buttonReference) + 1}的按钮` : '按钮';
-                    copy.push(`位于文字区域最下方，${button}包裹文字：${language.buttonText || 'Download'}。`);
+                    copy.push(`位于文字区域最下方，${button}包裹文字：${language.buttonText || 'Download'}`);
                 }
             }
             copy.push('除上述指定文案外，不添加其他文字。');
             sections.push(`文字排版：\n${copy.map(item => `- ${item}`).join('\n')}`);
         }else if(node.copyEnabled && node.downloadButtonEnabled){
             if(takeoverButton){
-                sections.push(`下载按钮：\n- 在画面合适的位置，加入图片${takeoverButton.imageNumber}的按钮包裹文字：${language.buttonText || 'Download'}。`);
+                sections.push(`下载按钮：\n- 在画面合适的位置，加入图片${takeoverButton.imageNumber}的按钮包裹文字：${language.buttonText || 'Download'}`);
             } else {
                 const button = buttonReference ? `图片${buttonReference.imageNumber || references.indexOf(buttonReference) + 1}的按钮` : '按钮';
-                sections.push(`下载按钮：\n- 位于文字区域最下方，${button}包裹文字：${language.buttonText || 'Download'}。`);
+                sections.push(`下载按钮：\n- 位于文字区域最下方，${button}包裹文字：${language.buttonText || 'Download'}`);
             }
         }
 

@@ -10,25 +10,27 @@
     {
       "id": "tutorial_generator",
       "type": "generator",
-      "x": 517.289628702493,
-      "y": 115.1639327362145,
-      "apiProvider": "apimart",
-      "model": "gpt-image-2",
+      "x": 491.10380986442163,
+      "y": 109.92676896860023,
+      "apiProvider": "custom-api-5",
+      "model": "gpt-image-2.5-sunburst",
       "ratio": "wide",
-      "resolution": "4k",
+      "resolution": "2k",
       "customRatio": "",
       "customSize": "",
       "transparentBackground": false,
-      "inputs": [],
-      "generatedOutputs": [
-        "/assets/output/online_c04a45ff80.png"
+      "inputs": [
+        "prompt_f7d566c366229_1792142372531"
       ],
-      "_apiResolutionUserSet": false,
+      "generatedOutputs": [
+        "/assets/output/online_5dfe331e17.png"
+      ],
+      "_apiResolutionUserSet": true,
       "customWidth": "",
       "customHeight": "",
       "customRatioWidth": "",
       "customRatioHeight": "",
-      "quality": "max",
+      "quality": "high",
       "transparentCheckWarning": ""
     },
     {
@@ -48,40 +50,6 @@
       "imageComparisons": {}
     },
     {
-      "id": "prompt_9fec161aeb8d_1791478725122",
-      "type": "prompt",
-      "x": 95.08982851180401,
-      "y": 816.5137557931669,
-      "text": "生成一只可爱的小猫"
-    },
-    {
-      "id": "gen_9ceec8555ac008_1791478769599",
-      "type": "generator",
-      "x": 520.6991033803887,
-      "y": 811.8622883082644,
-      "apiProvider": "apimart",
-      "model": "gemini-3.1-flash-image-preview",
-      "ratio": "square",
-      "resolution": "1k",
-      "customRatio": "",
-      "customSize": "",
-      "customRatioWidth": "",
-      "customRatioHeight": "",
-      "customWidth": "",
-      "customHeight": "",
-      "transparentBackground": false,
-      "inputs": [
-        "prompt_9fec161aeb8d_1791478725122"
-      ]
-    },
-    {
-      "id": "out_23678d4c48eec_1791478806736",
-      "type": "output",
-      "x": 1095.1553377658552,
-      "y": 911.8688392336694,
-      "images": []
-    },
-    {
       "id": "prompt_f7d566c366229_1792142372531",
       "type": "prompt",
       "x": 126.49695389636828,
@@ -91,26 +59,18 @@
   ],
   "connections": [
     {
-      "id": "c_2915079d4d8bb8_1791478825456",
-      "kind": "dataFlow",
-      "from": "prompt_9fec161aeb8d_1791478725122",
-      "to": "gen_9ceec8555ac008_1791478769599",
-      "fromPort": "out",
-      "toPort": "in"
-    },
-    {
-      "id": "c_20d8d3de01dd68_1791478842326",
-      "kind": "dataFlow",
-      "from": "gen_9ceec8555ac008_1791478769599",
-      "to": "out_23678d4c48eec_1791478806736",
-      "fromPort": "out",
-      "toPort": "in"
-    },
-    {
       "id": "c_b15819bf2706f8_1792142384051",
       "kind": "dataFlow",
       "from": "tutorial_generator",
       "to": "tutorial_output",
+      "fromPort": "out",
+      "toPort": "in"
+    },
+    {
+      "id": "c_f163828331c588_1792813639263",
+      "kind": "dataFlow",
+      "from": "prompt_f7d566c366229_1792142372531",
+      "to": "tutorial_generator",
       "fromPort": "out",
       "toPort": "in"
     }
@@ -122,6 +82,495 @@
   },
   "settings": {},
   "logs": [
+    {
+      "id": "log_4a595b607625d8_1792827196848",
+      "createdAt": 1792827196848,
+      "status": "success",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {
+        "task_id": "task_01M5PD79634PW3Q3VDGRN2GDKD",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "以 @图片1 为基础进行画面重绘，保留原图的整体内容格式，以及顶部的分数、进度条、数字和相关位置关系；将画面主体改为 @图片2 所示的游戏画面与方块布局。\n保留清晰醒目的顶部数字和进度条，并确保它们与游戏区域协调排布。参考 @图片2 的方块颜色、棋盘构图和画面风格，准确呈现游戏内容，以及下方的Relaxing！准确呈现",
+      "outputs": [
+        "/assets/output/online_1adcb6c762.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/output/online_c83ae0b6e9.png",
+          "name": "online_c83ae0b6e9.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_da9d12db94d9.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 25592,
+      "error": ""
+    },
+    {
+      "id": "log_5005ffa2645878_1792827148807",
+      "createdAt": 1792827148808,
+      "status": "success",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {
+        "task_id": "task_01M5PD5T64MFXG5MYWXBAFV65X",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "以 @图片1 为基础进行画面重绘，保留原图的整体内容格式，以及顶部的分数、进度条、数字和相关位置关系；将画面主体改为 @图片2 所示的游戏画面与方块布局。\n保留清晰醒目的顶部数字和进度条，并确保它们与游戏区域协调排布。参考 @图片2 的方块颜色、棋盘构图和画面风格，准确呈现游戏内容，保证画面内容内地Combo 30，以及下方的Excellent！准确呈现",
+      "outputs": [
+        "/assets/output/online_5e395c4a97.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/output/online_c83ae0b6e9.png",
+          "name": "online_c83ae0b6e9.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_5a7249de1a38.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 25638,
+      "error": ""
+    },
+    {
+      "id": "log_e2db33febc5e68_1792827058361",
+      "createdAt": 1792827058361,
+      "status": "success",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {
+        "task_id": "task_01M5PD2QSZX1KKMTY98JWH6A6N",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "以 @图片1 为基础进行画面重绘，保留原图的整体内容格式，以及顶部的分数、进度条、数字和相关位置关系；将画面主体改为 @图片2 所示的游戏画面与方块布局。\n保留清晰醒目的顶部数字和进度条，并确保它们与游戏区域协调排布。参考 @图片2 的方块颜色、棋盘构图和画面风格，准确呈现游戏内容，下方的Excellent！",
+      "outputs": [
+        "/assets/output/online_b01cb8e551.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/output/online_c83ae0b6e9.png",
+          "name": "online_c83ae0b6e9.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_5a7249de1a38.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 36416,
+      "error": ""
+    },
+    {
+      "id": "log_a3ebb0ebbb7f18_1792826971659",
+      "createdAt": 1792826971659,
+      "status": "success",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {
+        "task_id": "task_01M5PD0DJV6BBQJDX9YMWJ7X34",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "修改@图片1 下方的Amazing！改成@图片2 的Intersecting！\n不改变其他画面",
+      "outputs": [
+        "/assets/output/online_8404e1944c.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/output/online_c83ae0b6e9.png",
+          "name": "online_c83ae0b6e9.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_378baccca79a.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 25583,
+      "error": ""
+    },
+    {
+      "id": "log_7aee7416dd9d28_1792826864192",
+      "createdAt": 1792826864192,
+      "status": "success",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {
+        "task_id": "task_01M5PCWSFXXRNGRCNZX1H6V7Q8",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "以 @图片1 为基础进行画面重绘，保留原图的整体内容格式，以及顶部的分数、进度条、数字和相关位置关系；将画面主体改为 @图片2 所示的游戏画面与方块布局。\n参考 @图片2 的方块颜色、棋盘构图和画面风格，准确呈现游戏内容，下方的Amazing！；不要保留原图中的手机设备元素，也不要添加额外文字、水印或无关装饰。",
+      "outputs": [
+        "/assets/output/online_c84320f66e.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/output/online_c83ae0b6e9.png",
+          "name": "online_c83ae0b6e9.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_1e987aca9196.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 36977,
+      "error": ""
+    },
+    {
+      "id": "log_d786e988221898_1792826401188",
+      "createdAt": 1792826401188,
+      "status": "success",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {
+        "task_id": "task_01M5PCEZPYGP4C3YJ83F7VV0KQ",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "以 @图片1 为基础进行画面重绘，保留原图的整体内容格式，以及顶部的分数、进度条、数字和相关位置关系；将画面主体改为 @图片2 所示的游戏画面与方块布局。\n去掉手机外框、摄像头开孔、圆角屏幕边缘、系统状态栏等所有手机 UI，使画面呈现为独立、完整的游戏界面。保留清晰醒目的顶部数字和进度条，并确保它们与游戏区域协调排布。参考 @图片2 的方块颜色、棋盘构图和画面风格，准确呈现游戏内容，下方的Amazing！；不要保留原图中的手机设备元素，也不要添加额外文字、水印或无关装饰。",
+      "outputs": [
+        "/assets/output/online_c83ae0b6e9.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_f069e1168b69.png",
+          "name": "cf7a44bf43b51e53ebb46d6bb85396834de385f3a12e826fa0399e7d7f10dcf8.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_378baccca79a.png",
+          "name": "image.png"
+        }
+      ],
+      "runMs": 27046,
+      "error": ""
+    },
+    {
+      "id": "log_ee8c5922244eb_1792825949199",
+      "createdAt": 1792825949199,
+      "status": "success",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {
+        "task_id": "task_01M5PC0WQJH5RK82RBFRWSHSWM",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "以 @图片1 为基础进行画面重绘，保留原图的整体内容格式，以及顶部的分数、进度条、数字和相关位置关系；将画面主体改为 @图片2 所示的游戏画面与方块布局。\n去掉手机外框、摄像头开孔、圆角屏幕边缘、系统状态栏等所有手机 UI，使画面呈现为独立、完整的游戏界面。保留清晰醒目的顶部数字和进度条，并确保它们与游戏区域协调排布。参考 @图片2 的方块颜色、棋盘构图和画面风格，准确呈现游戏内容，下方的Amazing！；不要保留原图中的手机设备元素，也不要添加额外文字、水印或无关装饰。",
+      "outputs": [
+        "/assets/output/online_577ad96bd1.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_1e987aca9196.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_f069e1168b69.png",
+          "name": "cf7a44bf43b51e53ebb46d6bb85396834de385f3a12e826fa0399e7d7f10dcf8.png"
+        }
+      ],
+      "runMs": 36210,
+      "error": ""
+    },
+    {
+      "id": "log_4c014f1701208_1792825178195",
+      "createdAt": 1792825178195,
+      "status": "success",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {
+        "task_id": "task_01M5PB9NECDGVT49AX6MCEFSW4",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "以@图片1为基础进行画面重绘，保留原图的整体内容格式，以及顶部的分数、进度条、数字和相关位置关系；将画面主体改为@图片2所示的游戏画面与方块布局。\n去掉手机外框、摄像头开孔、圆角屏幕边缘、系统状态栏等所有手机 UI，使画面呈现为独立、完整的游戏界面。保留清晰醒目的顶部数字和进度条，并确保它们与游戏区域协调排布。参考@图片2的方块颜色、棋盘构图和画面风格，准确呈现游戏内容；不要保留原图中的手机设备元素，也不要添加额外文字、水印或无关装饰。",
+      "outputs": [
+        "/assets/output/online_106cc72804.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_1e987aca9196.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_f069e1168b69.png",
+          "name": "cf7a44bf43b51e53ebb46d6bb85396834de385f3a12e826fa0399e7d7f10dcf8.png"
+        }
+      ],
+      "runMs": 26645,
+      "error": ""
+    },
+    {
+      "id": "log_b41f9990380ae_1792824959516",
+      "createdAt": 1792824959516,
+      "status": "success",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {
+        "task_id": "task_01M5PB2ZK8PBEY791BK9DC2DDZ",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "以@图片1 为蓝本，修改@图片1 的样式，参考@图片2 ",
+      "outputs": [
+        "/assets/output/online_17b0777b1d.png"
+      ],
+      "refs": [
+        {
+          "url": "/assets/input/ai_ref_1e987aca9196.png",
+          "name": "image.png"
+        },
+        {
+          "url": "/assets/input/ai_ref_f069e1168b69.png",
+          "name": "cf7a44bf43b51e53ebb46d6bb85396834de385f3a12e826fa0399e7d7f10dcf8.png"
+        }
+      ],
+      "runMs": 27503,
+      "error": ""
+    },
+    {
+      "id": "log_7640879d78547_1792814881584",
+      "createdAt": 1792814881584,
+      "status": "failed",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {},
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [],
+      "refs": [],
+      "runMs": 148062,
+      "error": "后端已重启，任务状态已丢失，本次一键运行已停止"
+    },
+    {
+      "id": "log_0ef2372c39b438_1792814572568",
+      "createdAt": 1792814572568,
+      "status": "failed",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {},
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [],
+      "refs": [],
+      "runMs": 1929,
+      "error": "上游生图接口错误：{\"error\":{\"message\":\"quality 参数无效\",\"type\":\"invalid_request_error\"}}"
+    },
+    {
+      "id": "log_2b152394ef326_1792814567034",
+      "createdAt": 1792814567034,
+      "status": "failed",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {},
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [],
+      "refs": [],
+      "runMs": 1897,
+      "error": "上游生图接口错误：{\"error\":{\"message\":\"quality 参数无效\",\"type\":\"invalid_request_error\"}}"
+    },
+    {
+      "id": "log_9df5bf5a924818_1792814556589",
+      "createdAt": 1792814556589,
+      "status": "failed",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {},
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [],
+      "refs": [],
+      "runMs": 1909,
+      "error": "上游生图接口错误：{\"error\":{\"message\":\"quality 参数无效\",\"type\":\"invalid_request_error\"}}"
+    },
+    {
+      "id": "log_110ae817b21728_1792814285439",
+      "createdAt": 1792814285439,
+      "status": "failed",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {},
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [],
+      "refs": [],
+      "runMs": 1888,
+      "error": "上游生图接口错误：{\"error\":{\"message\":\"quality 参数无效\",\"type\":\"invalid_request_error\"}}"
+    },
+    {
+      "id": "log_b313f2c5e87638_1792813990189",
+      "createdAt": 1792813990189,
+      "status": "failed",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {},
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [],
+      "refs": [],
+      "runMs": 1880,
+      "error": "上游生图接口错误：404 page not found"
+    },
+    {
+      "id": "log_9b62562f142da_1792813868239",
+      "createdAt": 1792813868239,
+      "status": "success",
+      "platform": "APIMART",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {
+        "task_id": "task_01M5P0GW59B3RHN3NM88TSMF4P",
+        "request_id": "",
+        "provider_id": "apimart",
+        "backend": "",
+        "prompt_id": "",
+        "workflow_json": "",
+        "seed": ""
+      },
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [
+        "/assets/output/online_5dfe331e17.png"
+      ],
+      "refs": [],
+      "runMs": 13746,
+      "error": ""
+    },
+    {
+      "id": "log_4c0b35cb4ade08_1792813836003",
+      "createdAt": 1792813836003,
+      "status": "failed",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {},
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [],
+      "refs": [],
+      "runMs": 1891,
+      "error": "上游生图接口错误：404 page not found"
+    },
+    {
+      "id": "log_1424ae4aed1c6_1792813771691",
+      "createdAt": 1792813771691,
+      "status": "failed",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {},
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [],
+      "refs": [],
+      "runMs": 1880,
+      "error": "上游生图接口错误：404 page not found"
+    },
+    {
+      "id": "log_5bd6e9bd70b14_1792813739914",
+      "createdAt": 1792813739914,
+      "status": "failed",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {},
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [],
+      "refs": [],
+      "runMs": 1865,
+      "error": "上游生图接口错误：404 page not found"
+    },
+    {
+      "id": "log_c2ee9d3dbda6c_1792813733601",
+      "createdAt": 1792813733601,
+      "status": "failed",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {},
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [],
+      "refs": [],
+      "runMs": 1852,
+      "error": "上游生图接口错误：404 page not found"
+    },
+    {
+      "id": "log_992b4ee1c438f_1792813706893",
+      "createdAt": 1792813706893,
+      "status": "failed",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {},
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [],
+      "refs": [],
+      "runMs": 1870,
+      "error": "上游生图接口错误：404 page not found"
+    },
+    {
+      "id": "log_7b0e8d674b8c4_1792813655670",
+      "createdAt": 1792813655670,
+      "status": "failed",
+      "platform": "OPEN1-CODE",
+      "nodeType": "generator",
+      "model": "gpt-image-2.5-sunburst",
+      "request": {},
+      "prompt": "生成一只可爱的小猫",
+      "outputs": [],
+      "refs": [],
+      "runMs": 2064,
+      "error": "上游生图接口错误：404 page not found"
+    },
     {
       "id": "log_5d46ac6ca08db_1792501000761",
       "createdAt": 1792501000761,
@@ -1151,7 +1600,7 @@
   "id": "825bd5531f664c7b9afe820ce2b711da",
   "tutorial_template": "kitten-v1",
   "created_at": 1790594019199,
-  "updated_at": 1792601851606,
+  "updated_at": 1793025754202,
   "board_x": 413.0,
   "board_y": 155.0
 }

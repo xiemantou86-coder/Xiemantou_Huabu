@@ -12657,6 +12657,24 @@ def changzhi_size_and_hint(size):
         return "auto", f"Output a WIDE LANDSCAPE image with aspect ratio {rw}:{rh} (horizontal orientation)."
     return "auto", f"Output a TALL PORTRAIT image with aspect ratio {rw}:{rh} (vertical orientation)."
 
+# 只实现官方 recommended quality 三档的中转站白名单，其余平台默认收敛到 high。
+QUALITY_EXTENDED_PROVIDERS = {"apimart"}
+
+def normalize_image_quality_for_provider(quality, provider, model=""):
+    """按平台能力收敛画质档位，避免 xhigh/max 被不支持的中转站 400 拒绝。"""
+    q = str(quality or "").strip().lower()
+    if q not in {"low", "medium", "high", "xhigh", "max"}:
+        return ""
+    if q in {"xhigh", "max"}:
+        pid = str((provider or {}).get("id") or "").strip().lower()
+        base = str((provider or {}).get("base_url") or "").strip().lower()
+        proto = str((provider or {}).get("protocol") or "").strip().lower()
+        if pid in QUALITY_EXTENDED_PROVIDERS or "apimart" in base or proto == "apimart":
+            return q
+        return "high"
+    return q
+
+
 async def generate_ai_image(prompt, size, quality, model, reference_images=None, provider_id="comfly", aspect_ratio="", resolution="", transparent_background=False, input_fidelity=""):
     provider = get_api_provider(provider_id)
     if is_tudou_provider(provider):
@@ -12690,6 +12708,9 @@ async def generate_ai_image(prompt, size, quality, model, reference_images=None,
     quality = str(quality or "").strip().lower()
     if quality not in {"low", "medium", "high", "xhigh", "max"}:
         quality = ""
+    # 部分中转站只实现官方 recommended 三档(low/medium/high)，收到 xhigh/max 会直接 400。
+    # 按 provider 能力收敛，未知平台默认降到 high，可用 QUALITY_EXTENDED_PROVIDERS 扩展。
+    quality = normalize_image_quality_for_provider(quality, provider, model)
     input_fidelity = str(input_fidelity or "").strip().lower()
     if input_fidelity not in {"high", "low"}:
         input_fidelity = ""
@@ -13192,22 +13213,11 @@ AGENT_STRONG_IMAGE_KEYWORDS = [
 ]
 
 def heuristic_agent_decision(message, refs, has_previous_image):
-    text = str(message or "").strip().lower()
-    has_image_word = any(key.lower() in text for key in AGENT_IMAGE_KEYWORDS)
-    has_edit_word = any(key.lower() in text for key in AGENT_EDIT_KEYWORDS)
-    is_asking = any(key.lower() in text for key in AGENT_ASK_KEYWORDS)
-    has_strong_image = any(key.lower() in text for key in AGENT_STRONG_IMAGE_KEYWORDS)
+    # Without a semantic decision, never guess a paid image operation.
+    # Attachments and past images are context, not current-turn consent.
+    return {"action": "chat", "prompt": message, "reply": "",
+            "image_request_confirmed": False}
 
-    if is_asking and not has_strong_image:
-        return {"action": "chat", "prompt": message, "reply": ""}
-
-    if refs and (has_edit_word or has_image_word):
-        return {"action": "edit_image", "prompt": message, "reply": ""}
-    if has_previous_image and has_edit_word:
-        return {"action": "edit_image", "prompt": message, "reply": ""}
-    if has_image_word and not has_edit_word:
-        return {"action": "generate_image", "prompt": message, "reply": ""}
-    return {"action": "chat", "prompt": message, "reply": ""}
 
 URL_EXTRACT_RE = re.compile(r"https?://[^\s<>\"\x27\uff0c\u3002\uff09\)\]]+", re.I)
 
@@ -13816,6 +13826,9 @@ def parse_agent_decision(raw_text, message, refs, has_previous_image):
     action = str(data.get("action") or "").strip()
     if action not in AGENT_ACTIONS:
         action = heuristic["action"]
+    image_request_confirmed = data.get("image_request_confirmed") is True
+    if action in {"generate_image", "edit_image"} and not image_request_confirmed:
+        action = "chat"
     prompt = str(data.get("prompt") or message).strip() or message
     reply = str(data.get("reply") or "").strip()
     raw_sq = data.get("search_queries") or data.get("search_query") or ""
@@ -13831,6 +13844,7 @@ def parse_agent_decision(raw_text, message, refs, has_previous_image):
         action = "generate_image" if any(key.lower() in str(message).lower() for key in AGENT_IMAGE_KEYWORDS) else "chat"
     return {
         "action": action,
+        "image_request_confirmed": image_request_confirmed,
         "prompt": prompt,
         "reply": reply,
         "target_image_index": target_image_index,
@@ -13872,6 +13886,13 @@ async def decide_chat_agent_action(payload, conversation, refs):
     system = (
         "你是温暖贴心的全能聊天与图片创作 AI 助手路由器。只返回 JSON，不要 Markdown。\n"
         "action 只能是 chat、generate_image、edit_image。\n"
+        "最高优先级：根据本轮用户实际意图决定是否立即执行图片创作，不得靠生图、图片、海报等关键词触发。历史生成请求已完成，不得自动重复执行。\n"
+        "image_request_confirmed: 仅当本轮明确要求现在生成或修改图片时为 true；其余一律 false。只有此字段为 true 才能执行生图。\n"
+        "讨论功能、价格、失败原因、比较模型、询问能否生图、看图分析、评价图片、写或优化提示词、构思方案、引用他人画图指令，都属于 chat，不执行图片工具。\n"
+        "否定、取消、暂缓、先讨论或只要文字的约束优先；但不要把画面内容里的不要墨镜、不要文字误当成取消生图。\n"
+        "上传参考图或存在历史图片本身不代表改图授权。用户只说不好看、不错、为什么这样时先交流，不擅自重画。\n"
+        "支持上下文省略：就按刚才的方案画吧、再来一张、把上一张背景换成海边，是当前执行请求；不确定是在咨询还是要执行时选择 chat，并自然询问。\n"
+        "示例：生图怎么收费、先别生图、帮我写一段生图提示词、解释为什么生图失败 => chat / false；帮我画一只猫、能不能帮我画一只橘猫、按刚才方案生成吧 => 图片操作 / true。\n"
         "chat: 普通日常闲聊、情感陪伴或问答，不需要画图。\n"
         "generate_image: 用户要求生成、绘制、创建全新图片或海报。\n"
         "edit_image: 用户要求修改参考图、历史生成的某张图，或上传了参考图要求基于它变化。\n"
@@ -13893,7 +13914,7 @@ async def decide_chat_agent_action(payload, conversation, refs):
         f"用户设置的系统提示词：{custom_system_prompt or '无'}\n"
         f"本次上传参考图数量：{len(refs)}\n"
         f"对话中已生成的历史图片列表（共 {len(all_hist_imgs)} 张）：\n{hist_img_summary}\n"
-        '请只返回 JSON，格式：{"action":"chat|generate_image|edit_image","prompt":"完整细腻画面描述","reply":"温暖自然的陪聊回应","target_image_index":-1,"transparent_background":false,"search_queries":["关键词1","关键词2"]}'
+        '请只返回 JSON，格式：{"action":"chat|generate_image|edit_image","image_request_confirmed":false,"prompt":"仅图片操作需要完整细腻画面描述","reply":"自然回复","target_image_index":-1,"transparent_background":false,"search_queries":["关键词1","关键词2"]}'
     )
 
     visual_refs_to_inspect = list(refs[:2]) if refs else ([all_hist_imgs[-1]] if all_hist_imgs else [])
@@ -16149,6 +16170,39 @@ async def probe_volcengine_auto_detect(client, base_url: str, api_key: str):
         "message": compat_probe.get("message") or task_probe.get("message") or "未检测到方舟/Ark 兼容入口",
         "raw": {"task_probe": task_probe, "openai_compat_probe": compat_probe.get("raw")},
     }
+
+# MiniMax-H3 系列（含中转站的 -Max 后缀变体）只认 480P / 768P / 1080P，且要求大写 P。
+MINIMAX_H3_RESOLUTION_MAP = {
+    "": "1080P", "auto": "1080P",
+    "480": "480P", "480p": "480P",
+    "720": "768P", "720p": "768P", "768": "768P", "768p": "768P", "780p": "768P",
+    "1080": "1080P", "1080p": "1080P", "1080P": "1080P",
+    "1k": "768P", "2k": "1080P", "4k": "1080P",
+}
+
+def is_minimax_h3_model(model):
+    lc = str(model or "").strip().lower()
+    if not lc:
+        return False
+    return "minimax-h3" in lc or "minimax_h3" in lc or ("minimax" in lc and "h3" in lc)
+
+def video_resolution_for_model(model, resolution):
+    """按模型归一化视频分辨率。MiniMax-H3 系列必须是大写 480P/768P/1080P。"""
+    text = str(resolution or "").strip()
+    if is_minimax_h3_model(model):
+        mapped = MINIMAX_H3_RESOLUTION_MAP.get(text.lower())
+        if mapped:
+            return mapped
+        m = re.search(r"(\d+)", text)
+        if m:
+            value = int(m.group(1))
+            if value <= 560:
+                return "480P"
+            if value <= 900:
+                return "768P"
+            return "1080P"
+        return "1080P"
+    return text
 
 def classify_upstream_model(mid):
     lc = str(mid or "").lower()
@@ -18557,7 +18611,7 @@ async def canvas_video(payload: CanvasVideoRequest):
                         "model": selected_model(payload.model, "doubao-seedance-2.0"),
                         "duration": apimart_video_duration(payload.duration),
                         "size": apimart_video_size(payload.aspect_ratio or payload.size),
-                        "resolution": payload.resolution or "480p",
+                        "resolution": video_resolution_for_model(selected_model(payload.model, "doubao-seedance-2.0"), payload.resolution) or "480p",
                     }
                     if image_with_roles and video_payload:
                         raise HTTPException(status_code=400, detail="APIMart Seedance 的 image_with_roles 不能和 video_urls 同时使用，请只保留图片首尾帧或参考视频其中一种。")
@@ -18739,7 +18793,7 @@ async def canvas_video(payload: CanvasVideoRequest):
                     if payload.size:
                         body["size"] = payload.size
                     if payload.resolution:
-                        body["resolution"] = payload.resolution
+                        body["resolution"] = video_resolution_for_model(body.get("model") or payload.model, payload.resolution)
                     if image_payload:
                         body["images"] = image_payload
                     if payload.videos:

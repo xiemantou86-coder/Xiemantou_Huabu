@@ -5,9 +5,29 @@ E:\学习\简历作品集\AI应用\Infinite-Canvas画布\用户版\无限画布\main.py:181: Depre
         [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
         
   @app.on_event("startup")
-INFO:     Started server process [27056]
+INFO:     Started server process [9712]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:3001 (Press CTRL+C to quit)
-INFO:     127.0.0.1:55653 - "WebSocket /ws/stats?client_id=6ecb8761-affd-422d-b511-885e84f99e46" [accepted]
+INFO:     127.0.0.1:64973 - "WebSocket /ws/stats?client_id=6ecb8761-affd-422d-b511-885e84f99e46" [accepted]
 INFO:     connection open
+INFO:     127.0.0.1:55234 - "WebSocket /ws/stats?client_id=8a479621-6607-4627-9ab1-126e18d10530" [accepted]
+INFO:     connection open
+INFO:     127.0.0.1:62184 - "WebSocket /ws/stats?client_id=8a479621-6607-4627-9ab1-126e18d10530" [accepted]
+INFO:     connection open
+E:\学习\简历作品集\AI应用\Infinite-Canvas画布\用户版\无限画布\main.py:16694: PydanticDeprecatedSince20: The `dict` method is deprecated; use `model_dump` instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+  refs = [ref.dict() for ref in payload.reference_images if ref.url]
+Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
+Traceback (most recent call last):
+  File "asyncio\events.py", line 80, in _run
+  File "asyncio\proactor_events.py", line 165, in _call_connection_lost
+ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。
+INFO:     127.0.0.1:60388 - "WebSocket /ws/stats?client_id=6ecb8761-affd-422d-b511-885e84f99e46" [accepted]
+INFO:     connection open
+Exception in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>
+Traceback (most recent call last):
+  File "asyncio\events.py", line 80, in _run
+  File "asyncio\proactor_events.py", line 165, in _call_connection_lost
+ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。

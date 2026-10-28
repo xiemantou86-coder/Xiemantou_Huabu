@@ -4218,6 +4218,7 @@ function syncPromptChainOutputs(sourceId, options={}){
     if(isGameKvPromptNode(source)) return syncGameKvPromptOutputs(sourceId, options);
     if(isGameKvPopupPromptNode(source)) return syncGameKvPopupPromptOutputs(sourceId);
     if(isIrregularPopupKvPromptNode(source)) return syncIrregularPopupKvPromptOutputs(sourceId);
+    if(isCompactPopupKvPromptNode(source)) return syncCompactPopupKvPromptOutputs(sourceId, options);
     return false;
 }
 const IRREGULAR_POPUP_KV_PROMPT_VERSION = 1;
@@ -4341,7 +4342,7 @@ function compileIrregularPopupKvConfig(node){
         if(node.subtitleEnabled !== false && String(copy.subtitle || '').trim()) lines.push(`\n- 副标题：\n  ${String(copy.subtitle).trim()}\n  副标题为小字，在主标题下方。`);
         if(node.logoEnabled === false) lines.push('\n- 不添加游戏Logo。');
         else if(logoRef) lines.push(`\n- 使用图片${logoRef.imageNumber}中的游戏Logo，保持Logo清晰完整。`);
-        if(node.downloadButtonEnabled !== false && buttonRef) lines.push(`\n- 在画面合适位置加入图片${buttonRef.imageNumber}的下载按钮，按钮内文字：${language.buttonText || 'Download'}。`);
+        if(node.downloadButtonEnabled !== false && buttonRef) lines.push(`\n- 在画面合适位置加入图片${buttonRef.imageNumber}的下载按钮，按钮内文字：${language.buttonText || 'Download'}`);
     }
     lines.push('', '五、构图设计');
     if(String(node.characterPrompt || '').trim()) lines.push(`- ${String(node.characterPrompt).trim()}`);
@@ -4692,6 +4693,16 @@ async function applyImageDropPayloadToGallerySlot(galleryId, slotId, payload){
     scheduleSave();
     return imageNode;
 }
+function kvGalleryPasteTarget(target){
+    if(!target || isEditableTarget(target)) return null;
+    const frame = target.closest?.('[data-gallery-slot]');
+    const owner = frame?.closest('.kvReferenceGallery-node');
+    if(!owner || !frame.isConnected) return null;
+    const gallery = nodes.find(item => item.id === owner.dataset.id);
+    const slotId = frame.dataset.gallerySlot;
+    if(!isKvReferenceGalleryNode(gallery) || !kvGallerySlot(gallery, slotId)) return null;
+    return {galleryId:gallery.id, slotId};
+}
 async function uploadKvGallerySlotImage(galleryId, slotId, files){
     const list = Array.from(files || []).filter(file => String(file?.type || '').startsWith('image/')).slice(0, 1);
     if(!list.length) return null;
@@ -4772,7 +4783,7 @@ function clearKvGallerySlotConnectionState(connection){
     if(slot && slot.imageNodeId === connection.from) slot.imageNodeId = '';
 }
 function isKvPromptNode(node){
-    return isGameKvPromptNode(node) || isGameKvPopupPromptNode(node) || isIrregularPopupKvPromptNode(node);
+    return isGameKvPromptNode(node) || isGameKvPopupPromptNode(node) || isIrregularPopupKvPromptNode(node) || isCompactPopupKvPromptNode(node);
 }
 const KV_CONNECTION_KIND_GALLERY = 'kvReferenceGallery';
 const KV_CONNECTION_KIND_GALLERY_SLOT = 'kvReferenceGallerySlot';
@@ -5243,6 +5254,246 @@ function addLabelBinding(labelId, targetId, labelPort='out', targetPort='in', pe
     if(persist) scheduleSave();
     return true;
 }
+
+// ==================== 简易异形弹窗 KV 节点 ====================
+function isCompactPopupKvPromptNode(node){
+    return Boolean(node && node.type === 'compactPopupKvPrompt');
+}
+
+function normalizeCompactPopupKvPromptNode(node){
+    if(!node) return node;
+    node.type = 'compactPopupKvPrompt';
+    node.title = String(node.title || '简易弹窗 KV');
+    if(!Number.isFinite(Number(node.w)) || Number(node.w) < 420) node.w = 440;
+    if(!Number.isFinite(Number(node.h)) || Number(node.h) < 380) node.h = 420;
+    if(node.buttonEnabled == null) node.buttonEnabled = true;
+    if(node.customButtonText == null) node.customButtonText = '';
+    node.text = compileCompactPopupKvPrompt(node);
+    return node;
+}
+
+function addCompactPopupKvPromptNode(point){
+    const p = point || defaultPoint(0, 0);
+    const node = normalizeCompactPopupKvPromptNode({
+        id: uid('compact-kv'),
+        type: 'compactPopupKvPrompt',
+        x: p.x,
+        y: p.y,
+        w: 440,
+        h: 420,
+        title: '简易弹窗 KV',
+        buttonEnabled: true,
+        customButtonText: ''
+    });
+    return addNode(node);
+}
+
+function compactPopupKvConnectedSlots(node){
+    const inConns = canvasDataConnections().filter(c => c.to === node.id);
+    const hasSlot = port => inConns.some(c => c.toPort === port);
+    return {
+        img1: hasSlot('img1'),
+        img2: hasSlot('img2'),
+        img3: hasSlot('img3'),
+        img4: hasSlot('img4'),
+        upstream: inConns.some(c => c.toPort === 'kvIn' && isKvInheritanceConnection(c))
+    };
+}
+
+function compileCompactPopupKvPrompt(node){
+    if(!node) return '';
+    const slots = compactPopupKvConnectedSlots(node);
+    const language = kvEffectiveLanguage(node);
+    const buttonText = String(node.customButtonText || language?.buttonText || 'Download').trim();
+
+    const lines = [];
+    lines.push('保留@图片1的广告文案，去掉原图logo，');
+    lines.push('制作一张建议的不规则的透明背景的异形弹窗广告，');
+    lines.push('边缘干净清晰，');
+
+    if(slots.img2){
+        lines.push('在左上角添加@图片2的游戏logo');
+    }
+
+    if(node.buttonEnabled !== false){
+        if(slots.img3){
+            lines.push(`在画面合适位置添加@图片3的按钮包裹文字：${buttonText}`);
+        } else {
+            lines.push(`在画面合适位置添加按钮包裹文字：${buttonText}`);
+        }
+    }
+
+    return lines.join('\n');
+}
+
+function syncCompactPopupKvPromptOutputs(sourceId, options={}){
+    const source = nodes.find(n => n.id === sourceId);
+    if(!isCompactPopupKvPromptNode(source)) return false;
+    const text = compileCompactPopupKvPrompt(source);
+    let changed = source.text !== text;
+    source.text = text;
+    canvasDataConnections().filter(c => c.from === source.id).forEach(c => {
+        const target = nodes.find(n => n.id === c.to);
+        if(!isKvPromptConnection(c) || target?.type !== 'prompt') return;
+        if(syncKvTextToPrompt(target, text, options)) changed = true;
+    });
+    const el = nodesEl.querySelector(`.compactPopupKvPrompt-node[data-id="${CSS.escape(source.id)}"]`);
+    if(el){
+        const preview = el.querySelector('.compact-kv-preview-text');
+        if(preview) preview.value = text;
+        const slots = compactPopupKvConnectedSlots(source);
+        el.querySelectorAll('[data-compact-slot-badge]').forEach(badge => {
+            const slotKey = badge.dataset.compactSlotBadge;
+            const connected = Boolean(slots[slotKey]);
+            badge.className = `compact-slot-status ${connected ? 'connected' : 'disconnected'}`;
+            badge.textContent = connected ? '已连接' : (slotKey === 'img2' ? '未连接(静默)' : '未连接');
+        });
+    }
+    return changed;
+}
+
+function renderCompactPopupKvPromptNode(node){
+    normalizeCompactPopupKvPromptNode(node);
+    const slots = compactPopupKvConnectedSlots(node);
+    const language = kvEffectiveLanguage(node);
+    const compiledText = compileCompactPopupKvPrompt(node);
+    node.text = compiledText;
+
+    const el = document.createElement('div');
+    el.className = `node gameKvPrompt-node compactPopupKvPrompt-node sized ${selected.has(node.id) ? 'selected' : ''}`;
+    el.style.left = `${node.x}px`;
+    el.style.top = `${node.y}px`;
+    el.style.width = `${node.w || 440}px`;
+    el.style.height = `${node.h || 420}px`;
+    el.dataset.id = node.id;
+
+    el.innerHTML = `
+        <div class="node-head">
+            <span class="node-title">${escapeHtml(node.title || '简易弹窗 KV')}</span>
+            <span class="compact-kv-lang-badge" title="当前广告语言：${escapeAttr(language.label)}">${escapeHtml(language.label)}</span>
+            <button class="text-gray-300 hover:text-red-500" type="button" onclick="deleteNodeFromButton('${node.id}', event)" title="删除节点"><i data-lucide="x" class="w-4 h-4"></i></button>
+        </div>
+        <div class="node-body game-kv-body compact-kv-body">
+            <div class="game-kv-section">
+                <div class="kv-editor-section-head">
+                    <span class="kv-editor-section-index">01</span>
+                    <span><strong>参考图接入</strong><small>左侧插槽连接对应参考图</small></span>
+                </div>
+                <div class="compact-slot-list">
+                    <div class="compact-slot-item">
+                        <div class="port in compact-port" data-port="img1" title="【插槽 1】连接主图 / 广告文案参考图 (对应 @图片1)"></div>
+                        <span class="compact-slot-label"><b style="color:#38bdf8;">@图片1</b> 原图 / 广告文案参考</span>
+                        <span class="compact-slot-status ${slots.img1 ? 'connected' : 'disconnected'}" data-compact-slot-badge="img1">${slots.img1 ? '已连接' : '未连接'}</span>
+                    </div>
+                    <div class="compact-slot-item">
+                        <div class="port in compact-port" data-port="img2" title="【插槽 2】连接游戏 Logo 参考图 (对应 @图片2)"></div>
+                        <span class="compact-slot-label"><b style="color:#38bdf8;">@图片2</b> 游戏 Logo (连入才输出)</span>
+                        <span class="compact-slot-status ${slots.img2 ? 'connected' : 'disconnected'}" data-compact-slot-badge="img2">${slots.img2 ? '已连接' : '未连接(静默)'}</span>
+                    </div>
+                    <div class="compact-slot-item">
+                        <div class="port in compact-port" data-port="img3" title="【插槽 3】连接下载按钮参考图 (对应 @图片3)"></div>
+                        <span class="compact-slot-label"><b style="color:#38bdf8;">@图片3</b> 下载按钮参考图</span>
+                        <span class="compact-slot-status ${slots.img3 ? 'connected' : 'disconnected'}" data-compact-slot-badge="img3">${slots.img3 ? '已连接' : '未连接'}</span>
+                    </div>
+                    <div class="compact-slot-item">
+                        <div class="port in compact-port" data-port="img4" title="【插槽 4】多图扩展参考图"></div>
+                        <span class="compact-slot-label"><b style="color:#94a3b8;">@图片4+</b> 多图扩展 (备用)</span>
+                        <span class="compact-slot-status ${slots.img4 ? 'connected' : 'disconnected'}" data-compact-slot-badge="img4">${slots.img4 ? '已连接' : '未连接'}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-kv-section">
+                <div class="kv-editor-section-head">
+                    <span class="kv-editor-section-index">02</span>
+                    <span><strong>转化按钮设置</strong><small>控制按钮及文案输出</small></span>
+                    <label class="game-kv-switch" title="开启/关闭下载按钮提示词输出">
+                        <input data-compact-btn-toggle type="checkbox" ${node.buttonEnabled !== false ? 'checked' : ''}>
+                        <span class="game-kv-switch-ui"></span>
+                    </label>
+                </div>
+                <div class="compact-btn-config ${node.buttonEnabled !== false ? '' : 'disabled'}">
+                    <label class="game-kv-field">
+                        <span>按钮文案</span>
+                        <input data-compact-btn-text type="text" maxlength="60" value="${escapeAttr(node.customButtonText || '')}" placeholder="跟随上游：${escapeAttr(language.buttonText || 'Download')}">
+                    </label>
+                </div>
+            </div>
+
+            <div class="game-kv-section" style="margin-bottom:0;">
+                <div class="kv-editor-section-head" style="justify-content:space-between;">
+                    <div style="display:flex;align-items:center;gap:6px;">
+                        <span class="kv-editor-section-index">03</span>
+                        <span><strong>提示词预览</strong><small>实时同步下游 Prompt 节点</small></span>
+                    </div>
+                    <button type="button" class="tool-btn" data-compact-copy-btn title="复制提示词" style="padding:2px 8px;font-size:11px;height:22px;"><i data-lucide="copy" class="w-3 h-3"></i><span>复制</span></button>
+                </div>
+                <textarea class="compact-kv-preview-text" readonly spellcheck="false">${escapeHtml(compiledText)}</textarea>
+            </div>
+        </div>
+
+        <div class="port in kv-special-port kv-inherit-port" data-port="kvIn" style="top:20px;" title="连接上游游戏 KV 继承语言与配置"></div>
+        <div class="port out kv-special-port kv-prompt-port" data-port="promptOut" title="输出提示词到 Prompt 节点"></div>
+        <div class="resize-handle" title="缩放"></div>
+    `;
+
+    const updateAndSync = () => {
+        scheduleSave();
+        syncCompactPopupKvPromptOutputs(node.id);
+    };
+
+    const toggle = el.querySelector('[data-compact-btn-toggle]');
+    const btnInput = el.querySelector('[data-compact-btn-text]');
+    const btnConfig = el.querySelector('.compact-btn-config');
+
+    if(toggle){
+        toggle.addEventListener('change', e => {
+            node.buttonEnabled = Boolean(e.target.checked);
+            if(btnConfig) btnConfig.classList.toggle('disabled', !node.buttonEnabled);
+            updateAndSync();
+        });
+    }
+
+    if(btnInput){
+        btnInput.addEventListener('input', e => {
+            node.customButtonText = e.target.value.trim();
+            updateAndSync();
+        });
+    }
+
+    el.querySelector('[data-compact-copy-btn]')?.addEventListener('click', async e => {
+        e.preventDefault(); e.stopPropagation();
+        if(await copyTextToClipboard(node.text || compileCompactPopupKvPrompt(node))){
+            setStatus('已复制简易弹窗提示词');
+        }
+    });
+
+    el.onclick = event => {
+        event.stopPropagation();
+        if(isNodeControl(event.target)) return;
+        if(event.ctrlKey || event.metaKey) selected.has(node.id) ? selected.delete(node.id) : selected.add(node.id);
+        else if(!selected.has(node.id)){ selected.clear(); selected.add(node.id); }
+        refreshSelectionVisuals();
+    };
+
+    el.onmousedown = event => {
+        if(event.button === 0 && !isNodeControl(event.target) && !event.target.closest('.port,.resize-handle')) {
+            startNodeDrag(event, node);
+        }
+    };
+
+    el.querySelectorAll('.port.in,.port.out').forEach(port => {
+        port.onmousedown = event => {
+            if(event.button === 0) startLink(event, node.id, port.classList.contains('out') ? 'out' : 'in', port.dataset.port);
+        };
+    });
+
+    el.querySelector('.resize-handle').onmousedown = event => startNodeResize(event, node);
+
+    return el;
+}
+// ==================== 简易异形弹窗 KV 节点结束 ====================
+
 function addGameKvPromptNode(point){
     const p = point || defaultPoint(-40, 0);
     const data = window.GameKvPrompt?.createNodeData?.() || {};
@@ -6061,7 +6312,8 @@ function linkCreateOptions(state){
             ];
         }
         if(node.type === 'gameKvPrompt'){
-            if(originPort === 'kvOut') return [{type:'gameKvPopupPrompt', label:'大弹窗 KV', icon:'megaphone'}, {type:'irregularPopupKvPrompt', label:'异形弹窗 KV', icon:'panels-top-left'}];
+            if(originPort === 'kvOut') return [{type:'gameKvPopupPrompt', label:'大弹窗 KV', icon:'megaphone'}, {type:'irregularPopupKvPrompt', label:'异形弹窗 KV', icon:'panels-top-left'},
+                {type:'compactPopupKvPrompt', label:'简易弹窗 KV', icon:'panels-top-left'}];
             if(originPort === 'imageOut') return [{type:'masterGenerator', label:'主控API', icon:'images'}];
             return [{type:'prompt', label:tr('canvas.prompt'), icon:'text-cursor-input'}, labelOption];
         }
@@ -6079,6 +6331,11 @@ function linkCreateOptions(state){
         if(isKvReferenceGalleryNode(node) && originPort === 'out'){
             return [{type:'generator', label:tr('canvas.apiGenerate'), icon:'sparkles'},
                 {type:'masterGenerator', label:'主控API', icon:'images'}];
+        }
+        if(isCompactPopupKvPromptNode(node)){
+            return originPort === 'promptOut'
+                ? [{type:'prompt', label:tr('canvas.prompt'), icon:'text-cursor-input'}, labelOption]
+                : [labelOption];
         }
         if(node.type === 'gameKvPopupPrompt'){
             if(originPort === 'imageOut') return [{type:'masterGenerator', label:'主控API', icon:'images'}];
@@ -6112,7 +6369,11 @@ function linkCreateOptions(state){
     if(node.type === 'prompt'){
         return [{type:'gameKvPrompt', label:'游戏 KV 提示词', icon:'megaphone'}, labelOption];
     }
-    if((node.type === 'gameKvPopupPrompt' || node.type === 'irregularPopupKvPrompt') && originPort === 'kvIn'){
+    if(isCompactPopupKvPromptNode(node) && ['img1','img2','img3','img4'].includes(originPort)){
+        return [{type:'image', label:tr('canvas.imageCard'), icon:'image-plus'},
+            {type:'output', label:'Output', icon:'circle-dot'}];
+    }
+    if((node.type === 'gameKvPopupPrompt' || node.type === 'irregularPopupKvPrompt' || isCompactPopupKvPromptNode(node)) && originPort === 'kvIn'){
         return [{type:'gameKvPrompt', label:'游戏 KV 提示词', icon:'megaphone'}, labelOption];
     }
     if(isKvPromptNode(node) && originPort === 'galleryIn'){
@@ -6525,6 +6786,7 @@ function createNodeByType(type, point){
     if(type === 'prompt') return addPromptNode(point);
     if(type === 'gameKvPopupPrompt') return addGameKvPopupPromptNode(point);
     if(type === 'irregularPopupKvPrompt') return addIrregularPopupKvPromptNode(point);
+    if(type === 'compactPopupKvPrompt') return addCompactPopupKvPromptNode(point);
     if(type === 'label') return addLabelNode(point);
     if(type === 'gameKvPrompt') return addGameKvPromptNode(point);
     if(type === 'kvReferenceGallery') return addKvReferenceGalleryNode(point);
@@ -6552,6 +6814,7 @@ function menuAdd(type){
     if(type === 'prompt') addPromptNode(menuPoint);
     if(type === 'gameKvPopupPrompt') addGameKvPopupPromptNode(menuPoint);
     if(type === 'irregularPopupKvPrompt') addIrregularPopupKvPromptNode(menuPoint);
+    if(type === 'compactPopupKvPrompt') addCompactPopupKvPromptNode(menuPoint);
     if(type === 'label') addLabelNode(menuPoint);
     if(type === 'gameKvPrompt') addGameKvPromptNode(menuPoint);
     if(type === 'kvReferenceGallery') addKvReferenceGalleryNode(menuPoint);
@@ -9341,6 +9604,7 @@ function syncGameKvPromptOutputs(sourceId, options={}){
         const target = nodes.find(n => n.id === c.to);
         if(isKvInheritanceConnection(c) && isGameKvPopupPromptNode(target)){ syncGameKvPopupPromptOutputs(target.id); return; }
         if(isKvInheritanceConnection(c) && isIrregularPopupKvPromptNode(target)){ syncIrregularPopupKvPromptOutputs(target.id); return; }
+        if(isKvInheritanceConnection(c) && isCompactPopupKvPromptNode(target)){ syncCompactPopupKvPromptOutputs(target.id); return; }
         if(!isKvPromptConnection(c) || target?.type !== 'prompt') return;
         if(syncKvTextToPrompt(target, text, options)) changed = true;
     });
@@ -9361,6 +9625,9 @@ function syncAllKvPromptOutputs(options={}){
     });
     nodes.filter(isIrregularPopupKvPromptNode).forEach(node => {
         if(syncIrregularPopupKvPromptOutputs(node.id)) changed = true;
+    });
+    nodes.filter(isCompactPopupKvPromptNode).forEach(node => {
+        if(syncCompactPopupKvPromptOutputs(node.id)) changed = true;
     });
     return changed;
 }
@@ -10220,7 +10487,7 @@ function renderContainerGroupNode(node){
     const size = defaultNodeSize(node.type);
     const color = sanitizeContainerGroupColor(node.color);
     node.color = color;
-    el.className = `node containerGroup-node sized ${selected.has(node.id) ? 'selected' : ''} ${node.locked ? 'locked' : ''}`;
+    el.className = `node containerGroup-node sized ${selected.has(node.id) ? 'selected' : ''} ${node.locked ? 'locked' : ''} ${node.pinned ? 'pinned' : ''}`;
     el.style.left = `${node.x}px`;
     el.style.top = `${node.y}px`;
     el.style.width = `${node.w || size.w}px`;
@@ -10229,7 +10496,7 @@ function renderContainerGroupNode(node){
     el.dataset.id = node.id;
     const count = containerGroupMembers(node).length;
     const colorButtons = CONTAINER_GROUP_COLORS.map(item => `<button class="container-group-color ${item === color ? 'active' : ''}" type="button" data-container-color="${escapeAttr(item)}" style="--swatch:${escapeAttr(item)}" title="${escapeAttr(item)}"></button>`).join('');
-    el.innerHTML = `<div class="node-head"><span class="node-title container-group-title" title="双击改名">${escapeHtml(node.title || '容器分组')}</span><div style="display:flex;align-items:center;gap:8px"><button class="container-group-lock ${node.locked ? 'active' : ''}" type="button" title="${node.locked ? '已锁定：成员固定，不被其他容器吸走' : '点击锁定：成员不再被其他容器吸走'}"><i data-lucide="${node.locked ? 'lock' : 'unlock'}" class="w-3.5 h-3.5"></i></button><div class="container-group-colors">${colorButtons}</div><span class="container-group-count">${count}</span><button class="container-group-close text-gray-300 hover:text-red-500" type="button" title="解散容器"><i data-lucide="x" class="w-4 h-4"></i></button></div></div><div class="node-body"><div class="container-group-frame"></div></div><div class="resize-handle"></div>`;
+    el.innerHTML = `<div class="node-head"><span class="node-title container-group-title" title="双击改名">${escapeHtml(node.title || '容器分组')}</span><div style="display:flex;align-items:center;gap:8px"><button class="container-group-pin ${node.pinned ? 'active' : ''}" type="button" title="${node.pinned ? '已固定：容器与成员都不可拖动' : '点击固定：容器与成员都不能拖动'}"><i data-lucide="${node.pinned ? 'pin' : 'pin-off'}" class="w-3.5 h-3.5"></i></button><button class="container-group-lock ${node.locked ? 'active' : ''}" type="button" title="${node.locked ? '已锁定：成员固定，不被其他容器吸走' : '点击锁定：成员不再被其他容器吸走'}"><i data-lucide="${node.locked ? 'lock' : 'unlock'}" class="w-3.5 h-3.5"></i></button><div class="container-group-colors">${colorButtons}</div><span class="container-group-count">${count}</span><button class="container-group-close text-gray-300 hover:text-red-500" type="button" title="解散容器"><i data-lucide="x" class="w-4 h-4"></i></button></div></div><div class="node-body"><div class="container-group-frame"></div></div><div class="resize-handle"></div>`;
     el.onclick = e => {
         e.stopPropagation();
         if(isNodeControl(e.target)) return;
@@ -10238,7 +10505,7 @@ function renderContainerGroupNode(node){
         refreshSelectionVisuals();
     };
     el.onmousedown = e => {
-        if(e.target.closest('.container-group-close, .container-group-color, .container-group-lock')) return;
+        if(e.target.closest('.container-group-close, .container-group-color, .container-group-lock, .container-group-pin')) return;
         if(e.target.closest('.resize-handle')) return;
         startNodeDrag(e, node);
     };
@@ -10255,7 +10522,15 @@ function renderContainerGroupNode(node){
             setContainerGroupColor(node.id, btn.dataset.containerColor || '');
         });
     });
+    el.querySelector('.container-group-pin')?.addEventListener('mousedown', e => e.stopPropagation());
     el.querySelector('.container-group-lock')?.addEventListener('mousedown', e => e.stopPropagation());
+    el.querySelector('.container-group-pin')?.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        node.pinned = !node.pinned;
+        render();
+        scheduleSave();
+    });
     el.querySelector('.container-group-lock')?.addEventListener('click', e => {
         e.preventDefault();
         e.stopPropagation();
@@ -10993,13 +11268,19 @@ function renderKvReferenceGalleryNode(node){
         const builtin = KV_GALLERY_DEFAULT_SLOTS.some(item => item.slotId === slot.slotId);
         const fixed = fixedIds.includes(slot.slotId);
         const number = activeReferences.find(reference => reference.slotId === slot.slotId)?.imageNumber || '-';
-        return `<div class="kv-gallery-slot ${slot.enabled !== false ? '' : 'disabled'} ${fixed ? 'kv-gallery-slot-fixed' : 'movable'}" draggable="false" data-gallery-slot="${escapeAttr(slot.slotId)}">
+        return `<div class="kv-gallery-slot ${slot.enabled !== false ? '' : 'disabled'} ${fixed ? 'kv-gallery-slot-fixed' : 'movable'}" draggable="false" tabindex="0" title="点击外框后 Ctrl+V 粘贴图片；点击预览可选择文件" data-gallery-slot="${escapeAttr(slot.slotId)}">
             <div class="kv-gallery-slot-out-anchor"><div class="port out kv-gallery-slot-out-port" data-port="gallerySlotOut:${escapeAttr(slot.slotId)}" title="图片输出"></div></div>
             <div class="kv-gallery-slot-head"><span class="kv-gallery-slot-index">${number}</span><span class="kv-gallery-slot-handle" title="${fixed ? '固定顺序' : '拖动排序'}"><i data-lucide="${fixed ? 'lock' : 'grip-vertical'}"></i></span><input class="kv-gallery-slot-label" data-gallery-label="${escapeAttr(slot.slotId)}" value="${escapeAttr(slot.label)}" aria-label="参考图职责"><label class="game-kv-switch kv-gallery-slot-switch" title="启用此参考图"><input data-gallery-enabled="${escapeAttr(slot.slotId)}" type="checkbox" ${slot.enabled !== false ? 'checked' : ''}><span class="game-kv-switch-ui"></span></label>${builtin ? '' : `<button type="button" class="kv-gallery-slot-delete" data-gallery-delete="${escapeAttr(slot.slotId)}" title="删除参考图"><i data-lucide="trash-2"></i></button>`}</div>
             <div class="kv-gallery-slot-body">${preview}<textarea data-gallery-prompt="${escapeAttr(slot.slotId)}" aria-label="参考图提示词">${escapeHtml(slot.prompt || '')}</textarea></div>
         </div>`;
     };
     el.innerHTML = `<div class="node-head"><span class="node-title">${escapeHtml(node.title || 'KV 参考图库')}</span><button type="button" class="text-gray-300 hover:text-red-500" onclick="deleteNodeFromButton('${node.id}', event)" title="删除节点"><i data-lucide="x" class="w-4 h-4"></i></button></div><div class="node-body kv-gallery-body"><div class="kv-gallery-slots">${node.slots.filter(slot => !fixedIds.includes(slot.slotId)).map(slotHtml).join('')}</div><button type="button" class="kv-gallery-add" data-gallery-add><i data-lucide="plus"></i><span>新增参考图框</span></button><div class="kv-gallery-fixed-label">固定参考</div><div class="kv-gallery-slots kv-gallery-fixed-slots">${node.slots.filter(slot => fixedIds.includes(slot.slotId)).map(slotHtml).join('')}</div></div>`;
+    el.querySelectorAll('[data-gallery-slot]').forEach(card => {
+        card.addEventListener('mousedown', event => {
+            if(event.button !== 0 || event.target.closest('input,textarea,button,.port,.game-kv-switch,[contenteditable]')) return;
+            card.focus({preventScroll:true});
+        }, true);
+    });
     el.querySelectorAll('.kv-gallery-slot.movable').forEach(card => {
         card.addEventListener('mousedown', event => {
             if(event.button !== 0 || event.target.closest('input,textarea,button,.port,.game-kv-switch')) return;
@@ -11118,6 +11399,7 @@ function renderNode(node){
     if(isKvReferenceGalleryNode(node)) return renderKvReferenceGalleryNode(node);
     if(isGameKvPopupPromptNode(node)) return renderGameKvPopupPromptNode(node);
     if(isIrregularPopupKvPromptNode(node)) return renderIrregularPopupKvPromptNode(node);
+    if(isCompactPopupKvPromptNode(node)) return renderCompactPopupKvPromptNode(node);
     normalizeApiNodeLayout(node);
     sanitizeMasterGeneratorNode(node);
     if(node.type === 'rh' && Number(node.h) === 560) delete node.h;
@@ -13940,8 +14222,8 @@ function renderVideoBody(node){
                         <option value="">Auto</option>
                         <option value="480p">480p</option>
                         <option value="720p">720p</option>
+                        <option value="768p">768p</option>
                         <option value="1080p">1080p</option>
-                        <option value="780P">780P</option>
                     </select>
                 </label>`}
             </div>
@@ -16643,7 +16925,7 @@ function scheduleKvGraphRefresh(){
         kvGraphRefreshRunning = true;
         try {
             syncGeneratorInputs();
-            syncAllKvPromptOutputs({updateDom:false});
+            syncAllKvPromptOutputs();
             const editingGalleryId = document.activeElement?.closest?.('.kvReferenceGallery-node')?.dataset?.id;
             refreshNodes(nodes.filter(node => isKvPromptNode(node)
                 || (isKvReferenceGalleryNode(node) && node.id !== editingGalleryId)).map(node => node.id));
@@ -20130,6 +20412,12 @@ function closeOutputLightbox(){
 function isContainerGroupNode(node){
     return Boolean(node && node.type === 'containerGroup');
 }
+function pinnedOwnerForNode(node){
+    if(!node) return null;
+    if(isContainerGroupNode(node)) return node.pinned ? node : null;
+    return nodes.find(item => isContainerGroupNode(item) && item.pinned
+        && Array.isArray(item.members) && item.members.includes(node.id)) || null;
+}
 function containerGroupMembers(node){
     if(!isContainerGroupNode(node)) return [];
     const ids = Array.isArray(node.members) ? node.members : [];
@@ -20711,6 +20999,7 @@ async function importWorkflowFile(file){
 }
 function startNodeDrag(e, node){
     if(e.button !== 0) return;
+    if(pinnedOwnerForNode(node)){ e.preventDefault(); e.stopPropagation(); return; }
     if(startKnifeDrag(e)) return;
     e.preventDefault();
     e.stopPropagation();
@@ -20732,6 +21021,7 @@ function startNodeDrag(e, node){
     const collected = new Map();
     const collect = n => {
         if(!n || collected.has(n.id) || n.id === dragTarget.id) return;
+        if(pinnedOwnerForNode(n)) return;
         collected.set(n.id, {node:n, ox:n.x, oy:n.y});
         if(n.type === 'group' || n.type === 'promptGroup'){
             (n.items || []).map(id => nodes.find(x => x.id === id)).forEach(collect);
@@ -20798,6 +21088,7 @@ function onNodeDrag(e){
     scheduleMinimapRender();
 }
 function startNodeResize(e, node){
+    if(pinnedOwnerForNode(node)){ e.preventDefault(); e.stopPropagation(); return; }
     e.preventDefault();
     e.stopPropagation();
     const el = nodesEl.querySelector(`.node[data-id="${node.id}"]`);
@@ -21037,6 +21328,8 @@ function connectionKindFromPorts(from, to, fromPort='out', toPort='in', preferre
     if(fromPort === 'promptOut') return KV_CONNECTION_KIND_PROMPT;
     if(fromPort === 'imageOut') return KV_CONNECTION_KIND_IMAGE;
     if(fromPort === 'kvOut' || toPort === 'kvIn') return KV_CONNECTION_KIND_INHERIT;
+    if(to && isCompactPopupKvPromptNode(to) && ['img1','img2','img3','img4'].includes(toPort)) return 'compactKvSlot';
+    if(from && isCompactPopupKvPromptNode(from) && fromPort === 'promptOut') return KV_CONNECTION_KIND_PROMPT;
     return kvConnectionKind(null, from, to) || 'dataFlow';
 }
 function normalizedCanvasConnection(connection){
@@ -21060,6 +21353,11 @@ function canConnect(fromId, toId, fromPort='out', toPort='in', preferredKind='')
     const to = nodes.find(n => n.id === toId);
     if(!from || !to) return false;
     if(isLabelNode(from) || isLabelNode(to)) return isLabelNode(from) !== isLabelNode(to);
+    // Compact reference inputs must be checked before generic source/kind guards.
+    if(isCompactPopupKvPromptNode(to) && ['img1','img2','img3','img4'].includes(toPort)){
+        if(isKvReferenceGalleryNode(from)) return String(fromPort).startsWith('gallerySlotOut:');
+        return fromPort === 'out' && ['image','group','output','resizeOutput',...CANVAS_MEDIA_OUTPUT_TYPES].includes(from.type);
+    }
     const kind = connectionKindFromPorts(from, to, fromPort, toPort, preferredKind);
     if(kind === 'imageResizeFlow') return from.type === 'imageResizer' && to.type === 'resizeOutput'
         && to.resizeSourceId === from.id && fromPort === 'resizerOut' && toPort === 'in';
@@ -21086,7 +21384,7 @@ function canConnect(fromId, toId, fromPort='out', toPort='in', preferredKind='')
     if(kind === KV_CONNECTION_KIND_PROMPT) return isKvPromptNode(from) && to.type === 'prompt' && fromPort === 'promptOut' && toPort === 'in';
     if(kind === KV_CONNECTION_KIND_IMAGE) return isKvPromptNode(from) && to.type === 'masterGenerator' && fromPort === 'imageOut' && toPort === 'in';
     if(kind === KV_CONNECTION_KIND_INHERIT){
-        if(!isGameKvPromptNode(from) || (!isGameKvPopupPromptNode(to) && !isIrregularPopupKvPromptNode(to))) return false;
+        if(!isGameKvPromptNode(from) || (!isGameKvPopupPromptNode(to) && !isIrregularPopupKvPromptNode(to) && !isCompactPopupKvPromptNode(to))) return false;
         return fromPort === 'kvOut' && toPort === 'kvIn';
     }
     if(kind === KV_CONNECTION_KIND_LEGACY_PROMPT) return (isGameKvPopupPromptNode(from) || isIrregularPopupKvPromptNode(from))
@@ -21250,6 +21548,7 @@ function canvasArrangeAtomicIds(ids){
 }
 function translateCanvasNodeWithMembers(node, dx, dy, seen=new Set()){
     if(!node || seen.has(node.id)) return;
+    if(pinnedOwnerForNode(node)) return;
     seen.add(node.id);
     node.x = Math.round((Number(node.x) || 0) + dx);
     node.y = Math.round((Number(node.y) || 0) + dy);
@@ -21457,9 +21756,9 @@ function updateContainerGroupMembership(movedNodes, options={}){
         const childRect = nodeRect(child);
         // 所属容器已锁定 → 成员冻结，既不被外部容器抢走也不重算归属
         const currentOwner = groups.find(group => Array.isArray(group.members) && group.members.includes(child.id));
-        if(currentOwner && currentOwner.locked) return;
+        if(currentOwner && (currentOwner.locked || currentOwner.pinned)) return;
         const containing = groups.find(group => {
-            if(group.locked) return false; // 锁定的容器不接收新成员
+            if(group.locked || group.pinned) return false; // 锁定/固定的容器不接收新成员
             const groupRect = nodeRect(group);
             return childRect.cx >= groupRect.x && childRect.cx <= groupRect.x + groupRect.w
                 && childRect.cy >= groupRect.y && childRect.cy <= groupRect.y + groupRect.h;
@@ -21939,6 +22238,20 @@ window.addEventListener('dragend', () => dropOverlay.classList.remove('active'),
 window.addEventListener('drop', () => dropOverlay.classList.remove('active'), true);
 window.addEventListener('paste', e => {
     if(!canvas) return;
+    const galleryFrame = (e.target?.closest?.('[data-gallery-slot]') || document.activeElement?.closest?.('[data-gallery-slot]'));
+    if(galleryFrame){
+        const target = kvGalleryPasteTarget(e.target) || kvGalleryPasteTarget(document.activeElement);
+        if(!target) return;
+        const imageFiles = [...(e.clipboardData?.items || [])]
+            .filter(item => item.kind === 'file' && String(item.type || '').startsWith('image/'))
+            .map(item => item.getAsFile()).filter(Boolean);
+        if(!imageFiles.length) return;
+        e.preventDefault();
+        lastImagePasteAt = Date.now();
+        uploadKvGallerySlotImage(target.galleryId, target.slotId, imageFiles)
+            .catch(error => showErrorModal(error.message || '图片粘贴上传失败'));
+        return;
+    }
     const files = [...(e.clipboardData?.items || [])].filter(x => x.kind === 'file' && /^(image|video|audio)\//.test(String(x.type || ''))).map(x => x.getAsFile());
     if(!files.length) return;
     e.preventDefault();

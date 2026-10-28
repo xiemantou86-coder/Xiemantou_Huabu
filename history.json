@@ -1,5 +1,92 @@
 [
     {
+        "prompt": "生成一只可爱的小猫",
+        "images": [
+            "/assets/output/online_5dfe331e17.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_5dfe331e17.png",
+                "kind": "image",
+                "name": "online_5dfe331e17.png",
+                "natural_w": 1536,
+                "natural_h": 864,
+                "width": 1536,
+                "height": 864
+            }
+        ],
+        "timestamp": 1792813867.9163465,
+        "type": "online",
+        "model": "gpt-image-2.5-sunburst",
+        "provider_id": "apimart",
+        "provider_name": "APIMART",
+        "task_id": "task_01M5P0GW59B3RHN3NM88TSMF4P",
+        "request_id": null,
+        "params": {
+            "provider_id": "apimart",
+            "model": "gpt-image-2.5-sunburst",
+            "size": "1280x720",
+            "requested_size": "1280x720",
+            "quality": "max",
+            "transparent_background": false,
+            "n": 1,
+            "reference_images": []
+        },
+        "raw_usage": null
+    },
+    {
+        "prompt": "提取日文游戏logo，透明底\n",
+        "images": [
+            "/assets/output/online_3cb7206c02.png"
+        ],
+        "image_items": [
+            {
+                "url": "/assets/output/online_3cb7206c02.png",
+                "kind": "image",
+                "name": "online_3cb7206c02.png",
+                "natural_w": 1536,
+                "natural_h": 864,
+                "width": 1536,
+                "height": 864
+            }
+        ],
+        "timestamp": 1792647398.6545815,
+        "type": "online",
+        "model": "gpt-image-2.5-sunburst",
+        "provider_id": "apimart",
+        "provider_name": "APIMART",
+        "task_id": "task_01M5H1QWH0E0TTC5CKQBC8MCEC",
+        "request_id": null,
+        "params": {
+            "provider_id": "apimart",
+            "model": "gpt-image-2.5-sunburst",
+            "size": "1280x720",
+            "requested_size": "1280x720",
+            "quality": "max",
+            "transparent_background": true,
+            "n": 1,
+            "reference_images": [
+                {
+                    "url": "/assets/input/ai_ref_6b239bbb3660.png",
+                    "name": "image.png",
+                    "role": "",
+                    "kind": "image",
+                    "mime": "",
+                    "original_url": "",
+                    "source_url": "",
+                    "originalLocalUrl": ""
+                }
+            ]
+        },
+        "raw_usage": null,
+        "transparent_check": {
+            "requested": true,
+            "checked": true,
+            "ok": true,
+            "message": ""
+        }
+    },
+    {
         "prompt": "一只小猫",
         "images": [
             "https://sub2api.07b8fef090a4290405b3f0c29be027d4.r2.cloudflarestorage.com/images/imgtask_02305abfe51f4329909fe737528a9c45-0.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Checksum-Mode=ENABLED&X-Amz-Credential=0c31e83d958af4238a1da7ad1465f4e2%2F20261021%2Fauto%2Fs3%2Faws4_request&X-Amz-Date=20261021T053757Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=413dcd18f6ca1c861bfe7004ee29b3bf5360b5b4972c4464d14e9a7b5e5d0c00"
