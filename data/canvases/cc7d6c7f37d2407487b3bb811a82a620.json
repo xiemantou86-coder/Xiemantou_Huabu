@@ -8,7 +8,7 @@
   "pinned": false,
   "project": "default",
   "created_at": 1789034316892,
-  "updated_at": 1793025746117,
+  "updated_at": 1793550234239,
   "nodes": [
     {
       "id": "containerGroup_cdc65987d9fd3_1789034526143",
@@ -78,7 +78,8 @@
         "output_c314aafb5455_1789034526143",
         "label_b21a053e8f8d68_1789034526143"
       ],
-      "locked": true
+      "locked": true,
+      "pinned": true
     },
     {
       "id": "image_c755273f6087_1789034526143",
@@ -1592,7 +1593,8 @@
         "grp_b1a7b758c640e8_1789354184712",
         "image_586e6c89b0a538_1789354162216"
       ],
-      "locked": true
+      "locked": true,
+      "pinned": true
     },
     {
       "id": "image_586e6c89b0a538_1789354162216",
@@ -1719,7 +1721,8 @@
         "image_33a9d575cc263_1790151407225",
         "label_79f237103549f8_1790151407225"
       ],
-      "locked": true
+      "locked": true,
+      "pinned": true
     },
     {
       "id": "image_9c053aaa11fc5_1790151407224",
@@ -2564,7 +2567,8 @@
         "translate-out_0ee27b54c21cd_1791631711369",
         "label_f7b90c2aa545f8_1791631796488"
       ],
-      "locked": true
+      "locked": true,
+      "pinned": true
     },
     {
       "id": "label_a7b727ad03c36_1793010944613",

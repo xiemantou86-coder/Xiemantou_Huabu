@@ -774,11 +774,11 @@ body.studio-theme-dark .shell .input-index {
     color: #10141d !important;
 }
 
-html.studio-theme-dark body .shell .port::after,
-body.studio-theme-dark .shell .port::after {
-    background: #d8dee9 !important;
+/* Generic dark ports: semantic port classes must retain their own colors. */
+:where(html.studio-theme-dark body .shell, body.studio-theme-dark .shell) .port::after {
+    background: #d8dee9;
     border-color: #111722 !important;
-    box-shadow: 0 0 0 1px rgba(148,163,184,.32) !important;
+    box-shadow: 0 0 0 1px rgba(148,163,184,.32);
 }
 
 html.studio-theme-dark body .shell .drop-overlay,

@@ -16,13 +16,13 @@
             } catch(e) {}
         })();
     </script>
-    <script src="/static/vendor/js/tailwindcss-cdn.js?v=%EF%BB%BF2026.10.22_5.1791960842"></script>
-    <script src="/static/vendor/js/lucide.js?v=%EF%BB%BF2026.10.22_5.1791960842"></script>
-    <script src="/static/js/theme.js?v=%EF%BB%BF2026.10.22_5.1791960804"></script>
-    <script src="/static/js/i18n.js?v=%EF%BB%BF2026.10.22_5.1791960792"></script>
-    <link rel="stylesheet" href="/static/css/theme.css?v=%EF%BB%BF2026.10.22_5.1791960773">
+    <script src="/static/vendor/js/tailwindcss-cdn.js?v=%EF%BB%BF2026.10.28_1.1791960842"></script>
+    <script src="/static/vendor/js/lucide.js?v=%EF%BB%BF2026.10.28_1.1791960842"></script>
+    <script src="/static/js/theme.js?v=%EF%BB%BF2026.10.28_1.1791960804"></script>
+    <script src="/static/js/i18n.js?v=%EF%BB%BF2026.10.28_1.1791960792"></script>
+    <link rel="stylesheet" href="/static/css/theme.css?v=%EF%BB%BF2026.10.28_1.1793550197">
     <style>
-        @import url('/static/vendor/css/fonts.css?v=%EF%BB%BF2026.10.22_5.1791960830');
+        @import url('/static/vendor/css/fonts.css?v=%EF%BB%BF2026.10.28_1.1791960830');
         :root {
             --ease:cubic-bezier(.4,0,.2,1);
             --chat-bg:#eef2f6;
@@ -2495,6 +2495,17 @@
             let reasoningText = '';
             let reasoningSealed = false;
             let loaderEl = null;
+            // Idempotent cleanup for completion, failure, cancellation and stream EOF.
+            function clearImageGenerationLoader(){
+                if(loaderTimer !== null){
+                    clearInterval(loaderTimer);
+                    loaderTimer = null;
+                }
+                if(loaderEl){
+                    loaderEl.remove();
+                    loaderEl = null;
+                }
+            }
 
             _activeAbort = new AbortController();
             const res = await fetch('/api/chat/stream', {
@@ -2689,7 +2700,7 @@
                         }
                         if(event.type === 'error') throw new Error(event.detail || tr('chat.requestFailed'));
                         if(event.type === 'done'){
-                            if(loaderTimer) { clearInterval(loaderTimer); loaderTimer = null; }
+                            clearImageGenerationLoader();
                             assistantBubble.bubble.classList.remove('streaming');
                             if(assistantBubble._flushTimer){
                                 clearTimeout(assistantBubble._flushTimer);
@@ -2736,7 +2747,7 @@
                     }
                 }
             } finally {
-                if(loaderTimer) clearInterval(loaderTimer);
+                clearImageGenerationLoader();
                 assistantBubble.bubble.classList.remove('streaming', 'is-empty');
                 const _ind = assistantBubble.bubble.querySelector('.streaming-indicator');
                 if(_ind) _ind.remove();

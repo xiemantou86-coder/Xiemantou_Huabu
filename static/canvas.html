@@ -16,14 +16,14 @@
             } catch(e) {}
         })();
     </script>
-    <script src="/static/vendor/js/tailwindcss-cdn.js?v=%EF%BB%BF2026.10.22_5.1791960842"></script>
-    <script src="/static/vendor/js/lucide.js?v=%EF%BB%BF2026.10.22_5.1791960842"></script>
-    <script src="/static/js/theme.js?v=%EF%BB%BF2026.10.22_5.1791960804"></script>
-    <script src="/static/js/touch-mouse.js?v=%EF%BB%BF2026.10.22_5.1791960805"></script>
-    <script src="/static/js/i18n.js?v=%EF%BB%BF2026.10.22_5.1791960792"></script>
-    <link rel="stylesheet" href="/static/css/canvas.css?v=%EF%BB%BF2026.10.22_5.1793009716">
-    <link rel="stylesheet" href="/static/css/batch-resize.css?v=%EF%BB%BF2026.10.22_5.1791960767">
-    <link rel="stylesheet" href="/static/css/theme.css?v=%EF%BB%BF2026.10.22_5.1791960773">
+    <script src="/static/vendor/js/tailwindcss-cdn.js?v=%EF%BB%BF2026.10.28_1.1791960842"></script>
+    <script src="/static/vendor/js/lucide.js?v=%EF%BB%BF2026.10.28_1.1791960842"></script>
+    <script src="/static/js/theme.js?v=%EF%BB%BF2026.10.28_1.1791960804"></script>
+    <script src="/static/js/touch-mouse.js?v=%EF%BB%BF2026.10.28_1.1791960805"></script>
+    <script src="/static/js/i18n.js?v=%EF%BB%BF2026.10.28_1.1791960792"></script>
+    <link rel="stylesheet" href="/static/css/canvas.css?v=%EF%BB%BF2026.10.28_1.1793023526">
+    <link rel="stylesheet" href="/static/css/batch-resize.css?v=%EF%BB%BF2026.10.28_1.1791960767">
+    <link rel="stylesheet" href="/static/css/theme.css?v=%EF%BB%BF2026.10.28_1.1793550197">
 </head>
 <body>
     <div id="shell" class="shell no-canvas">
@@ -60,6 +60,7 @@
                     <button class="tool-btn" onclick="groupSelectedImages()"><i data-lucide="group" class="w-4 h-4"></i><span data-i18n="canvas.group">分组</span></button>
                 </div>
                 <div class="toolbar-fixed">
+                    <button id="canvasLocateNearestBtn" class="tool-btn toolbar-workflow" type="button" title="定位最近节点：恢复正常缩放并居中显示" aria-label="定位最近节点"><i data-lucide="locate-fixed" class="w-4 h-4"></i><span>定位最近节点</span></button>
                     <button id="workflowTransferToggle" class="tool-btn toolbar-workflow" type="button" title="导入导出工作流" aria-label="导入导出工作流"><i data-lucide="package-open" class="w-4 h-4"></i><span>工作流</span></button>
                     <button id="canvasAssetToggle" class="tool-btn toolbar-asset canvas-asset-toggle" type="button" title="资产库" aria-label="资产库"><i data-lucide="library" class="w-4 h-4"></i><span>资产库</span></button>
                     <button id="canvasLogToggle" class="tool-btn toolbar-log" type="button" onclick="openCanvasLog(event)" title="日志" aria-label="日志" data-i18n-title="canvas.logs"><i data-lucide="list-todo" class="w-4 h-4"></i><span data-i18n="canvas.logs">日志</span></button>
@@ -110,6 +111,7 @@
             </div>
             <button id="canvasContainerGroupBtn" class="minimap-arrange-btn canvas-container-group-btn" type="button" title="容器分组" aria-label="容器分组"><i data-lucide="boxes" class="w-3.5 h-3.5"></i><span>容器分组</span></button>
             <button id="canvasArrangeBtn" class="minimap-arrange-btn" type="button" title="整理选中节点" aria-label="整理选中节点"><i data-lucide="layout-grid" class="w-3.5 h-3.5"></i><span>整理选中</span></button>
+            <div id="canvasLocateNotice" role="status" aria-live="polite" hidden style="position:absolute;left:50%;bottom:28px;transform:translateX(-50%);z-index:100;max-width:80%;padding:10px 18px;border-radius:12px;background:var(--card-solid,#fff);color:var(--text,#172033);border:1px solid var(--line,#94a3b8);box-shadow:0 4px 20px #0002;pointer-events:none;font-size:13px;"></div>
             <div id="minimap" class="minimap" title="导航地图">
                 <div id="minimapContent" class="minimap-content">
                     <div id="minimapViewport" class="minimap-viewport"></div>
@@ -492,9 +494,9 @@
         </div>
     </div>
 
-    <script src="/static/js/ltx-director-timeline.js?v=%EF%BB%BF2026.10.22_5.1791960798"></script>
-    <script src="/static/js/game-kv-prompt.js?v=%EF%BB%BF2026.10.22_5.1793005961"></script>
-<script src="/static/js/batch-resize.js?v=%EF%BB%BF2026.10.22_5.1791960786"></script>
-<script src="/static/js/canvas.js?v=%EF%BB%BF2026.10.22_5.1793009870"></script>
+    <script src="/static/js/ltx-director-timeline.js?v=%EF%BB%BF2026.10.28_1.1791960798"></script>
+    <script src="/static/js/game-kv-prompt.js?v=%EF%BB%BF2026.10.28_1.1793005961"></script>
+<script src="/static/js/batch-resize.js?v=%EF%BB%BF2026.10.28_1.1791960786"></script>
+<script src="/static/js/canvas.js?v=%EF%BB%BF2026.10.28_1.1793549880"></script>
 </body>
 </html>

@@ -1451,6 +1451,74 @@ function safeViewportScale(value){
     const n = Number(value);
     return Number.isFinite(n) && n > 0 ? n : 1;
 }
+
+// Anti-lost navigation: view-only; never writes node positions or selection.
+let canvasNavigationLoading = false;
+let canvasLocateNoticeTimer = 0;
+function showCanvasLocateNotice(message){
+    const notice = document.getElementById('canvasLocateNotice');
+    if(!notice) return;
+    notice.textContent = message;
+    notice.hidden = false;
+    clearTimeout(canvasLocateNoticeTimer);
+    canvasLocateNoticeTimer = setTimeout(() => { notice.hidden = true; }, 3500);
+}
+function locateNearestCanvasNode(){
+    const say = (zh, en) => showCanvasLocateNotice(langIsEn() ? en : zh);
+    if(canvasNavigationLoading || !canvas){
+        say('画布尚未加载完成，请稍后再定位', 'Canvas is still loading. Please try again shortly.');
+        return false;
+    }
+    const boardRect = board.getBoundingClientRect();
+    if(!(boardRect.width > 0 && boardRect.height > 0)){
+        say('画布尚未显示，请稍后再试', 'Canvas is not visible yet.');
+        return false;
+    }
+    // Find the nearest center BEFORE resetting scale or leaving overview.
+    const scale = safeViewportScale(viewport.scale);
+    const originX = Number.isFinite(viewport.x) ? viewport.x : 0;
+    const originY = Number.isFinite(viewport.y) ? viewport.y : 0;
+    const cx = (boardRect.width / 2 - originX) / scale;
+    const cy = (boardRect.height / 2 - originY) / scale;
+    let nearest = null;
+    let distance = Infinity;
+    for(const node of nodes){
+        if(!node || !Number.isFinite(Number(node.x)) || !Number.isFinite(Number(node.y))) continue;
+        const raw = estimatedNodeRect(node);
+        const r = {x:Number(raw.x), y:Number(raw.y), w:Number(raw.w), h:Number(raw.h)};
+        if(!Object.values(r).every(Number.isFinite) || r.w <= 0 || r.h <= 0) continue;
+        const x = r.x + r.w / 2;
+        const y = r.y + r.h / 2;
+        const d = Math.hypot(x - cx, y - cy);
+        if(d < distance){ distance = d; nearest = {node, r, x, y}; }
+    }
+    if(!nearest){
+        say(nodes.length ? '没有可定位的有效节点' : '当前画布还没有节点', 'No available nodes to locate.');
+        return false;
+    }
+    zoomPreviewState = null;
+    shell.classList.remove('zoom-preview');
+    document.body.classList.remove('canvas-zoom-preview');
+    // Normal size is 100%; large nodes fit with breathing room.
+    viewport.scale = Math.min(1,
+        Math.max(1, boardRect.width - 160) / nearest.r.w,
+        Math.max(1, boardRect.height - 180) / nearest.r.h);
+    centerViewportOnWorldPoint({x:nearest.x, y:nearest.y});
+    scheduleViewportSave();
+    const el = nodesEl.querySelector(`.node[data-id="${CSS.escape(nearest.node.id)}"]`);
+    if(el?.animate && !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches){
+        el.animate([
+            {outline:'3px solid rgba(56,189,248,0)', outlineOffset:'6px'},
+            {outline:'3px solid rgba(56,189,248,1)', outlineOffset:'6px'},
+            {outline:'3px solid rgba(56,189,248,0)', outlineOffset:'6px'}
+        ], {duration:1100, iterations:2});
+    }
+    say('已定位最近节点 · 缩放 ' + Math.round(viewport.scale * 100) + '%',
+        'Nearest node located · ' + Math.round(viewport.scale * 100) + '%');
+    return nearest.node.id;
+}
+document.getElementById('canvasLocateNearestBtn')?.addEventListener('click', locateNearestCanvasNode);
+
 function fitAllNodesViewport(){
     const rect = board.getBoundingClientRect();
     if(!nodes.length){
@@ -2211,6 +2279,7 @@ async function setCanvasTitle(id, title){
     }
 }
 async function openCanvas(id){
+    canvasNavigationLoading = true;
     setStatus('Opening...');
     try {
         const res = await fetch(`/api/canvases/${id}`);
@@ -2249,6 +2318,7 @@ async function openCanvas(id){
         syncGeneratorInputs();
         resumeCanvasImageTasks();
         startCanvasRemotePolling();
+        canvasNavigationLoading = false;
         setStatus('Ready');
         if(new URLSearchParams(location.search).get('tutorial') === 'kitten-v1'){
             try {
@@ -2271,6 +2341,7 @@ async function openCanvas(id){
             });
         }
     } catch(e) {
+        canvasNavigationLoading = false;
         setStatus(tr('canvas.openFailed'));
         console.error(e);
         // 打开失败（id 无效/已删除）：回到选画布页面，避免停在空白编辑器。
