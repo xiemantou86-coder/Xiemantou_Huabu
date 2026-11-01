@@ -33,22 +33,7 @@
           "id": "workflows",
           "name": "工作流",
           "type": "workflow",
-          "items": [
-            {
-              "id": "wf_36911effd4ef",
-              "name": "演示-20261028T065333",
-              "url": "/assets/library/workflow_03d725baf9e0_演示-20261028T065333.zip",
-              "kind": "workflow",
-              "type": "workflow",
-              "format": "zip",
-              "size": 7864769,
-              "created_at": 1793170413554,
-              "node_count": 15,
-              "connection_count": 7,
-              "resource_count": 6,
-              "registrations": {}
-            }
-          ]
+          "items": []
         }
       ]
     }
@@ -81,23 +66,8 @@
       "id": "workflows",
       "name": "工作流",
       "type": "workflow",
-      "items": [
-        {
-          "id": "wf_36911effd4ef",
-          "name": "演示-20261028T065333",
-          "url": "/assets/library/workflow_03d725baf9e0_演示-20261028T065333.zip",
-          "kind": "workflow",
-          "type": "workflow",
-          "format": "zip",
-          "size": 7864769,
-          "created_at": 1793170413554,
-          "node_count": 15,
-          "connection_count": 7,
-          "resource_count": 6,
-          "registrations": {}
-        }
-      ]
+      "items": []
     }
   ],
-  "updated_at": 1793170413554
+  "updated_at": 1793551879814
 }

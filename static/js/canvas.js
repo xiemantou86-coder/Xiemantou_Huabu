@@ -485,6 +485,7 @@ const activeCanvasTaskPolls = new Set();
 let hoveredConnectionId = '';
 let lastMouseBoard = {x: 0, y: 0};
 let undoStack = [];
+let undoCanvasId = null;
 let redoStack = [];
 const UNDO_MAX = 30;
 const cascadeRunningIds = new Set();
@@ -2287,6 +2288,7 @@ async function openCanvas(id){
         const data = await res.json();
         resetCascadeRuntimeState();
         canvas = data.canvas;
+        resetCanvasUndoHistory();
         rememberCanvasListProject(canvas.project || 'default');
         const touched = await touchCanvasOpened(canvas.id);
         if(touched?.updated_at) canvas.updated_at = Number(touched.updated_at);
@@ -2360,6 +2362,9 @@ function applyRemoteCanvasData(remote){
         resetCascadeRuntimeState();
         const localViewport = localViewportForCanvas(canvas.id, viewport || remote.viewport || {x:0, y:0, scale:1});
         const localSelectedIds = new Set(selected);
+        const remoteHistoryChanged = JSON.stringify(serializableCanvasNodes(remote.nodes || [])) !== JSON.stringify(serializableCanvasNodes())
+            || JSON.stringify(remote.connections || []) !== JSON.stringify(connections);
+        if(remoteHistoryChanged) resetCanvasUndoHistory();
         canvas = remote;
         canvas.logs = canvas.logs || [];
         nodes = canvas.nodes || [];
@@ -4007,6 +4012,8 @@ function bindTranslationInputBody(el, node){
         node.targetLanguages = [...(node.targetLanguages || []), id];
         syncTranslationOutputNodes(node); render(); layoutTranslationOutputs(node); scheduleSave();
     });
+    bindCanvasTextHistory(el.querySelector('[data-translation-description]'), node, 'sourceCopyDescription');
+    bindCanvasTextHistory(el.querySelector('[data-translation-supplemental-prompt]'), node, 'supplementalPrompt');
     el.querySelector('[data-translation-description]')?.addEventListener('input', event => { node.sourceCopyDescription = event.target.value; refreshNodes(translationOutputNodes(node.id).map(output => output.id)); scheduleSave(); });
     el.querySelector('[data-translation-supplemental-prompt]')?.addEventListener('input', event => { node.supplementalPrompt = event.target.value; refreshNodes(translationOutputNodes(node.id).map(output => output.id)); scheduleSave(); });
     const setField = (selector, key, handler) => el.querySelector(selector)?.addEventListener('change', event => {
@@ -10742,6 +10749,7 @@ function renderLabelNode(node){
     el.innerHTML = `<textarea class="label-textarea" spellcheck="false" aria-label="标签文字" placeholder="输入标签文字"></textarea><button class="label-delete" type="button" title="删除标签" aria-label="删除标签"><i data-lucide="x"></i></button><div class="resize-handle" title="缩放标签"></div>`;
     const textarea = el.querySelector('.label-textarea');
     textarea.value = node.text;
+    bindCanvasTextHistory(textarea, node, 'text');
     textarea.style.fontSize = `${node.fontSize}px`;
     el.onclick = e => {
         e.stopPropagation();
@@ -11400,6 +11408,8 @@ function renderKvReferenceGalleryNode(node){
         scheduleKvGraphRefresh();
         syncGeneratorInputs();
     };
+    el.querySelectorAll('[data-gallery-label]').forEach(input => bindCanvasTextHistory(input, node, 'label', input.dataset.galleryLabel));
+    el.querySelectorAll('[data-gallery-prompt]').forEach(input => bindCanvasTextHistory(input, node, 'prompt', input.dataset.galleryPrompt));
     el.querySelectorAll('[data-gallery-label]').forEach(input => input.addEventListener('input', event => {
         const slot = kvGallerySlot(node, event.currentTarget.dataset.galleryLabel);
         if(slot) slot.label = String(event.currentTarget.value || '').slice(0, 80);
@@ -11677,6 +11687,7 @@ function renderNode(node){
             if(!editable) return;
             applyPromptText(e.target.value);
         };
+        if(editable) bindCanvasTextHistory(textarea, node, 'text');
         if(editable) bindPromptMentionMenu(node, textarea, applyPromptText);
     }
     if(node.type === 'gameKvPrompt') body.appendChild(renderGameKvPromptBody(node));
@@ -19254,16 +19265,7 @@ function renderCanvasLog(){
     refreshIcons();
 }
 async function importWorkflowAssetUrl(url, name='workflow'){
-    if(!canvas || !url) return;
-    try {
-        const res = await fetch(url, {cache:'no-store'});
-        if(!res.ok) throw new Error('读取工作流资产失败');
-        const blob = await res.blob();
-        const fileName = name && /\.(json|zip)$/i.test(name) ? name : (url.split('/').pop()?.split('?')[0] || `${name || 'workflow'}.zip`);
-        await importWorkflowFile(new File([blob], fileName, {type:blob.type || 'application/octet-stream'}));
-    } catch(err) {
-        showErrorModal(err.message || '导入工作流资产失败', '导入工作流');
-    }
+    return runWorkflowImportWithProgress({url, name});
 }
 function openCanvasLog(event){
     event?.preventDefault?.();
@@ -20673,32 +20675,170 @@ function connectSelectionToGenerator(kind, genId){
     syncGeneratorInputs();
 }
 
+
+// Field-only text history, interleaved with legacy geometry snapshots.
+let canvasTextSession = null;
+function canvasTextOwner(ref){
+    if(canvas?.id !== ref.canvasId) return null;
+    const node = nodes.find(n => n.id === ref.nodeId);
+    if(!node) return null;
+    return ref.slotId == null ? node : (node.slots || []).find(s => String(s.slotId) === String(ref.slotId));
+}
+function canvasTextValue(ref){
+    const owner = canvasTextOwner(ref);
+    return owner ? String(owner[ref.field] ?? '') : null;
+}
+function finishCanvasTextSession(){
+    const session = canvasTextSession;
+    if(!session) return;
+    commitCanvasTextSession(session);
+    canvasTextSession = null;
+}
+function commitCanvasTextSession(session){
+    if(canvasTextSession !== session || session.composing) return;
+    const after = canvasTextValue(session.ref);
+    if(after === null) { canvasTextSession = null; return; }
+    if(!session.entry){
+        if(after === session.before) return;
+        ensureCanvasUndoScope();
+        const entry = {kind:'node-text', ref:{...session.ref}, before:session.before, after};
+        undoStack.push(entry);
+        if(undoStack.length > UNDO_MAX) undoStack.shift();
+        redoStack = [];
+        session.entry = entry;
+    } else {
+        session.entry.after = after;
+        if(after === session.before && undoStack[undoStack.length-1] === session.entry){
+            undoStack.pop();
+            session.entry = null;
+        }
+    }
+}
+function bindCanvasTextHistory(control, node, field, slotId=null){
+    if(!control || control.readOnly || control.disabled || control.dataset.canvasTextHistory) return;
+    control.dataset.canvasTextHistory = '1';
+    const ref = {canvasId:canvas?.id, nodeId:node.id, field, slotId};
+    const begin = () => {
+        if(canvasTextSession?.control === control) return canvasTextSession;
+        finishCanvasTextSession();
+        ensureCanvasUndoScope();
+        const before = canvasTextValue(ref);
+        if(before === null) return null;
+        return canvasTextSession = {control, ref, before, entry:null, composing:false};
+    };
+    control.addEventListener('focus', begin);
+    control.addEventListener('input', event => {
+        const session = begin();
+        if(!session) return;
+        // Capture runs before the existing input handler; commit after it updates data.
+        if(event.isComposing) session.composing = true;
+        queueMicrotask(() => commitCanvasTextSession(session));
+    }, true);
+    control.addEventListener('compositionstart', () => { const session=begin(); if(session) session.composing=true; });
+    control.addEventListener('compositionend', () => {
+        const session=canvasTextSession;
+        if(session?.control !== control) return;
+        session.composing=false;
+        queueMicrotask(() => commitCanvasTextSession(session));
+    });
+    control.addEventListener('blur', () => {
+        if(canvasTextSession?.control === control){
+            canvasTextSession.composing=false;
+            finishCanvasTextSession();
+        }
+    });
+}
+function applyCanvasTextHistory(entry, forward){
+    const owner = canvasTextOwner(entry.ref);
+    const expected = forward ? entry.before : entry.after;
+    if(!owner || String(owner[entry.ref.field] ?? '') !== expected){
+        setStatus('文本已被其他操作更新或节点已移除，未覆盖当前内容');
+        return false;
+    }
+    owner[entry.ref.field] = forward ? entry.after : entry.before;
+    const node = nodes.find(n => n.id === entry.ref.nodeId);
+    if(node.type === 'kvReferenceGallery'){
+        syncAllKvPromptOutputs();
+        scheduleKvGraphRefresh();
+    } else if(node.type === 'prompt'){
+        canvasDataConnections().filter(c => c.from === node.id).forEach(c => {
+            const target = nodes.find(n => n.id === c.to);
+            if(isGameKvPopupPromptNode(target)) syncGameKvPopupPromptOutputs(c.to);
+            if(isIrregularPopupKvPromptNode(target)) syncIrregularPopupKvPromptOutputs(c.to);
+        });
+    }
+    refreshNodes([node.id]);
+    if(node.type === 'label'){
+        const el = nodesEl.querySelector(`.node[data-id="${CSS.escape(node.id)}"]`);
+        if(el) autoSizeLabelNode(node, el.querySelector('.label-textarea'), el);
+    }
+    if(node.type === 'translationInput') refreshNodes(translationOutputNodes(node.id).map(n => n.id));
+    syncGeneratorInputs();
+    scheduleGeneratorInputSync();
+    scheduleSave();
+    setStatus(forward ? '已重做文本修改' : '已撤回文本修改');
+    return true;
+}
+
 function snapshotState(){
     return {nodes:JSON.parse(JSON.stringify(serializableCanvasNodes())), connections:JSON.parse(JSON.stringify(connections))};
 }
 function restoreState(state){
-    nodes = state.nodes;
-    connections = state.connections;
+    nodes = JSON.parse(JSON.stringify(state.nodes));
+    connections = JSON.parse(JSON.stringify(state.connections));
     selected.clear();
     sanitizeConnections();
     syncGeneratorInputs();
     render();
     scheduleSave();
 }
+function resetCanvasUndoHistory(){
+    canvasTextSession = null;
+    undoStack = [];
+    redoStack = [];
+    undoCanvasId = canvas?.id || null;
+}
+function ensureCanvasUndoScope(){
+    if(undoCanvasId !== (canvas?.id || null)) resetCanvasUndoHistory();
+}
 function pushUndo(){
     if(!canvas) return;
+    finishCanvasTextSession();
+    ensureCanvasUndoScope();
     undoStack.push(snapshotState());
     redoStack = [];
     if(undoStack.length > UNDO_MAX) undoStack.shift();
 }
 function performUndo(){
+    if(dragNode || resizeNode) return;
+    ensureCanvasUndoScope();
+    finishCanvasTextSession();
     if(!canvas || !undoStack.length) return;
+    const entry = undoStack[undoStack.length-1];
+    if(entry.kind === 'node-text'){
+        if(applyCanvasTextHistory(entry, false)){
+            undoStack.pop(); redoStack.push(entry);
+            if(redoStack.length > UNDO_MAX) redoStack.shift();
+        }
+        return;
+    }
     redoStack.push(snapshotState());
     if(redoStack.length > UNDO_MAX) redoStack.shift();
     restoreState(undoStack.pop());
 }
 function performRedo(){
+    if(dragNode || resizeNode) return;
+    ensureCanvasUndoScope();
+    finishCanvasTextSession();
     if(!canvas || !redoStack.length) return;
+    const entry = redoStack[redoStack.length-1];
+    if(entry.kind === 'node-text'){
+        if(applyCanvasTextHistory(entry, true)){
+            redoStack.pop(); undoStack.push(entry);
+            if(undoStack.length > UNDO_MAX) undoStack.shift();
+        }
+        return;
+    }
     undoStack.push(snapshotState());
     if(undoStack.length > UNDO_MAX) undoStack.shift();
     restoreState(redoStack.pop());
@@ -21055,18 +21195,7 @@ function insertWorkflowIntoCanvas(imported){
     setStatus(`已导入 ${newNodes.length} 个节点`);
 }
 async function importWorkflowFile(file){
-    if(!canvas || !file) return;
-    try {
-        const form = new FormData();
-        form.append('file', file);
-        const res = await fetch('/api/canvas-workflows/import', {method:'POST', body:form});
-        if(!res.ok) throw new Error(await responseErrorMessage(res, '导入工作流失败'));
-        const data = await res.json();
-        insertWorkflowIntoCanvas(normalizeImportedWorkflow(data));
-        closeWorkflowTransferModal();
-    } catch(err) {
-        showErrorModal(err.message || '导入工作流失败', '导入工作流');
-    }
+    return runWorkflowImportWithProgress({file});
 }
 function startNodeDrag(e, node){
     if(e.button !== 0) return;
@@ -21076,6 +21205,7 @@ function startNodeDrag(e, node){
     e.stopPropagation();
     let dragTarget = node;
     if(e.altKey){
+        pushUndo();
         setKnifeMode(false);
         const copy = duplicateNodesForAltDrag(node, e.shiftKey);
         selected.clear();
@@ -21128,7 +21258,7 @@ function startNodeDrag(e, node){
     });
     boundLabelIds.forEach(id => collect(nodes.find(n => n.id === id)));
     const children = [...collected.values()];
-    dragNode = {node: dragTarget, children, sx:e.clientX, sy:e.clientY, ox:dragTarget.x, oy:dragTarget.y};
+    dragNode = {node: dragTarget, children, sx:e.clientX, sy:e.clientY, ox:dragTarget.x, oy:dragTarget.y, undoRecorded:Boolean(e.altKey)};
     document.body.classList.add('canvas-node-drag');
     window.onmousemove = onNodeDrag;
     window.onmouseup = endDrag;
@@ -21137,6 +21267,11 @@ function onNodeDrag(e){
     if(!dragNode) return;
     const dx = (e.clientX - dragNode.sx) / viewport.scale;
     const dy = (e.clientY - dragNode.sy) / viewport.scale;
+    if(!dragNode.undoRecorded){
+        if(dx === 0 && dy === 0) return;
+        pushUndo();
+        dragNode.undoRecorded = true;
+    }
     dragNode.node.x = dragNode.ox + dx;
     dragNode.node.y = dragNode.oy + dy;
     const el = nodesEl.querySelector(`.node[data-id="${dragNode.node.id}"]`);
@@ -21177,6 +21312,11 @@ function startNodeResize(e, node){
 }
 function onNodeResize(e){
     if(!resizeNode) return;
+    if(!resizeNode.undoRecorded){
+        if(e.clientX === resizeNode.sx && e.clientY === resizeNode.sy) return;
+        pushUndo();
+        resizeNode.undoRecorded = true;
+    }
     if(resizeNode.node.type === 'label'){
         const node = resizeNode.node;
         const dx = (e.clientX - resizeNode.sx) / viewport.scale;
@@ -22388,6 +22528,7 @@ window.addEventListener('keydown', e => {
         const tag = document.activeElement?.tagName;
         if(tag === 'INPUT' || tag === 'TEXTAREA' || document.activeElement?.isContentEditable) return;
         e.preventDefault();
+        if(e.repeat) return;
         if(e.shiftKey) performRedo(); else performUndo();
     }
     if(e.key === 'Delete' || e.key === 'Backspace') {
