@@ -2794,3 +2794,10 @@ body.theme-dark .compact-kv-preview-text { background:rgba(0,0,0,.3); }
 .compactPopupKvPrompt-node .port.compact-port:hover::after { transform:translate(-50%,-50%) scale(1.25); background:#0284c7; }
 /* Focus marks the exact reference frame receiving clipboard images. */
 .kvReferenceGallery-node .kv-gallery-slot:focus { outline:2px solid #38bdf8; outline-offset:2px; }
+
+
+/* Per-output instructions: translation mode only; scoped away from resize nodes. */
+.translationOutput-node .translation-output-custom-prompt{display:flex;flex-direction:column;gap:5px}
+.translationOutput-node .translation-output-custom-prompt>span{font-size:11px;font-weight:600;color:var(--muted)}
+.translationOutput-node .translation-output-custom-prompt textarea{width:100%;min-height:62px;resize:vertical;border:1px solid var(--line);border-radius:6px;background:var(--card-solid);color:var(--text);font:inherit;font-size:11px;line-height:1.45;padding:7px;outline:none}
+.translationOutput-node .translation-output-custom-prompt textarea:focus{border-color:var(--translation-line,#ad8129);box-shadow:0 0 0 2px color-mix(in srgb,var(--translation-line,#ad8129) 18%,transparent)}

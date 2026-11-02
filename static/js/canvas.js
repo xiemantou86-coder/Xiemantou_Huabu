@@ -3078,7 +3078,7 @@ function syncTranslationOutputNodes(source, {confirmRemoval=false, layout=true}=
         let output = byCombination.get(key);
         if(!output){
             const point = translationOutputPosition(source, translationOutputColumn(source, {translationImageId:imageId, translationLanguageId:language.id, translationMode:mode}), Math.max(1, normalizeTranslationImages(source).length * Math.max(1, translationModeLanguageIds(source, mode).length)));
-            output = {id:uid('translate-out'), type:'translationOutput', x:point.x, y:point.y, w:383, translationSourceId:source.id, translationMode:mode, translationImageId:imageId, translationImageName:image.name, translationSizeId:size.id, translationLanguageId:language.id, translationLanguageLabel:language.label, translationLanguagePrompt:language.prompt, translationOrder:index, images:[], _pending:[], blocked:false};
+            output = {id:uid('translate-out'), type:'translationOutput', x:point.x, y:point.y, w:383, translationSourceId:source.id, translationMode:mode, translationImageId:imageId, translationImageName:image.name, translationSizeId:size.id, translationLanguageId:language.id, translationLanguageLabel:language.label, translationLanguagePrompt:language.prompt, translationCustomPrompt:'', translationOrder:index, images:[], _pending:[], blocked:false};
             nodes.push(output);
             translationNewOutputs.add(output);
         }
@@ -3764,9 +3764,16 @@ function translationSourceNode(output){
     return nodes.find(item => item.id === output?.translationSourceId && item.type === 'translationInput'
         && connections.some(connection => connection.from === item.id && connection.to === output.id)) || null;
 }
+function translationOutputCustomPrompt(node){
+    if(node?.type !== 'translationOutput' || translationMode(node) !== 'translate') return '';
+    return String(node.translationCustomPrompt || '').replace(/\r\n?/g, '\n').trim();
+}
 function translationOutputPrompt(node){
     const source = translationSourceNode(node);
-    return source ? translationPromptFor(source, node.translationLanguageId, translationOutputSize(source, node), translationMode(node)) : '';
+    if(!source) return '';
+    const base = translationPromptFor(source, node.translationLanguageId, translationOutputSize(source, node), translationMode(node));
+    const custom = translationOutputCustomPrompt(node);
+    return custom ? base + '\n下游自定义提示词：' + custom : base;
 }
 async function runTranslationOutputNode(outputId, options={}){
     const output = nodes.find(item => item.id === outputId && item.type === 'translationOutput');
@@ -3910,7 +3917,10 @@ function renderTranslationOutputBody(node){
         : (node.translationImageName && normalizeTranslationImages(source || {}).length > 1
             ? `${node.translationImageName} · ${node.translationLanguageLabel || node.translationLanguageId}`
             : (node.translationLanguageLabel || node.translationLanguageId));
-    return `<div class="translation-output-body" style="--translation-output-ratio:${escapeAttr(ratio)}"><div class="translation-output-language"><span>${escapeHtml(truncateTranslationTitle(outputTitle))}</span></div>${node.blocked ? '<div class="translation-output-state">已屏蔽</div>' : ''}<div class="translation-output-prompt">${escapeHtml(translationOutputPrompt(node))}</div>${!source ? '<div class="translation-error">未连接翻译上传节点</div>' : ''}${node.runError ? `<div class="translation-error">${escapeHtml(node.runError)}</div>` : ''}<div class="translation-output-images">${renderOutputGrid(node, pendingHtml)}</div><button type="button" class="gen-btn translation-rerun-btn" data-translation-rerun ${!source || node.blocked || running ? 'disabled' : ''}><i data-lucide="refresh-cw" class="w-4 h-4"></i>${queued ? '等待生成' : running ? '生成中' : '重新生成'}</button></div>`;
+    const customPromptEditor = translationMode(node) === 'translate'
+        ? `<label class="translation-output-custom-prompt"><span>下游自定义提示词（可选）</span><textarea data-translation-output-prompt rows="3" placeholder="例如：必须翻译成越南语，保留品牌名和 Logo 原文">${escapeHtml(node.translationCustomPrompt || '')}</textarea></label>`
+        : '';
+    return `<div class="translation-output-body" style="--translation-output-ratio:${escapeAttr(ratio)}"><div class="translation-output-language"><span>${escapeHtml(truncateTranslationTitle(outputTitle))}</span></div>${node.blocked ? '<div class="translation-output-state">已屏蔽</div>' : ''}${customPromptEditor}<div class="translation-output-prompt" data-translation-output-prompt-preview>${escapeHtml(translationOutputPrompt(node))}</div>${!source ? '<div class="translation-error">未连接翻译上传节点</div>' : ''}${node.runError ? `<div class="translation-error">${escapeHtml(node.runError)}</div>` : ''}<div class="translation-output-images">${renderOutputGrid(node, pendingHtml)}</div><button type="button" class="gen-btn translation-rerun-btn" data-translation-rerun ${!source || node.blocked || running ? 'disabled' : ''}><i data-lucide="refresh-cw" class="w-4 h-4"></i>${queued ? '等待生成' : running ? '生成中' : '重新生成'}</button></div>`;
 }
 function bindTranslationInputBody(el, node){
     const uploadDroppedImages = files => {
@@ -4068,6 +4078,16 @@ function bindTranslationInputBody(el, node){
     el.querySelector('[data-translation-run-all]')?.addEventListener('click', () => runAllTranslationOutputs(node.id));
 }
 function bindTranslationOutputBody(el, node){
+    if(translationMode(node) === 'translate'){
+        const editor = el.querySelector('[data-translation-output-prompt]');
+        bindCanvasTextHistory(editor, node, 'translationCustomPrompt');
+        editor?.addEventListener('input', event => {
+            node.translationCustomPrompt = event.target.value;
+            const preview = el.querySelector('[data-translation-output-prompt-preview]');
+            if(preview) preview.textContent = translationOutputPrompt(node);
+            scheduleSave();
+        });
+    }
     el.querySelector('[data-translation-rerun]')?.addEventListener('click', () => runTranslationOutputNode(node.id));
     el.querySelectorAll('.output-img-wrap').forEach(wrap => bindOutputWrap(wrap, node));
 }
