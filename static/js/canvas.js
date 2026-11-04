@@ -3809,6 +3809,7 @@ async function runTranslationOutputNode(outputId, options={}){
         }
         const quality = normalizedImageQuality(settings.quality);
         if(quality) payload.quality = quality;
+        if(settings.transparentBackground && transparentPngUnlocked(settings)) payload.transparent_background = true;
         const task = await createCanvasImageTask(payload);
         if(!nodes.includes(output)) return;
         output._pending = [...(output._pending || []), makePendingForRun(uid('p'), run, settings, {refs:[ref], requestSize:payload.size}, {
@@ -3857,6 +3858,14 @@ async function runAllTranslationOutputs(sourceId){
         refreshNodes([sourceId, ...jobs.map(job => job.id)]);
     }
 }
+function translationTransparentControl(node){
+    const state = transparentPngState(node);
+    const supported = transparentPngUnlocked(node);
+    return `<div class="gen-settings-row gen-transparent-row ${supported ? '' : 'unsupported'}" title="${escapeAttr(transparentPngRowTitle(state))}">
+        <label class="game-kv-switch"><span>透明背景 PNG</span><input data-translation-transparent type="checkbox" ${node.transparentBackground && supported ? 'checked' : ''}><span class="game-kv-switch-ui"></span></label>
+        <span class="gen-transparent-hint">${escapeHtml(transparentPngHint(state))}</span>
+        </div><div class="gen-transparent-warning" data-translation-transparent-warning hidden></div>`;
+}
 function renderTranslationInputBody(node){
     const mode = translationMode(node);
     const images = normalizeTranslationImages(node);
@@ -3897,6 +3906,7 @@ function renderTranslationInputBody(node){
         ${mode === 'translate' ? `<label class="translation-field"><span>原图文案描述（可选）</span><textarea data-translation-description placeholder="例如：立即下载、开始游戏">${escapeHtml(node.sourceCopyDescription || '')}</textarea></label>` : ''}
         <label class="translation-field"><span>补充提示词（可选）</span><textarea data-translation-supplemental-prompt placeholder="例如：保留 Logo 原文，保持角色外观和画面风格">${escapeHtml(node.supplementalPrompt || '')}</textarea></label>
         <div class="translation-field"><span>生图参数</span><div class="translation-settings-grid"><label>API 平台<select data-translation-provider>${providerOptions || '<option value="">暂无 API 平台</option>'}</select></label><label>模型<select data-translation-model>${modelOptions}</select></label><label>画质<select data-translation-quality><option value="auto">自动</option><option value="low">低</option><option value="medium">中</option><option value="high">高</option><option value="xhigh">超高</option><option value="max">极高</option></select></label><label>生成数量<input type="number" min="1" max="8" step="1" data-translation-count value="${translationGenerationCount(node)}" title="每个语言和尺寸组合生成的图片数量"></label><label class="translation-resolution-settings"><span>分辨率</span>${sizeSettingsHtml}</label></div></div>
+        ${translationTransparentControl(node)}
         <div class="translation-output-controls"><button type="button" class="gen-btn" data-translation-run-all ${batchRunning ? 'disabled' : ''}><i data-lucide="${batchRunning ? 'loader-circle' : 'zap'}" class="w-4 h-4"></i>${batchRunning ? '生成中' : '全部生成'}</button><span>下游输出<strong>${outputByKey.size} 个</strong></span></div>
         <div class="translation-output-list">${outputHtml}</div>
         </div>
@@ -3920,9 +3930,22 @@ function renderTranslationOutputBody(node){
     const customPromptEditor = translationMode(node) === 'translate'
         ? `<label class="translation-output-custom-prompt"><span>下游自定义提示词（可选）</span><textarea data-translation-output-prompt rows="3" placeholder="例如：必须翻译成越南语，保留品牌名和 Logo 原文">${escapeHtml(node.translationCustomPrompt || '')}</textarea></label>`
         : '';
-    return `<div class="translation-output-body" style="--translation-output-ratio:${escapeAttr(ratio)}"><div class="translation-output-language"><span>${escapeHtml(truncateTranslationTitle(outputTitle))}</span></div>${node.blocked ? '<div class="translation-output-state">已屏蔽</div>' : ''}${customPromptEditor}<div class="translation-output-prompt" data-translation-output-prompt-preview>${escapeHtml(translationOutputPrompt(node))}</div>${!source ? '<div class="translation-error">未连接翻译上传节点</div>' : ''}${node.runError ? `<div class="translation-error">${escapeHtml(node.runError)}</div>` : ''}<div class="translation-output-images">${renderOutputGrid(node, pendingHtml)}</div><button type="button" class="gen-btn translation-rerun-btn" data-translation-rerun ${!source || node.blocked || running ? 'disabled' : ''}><i data-lucide="refresh-cw" class="w-4 h-4"></i>${queued ? '等待生成' : running ? '生成中' : '重新生成'}</button></div>`;
+    return `<div class="translation-output-body" style="--translation-output-ratio:${escapeAttr(ratio)}"><div class="translation-output-language"><span>${escapeHtml(truncateTranslationTitle(outputTitle))}</span></div>${node.blocked ? '<div class="translation-output-state">已屏蔽</div>' : ''}${source?.transparentBackground && transparentPngUnlocked(source) ? '<div class="translation-output-state">输出预设：透明背景 PNG</div>' : ''}${node.transparentCheckWarning ? `<div class="gen-transparent-warning">${escapeHtml(node.transparentCheckWarning)}</div>` : ''}${customPromptEditor}<div class="translation-output-prompt" data-translation-output-prompt-preview>${escapeHtml(translationOutputPrompt(node))}</div>${!source ? '<div class="translation-error">未连接翻译上传节点</div>' : ''}${node.runError ? `<div class="translation-error">${escapeHtml(node.runError)}</div>` : ''}<div class="translation-output-images">${renderOutputGrid(node, pendingHtml)}</div><button type="button" class="gen-btn translation-rerun-btn" data-translation-rerun ${!source || node.blocked || running ? 'disabled' : ''}><i data-lucide="refresh-cw" class="w-4 h-4"></i>${queued ? '等待生成' : running ? '生成中' : '重新生成'}</button></div>`;
 }
 function bindTranslationInputBody(el, node){
+    const transparentInput = el.querySelector('[data-translation-transparent]');
+    transparentInput?.addEventListener('change', event => {
+        if(!transparentPngUnlocked(node)){
+            event.target.checked = false;
+            const warning = el.querySelector('[data-translation-transparent-warning]');
+            if(warning){ warning.textContent = transparentPngRowTitle(transparentPngState(node)); warning.hidden = false; }
+            return;
+        }
+        pushUndo();
+        node.transparentBackground = Boolean(event.target.checked);
+        refreshNodes(translationOutputNodes(node.id).map(output => output.id));
+        scheduleSave();
+    });
     const uploadDroppedImages = files => {
         if(typeof uploadTranslationImages === 'function') return uploadTranslationImages(node.id, files);
         return uploadTranslationImage(node.id, files?.[0]);
@@ -19564,6 +19587,7 @@ function completeCanvasImageTask(taskId, result){
     appendOutputImages(out, images, meta.run?.refs?.[0], [meta]);
     const gen = nodes.find(n => n.id === meta.run?.node?.id);
     if(gen){
+        if(gen.type === 'translationOutput') applyTransparentCheckResult(gen, result);
         mergeGeneratedOutputs(gen, images, Boolean(pending.appendGenerated));
         gen.runStatus = 'done';
         gen.runError = '';
